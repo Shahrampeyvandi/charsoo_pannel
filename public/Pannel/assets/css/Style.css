@@ -1,0 +1,40 @@
+.header-body{
+    display: flex !important;
+    justify-content: flex-end !important;
+}
+nav.navbar .header-logo {
+    width: 260px ;
+}
+body.dark .card {
+    background: #ece7e7;
+}
+body.dark {
+   
+    color: #545454;
+}
+table thead{
+    background: #7d6ff5;
+    color: #e0dfdf;
+}
+
+.__icon{
+        
+        width: 50px;
+        text-align: center;
+        
+        height: 40px;
+        display: inline-block;
+        padding-top: 10px;
+        color: white;
+        font-size: 22px;
+        border-radius: 4px;
+}
+
+body.dark .form-control, body.dark .swal-modal input.swal-content__input, .swal-modal body.dark input.swal-content__input {
+    background: none;
+    border-color: rgba(31, 27, 27, 0.2);
+    color: #544f4f;
+}
+body.dark .modal-content {
+    background-color: #f2f2f5;
+}
