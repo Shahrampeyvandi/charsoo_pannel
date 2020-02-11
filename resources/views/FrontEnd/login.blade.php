@@ -1,4 +1,4 @@
-@extends('Layouts.FrontEnd.Template')
+@extends('Layouts.Pannel.Template')
 @section('content')
 <div class="container h-100-vh">
     <div class="row align-items-center h-100-vh">
@@ -11,8 +11,8 @@
                 <h3 class="m-0">گروه آموزشی علمی نو</h3>
             </div>
             <p>برای ادامه وارد شوید.</p>
-            @include('FrontEnd.errors')
-            <form action="{{route('login')}}" method="post">
+          
+            <form action="" method="post">
                 @csrf
                 <div class="form-group mb-4">
                     <input type="text" class="form-control form-control-lg" name="username" autofocus
@@ -31,7 +31,7 @@
                     <input type="checkbox" name="remember" class="custom-control-input" id="customCheck">
                     <label class="custom-control-label" for="customCheck">به خاطر سپاری</label>
                 </div>
-                <a href="{{route('ForgetPassword')}}" class="auth-link text-black">فراموشی رمز عبور؟</a>
+                <a href="" class="auth-link text-black">فراموشی رمز عبور؟</a>
             </div>
        
         </div>

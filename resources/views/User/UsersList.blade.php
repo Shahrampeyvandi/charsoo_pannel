@@ -1,7 +1,25 @@
 @extends('Layouts.Pannel.Template')
 
 @section('content')
-
+{{-- modal for delete --}}
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">اخطار</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          موارد علامت زده شده حذف شوند؟
+        </div>
+        <div class="modal-footer">
+          <a type="button" class="delete btn btn-danger text-white">حذف!  </a>
+        </div>
+      </div>
+    </div>
+  </div>
 
 <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">    <div class="modal-dialog modal-lg">
         <div class="modal-content">
@@ -110,6 +128,112 @@
 </div>
 
 
+{{-- modal for edit --}}
+
+<div class="modal fade bd-example-modal-lg-edit" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">    <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">ویرایش کاربر</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form>
+           <div class="row">
+            <div class="form-group col-md-6">
+                <label for="recipient-name" class="col-form-label">نام:</label>
+                <input type="text" class="form-control" id="recipient-name">
+              </div>
+              <div class="form-group col-md-6">
+                <label for="recipient-name" class="col-form-label">نام خانوادگی:</label>
+                <input type="text" class="form-control" id="recipient-name">
+              </div>
+           </div>
+           <div class="row">
+            <div class="form-group col-md-6">
+                <label for="recipient-name" class="col-form-label">پسورد:</label>
+                <input type="text" class="form-control" id="recipient-name">
+              </div>
+              <div class="form-group col-md-6">
+                <label for="recipient-name" class="col-form-label">تکرار پسورد:</label>
+                <input type="text" class="form-control" id="recipient-name">
+              </div>
+           </div>
+           <div class="row">
+            <div class="form-group col-md-6">
+                <label for="recipient-name" class="col-form-label">ایمیل:</label>
+                <input type="text" class="form-control" id="recipient-name">
+              </div>
+              <div class="form-group col-md-6">
+                <label for="recipient-name" class="col-form-label">نام کاربری:</label>
+                <input type="text" class="form-control" id="recipient-name">
+              </div>
+           </div>
+          <div class="row">
+            <div class="form-group col-md-6">
+                <label for="recipient-name" class="col-form-label">موبایل:</label>
+                <input type="text" class="form-control" id="recipient-name">
+              </div>
+              <div class="form-group col-md-6">
+                <label for="recipient-name" class="col-form-label">کد ملی:</label>
+                <input type="text" class="form-control" id="recipient-name">
+              </div>
+           </div>
+            <div class="form-group">
+              <label for="recipient-name" class="col-form-label">تصویر:</label>
+              <input type="file" class="form-control" id="recipient-name">
+            </div>
+            <p>انتخاب نقش: </p>
+            <div class="row">
+                
+                <div class="custom-control custom-radio custom-control-inline">
+                    <input type="radio" id="customRadioInline1" name="customRadioInline1"
+                     class="custom-control-input checkbox__" value="tester">
+                    <label class="custom-control-label " for="customRadioInline1">tester</label>
+                </div>
+                <div class="custom-control custom-radio custom-control-inline">
+                    <input type="radio" id="customRadioInline2" name="customRadioInline1"
+                     class="custom-control-input checkbox__" value="مشتری">
+                    <label class="custom-control-label" for="customRadioInline2">مشتری</label>
+                </div>
+                <div class="custom-control custom-radio custom-control-inline">
+                    <input type="radio" id="customRadioInline3" name="customRadioInline1" 
+                    class="custom-control-input" value="خدمت رسان">
+                    <label class="custom-control-label" for="customRadioInline3">خدمت رسان</label>
+                </div>
+                <div class="custom-control custom-radio custom-control-inline">
+                    <input type="radio" id="customRadioInline4" name="customRadioInline1"
+                     class="custom-control-input" value="مدیریت">
+                    <label class="custom-control-label" for="customRadioInline4">مدیریت</label>
+                </div>
+                <div class="custom-control custom-radio custom-control-inline">
+                    <input type="radio" id="customRadioInline5" name="customRadioInline1"
+                     class="custom-control-input" value="adminbuilding">
+                    <label class="custom-control-label" for="customRadioInline5">adminbuilding</label>
+                </div>
+                <div class="custom-control custom-radio custom-control-inline">
+                    <input type="radio" id="customRadioInline6" name="customRadioInline1"
+                     class="custom-control-input" value="unitbuilding">
+                    <label class="custom-control-label" for="customRadioInline6">unitbuilding</label>
+                </div>
+                <div class="custom-control custom-radio custom-control-inline">
+                    <input type="radio" id="customRadioInline7" name="customRadioInline1" 
+                    class="custom-control-input" value="zitco">
+                    <label class="custom-control-label" for="customRadioInline7">zitco</label>
+                </div>
+            </div>
+  
+           
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">بستن</button>
+          <button type="button" class="btn btn-primary">ذخیره</button>
+        </div>
+      </div>
+</div>
+</div>
 
 <div class="container-fluid">
     <div class="card">
@@ -117,18 +241,8 @@
            
           
 
-          <div class="delete-edit" style="display: none"> 
-            <a href="#" title="تازه سازی" class="mx-2">
-            <span class="__icon bg-danger">
-                <i class="fa fa-trash"></i>
-            </span>
-           </a>
-
-           <a href="#" title="تازه سازی" class="mx-2" >
-            <span class="__icon bg-info">
-                <i class="fa fa-edit"></i>
-            </span>
-           </a>
+          <div class="delete-edit" > 
+           
         </div>
         <div>
             <a href="#" data-toggle="modal" data-target=".bd-example-modal-lg" title="افزودن کاربر">
@@ -136,7 +250,7 @@
                     <i class="fa fa-plus"></i>
                 </span>
             </a>
-            <a href="#" title="تازه سازی" class="mx-2">
+            <a href="#" title="تازه سازی" class="mx-2" onclick="location.reload()">
                 <span class="__icon bg-primary">
                     <i class="fa fa-refresh"></i>
                 </span>
@@ -145,6 +259,27 @@
 
 
         </div>
+    </div>
+    <div class="card">
+      <div class="card-body">
+        <div class="row">
+          <div class="form-group col-md-6">
+            <label for="recipient-name" class="col-form-label">نوع ارجاع:</label>
+            <select required name="type_send"   class="form-control" id="exampleFormControlSelect2">
+                <option value="ارجاع اتوماتیک">ارجاع اتوماتیک</option>
+                <option value="ارجاع دستی">ارجاع دستی</option>  
+                <option value="ارجاع منتخب">ارجاع منتخب</option>  
+                <option value="ارجاع به کمترین فاصله">ارجاع به کمترین فاصله</option>  
+            </select>
+        </div>
+        <div class="form-group col-md-6">
+          <label for="recipient-name" class="col-form-label">نام:</label>
+          <input type="text" class="form-control" id="recipient-name">
+        </div>
+        </div>
+
+      </div>
+
     </div>
     <div class="card">
         <div class="card-body">
@@ -267,7 +402,7 @@
 @endsection
 
 @section('js')
-    <script>
+<script>
     $(document).ready(function(){
         
 
@@ -279,17 +414,52 @@
 
                }
             if(array.length !== 0){
-                $('.container_icon').removeClass('justify-content-end')
-                $('.container_icon').addClass('justify-content-between')
-                $('.delete-edit').show()
-            }else{
+
+                if (array.length !== 1) {
+                    $('.container_icon').removeClass('justify-content-end')
+                    $('.container_icon').addClass('justify-content-between')
+                    $('.delete-edit').html(`
+                    <a href="#" title="حذف " data-toggle="modal" data-target="#exampleModal" class="sweet-multiple mx-2">
+            <span class="__icon bg-danger">
+                <i class="fa fa-trash"></i>
+            </span>
+           </a>
+                    `)
+                }else{
+
+                    $('.container_icon').removeClass('justify-content-end')
+                    $('.container_icon').addClass('justify-content-between')
+                    $('.delete-edit').html(`
+                    <a href="#" title="حذف " data-toggle="modal" data-target="#exampleModal" class="sweet-multiple mx-2">
+            <span class="__icon bg-danger">
+                <i class="fa fa-trash"></i>
+            </span>
+           </a>
+
+           <a href="#" title="تازه سازی" data-toggle="modal" data-target=".bd-example-modal-lg-edit" class="mx-2" >
+            <span class="__icon bg-info">
+                <i class="fa fa-edit"></i>
+            </span>
+           </a>
+                    `)
+                }
+            }
+            else{
                 $('.container_icon').removeClass('justify-content-between')
                 $('.container_icon').addClass('justify-content-end')
-                $('.delete-edit').hide()
+                $('.delete-edit').html('')
             }
         })
             
     })
+
+    $('.delete').click(function(e){
+                e.preventDefault()
+                console.log(array)
+
+                // ajax request
+
+            })
 
 })
 </script>

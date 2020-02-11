@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="{{route('BaseUrl')}}/Pannel/assets/vendors/datepicker/daterangepicker.css">
     <link rel="stylesheet" href="{{route('BaseUrl')}}/Pannel/assets/vendors/clockpicker/bootstrap-clockpicker.min.css" type="text/css">
     <link rel="shortcut icon" href="{{route('BaseUrl')}}/Pannel/assets/media/image/icon.png">
+
     <link rel="stylesheet" href="{{route('BaseUrl')}}/Pannel/assets/css/Style.css" type="text/css">
 
 	<!-- begin::theme color -->
@@ -67,6 +68,12 @@
     <script src="{{route('BaseUrl')}}/Pannel/assets/js/examples/clockpicker.js"></script>
     <script src="{{route('BaseUrl')}}/Pannel/assets/vendors/clockpicker/bootstrap-clockpicker.min.js"></script>
     <script src="{{route('BaseUrl')}}/Pannel/assets/js/examples/sweet-alert.js"></script>
+        
+    <!-- begin::dataTable -->
+    <script src="{{route('BaseUrl')}}/Pannel/assets/vendors/dataTable/jquery.dataTables.min.js"></script>
+    <script src="{{route('BaseUrl')}}/Pannel/assets/vendors/dataTable/dataTables.bootstrap4.min.js"></script>
+    <script src="{{route('BaseUrl')}}/Pannel/assets/vendors/dataTable/dataTables.responsive.min.js"></script>
+    <script src="{{route('BaseUrl')}}/Pannel/assets/js/examples/datatable.js"></script>
  
 
     @yield('js')

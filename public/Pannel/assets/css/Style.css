@@ -38,3 +38,66 @@ body.dark .form-control, body.dark .swal-modal input.swal-content__input, .swal-
 body.dark .modal-content {
     background-color: #f2f2f5;
 }
+
+body.dark .swal-modal .swal-title, body.dark .swal-modal .swal-text {
+    color: white;
+}
+td{
+    text-align: center;
+}
+
+body.dark .page-item.disabled .page-link {
+    background-color: #abb6ff;
+    border-color: rgba(94, 115, 175, 0.73);
+    color: inherit;
+}
+
+
+body.dark .select2-container--default .select2-results__option[aria-selected=true] {
+    background-color: #b3bfff;
+    color: white;
+}
+
+body.dark .side-menu .side-menu-body > ul > li.open > a, body.dark .side-menu .side-menu-body > ul > li > a.active, body.dark .side-menu > .side-menu-body > ul > li.open > a, body.dark .side-menu > .container > .side-menu-body > ul > li.open > a, body.dark .side-menu > .container-fluid > .side-menu-body > ul > li.open > a {
+    background: #5964a7 !important;
+}
+
+nav.navbar .header-logo a .logo-text {
+    color: rgb(255, 163, 25);
+    font-size: 20px;
+    font-weight: 800;
+    text-transform: uppercase;
+    font-family: "secondary-font", "primary-font", "segoe ui", "tahoma";
+}
+
+
+body.dark .wizard > .content {
+    background-color: #9a9a9a8c;
+    color: #6d6d6d;
+}
+body.dark .text-muted {
+    color: #878787 !important;
+    font-size: 12px;
+}
+.level-1{
+    font-size: 14px;
+
+}
+optgroup.level-2 {
+    margin-right: 20px;
+}
+
+.date{
+    background: orange;
+    color: #fbfbfb;
+    padding: 2px 10px;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+@media (min-width: 992px){
+    .modal-lg, .modal-xl {
+        max-width: 900px;
+    }
+}
+

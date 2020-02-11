@@ -3,7 +3,7 @@
 
         <div class="header-logo">
             <a href="#">
-                <img src="Pannel/assets/media/image/light-logo.png" alt="...">
+                <img src="{{route('BaseUrl')}}/Pannel/assets/media/image/light-logo.png" alt="...">
                 <span class="logo-text d-none d-lg-block">چهارسو - مدیریت خدمات</span>
             </a>
         </div>
@@ -17,16 +17,23 @@
                         <i class="fa fa-search"></i>
                     </a>
                 </li>
-                
+                <li class="nav-item">
+                    <a  href="#" class="nav-link" >
+                        تاریخ
+
+                        <span class="date">1/2/99</span>
+                    </a>
+                </li>
                 <li class="nav-item">
                     <a href="#" class="nav-link nav-link-notify " data-sidebar-target="#notifications">
                         <i class="fa fa-bell"></i>
                     </a>
                 </li>
+                
                 <li class="nav-item dropdown">
                     <a href="#" data-toggle="dropdown" aria-expanded="false">
                         <figure class="avatar avatar-sm avatar-state-success">
-                            <img class="rounded-circle" src="Pannel/assets/media/image/avatar.jpg" alt="...">
+                            <img class="rounded-circle" src="{{route('BaseUrl')}}/Pannel/img/profile.png" alt="...">
                         </figure>
                     </a>
                     <div class="dropdown-menu dropdown-menu-right">
