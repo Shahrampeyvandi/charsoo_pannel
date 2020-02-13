@@ -34,19 +34,16 @@
                     @csrf
                     <h3>خدمت</h3>
                     <section>
-                        <p>لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با</p>
                         
                             <div class="form-group wd-xs-300">
                                 <label>عنوان </label>
-                                <input type="text" id="title" name="title" class="form-control" placeholder="نام" required>
-                                <div class="valid-feedback">
-                                    صحیح است!
-                                </div>
+                                <input type="text" id="title" name="title" class="form-control" placeholder="نام" >
+                                
                             </div><!-- form-group -->
                             
                                 <div class="form-group wd-xs-300">
                                     <label for="recipient-name" class="col-form-label">دسته:</label>
-                                    <select required size="7"  class="form-control" id="exampleFormControlSelect2">
+                                    <select  size="7"  class="form-control" name="service_category" id="service_category">
                                         <option>پیک</option>
                                         <option>خدمات پس از فروش</option>
                                         <optgroup class="level-1">
@@ -65,16 +62,25 @@
                                     صحیح است!
                                 </div>
                             </div><!-- form-group -->
-                            <div class="form-group wd-xs-300">
-                                <label>درصد پورسانت </label>
-                                <input type="text" class="form-control" placeholder="" required>
-                                <div class="valid-feedback">
-                                    صحیح است!
-                                </div>
-                            </div><!-- form-group -->
+                            <div class="row">
+                                <div class="form-group col-md-6">
+                                    <label>درصد پورسانت </label>
+                                    <input type="number" name="service_percentage" id="service_percentage" class="form-control" placeholder="">
+                                    <div class="valid-feedback">
+                                        صحیح است!
+                                    </div>
+                                </div><!-- form-group -->
+                                <div class="form-group col-md-6">
+                                    <label>قیمت ارسال پیشنهاد </label>
+                                    <input type="number" name="service_price" id="service_price" class="form-control" placeholder="">
+                                    <div class="valid-feedback">
+                                        صحیح است!
+                                    </div>
+                                </div><!-- form-group -->
+                            </div>
                             <div class="form-group wd-xs-300">
                                 <label>توضیحات </label>
-                                <textarea type="text" class="form-control" placeholder="" required>
+                                <textarea type="text" class="form-control" placeholder="">
                                 </textarea>
                                 <div class="valid-feedback">
                                     صحیح است!
@@ -124,7 +130,7 @@
                             <div class="row">
                                 <div class="form-group col-md-6">
                                     <label>نقش </label>
-                                    <input type="text" class="form-control" placeholder="" required>
+                                    <input type="text" class="form-control" placeholder="" >
                                     <div class="valid-feedback">
                                         صحیح است!
                                     </div>
@@ -140,37 +146,33 @@
                                
                        
                     </section>
-                    <h3>اخرین قیمت</h3>
+                    <h3> قیمت</h3>
                     <section>
                         
                         
                             <div class="form-group wd-xs-300">
                                 <label class="form-control-label"> <span class="text-danger">*</span> عنوان قیمت: </label>
-                                <input id="email" class="form-control text-right" name="price_title" placeholder="" type="text" required dir="ltr">
+                                <input id="email" class="form-control text-right" name="price_title" placeholder="" type="text"  dir="ltr">
                                 <div class="valid-feedback">
                                     صحیح است!
                                 </div>
                             </div><!-- form-group -->
                             <div class="form-group wd-xs-300">
                                 <label for="recipient-name" class="col-form-label">نوع :</label>
-                                <select required name="type_send"   class="form-control" id="exampleFormControlSelect2">
-                                    <option value="ارجاع اتوماتیک"> رقمی</option>
+                                <select  name="type_send"   class="form-control" id="exampleFormControlSelect2">
+                                    <option value="رقمی"> رقمی</option>
+                                    <option value="توافقی"> توافقی</option>
+                                    <option value="طبق لیست"> طبق لیست</option>
                                  </select>
                             </div><!-- form-group -->
                             <div class="form-group wd-xs-300">
                                 <label class="form-control-label"> قیمت: </label>
-                                <input id="email" class="form-control text-right" name="text" placeholder="0" type="text" required dir="ltr">
+                                <input id="email" class="form-control text-right" name="text" placeholder="0" type="text"  dir="ltr">
                                 <div class="valid-feedback">
                                     صحیح است!
                                 </div>
                             </div><!-- form-group -->
-                            <div class="form-group wd-xs-300">
-                                <label class="form-control-label"> تلرانس: </label>
-                                <input id="email" class="form-control text-right" name="text" placeholder="0" type="text" required dir="ltr">
-                                <div class="valid-feedback">
-                                    صحیح است!
-                                </div>
-                            </div><!-- form-group -->
+                           
                             <div class="form-group wd-xs-300">
                                 <label class="form-control-label"> تصویر 1: </label>
                                 <input id="email" class="form-control text-right" name="pic_1"  type="file"  dir="ltr">
@@ -195,14 +197,14 @@
                     <section>
                         <div class="form-group wd-xs-300">
                             <div class="custom-control custom-checkbox">
-                                <input type="checkbox" class="custom-control-input" id="customCheck" checked>
+                                <input type="checkbox" class="custom-control-input" name="service_offered_status" id="customCheck" checked>
 								<label class="custom-control-label" for="customCheck">به عنوان پیشنهاد ویژه در نظر گرفته شود</label>
                             </div>     
                             
                         </div>   
                         <div class="form-group wd-xs-300">
                             <label for="recipient-name" class="col-form-label">این سرویس در چه خدماتی به عنوان ویژه در نظر گرفته شود: </label>
-                            <select required name="type_send"   class="form-control" id="exampleFormControlSelect2">
+                            <select  name="service_special_category"   class="form-control" id="exampleFormControlSelect2">
                                 <option value="ارجاع اتوماتیک">ارجاع اتوماتیک</option>
                                 <option value="ارجاع دستی">ارجاع دستی</option>  
                                 <option value="ارجاع منتخب">ارجاع منتخب</option>  
@@ -314,19 +316,15 @@
           
 
           <div class="delete-edit" > 
-            {{-- <a href="#" title="حذف " class="sweet-multiple mx-2">
-            <span class="__icon bg-danger">
-                <i class="fa fa-trash"></i>
-            </span>
-           </a>
-
-           <a href="#" title="تازه سازی" data-toggle="modal" data-target=".bd-example-modal-lg-edit" class="mx-2" >
-            <span class="__icon bg-info">
-                <i class="fa fa-edit"></i>
-            </span>
-           </a> --}}
+            
         </div>
         <div>
+            <a href="#" class="mx-2 btn--filter"  title="فیلتر اطلاعات">
+                <span class="__icon bg-info">
+                    <i class="fa fa-search"></i>
+                </span>
+            </a>
+    
             <a href="#" data-toggle="modal" data-target=".bd-example-modal-lg" title="افزودن کاربر">
                 <span class="__icon bg-success">
                     <i class="fa fa-plus"></i>
@@ -342,13 +340,46 @@
 
         </div>
     </div>
+
+      {{-- filtering --}}
+      <div class="card filtering" style="display:none;">
+        <div class="card-body">
+          <div class="row " >
+            <div class="form-group col-md-6">
+              <label for="recipient-name" class="col-form-label">فیلتر اطلاعات براساس: </label>
+              <select  name="type_send"   class="form-control" id="exampleFormControlSelect2">
+                  <option value="عنوان">عنوان</option>
+                  <option value="نوع">نوع</option>  
+                  <option value="دسته بندی خدمات">دسته بندی خدمات</option>  
+                  <option value="نقش">نقش</option>  
+                  <option value="فاصله">فاصله</option> 
+                  <option value="نوع خدمت">نوع خدمت</option> 
+                  <option value="نوع ارجاع">نوع ارجاع</option> 
+                 
+              </select>
+          </div>
+          <div class="form-group col-md-6">
+            <label for="recipient-name" class="col-form-label">عبارت مورد نظر: </label>
+            <input type="text" class="form-control" id="recipient-name">
+          </div>
+          </div>
+          <div class="row">
+            <div class="form-group col-md-6">
+  
+              <button type="submit" class="btn btn-outline-primary">جست و جو</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
     <div class="card">
         <div class="card-body">
             <div class="card-title">
                 <h5 class="text-center">مدیریت خدمات</h5>
                 <hr>
             </div>
-                <table id="example1" class="table table-striped table-bordered">
+                <table id="example1" class="table table-striped  table-bordered">
                     <thead>
                     <tr>
                         <th></th>
@@ -541,9 +572,22 @@
 <!-- end::form wizard -->
     <script>
     $(document).ready(function(){
+
+
+     
+
+
+        $('.btn--filter').click(function(){
+          $('.filtering').toggle(200)
+        })
         
             $(document).on('change','.__table input[type="checkbox"]',function(){
-          
+                if( $(this).is(':checked')){
+                $(this).parents('tr').css('background-color','#41f5e07d');
+                }else{
+                    $(this).parents('tr').css('background-color','');
+
+                }
              array=[]
             
             $('.__table input[type="checkbox"]').each(function(){

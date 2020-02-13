@@ -6,7 +6,11 @@ $(document).ready(function () {
 		showOtherMonths: true,
 		selectOtherMonths: false
 	});
-
+	$('.date-picker-shamsi').datepicker({
+		dateFormat: "yy/mm/dd",
+		showOtherMonths: true,
+		selectOtherMonths: false
+	});
 	$('input[name="date-picker-shamsi-list"]').datepicker({
 		dateFormat: "yy/mm/dd",
 		showOtherMonths: true,

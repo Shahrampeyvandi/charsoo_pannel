@@ -2,415 +2,506 @@
 
 @section('content')
 {{-- modal for delete --}}
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">اخطار</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          موارد علامت زده شده حذف شوند؟
-        </div>
-        <div class="modal-footer">
-          <a type="button" class="delete btn btn-danger text-white">حذف!  </a>
-        </div>
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">اخطار</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        موارد علامت زده شده حذف شوند؟
+      </div>
+      <div class="modal-footer">
+        <a type="button" class="delete btn btn-danger text-white">حذف! </a>
       </div>
     </div>
   </div>
+</div>
 
-<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">ثبت کاربر</h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
+<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">ثبت کاربر</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form id="user--form" method="post" action=" {{route('User.Submit')}} " enctype="multipart/form-data">
+        @csrf
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-md-12" style="display: flex;align-items: center;justify-content: center;">
+              <div class="profile-img">
+                  <div class="chose-img">
+                      <input type="file" class="btn-chose-img" name="user_profile" title="نوع فایل میتواند png , jpg  باشد">
+                  </div>
+                                      <img style="border-radius: 50%;object-fit: contain; background: #fff; max-width: 100%; height: 100%; width: 100%;" src="{{route('BaseUrl')}}/Pannel/img/temp_logo.jpg" alt="">
+                  <p class="text-chose-img" style="position: absolute;top: 44%;left: 14%;font-size: 13px;">انتخاب
+                      پروفایل</p>
+              </div>
+          </div>
+          </div>
+          <div class="row">
+            <div class="form-group col-md-6">
+              <label for="user_name" class="col-form-label"><span class="text-danger">*</span> نام: </label>
+              <input type="text" class="form-control" name="user_name" id="user_name">
             </div>
-            <div class="modal-body">
-              <form>
-               <div class="row">
-                <div class="form-group col-md-6">
-                    <label for="recipient-name" class="col-form-label">نام:</label>
-                    <input type="text" class="form-control" id="recipient-name">
-                  </div>
-                  <div class="form-group col-md-6">
-                    <label for="recipient-name" class="col-form-label">نام خانوادگی:</label>
-                    <input type="text" class="form-control" id="recipient-name">
-                  </div>
-               </div>
-               <div class="row">
-                <div class="form-group col-md-6">
-                    <label for="recipient-name" class="col-form-label">پسورد:</label>
-                    <input type="text" class="form-control" id="recipient-name">
-                  </div>
-                  <div class="form-group col-md-6">
-                    <label for="recipient-name" class="col-form-label">تکرار پسورد:</label>
-                    <input type="text" class="form-control" id="recipient-name">
-                  </div>
-               </div>
-               <div class="row">
-                <div class="form-group col-md-6">
-                    <label for="recipient-name" class="col-form-label">ایمیل:</label>
-                    <input type="text" class="form-control" id="recipient-name">
-                  </div>
-                  <div class="form-group col-md-6">
-                    <label for="recipient-name" class="col-form-label">نام کاربری:</label>
-                    <input type="text" class="form-control" id="recipient-name">
-                  </div>
-               </div>
-              <div class="row">
-                <div class="form-group col-md-6">
-                    <label for="recipient-name" class="col-form-label">موبایل:</label>
-                    <input type="text" class="form-control" id="recipient-name">
-                  </div>
-                  <div class="form-group col-md-6">
-                    <label for="recipient-name" class="col-form-label">کد ملی:</label>
-                    <input type="text" class="form-control" id="recipient-name">
-                  </div>
-               </div>
-                <div class="form-group">
-                  <label for="recipient-name" class="col-form-label">تصویر:</label>
-                  <input type="file" class="form-control" id="recipient-name">
-                </div>
-                <p>انتخاب نقش: </p>
-                <div class="row">
-                    
-                    <div class="custom-control custom-radio custom-control-inline">
-                        <input type="radio" id="customRadioInline1" name="customRadioInline1"
-                         class="custom-control-input checkbox__" value="tester">
-                        <label class="custom-control-label " for="customRadioInline1">tester</label>
-                    </div>
-                    <div class="custom-control custom-radio custom-control-inline">
-                        <input type="radio" id="customRadioInline2" name="customRadioInline1"
-                         class="custom-control-input checkbox__" value="مشتری">
-                        <label class="custom-control-label" for="customRadioInline2">مشتری</label>
-                    </div>
-                    <div class="custom-control custom-radio custom-control-inline">
-                        <input type="radio" id="customRadioInline3" name="customRadioInline1" 
-                        class="custom-control-input" value="خدمت رسان">
-                        <label class="custom-control-label" for="customRadioInline3">خدمت رسان</label>
-                    </div>
-                    <div class="custom-control custom-radio custom-control-inline">
-                        <input type="radio" id="customRadioInline4" name="customRadioInline1"
-                         class="custom-control-input" value="مدیریت">
-                        <label class="custom-control-label" for="customRadioInline4">مدیریت</label>
-                    </div>
-                    <div class="custom-control custom-radio custom-control-inline">
-                        <input type="radio" id="customRadioInline5" name="customRadioInline1"
-                         class="custom-control-input" value="adminbuilding">
-                        <label class="custom-control-label" for="customRadioInline5">adminbuilding</label>
-                    </div>
-                    <div class="custom-control custom-radio custom-control-inline">
-                        <input type="radio" id="customRadioInline6" name="customRadioInline1"
-                         class="custom-control-input" value="unitbuilding">
-                        <label class="custom-control-label" for="customRadioInline6">unitbuilding</label>
-                    </div>
-                    <div class="custom-control custom-radio custom-control-inline">
-                        <input type="radio" id="customRadioInline7" name="customRadioInline1" 
-                        class="custom-control-input" value="zitco">
-                        <label class="custom-control-label" for="customRadioInline7">zitco</label>
-                    </div>
-                </div>
-      
-               
-              </form>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">بستن</button>
-              <button type="button" class="btn btn-primary">ذخیره</button>
+            <div class="form-group col-md-6">
+              <label for="user_family" class="col-form-label"><span class="text-danger">*</span> نام خانوادگی:</label>
+              <input type="text" class="form-control" name="user_family" id="user_family">
             </div>
           </div>
+          <div class="row">
+            <div class="form-group col-md-6">
+              <label for="user_pass" class="col-form-label"><span class="text-danger">*</span> پسورد:</label>
+              <input type="text" class="form-control" name="user_pass" id="user_pass">
+            </div>
+            <div class="form-group col-md-6">
+              <label for="confirm_user_pass" class="col-form-label"><span class="text-danger">*</span> تکرار
+                پسورد:</label>
+              <input type="text" class="form-control" name="confirm_user_pass" id="confirm_user_pass">
+            </div>
+          </div>
+          <div class="row">
+            <div class="form-group col-md-6">
+              <label for="user_email" class="col-form-label">ایمیل:</label>
+              <input type="text" class="form-control" name="user_email" id="user_email">
+            </div>
+            <div class="form-group col-md-6">
+              <label for="username" class="col-form-label"><span class="text-danger">*</span> نام کاربری:</label>
+              <input type="text" class="form-control" name="username" id="username">
+            </div>
+          </div>
+          <div class="row">
+            <div class="form-group col-md-6">
+              <label for="user_mobile" class="col-form-label"><span class="text-danger">*</span> موبایل:</label>
+              <input type="text" class="form-control" name="user_mobile" id="user_mobile">
+            </div>
+            <div class="form-group col-md-6">
+              <label for="user_national_num" class="col-form-label">کد ملی:</label>
+              <input type="text" class="form-control" name="user_national_num" id="user_national_num">
+            </div>
+          </div>
+         
+          <p>انتخاب نقش: </p>
+          <div class="row">
+            <div class="custom-control custom-radio custom-control-inline">
+              <input type="radio" id="customRadioInline4" name="user_responsibility" class="custom-control-input"
+                value="مدیریت">
+              <label class="custom-control-label" for="customRadioInline4">مدیریت</label>
+            </div>
+            <div class="custom-control custom-radio custom-control-inline">
+              <input type="radio" id="customRadioInline1" name="user_responsibility"
+                class="custom-control-input checkbox__" value="tester">
+              <label class="custom-control-label " for="customRadioInline1">tester</label>
+            </div>
+            <div class="custom-control custom-radio custom-control-inline">
+              <input type="radio" id="customRadioInline2" name="user_responsibility"
+                class="custom-control-input checkbox__" value="مشتری">
+              <label class="custom-control-label" for="customRadioInline2">مشتری</label>
+            </div>
+            <div class="custom-control custom-radio custom-control-inline">
+              <input type="radio" id="customRadioInline3" name="user_responsibility" class="custom-control-input"
+                value="خدمت رسان">
+              <label class="custom-control-label" for="customRadioInline3">خدمت رسان</label>
+            </div>
+            
+            <div class="custom-control custom-radio custom-control-inline">
+              <input type="radio" id="customRadioInline5" name="user_responsibility" class="custom-control-input"
+                value="adminbuilding">
+              <label class="custom-control-label" for="customRadioInline5">adminbuilding</label>
+            </div>
+            <div class="custom-control custom-radio custom-control-inline">
+              <input type="radio" id="customRadioInline6" name="user_responsibility" class="custom-control-input"
+                value="unitbuilding">
+              <label class="custom-control-label" for="customRadioInline6">unitbuilding</label>
+            </div>
+            <div class="custom-control custom-radio custom-control-inline">
+              <input type="radio" id="customRadioInline7" name="user_responsibility" class="custom-control-input"
+                value="zitco">
+              <label class="custom-control-label" for="customRadioInline7">zitco</label>
+            </div>
+          </div>
+
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">بستن</button>
+          <button type="submit" class="btn btn-primary">ذخیره</button>
+        </div>
+      </form>
     </div>
   </div>
+</div>
 </div>
 
 
 {{-- modal for edit --}}
 
-<div class="modal fade bd-example-modal-lg-edit" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">    <div class="modal-dialog modal-lg">
-    <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">ویرایش کاربر</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <form>
-           <div class="row">
-            <div class="form-group col-md-6">
-                <label for="recipient-name" class="col-form-label">نام:</label>
-                <input type="text" class="form-control" id="recipient-name">
-              </div>
-              <div class="form-group col-md-6">
-                <label for="recipient-name" class="col-form-label">نام خانوادگی:</label>
-                <input type="text" class="form-control" id="recipient-name">
-              </div>
-           </div>
-           <div class="row">
-            <div class="form-group col-md-6">
-                <label for="recipient-name" class="col-form-label">پسورد:</label>
-                <input type="text" class="form-control" id="recipient-name">
-              </div>
-              <div class="form-group col-md-6">
-                <label for="recipient-name" class="col-form-label">تکرار پسورد:</label>
-                <input type="text" class="form-control" id="recipient-name">
-              </div>
-           </div>
-           <div class="row">
-            <div class="form-group col-md-6">
-                <label for="recipient-name" class="col-form-label">ایمیل:</label>
-                <input type="text" class="form-control" id="recipient-name">
-              </div>
-              <div class="form-group col-md-6">
-                <label for="recipient-name" class="col-form-label">نام کاربری:</label>
-                <input type="text" class="form-control" id="recipient-name">
-              </div>
-           </div>
-          <div class="row">
-            <div class="form-group col-md-6">
-                <label for="recipient-name" class="col-form-label">موبایل:</label>
-                <input type="text" class="form-control" id="recipient-name">
-              </div>
-              <div class="form-group col-md-6">
-                <label for="recipient-name" class="col-form-label">کد ملی:</label>
-                <input type="text" class="form-control" id="recipient-name">
-              </div>
-           </div>
-            <div class="form-group">
-              <label for="recipient-name" class="col-form-label">تصویر:</label>
-              <input type="file" class="form-control" id="recipient-name">
-            </div>
-            <p>انتخاب نقش: </p>
-            <div class="row">
-                
-                <div class="custom-control custom-radio custom-control-inline">
-                    <input type="radio" id="customRadioInline1" name="customRadioInline1"
-                     class="custom-control-input checkbox__" value="tester">
-                    <label class="custom-control-label " for="customRadioInline1">tester</label>
-                </div>
-                <div class="custom-control custom-radio custom-control-inline">
-                    <input type="radio" id="customRadioInline2" name="customRadioInline1"
-                     class="custom-control-input checkbox__" value="مشتری">
-                    <label class="custom-control-label" for="customRadioInline2">مشتری</label>
-                </div>
-                <div class="custom-control custom-radio custom-control-inline">
-                    <input type="radio" id="customRadioInline3" name="customRadioInline1" 
-                    class="custom-control-input" value="خدمت رسان">
-                    <label class="custom-control-label" for="customRadioInline3">خدمت رسان</label>
-                </div>
-                <div class="custom-control custom-radio custom-control-inline">
-                    <input type="radio" id="customRadioInline4" name="customRadioInline1"
-                     class="custom-control-input" value="مدیریت">
-                    <label class="custom-control-label" for="customRadioInline4">مدیریت</label>
-                </div>
-                <div class="custom-control custom-radio custom-control-inline">
-                    <input type="radio" id="customRadioInline5" name="customRadioInline1"
-                     class="custom-control-input" value="adminbuilding">
-                    <label class="custom-control-label" for="customRadioInline5">adminbuilding</label>
-                </div>
-                <div class="custom-control custom-radio custom-control-inline">
-                    <input type="radio" id="customRadioInline6" name="customRadioInline1"
-                     class="custom-control-input" value="unitbuilding">
-                    <label class="custom-control-label" for="customRadioInline6">unitbuilding</label>
-                </div>
-                <div class="custom-control custom-radio custom-control-inline">
-                    <input type="radio" id="customRadioInline7" name="customRadioInline1" 
-                    class="custom-control-input" value="zitco">
-                    <label class="custom-control-label" for="customRadioInline7">zitco</label>
-                </div>
-            </div>
-  
-           
-          </form>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">بستن</button>
-          <button type="button" class="btn btn-primary">ذخیره</button>
-        </div>
-      </div>
-</div>
+<div class="modal fade bd-example-modal-lg-edit" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content edit__modal">
+      
+    </div>
+  </div>
 </div>
 
 <div class="container-fluid">
-    <div class="card">
-        <div class="container_icon card-body d-flex justify-content-end">
-           
-          
-
-          <div class="delete-edit" > 
-           
-        </div>
-        <div>
-            <a href="#" data-toggle="modal" data-target=".bd-example-modal-lg" title="افزودن کاربر">
-                <span class="__icon bg-success">
-                    <i class="fa fa-plus"></i>
-                </span>
-            </a>
-            <a href="#" title="تازه سازی" class="mx-2" onclick="location.reload()">
-                <span class="__icon bg-primary">
-                    <i class="fa fa-refresh"></i>
-                </span>
-            </a>
-           </div>
+  <div class="card">
+    <div class="container_icon card-body d-flex justify-content-end">
 
 
-        </div>
-    </div>
-    <div class="card">
-      <div class="card-body">
-        <div class="row">
-          <div class="form-group col-md-6">
-            <label for="recipient-name" class="col-form-label">نوع ارجاع:</label>
-            <select required name="type_send"   class="form-control" id="exampleFormControlSelect2">
-                <option value="ارجاع اتوماتیک">ارجاع اتوماتیک</option>
-                <option value="ارجاع دستی">ارجاع دستی</option>  
-                <option value="ارجاع منتخب">ارجاع منتخب</option>  
-                <option value="ارجاع به کمترین فاصله">ارجاع به کمترین فاصله</option>  
-            </select>
-        </div>
-        <div class="form-group col-md-6">
-          <label for="recipient-name" class="col-form-label">نام:</label>
-          <input type="text" class="form-control" id="recipient-name">
-        </div>
-        </div>
+
+      <div class="delete-edit">
 
       </div>
+      <div>
+        <a href="#" class="mx-2 btn--filter" title="فیلتر اطلاعات">
+          <span class="__icon bg-info">
+            <i class="fa fa-search"></i>
+          </span>
+        </a>
+
+        <a href="#" data-toggle="modal" data-target=".bd-example-modal-lg" title="افزودن کاربر">
+          <span class="__icon bg-success">
+            <i class="fa fa-plus"></i>
+          </span>
+        </a>
+        <a href="#" title="تازه سازی" class="mx-2" onclick="location.reload()">
+          <span class="__icon bg-primary">
+            <i class="fa fa-refresh"></i>
+          </span>
+        </a>
+      </div>
+
 
     </div>
-    <div class="card">
-        <div class="card-body">
-            <div class="card-title">
-                <h5 class="text-center">مدیریت کاربران</h5>
-                <hr>
-            </div>
-            <div class="table-responsive">
-                <table class="table table-striped table-bordered">
-                    <thead>
-                    <tr>
-                        <th></th>
-                        <th>ردیف</th>
-                        <th>نام</th>
-                        <th>نام خانوادگی</th>
-                        <th>نام کاربری</th>
-                        <th>نقش</th>
-                        <th>کد ملی</th>
-                        <th>شماره موبایل</th>
-                        <th>پروفایل عکس</th>
-                        
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                        <td>
-                            <div class="custom-control custom-checkbox custom-control-inline" style="margin-left: -1rem;">
-                                <input type="checkbox" id="1" name="customCheckboxInline1" 
-                                class="custom-control-input"
-                                value="1"
-                                >
-                                <label class="custom-control-label" for="1"></label>
-                            </div>
-                        </td>
-                        <td>1</td>
-                        <td>دستیار فروش</td>
-                        <td>تبریز</td>
-                        <td>46</td>
-                        <td>2011/12/06</td>
-                        <td>145,600 تومان</td>
-                        <td>2011/12/06</td>
-                        <td>145,600 تومان</td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div class="custom-control custom-checkbox custom-control-inline" style="margin-left: -1rem;">
-                                <input type="checkbox" id="2" name="customCheckboxInline1" 
-                                class="custom-control-input" value="2">
-                                <label class="custom-control-label" for="2"></label>
-                            </div>
-                        </td>
-                        <td>2</td>
-                        <td>دستیار فروش</td>
-                        <td>تبریز</td>
-                        <td>46</td>
-                        <td>2011/12/06</td>
-                        <td>145,600 تومان</td>
-                        <td>2011/12/06</td>
-                        <td>145,600 تومان</td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div class="custom-control custom-checkbox custom-control-inline" style="margin-left: -1rem;">
-                                <input type="checkbox" id="3" name="customCheckboxInline1" 
-                                class="custom-control-input" value="3">
-                                <label class="custom-control-label" for="3"></label>
-                            </div>
-                        </td>
-                        <td>3</td>
-                        <td>دستیار فروش</td>
-                        <td>تبریز</td>
-                        <td>46</td>
-                        <td>2011/12/06</td>
-                        <td>145,600 تومان</td>
-                        <td>2011/12/06</td>
-                        <td>145,600 تومان</td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div class="custom-control custom-checkbox custom-control-inline" style="margin-left: -1rem;">
-                                <input type="checkbox" id="4" name="customCheckboxInline1" 
-                                class="custom-control-input" value="4">
-                                <label class="custom-control-label" for="4"></label>
-                            </div>
-                        </td>
-                        <td>4</td>
-                        <td>دستیار فروش</td>
-                        <td>تبریز</td>
-                        <td>46</td>
-                        <td>2011/12/06</td>
-                        <td>145,600 تومان</td>
-                        <td>2011/12/06</td>
-                        <td>145,600 تومان</td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div class="custom-control custom-checkbox custom-control-inline" style="margin-left: -1rem;">
-                                <input type="checkbox" id="5" name="customCheckboxInline1" 
-                                class="custom-control-input" value="5">
-                                <label class="custom-control-label" for="5"></label>
-                            </div>
-                        </td>
-                        <td>5</td>
-                        <td>دستیار فروش</td>
-                        <td>تبریز</td>
-                        <td>46</td>
-                        <td>2011/12/06</td>
-                        <td>145,600 تومان</td>
-                        <td>2011/12/06</td>
-                        <td>145,600 تومان</td>
-                    </tr>
-                   
-                    </tbody>
-                   
-                </table>
-            </div>
+  </div>
+
+
+  {{-- filtering --}}
+  <div class="card filtering" style="display:none;">
+    <div class="card-body">
+      <div class="row ">
+        <div class="form-group col-md-6">
+          <label for="recipient-name" class="col-form-label">فیلتر اطلاعات براساس: </label>
+          <select required name="type_send" class="form-control" id="exampleFormControlSelect2">
+            <option value="نام">نام</option>
+            <option value="نام خانوادگی">نام خانوادگی</option>
+            <option value="نام کاربری">نام کاربری</option>
+            <option value="کد ملی">کد ملی</option>
+            <option value="شماره موبایل">شماره موبایل</option>
+
+          </select>
         </div>
+        <div class="form-group col-md-6">
+          <label for="recipient-name" class="col-form-label">عبارت مورد نظر: </label>
+          <input type="text" class="form-control" id="recipient-name">
+        </div>
+      </div>
+      <div class="row">
+        <div class="form-group col-md-6">
+
+          <button type="submit" class="btn btn-outline-primary">جست و جو</button>
+        </div>
+      </div>
     </div>
+  </div>
+
+  <div class="card">
+    <div class="card-body">
+      <div class="card-title">
+        <h5 class="text-center">مدیریت کاربران</h5>
+        <hr>
+      </div>
+      <div class="table-responsive">
+        <table class="table table-striped table-bordered">
+          <thead>
+            <tr>
+              <th></th>
+              <th>ردیف</th>
+              <th>نام</th>
+              <th>نام خانوادگی</th>
+              <th>نام کاربری</th>
+              <th>نقش</th>
+              <th>کد ملی</th>
+              <th>شماره موبایل</th>
+              <th>پروفایل عکس</th>
+
+            </tr>
+          </thead>
+          <tbody>
+
+            @foreach (\App\Models\User::latest()->get() as $key=>$user)
+            <tr>
+              <td>
+                <div class="custom-control custom-checkbox custom-control-inline" style="margin-left: -1rem;">
+                <input data-id=" {{$user->id}} " type="checkbox" id="{{ $key}}" name="customCheckboxInline1" class="custom-control-input" value="1">
+                  <label class="custom-control-label" for="{{$key}}"></label>
+                </div>
+              </td>
+              <td> {{$key+1}} </td>
+              <td>{{$user->user_firstname}}</td>
+              <td>{{$user->user_lastname}}</td>
+              <td>{{$user->user_username}}</td>
+              <td>{{$user->user_responsibility}}</td>
+              <td>{{$user->user_national_code}}</td>
+              <td>{{$user->user_mobile}}</td>
+              <td>
+                @if ($user->user_prfile_pic !== '')
+                    <img width="75px" class="img-fluid " src=" {{asset("uploads/users/profile_pic/$user->user_national_code/$user->user_prfile_pic")}} " />
+                @else
+                <img width="75px" class="img-fluid " src=" {{asset("Pannel/img/avatar.jpg")}} " />
+
+                @endif
+              </td>
+            </tr>
+            @endforeach
+           
+           
+
+          </tbody>
+
+        </table>
+      </div>
+    </div>
+  </div>
 </div>
+@endsection
+@section('css')
+<style>
+  .profile-img {
+    width: 100px;
+    height: 100px;
+    position: relative;
+}
+
+.chose-img {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    z-index: 999;
+    display: flex;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.03);
+    border-radius: 50%;
+    overflow: hidden;
+}
+.chose-img input {
+    width: 100px;
+    height: 100px;
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    z-index: -1;
+}
+ 
+</style>
 @endsection
 
 @section('js')
-<script>
-    $(document).ready(function(){
-        
 
-           $('input[type="checkbox"]').change(function(){
-            var array=[]
-            $('input[type="checkbox"]').each(function(){
+
+<script>
+  $(document).ready(function(){
+    $.ajaxSetup({
+
+headers: {
+    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+ }
+});
+      // form validation 
+      var form = $("#user--form");
+    
+    form.validate({
+        rules: {
+          user_name: {
+            required: true,
+            // digits: true,
+            // minlength: 5,
+            // maxlength: 5
+          },
+          user_family:{
+            required:true
+          },
+          user_pass:{
+            required:true
+          },
+        confirm_user_pass:{
+                    required:true,
+                    equalTo : "#user_pass"
+                  },
+        username:{
+                    required:true
+                  },
+        user_mobile:{
+                    required:true,
+                    digits: true,
+                    minlength: 11,
+                    maxlength:11
+          },
+          user_email:{
+            email: true
+
+          }
+        },
+        messages: {
+          user_name: {
+            //minlength: jQuery.format("Zip must be {0} digits in length"),
+            //maxlength: jQuery.format("Please use a {0} digit zip code"),
+            required: "لطفا نام را وارد نمایید"
+          },
+          user_family: {
+            //minlength: jQuery.format("Zip must be {0} digits in length"),
+            //maxlength: jQuery.format("Please use a {0} digit zip code"),
+            required: "لطفا نام خانوادگی را وارد نمایید"
+          },
+          user_pass: {
+            //minlength: jQuery.format("Zip must be {0} digits in length"),
+            //maxlength: jQuery.format("Please use a {0} digit zip code"),
+            required: "لطفا پسورد را وارد نمایید"
+          },
+          username: {
+            //minlength: jQuery.format("Zip must be {0} digits in length"),
+            //maxlength: jQuery.format("Please use a {0} digit zip code"),
+            required: "لطفا نام کاربری را وارد نمایید"
+          },
+          confirm_user_pass: {
+            //minlength: jQuery.format("Zip must be {0} digits in length"),
+            //maxlength: jQuery.format("Please use a {0} digit zip code"),
+            required: "رمز عبور را تکرار کنید",
+            equalTo : "تکرار رمز عبور صحیح نمیباشد"
+          },
+          user_email:{
+            email: 'فرمت ایمیل را به صورت صحیح وارد نمایید'
+
+          },
+          user_mobile: {
+            //minlength: jQuery.format("Zip must be {0} digits in length"),
+            //maxlength: jQuery.format("Please use a {0} digit zip code"),
+            required: "لطفا شماره موبایل را وارد نمایید",
+            digits: 'شماره موبایل بایستی به صورت عددی وارد شود',
+            minlength: 'شماره موبایل بایستی 11 رقم باشد',
+            maxlength: 'شماره موبایل بایستی 11 رقم باشد',
+     
+
+          },
+        }
+      });
+
+
+      // edit 
+
+      $('.bd-example-modal-lg-edit').on('shown.bs.modal', function (event) {
+       
+   user_id =  $('table input[type="checkbox"]:checked').attr('data-id')
+  
+
+$.ajax({
+
+type:'post',
+url:'{{route("User.Edit.getData")}}',
+cache: false,
+            async: true,
+data:{user_id:user_id},
+success:function(data){
+   
+   $('.edit__modal').html(data)
+   editform= $('#edit--form')
+   editform.validate({
+        rules: {
+          user_name: {
+            required: true,
+            // digits: true,
+            // minlength: 5,
+            // maxlength: 5
+          },
+          user_family:{
+            required:true
+          },
+          
+        confirm_user_pass:{
+                    
+                    equalTo : "#user_passa"
+                  },
+        username:{
+                    required:true
+                  },
+        user_mobile:{
+                    required:true,
+                    digits: true,
+                    minlength: 11,
+                    maxlength:11
+          },
+        },
+        messages: {
+          user_name: {
+            //minlength: jQuery.format("Zip must be {0} digits in length"),
+            //maxlength: jQuery.format("Please use a {0} digit zip code"),
+            required: "لطفا نام را وارد نمایید"
+          },
+          user_family: {
+            //minlength: jQuery.format("Zip must be {0} digits in length"),
+            //maxlength: jQuery.format("Please use a {0} digit zip code"),
+            required: "لطفا نام خانوادگی را وارد نمایید"
+          },
+          user_pass: {
+            //minlength: jQuery.format("Zip must be {0} digits in length"),
+            //maxlength: jQuery.format("Please use a {0} digit zip code"),
+            required: "لطفا پسورد را وارد نمایید"
+          },
+          username: {
+            //minlength: jQuery.format("Zip must be {0} digits in length"),
+            //maxlength: jQuery.format("Please use a {0} digit zip code"),
+            required: "لطفا نام کاربری را وارد نمایید"
+          },
+          confirm_user_pass: {
+            //minlength: jQuery.format("Zip must be {0} digits in length"),
+            //maxlength: jQuery.format("Please use a {0} digit zip code"),
+            required: "رمز عبور را تکرار کنید",
+            equalTo : "تکرار رمز عبور صحیح نمیباشد"
+          },
+          user_mobile: {
+            //minlength: jQuery.format("Zip must be {0} digits in length"),
+            //maxlength: jQuery.format("Please use a {0} digit zip code"),
+            required: "لطفا شماره موبایل را وارد نمایید",
+            digits: 'شماره موبایل بایستی به صورت عددی وارد شود',
+            minlength: 'شماره موبایل بایستی 11 رقم باشد',
+            maxlength: 'شماره موبایل بایستی 11 رقم باشد',
+     
+
+          },
+        }
+      });
+}
+
+        })
+
+        })  
+
+        
+        $('.btn--filter').click(function(){
+          $('.filtering').toggle(200)
+        })
+
+           $('table input[type="checkbox"]').change(function(){
+            if( $(this).is(':checked')){
+            $(this).parents('tr').css('background-color','#41f5e07d');
+            }else{
+                $(this).parents('tr').css('background-color','');
+
+            }
+            array=[]
+            $('table input[type="checkbox"]').each(function(){
                 if($(this).is(':checked')){
-                array.push($(this).val())
+                array.push($(this).attr('data-id'))
 
                }
             if(array.length !== 0){
@@ -458,8 +549,25 @@
                 console.log(array)
 
                 // ajax request
+                $.ajax({
 
+                type:'post',
+                url:'{{route("Users.Delete")}}',
+                data:{array:array},
+                success:function(data){
+                  swal("حذف با موفقیت انجام شد", {
+                    icon: "success",
+					          button: "تایید"
+                       });
+
+                       setTimeout(()=>{
+                        location.reload()
+                       },2000)
+               
+                }
             })
+
+    })
 
 })
 </script>

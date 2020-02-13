@@ -17,7 +17,7 @@
     <link rel="shortcut icon" href="{{route('BaseUrl')}}/Pannel/assets/media/image/icon.png">
 
     <link rel="stylesheet" href="{{route('BaseUrl')}}/Pannel/assets/css/Style.css" type="text/css">
-
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 	<!-- begin::theme color -->
     <meta name="theme-color" content="#8dc63f" />
     <!-- end::theme color -->
@@ -28,6 +28,7 @@
  
 </head>
 <body class="layout-container dark icon-side-menu">
+    @include('sweet::alert')
   
 <!-- begin::page loader-->
 <div class="page-loader">
@@ -74,6 +75,8 @@
     <script src="{{route('BaseUrl')}}/Pannel/assets/vendors/dataTable/dataTables.bootstrap4.min.js"></script>
     <script src="{{route('BaseUrl')}}/Pannel/assets/vendors/dataTable/dataTables.responsive.min.js"></script>
     <script src="{{route('BaseUrl')}}/Pannel/assets/js/examples/datatable.js"></script>
+    <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script>
+
  
 
     @yield('js')

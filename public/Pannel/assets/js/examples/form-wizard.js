@@ -17,6 +17,68 @@ $(document).ready(function () {
 		}
     });
     var form = $("#example-advanced-form").show();
+    
+    form.validate({
+        rules: {
+          title: {
+            required: true,
+            // digits: true,
+            // minlength: 5,
+            // maxlength: 5
+          },
+          service_category: {
+              required:true
+          },
+          service_percentage: {
+            required: true,
+            range:[0,100]
+          },
+          firstname: {
+            required:true
+        }, 
+        lastname: {
+            required:true
+        },
+        national_num:{
+            required:true,
+            
+            maxlength:10
+        },
+        work_experience_month_num: {
+            required:true,
+            range:[0,12]
+        }
+        },
+        messages: {
+          title: {
+            //minlength: jQuery.format("Zip must be {0} digits in length"),
+            //maxlength: jQuery.format("Please use a {0} digit zip code"),
+            required: "لطفا عنوان را وارد نمایید"
+          },
+          service_category: {
+            required:'سرگروه خدمت را انتخاب نمایید'
+        },
+        service_percentage: {
+            required:'درصد پورسانت را وارد نمایید',
+            range:'پورسانت حداکثر 100% میباشد'
+        },
+        firstname: {
+            required:'لطفا نام خود را وارد نمایید'
+        }, 
+        lastname: {
+            required:'لطفا نام خانوادگی خود را وارد نمایید'
+        },
+        national_num:{
+            required: ' کد ملی خود را وارد نمایید',
+            maxlength:'کد ملی بایستی حداکثر 10 رقم باشد'
+        },
+        work_experience_month_num: {
+            required:'فیلد اجباری است',
+            range:'ماه باید در بازه 0 تا12 باشد',
+           
+        }
+        }
+      });
     form.steps({
     headerTag: "h3",
     bodyTag: "section",
@@ -49,7 +111,7 @@ $(document).ready(function () {
             form.find(".body:eq(" + newIndex + ") label.error").remove();
             form.find(".body:eq(" + newIndex + ") .error").removeClass("error");
         }
-        form.validate().settings.ignore = ":disabled,:hidden";
+        
         return form.valid();
     },
     onStepChanged: function (event, currentIndex, priorIndex)

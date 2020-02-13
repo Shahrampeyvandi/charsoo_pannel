@@ -5728,11 +5728,13 @@ button.toast-close-button {
 	position: fixed;
 	z-index: 999999;
 	/*overrides*/
+	display: none;
 }
 #toast-container * {
 	-moz-box-sizing: border-box;
 	-webkit-box-sizing: border-box;
 	box-sizing: border-box;
+	
 }
 #toast-container > div {
 	position: relative;

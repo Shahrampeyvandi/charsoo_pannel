@@ -32,25 +32,43 @@
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
+            <form id="user--form" method="post" action=" {{route('Service.Category.Submit')}} " enctype="multipart/form-data">
+              @csrf
             <div class="modal-body">
-              <form>
                <div class="row">
                 <div class="form-group col-md-12">
-                    <label for="recipient-name" class="col-form-label">عنوان:</label>
-                    <input type="text" class="form-control" id="recipient-name">
+                    <label for="service_title" class="col-form-label"><span class="text-danger">*</span> عنوان: </label>
+                    <input type="text" class="form-control" name="service_title" id="service_title">
                   </div>
                   
                </div>
                <div class="row">
-                <div class=" col-md-6">
-                    <h5 class="card-title">دسته: </h5>
-                    <div id="jstree_demo1"></div>
-                  </div>
+                <div class="form-group col-md-12">
+                  <label for="recipient-name" class="col-form-label">دسته:</label>
+                  <select  size="7"  class="form-control" name="service_caregory" id="exampleFormControlSelect2">
+                      <option>پیک</option>
+                      <option>خدمات پس از فروش</option>
+                      <optgroup class="level-1">
+                          <option>1.1</option>
+                          <option>1.2</option>
+                          <option>1.3</option>
+                          
+                      </optgroup>
+                      <option>تاسیسات</option>
+                      <option>دکوراسیون و ساختمانی</option>
+                      <option>شست و شو و نظافت</option>
+                      <option>آموزش</option>
+                  </select>
+                                    
+              <div class="valid-feedback">
+                  صحیح است!
+              </div>
+          </div><!-- form-group -->
                </div>
                <div class="row">
                 <div class="form-group col-md-6">
                     <label for="recipient-name" class="col-form-label">نوع:</label>
-                    <select name="type" class="js-example-basic-single" dir="rtl">
+                    <select name="service_type" id="service_type"  class="js-example-basic-single" dir="rtl">
                         <option></option>
                         <option value="خدمات شرکتی">خدمات شرکتی</option>
                         <option value="فروشگاه">فروشگاه</option>
@@ -61,18 +79,11 @@
                     </select>  
                 </div>
                   <div class="form-group col-md-6">
-                    <label for="recipient-name" class="col-form-label"> ایکون:</label>
-                    <input type="file" class="form-control" id="recipient-name">
+                    <label for="service_icon" class="col-form-label"> ایکون:</label>
+                    <input type="file" class="form-control" name="service_icon" id="service_icon">
                   </div>
                </div>
-               <div class="row">
-                <div class="form-group col-md-12">
-                    <label for="recipient-name" class="col-form-label">توضیحات تکمیلی:</label>
-                    <textarea type="text" class="form-control" id="recipient-name">
-                    </textarea>
-                  </div>
-                 
-               </div>
+              
                <div class="row">
                 <div class="form-group col-md-12">
                     <label for="recipient-name" class="col-form-label">توضیحات عمومی:</label>
@@ -80,30 +91,27 @@
                     </textarea>
                   </div>
                </div>
-               <h6>نمایش در صفحه اصلی: </h6>
-                  <br>
+               
+                  
               <div class="row">
                   
-                <div class="form-group col-md-6">
-                    <label for="recipient-name" class="col-form-label">تصویر:</label>
-                    <input type="file" class="form-control" id="recipient-name">
-                  </div>
-                  <div class="form-group col-md-6">
+               
+                  {{-- <div class="form-group col-md-6">
                     <label for="recipient-name" class="col-form-label">قیمت ارسال پیشنهاد: </label>
                     <input type="text" class="form-control" id="recipient-name">
-                  </div>
+                  </div> --}}
                </div>
                 
                 
                 
       
                
-              </form>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">بستن</button>
-              <button type="button" class="btn btn-primary">ارسال</button>
-            </div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">بستن</button>
+                <button type="submit" class="btn btn-primary">ارسال</button>
+              </div>
+            </form>
           </div>
     </div>
   </div>
@@ -217,6 +225,11 @@
            </a> --}}
         </div>
         <div>
+          <a href="#" class="mx-2 btn--filter"  title="فیلتر اطلاعات">
+            <span class="__icon bg-info">
+                <i class="fa fa-search"></i>
+            </span>
+        </a>
             <a href="#" data-toggle="modal" data-target=".bd-example-modal-lg" title="افزودن کاربر">
                 <span class="__icon bg-success">
                     <i class="fa fa-plus"></i>
@@ -232,13 +245,44 @@
 
         </div>
     </div>
+
+     {{-- filtering --}}
+     <div class="card filtering" style="display:none;">
+      <div class="card-body">
+        <div class="row " >
+          <div class="form-group col-md-6">
+            <label for="recipient-name" class="col-form-label">فیلتر اطلاعات براساس: </label>
+            <select required name="type_send"   class="form-control" id="exampleFormControlSelect2">
+                <option value="عنوان">عنوان</option>
+                <option value="دسته بالا دستی">دسته بالا دستی</option>  
+                <option value="نوع">نوع</option>  
+                <option value="قیمت پیشنهادی">قیمت پیشنهادی</option>  
+                <option value="نمایش در صفحه اصلی">نمایش در صفحه اصلی</option> 
+                
+            </select>
+        </div>
+        <div class="form-group col-md-6">
+          <label for="recipient-name" class="col-form-label">عبارت مورد نظر: </label>
+          <input type="text" class="form-control" id="recipient-name">
+        </div>
+        </div>
+        <div class="row">
+          <div class="form-group col-md-6">
+
+            <button type="submit" class="btn btn-outline-primary">جست و جو</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
     <div class="card">
         <div class="card-body">
             <div class="card-title">
                 <h5 class="text-center">مدیریت دسته بندی خدمات</h5>
                 <hr>
             </div>
-                <table id="example1" class="table table-striped table-bordered">
+                <table id="example1" class="table table-striped  table-bordered">
                     <thead>
                     <tr>
                         <th></th>
@@ -395,9 +439,40 @@
 
     <script>
     $(document).ready(function(){
+
+
+      // validate form
+      var form = $("#user--form");
+    
+    form.validate({
+        rules: {
+          service_title: {
+            required: true,
+            // digits: true,
+            // minlength: 5,
+            // maxlength: 5
+          }
+        },
+        messages: {
+          service_title: {
+            //minlength: jQuery.format("Zip must be {0} digits in length"),
+            //maxlength: jQuery.format("Please use a {0} digit zip code"),
+            required: "لطفا عنوان خدمت را وارد نمایید"
+          }
+        }
+      });
+      $('.btn--filter').click(function(){
+          $('.filtering').toggle(200)
+        })
+        
         
             $(document).on('change','input[type="checkbox"]',function(){
-          
+              if( $(this).is(':checked')){
+            $(this).parents('tr').css('background-color','#41f5e07d');
+            }else{
+                $(this).parents('tr').css('background-color','');
+
+            }
             var array=[]
             $('input[type="checkbox"]').each(function(){
                 if($(this).is(':checked')){

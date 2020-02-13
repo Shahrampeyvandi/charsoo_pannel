@@ -23,4 +23,24 @@ class ServiceController extends Controller
     {
         dd($request->all());
     }
+
+    public function PersonalsList()
+    {
+        return view('User.PersonalsList');
+    }
+
+    public function technicianSubmit()
+    {
+        dd('dfsf');
+    }
+
+    public function OnlinePersonals()
+    {
+        return view('User.OnlinePersonals');
+    }
+
+    public function SubmitServiceCategory(Request $request)
+    {
+        dd($request->all());
+    }
 }

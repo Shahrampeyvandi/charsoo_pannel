@@ -207,9 +207,11 @@ Wizard
 
 .wizard > .content > .body label.error
 {
-	color: #8a1f11;
-	display: inline-block;
-	margin-right: 1.5em;
+	
+		color: #dc1900;
+		display: inline-block;
+		margin-right: 1.5em;
+	
 }
 
 .wizard > .actions

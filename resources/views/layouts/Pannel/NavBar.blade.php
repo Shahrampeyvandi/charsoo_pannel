@@ -12,16 +12,19 @@
            
             
             <ul class="navbar-nav">
-                <li class="nav-item">
+                {{-- <li class="nav-item">
                     <a href="#" class="d-lg-none d-sm-block nav-link search-panel-open">
                         <i class="fa fa-search"></i>
                     </a>
-                </li>
+                </li> --}}
                 <li class="nav-item">
                     <a  href="#" class="nav-link" >
                         تاریخ
 
-                        <span class="date">1/2/99</span>
+                        <span class="date">
+                            
+                            {{\Morilog\Jalali\Jalalian::forge('today')->format('%A, %d %B %y')}}
+                        </span>
                     </a>
                 </li>
                 <li class="nav-item">
