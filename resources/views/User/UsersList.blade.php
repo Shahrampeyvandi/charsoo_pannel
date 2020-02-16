@@ -217,8 +217,8 @@
         <h5 class="text-center">مدیریت کاربران</h5>
         <hr>
       </div>
-      <div class="table-responsive">
-        <table class="table table-striped table-bordered">
+      <div style="overflow-x: auto;">
+        <table  id="example1" class="table table-striped  table-bordered" >
           <thead>
             <tr>
               <th></th>
@@ -284,6 +284,7 @@
           
           
         </table>
+      </div>
       </div>
     </div>
   </div>
@@ -356,13 +357,15 @@ success:function(data){
             required: true,
             // digits: true,
             // minlength: 5,
-            // maxlength: 5
+            maxlength: 20
           },
           user_family:{
-            required:true
+            required:true,
+            maxlength: 20
           },
           user_pass:{
-            required:true
+            required:true,
+            regex: "^[^;,&]*$"
           },
         confirm_user_pass:{
                     required:true,
@@ -385,18 +388,21 @@ success:function(data){
         messages: {
           user_name: {
             //minlength: jQuery.format("Zip must be {0} digits in length"),
-            //maxlength: jQuery.format("Please use a {0} digit zip code"),
+            maxlength:'نام حداکثر 20 کاراکتر میتواند داشته باشد',
             required: "لطفا نام را وارد نمایید"
           },
           user_family: {
             //minlength: jQuery.format("Zip must be {0} digits in length"),
             //maxlength: jQuery.format("Please use a {0} digit zip code"),
-            required: "لطفا نام خانوادگی را وارد نمایید"
+            required: "لطفا نام خانوادگی را وارد نمایید",
+            maxlength:'نام خانوادگی حداکثر 20 کاراکتر میتواند داشته باشد',
+
           },
           user_pass: {
             //minlength: jQuery.format("Zip must be {0} digits in length"),
             //maxlength: jQuery.format("Please use a {0} digit zip code"),
-            required: "لطفا پسورد را وارد نمایید"
+            required: "لطفا پسورد را وارد نمایید",
+            regex: 'dssdsds'
           },
           username: {
             //minlength: jQuery.format("Zip must be {0} digits in length"),
@@ -451,10 +457,11 @@ success:function(data){
             required: true,
             // digits: true,
             // minlength: 5,
-            // maxlength: 5
+            maxlength: 20
           },
           user_family:{
-            required:true
+            required:true,
+            maxlength: 20
           },
           
         confirm_user_pass:{
@@ -474,13 +481,15 @@ success:function(data){
         messages: {
           user_name: {
             //minlength: jQuery.format("Zip must be {0} digits in length"),
-            //maxlength: jQuery.format("Please use a {0} digit zip code"),
+            maxlength:'نام حداکثر 20 کاراکتر میتواند داشته باشد',
             required: "لطفا نام را وارد نمایید"
           },
           user_family: {
             //minlength: jQuery.format("Zip must be {0} digits in length"),
             //maxlength: jQuery.format("Please use a {0} digit zip code"),
-            required: "لطفا نام خانوادگی را وارد نمایید"
+            required: "لطفا نام خانوادگی را وارد نمایید",
+            maxlength:'نام خانوادگی حداکثر 20 کاراکتر میتواند داشته باشد',
+
           },
           user_pass: {
             //minlength: jQuery.format("Zip must be {0} digits in length"),

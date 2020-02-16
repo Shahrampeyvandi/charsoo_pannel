@@ -38,9 +38,17 @@ Route::group(['middleware' => ['checkAuth']], function () {
     
     Route::post('Services/EditCategory/Submit', 'User\ServiceCategoryController@SubmitCategoryEdit')->name('Category.Edit.Submit');
 
-    Route::get('/Services', 'User\ServiceCategoryController@ServiceList')->name('Pannel.Services.Questions');
+    Route::get('/Services', 'User\ServiceController@ServiceList')->name('Pannel.Services.Questions');
+   
+    Route::post('Services/Edit/getData', 'User\ServiceController@getData')->name('Service.Edit.getData');
+    
+    Route::post('Services/Edit/Submit', 'User\ServiceController@SubmitServiceEdit')->name('Service.Edit.Submit');
 
-    Route::get('/SubmitService', 'User\ServiceCategoryController@SubmitService')->name('Service.Submit');
+    Route::post('ServiceDelete', 'User\ServiceController@DeleteService')->name('Service.Delete');
+    
+    Route::post('Service/OrderBy', 'User\ServiceController@ServiceOrderBy')->name('Service.OrderBy.Table');
+
+    Route::post('/SubmitService', 'User\ServiceController@SubmitService')->name('Service.Submit');
 
     Route::get('/Services/Personals', 'User\ServiceCategoryController@PersonalsList')->name('Pannel.Services.Personels');
 

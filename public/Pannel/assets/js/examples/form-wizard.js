@@ -17,7 +17,6 @@ $(document).ready(function () {
 		}
     });
     var form = $("#example-advanced-form").show();
-    
     form.validate({
         rules: {
           title: {
@@ -87,7 +86,7 @@ $(document).ready(function () {
         cancel: 'انصراف',
         current: 'قدم کنونی:',
         pagination: 'صفحه بندی',
-        finish: 'ارسال',
+        finish: 'ثبت اطلاعات',
         next: 'بعدی',
         previous: 'قبلی',
         loading: 'در حال بارگذاری ...'
@@ -134,7 +133,11 @@ $(document).ready(function () {
     },
     onFinished: function (event, currentIndex)
     {
-        $(this).submit()
+        // var file =$('#service_icon')
+        // var formData = new FormData($(this)[0]);
+        // formData.append('file',$('#service_icon'))
+        // console.log(formData)
+        form.submit()
         
     }
 }).validate({

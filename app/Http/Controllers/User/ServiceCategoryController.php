@@ -197,28 +197,9 @@ class ServiceCategoryController extends Controller
         return 'success';
     }
 
-    public function ServiceList()
-    {
-       $category_parent_list = ServiceCategory::where('category_parent',0)->get();
-       $count = ServiceCategory::where('category_parent',0)->count();
-        $list ='';
-       foreach ($category_parent_list as $key => $item) {
-           
-           $list .= '<option data-id="'.$item->id.'" value="'.$item->id.'" class="level-1">'.$item->category_title.' 
-            '.(count(ServiceCategory::where('category_parent',$item->id)->get()) ? '&#xf104;  ' : '' ).'
-           </option>';
-          
-           foreach (ServiceCategory::where('category_parent',$item->id)->get() as $key => $subitem) {
-               $list .= '<option data-parent="'.$item->id.'" value="'.$subitem->id.'" class="level-2">'.$subitem->category_title.'</option>';
-           }
-       }
-        return view('User.ServiceList',compact(['list','count']));
-    }
+   
 
-    public function SubmitService(Request $request)
-    {
-        dd($request->all());
-    }
+    
 
     public function PersonalsList()
     {

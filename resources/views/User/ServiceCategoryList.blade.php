@@ -113,8 +113,7 @@
 
 <div class="modal fade bd-example-modal-lg-edit" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">    <div class="modal-dialog modal-lg">
     <div class="modal-content edit-modal-content">
-       
-      </div>
+    </div>
 </div>
 </div>
 
@@ -180,7 +179,8 @@
                 <h5 class="text-center">مدیریت دسته بندی خدمات</h5>
                 <hr>
             </div>
-                <table id="example1" class="table table-striped  table-bordered">
+            <div style="overflow-x: auto;">
+              <table  id="example1" class="table table-striped  table-bordered" >
                     <thead>
                     <tr>
                         <th></th>
@@ -222,7 +222,8 @@
                     </tr>
                       @endforeach                 
                     </tbody>             
-                </table>        
+                </table> 
+            </div>        
         </div>
     </div>
 </div>
@@ -395,20 +396,15 @@ $("input[type='file']").on("change", function () {
 
        // edit 
 
-       $('.bd-example-modal-lg-edit').on('shown.bs.modal', function (event) {
-       
-       category_id =  $('table input[type="checkbox"]:checked').attr('data-id')
-      
-    
+   $('.bd-example-modal-lg-edit').on('shown.bs.modal', function (event) {
+   category_id =  $('table input[type="checkbox"]:checked').attr('data-id')
     $.ajax({
-    
     type:'post',
     url:'{{route("Category.Edit.getData")}}',
     cache: false,
-                async: true,
+    async: true,
     data:{category_id:category_id},
     success:function(data){
-       
        $('.edit-modal-content').html(data)
        $('.js-example-basic-single').select2({
          placeholder: 'انتخاب کنید'

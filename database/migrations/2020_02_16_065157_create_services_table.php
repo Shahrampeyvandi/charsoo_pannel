@@ -16,6 +16,7 @@ class CreateServicesTable extends Migration
         Schema::create('services', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->integer('service_category_id');
+            $table->string('service_title');
             $table->integer('service_percentage')->nullable();
             $table->integer('service_offered_price')->nullable();
             $table->text('service_desc')->nullable();
@@ -23,8 +24,9 @@ class CreateServicesTable extends Migration
             $table->string('service_city');
             $table->string('service_type_send');
             $table->string('service_rol')->nullable();
-            $table->string('service_price');
+            $table->string('service_price')->nullable();
             $table->string('price_type');
+            $table->string('service_icon')->nullable();
             $table->string('service_price_first')->nullable();
             $table->string('service_price_second')->nullable();
             $table->string('service_offered_status')->nullable();

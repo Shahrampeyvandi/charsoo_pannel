@@ -27,7 +27,7 @@
                         </span>
 
                         ساعت
-                        <span class="date" id='ct' style="width:70px;">
+                        <span class="date" id='ct' style="width:75px;">
 
                         </span>
                     </a>

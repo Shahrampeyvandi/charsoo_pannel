@@ -41,8 +41,8 @@ class MainController extends Controller
         <tr>
         <td>
           <div class="custom-control custom-checkbox custom-control-inline" style="margin-left: -1rem;">
-          <input data-id=" {{$user->id}} " type="checkbox" id="{{ $key}}" name="customCheckboxInline1" class="custom-control-input" value="1">
-            <label class="custom-control-label" for="{{$key}}"></label>
+          <input data-id="'.$user->id.'" type="checkbox" id="'.$key.'" name="customCheckboxInline1" class="custom-control-input" value="1">
+            <label class="custom-control-label" for="'.$key.'"></label>
           </div>
         </td>
         <td> '.($key+1).' </td>
