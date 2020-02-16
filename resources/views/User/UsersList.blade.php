@@ -156,11 +156,7 @@
 <div class="container-fluid">
   <div class="card">
     <div class="container_icon card-body d-flex justify-content-end">
-
-
-
       <div class="delete-edit">
-
       </div>
       <div>
         <a href="#" class="mx-2 btn--filter" title="فیلتر اطلاعات">
@@ -168,20 +164,17 @@
             <i class="fa fa-search"></i>
           </span>
         </a>
-
         <a href="#" data-toggle="modal" data-target=".bd-example-modal-lg" title="افزودن کاربر">
           <span class="__icon bg-success">
             <i class="fa fa-plus"></i>
           </span>
         </a>
-        <a href="#" title="تازه سازی" class="mx-2" onclick="location.reload()">
+        <a href=" {{route('Pannel.User.List')}} " title="تازه سازی" class="mx-2" >
           <span class="__icon bg-primary">
             <i class="fa fa-refresh"></i>
           </span>
         </a>
       </div>
-
-
     </div>
   </div>
 
@@ -189,10 +182,12 @@
   {{-- filtering --}}
   <div class="card filtering" style="display:none;">
     <div class="card-body">
+     <form action=" {{route('Users.FilterData')}} " method="post">
+      @csrf
       <div class="row ">
         <div class="form-group col-md-6">
           <label for="recipient-name" class="col-form-label">فیلتر اطلاعات براساس: </label>
-          <select required name="type_send" class="form-control" id="exampleFormControlSelect2">
+          <select required name="filter_type" class="form-control" id="exampleFormControlSelect2">
             <option value="نام">نام</option>
             <option value="نام خانوادگی">نام خانوادگی</option>
             <option value="نام کاربری">نام کاربری</option>
@@ -203,7 +198,7 @@
         </div>
         <div class="form-group col-md-6">
           <label for="recipient-name" class="col-form-label">عبارت مورد نظر: </label>
-          <input type="text" class="form-control" id="recipient-name">
+          <input type="text" class="form-control" name="word" id="recipient-name">
         </div>
       </div>
       <div class="row">
@@ -212,6 +207,7 @@
           <button type="submit" class="btn btn-outline-primary">جست و جو</button>
         </div>
       </div>
+     </form>
     </div>
   </div>
 
@@ -227,9 +223,26 @@
             <tr>
               <th></th>
               <th>ردیف</th>
-              <th>نام</th>
-              <th>نام خانوادگی</th>
-              <th>نام کاربری</th>
+              <th>
+              <a  href="#" data-id="name" class="name_field text-white">
+                نام
+                <i class="fa fa-angle-down"></i>  
+              </a>
+              </th>
+              <th>
+                <a  href="#" data-id="lastname" class="name_field text-white">
+                  نام خانوادگی
+                  <i class="fa fa-angle-down"></i>  
+                </a>
+              </th>
+              <th>
+                <a  href="#" data-id="username" class="name_field text-white">
+                  نام کاربری
+                  <i class="fa fa-angle-down"></i>  
+                </a>
+                
+              
+              </th>
               <th>نقش</th>
               <th>کد ملی</th>
               <th>شماره موبایل</th>
@@ -237,9 +250,9 @@
 
             </tr>
           </thead>
-          <tbody>
+          <tbody class="tbody">
 
-            @foreach (\App\Models\User::latest()->get() as $key=>$user)
+            @foreach ($users as $key=>$user)
             <tr>
               <td>
                 <div class="custom-control custom-checkbox custom-control-inline" style="margin-left: -1rem;">
@@ -268,7 +281,8 @@
            
 
           </tbody>
-
+          
+          
         </table>
       </div>
     </div>
@@ -317,6 +331,22 @@ headers: {
     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
  }
 });
+
+var namefield = $('.name_field')
+namefield.click(function(e){
+  e.preventDefault();
+ var data = $(this).attr('data-id');
+
+ $.ajax({
+
+type:'post',
+url:'{{route("User.OrderBy.Table")}}',
+data:{data:data},
+success:function(data){ 
+   $('.tbody').html(data)
+   }
+ })
+})
       // form validation 
       var form = $("#user--form");
     
@@ -546,8 +576,6 @@ success:function(data){
 
     $('.delete').click(function(e){
                 e.preventDefault()
-                console.log(array)
-
                 // ajax request
                 $.ajax({
 

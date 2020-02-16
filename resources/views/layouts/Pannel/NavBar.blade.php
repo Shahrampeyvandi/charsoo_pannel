@@ -3,7 +3,7 @@
 
         <div class="header-logo">
             <a href="#">
-                <img src="{{route('BaseUrl')}}/Pannel/assets/media/image/light-logo.png" alt="...">
+                <img src="{{route('BaseUrl')}}/Pannel/img/c.jpg" alt="...">
                 <span class="logo-text d-none d-lg-block">چهارسو - مدیریت خدمات</span>
             </a>
         </div>
@@ -25,6 +25,11 @@
                             
                             {{\Morilog\Jalali\Jalalian::forge('today')->format('%A, %d %B %y')}}
                         </span>
+
+                        ساعت
+                        <span class="date" id='ct' style="width:70px;">
+
+                        </span>
                     </a>
                 </li>
                 <li class="nav-item">
@@ -43,7 +48,7 @@
                         <a href="profile.html" class="dropdown-item">پروفایل</a>
                         <a href="#" data-sidebar-target="#settings" class="sidebar-open dropdown-item">تنظیمات</a>
                         <div class="dropdown-divider"></div>
-                        <a href="login.html" class="text-danger dropdown-item">خروج</a>
+                        <a href="{{route('User.Logout')}}" class="text-danger dropdown-item">خروج</a>
                     </div>
                 </li>
              

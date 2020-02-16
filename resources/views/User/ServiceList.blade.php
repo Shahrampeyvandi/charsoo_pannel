@@ -43,19 +43,10 @@
                             
                                 <div class="form-group wd-xs-300">
                                     <label for="recipient-name" class="col-form-label">دسته:</label>
-                                    <select  size="7"  class="form-control" name="service_category" id="service_category">
-                                        <option>پیک</option>
-                                        <option>خدمات پس از فروش</option>
-                                        <optgroup class="level-1">
-                                            <option>1.1</option>
-                                            <option>1.2</option>
-                                            <option>1.3</option>
-                                            
-                                        </optgroup>
-                                        <option>تاسیسات</option>
-                                        <option>دکوراسیون و ساختمانی</option>
-                                        <option>شست و شو و نظافت</option>
-                                        <option>آموزش</option>
+                                    <select  @if ($count > 1)
+                                        size=" {{$count}} "   @else  size="3"
+                                     @endif   class="form-control" name="service_category" id="service_category">
+                                     {!! $list !!}
                                     </select>
                                                       
                                 <div class="valid-feedback">
@@ -80,7 +71,7 @@
                             </div>
                             <div class="form-group wd-xs-300">
                                 <label>توضیحات </label>
-                                <textarea type="text" class="form-control" placeholder="">
+                                <textarea type="text" name="service_desc" class="form-control" placeholder="">
                                 </textarea>
                                 <div class="valid-feedback">
                                     صحیح است!
@@ -88,7 +79,7 @@
                             </div><!-- form-group -->
                             <div class="form-group wd-xs-300">
                                 <label>تذکرات </label>
-                                <input type="text" class="form-control" placeholder="" >
+                                <input type="text" name="service_alerts" class="form-control" placeholder="" >
                                 <div class="valid-feedback">
                                     صحیح است!
                                 </div>
@@ -98,22 +89,22 @@
                             <div class="form-group wd-xs-300">
                                 
                                 <div class="custom-control custom-radio custom-control-inline">
-                                    <input required type="radio" id="customRadioInline1" name="customRadioInline1"
+                                    <input required type="radio" id="customRadioInline1" name="service_city"
                                      class="custom-control-input checkbox__" value="مشهد" checked>
                                     <label class="custom-control-label " for="customRadioInline1">مشهد</label>
                                 </div>
                                 <div class="custom-control custom-radio custom-control-inline">
-                                    <input required type="radio" id="customRadioInline2" name="customRadioInline1"
+                                    <input required type="radio" id="customRadioInline2" name="service_city"
                                      class="custom-control-input checkbox__" value="نیشابور">
                                     <label class="custom-control-label" for="customRadioInline2">نیشابور</label>
                                 </div>
                                 <div class="custom-control custom-radio custom-control-inline">
-                                    <input required type="radio" id="customRadioInline3" name="customRadioInline1"
+                                    <input required type="radio" id="customRadioInline3" name="service_city"
                                      class="custom-control-input checkbox__" value="سبزوار">
                                     <label class="custom-control-label" for="customRadioInline3">سبزوار</label>
                                 </div>
                                 <div class="custom-control custom-radio custom-control-inline">
-                                    <input required type="radio" id="customRadioInline4" name="customRadioInline1"
+                                    <input required type="radio" id="customRadioInline4" name="service_city"
                                      class="custom-control-input checkbox__" value="فریمان">
                                     <label class="custom-control-label" for="customRadioInline4">فریمان</label>
                                 </div>
@@ -130,14 +121,14 @@
                             <div class="row">
                                 <div class="form-group col-md-6">
                                     <label>نقش </label>
-                                    <input type="text" class="form-control" placeholder="" >
+                                    <input type="text" name="service_rol" class="form-control" placeholder="" >
                                     <div class="valid-feedback">
                                         صحیح است!
                                     </div>
                                 </div><!-- form-group -->
                                 <div class="form-group col-md-6">
                                     <label>ایکون </label>
-                                    <input type="file" class="form-control" placeholder="" >
+                                    <input type="file" name="service_icon" class="form-control" placeholder="" >
                                     <div class="valid-feedback">
                                         صحیح است!
                                     </div>
@@ -148,41 +139,38 @@
                     </section>
                     <h3> قیمت</h3>
                     <section>
+                        <div class="form-group wd-xs-300">
+                            <label for="recipient-name" class="col-form-label">نوع :</label>
+                            <select  name="price_type"   class="form-control" id="price_type">
+                                
+                                <option selected="" value="توافقی"> توافقی</option>
+                                <option value="رقمی"> رقمی</option>
+                                <option value="طبق لیست"> طبق لیست</option>
+                             </select>
+                        </div><!-- form-group -->
+
                         
-                        
-                            <div class="form-group wd-xs-300">
-                                <label class="form-control-label"> <span class="text-danger">*</span> عنوان قیمت: </label>
-                                <input id="email" class="form-control text-right" name="price_title" placeholder="" type="text"  dir="ltr">
-                                <div class="valid-feedback">
-                                    صحیح است!
-                                </div>
-                            </div><!-- form-group -->
-                            <div class="form-group wd-xs-300">
-                                <label for="recipient-name" class="col-form-label">نوع :</label>
-                                <select  name="type_send"   class="form-control" id="exampleFormControlSelect2">
-                                    <option value="رقمی"> رقمی</option>
-                                    <option value="توافقی"> توافقی</option>
-                                    <option value="طبق لیست"> طبق لیست</option>
-                                 </select>
-                            </div><!-- form-group -->
-                            <div class="form-group wd-xs-300">
-                                <label class="form-control-label"> قیمت: </label>
-                                <input id="email" class="form-control text-right" name="text" placeholder="0" type="text"  dir="ltr">
-                                <div class="valid-feedback">
-                                    صحیح است!
-                                </div>
-                            </div><!-- form-group -->
+                        <div class="form-group wd-xs-300" id="price-wrapper" style="display:none;">
+                            <label class="form-control-label"> قیمت (به تومان):</label>
+                            <input id="service_price" class="form-control text-right" name="service_price" placeholder="0" type="number"  dir="rtl">
+                            <div class="valid-feedback">
+                                صحیح است!
+                            </div>
+                        </div><!-- form-group -->
+                            
+                           
+                           
                            
                             <div class="form-group wd-xs-300">
                                 <label class="form-control-label"> تصویر 1: </label>
-                                <input id="email" class="form-control text-right" name="pic_1"  type="file"  dir="ltr">
+                                <input id="email" class="form-control text-right" name="pic_1"  type="file"  dir="rtl">
                                 <div class="valid-feedback">
                                     صحیح است!
                                 </div>
                             </div><!-- form-group -->
                             <div class="form-group wd-xs-300">
                                 <label class="form-control-label"> تصویر 2: </label>
-                                <input id="email" class="form-control text-right" name="pic_2"  type="file"  dir="ltr">
+                                <input id="email" class="form-control text-right" name="pic_2"  type="file"  dir="rtl">
                                 <div class="valid-feedback">
                                     صحیح است!
                                 </div>
@@ -386,7 +374,6 @@
                         <th>ردیف</th>
                         <th>عنوان</th>
                         <th> توضیحات</th>
-                        <th> نوع</th>
                         <th>دسته بندی خدمات</th>
                         <th> نقش</th>
                         <th>فاصله</th>
@@ -560,7 +547,11 @@
     <link rel="stylesheet" href="{{route('BaseUrl')}}/Pannel/assets/vendors/form-wizard/jquery.steps.css" type="text/css">
     <!-- end::form wizard -->
 
-    <style></style>
+    <style>
+         select {
+      font-family: 'FontAwesome', 'sans-serif';
+    }
+    </style>
 @endsection
 
 @section('js')
@@ -574,7 +565,15 @@
     $(document).ready(function(){
 
 
-     
+     $('#price_type').click(function(){
+         if($(this).val() == 'رقمی'){
+             
+             $('#price-wrapper').show(250)
+         }else{
+            $('#price-wrapper').hide(250)
+  
+         }
+     })
 
 
         $('.btn--filter').click(function(){

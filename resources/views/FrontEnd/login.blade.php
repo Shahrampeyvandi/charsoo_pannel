@@ -35,7 +35,7 @@
 <div class="container h-100-vh">
     <div class="row align-items-center h-100-vh">
         <div class="col-lg-6 d-none d-lg-block p-t-b-25">
-            <img class="img-fluid" src="{{route('BaseUrl')}}/Pannel/assets/media/svg/login.svg" alt="...">
+            <img class="img-fluid" src="{{route('BaseUrl')}}/Pannel/img/Factory_Worker.svg" alt="...">
         </div>
         <div class="col-lg-4 offset-lg-1 p-t-b-25">
             <div>

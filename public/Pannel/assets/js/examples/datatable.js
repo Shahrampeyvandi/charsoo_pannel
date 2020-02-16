@@ -2,7 +2,9 @@
 $(document).ready(function () {
 
     $('#example1').DataTable({
-        responsive: true,
+		responsive: true,
+		searching:false,
+		dom: 'Bfrtip',
 		language: {
 			"sEmptyTable":     "هیچ داده ای در جدول وجود ندارد",
 			"sInfo":           "نمایش _START_ تا _END_ از _TOTAL_ رکورد",

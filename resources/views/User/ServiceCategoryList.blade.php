@@ -37,38 +37,30 @@
             <div class="modal-body">
                <div class="row">
                 <div class="form-group col-md-12">
-                    <label for="service_title" class="col-form-label"><span class="text-danger">*</span> عنوان: </label>
-                    <input type="text" class="form-control" name="service_title" id="service_title">
+                    <label for="category_title" class="col-form-label"><span class="text-danger">*</span> عنوان: </label>
+                    <input type="text" class="form-control" name="category_title" id="category_title">
                   </div>
                   
                </div>
                <div class="row">
                 <div class="form-group col-md-12">
                   <label for="recipient-name" class="col-form-label">دسته:</label>
-                  <select  size="7"  class="form-control" name="service_caregory" id="exampleFormControlSelect2">
-                      <option>پیک</option>
-                      <option>خدمات پس از فروش</option>
-                      <optgroup class="level-1">
-                          <option>1.1</option>
-                          <option>1.2</option>
-                          <option>1.3</option>
-                          
-                      </optgroup>
-                      <option>تاسیسات</option>
-                      <option>دکوراسیون و ساختمانی</option>
-                      <option>شست و شو و نظافت</option>
-                      <option>آموزش</option>
+                <select  @if ($count > 1)
+                    size=" {{$count}} "   @else  size="2"
+                 @endif  class="form-control" name="category_level" id="category_level">
+                     {!! $list !!}
                   </select>
                                     
               <div class="valid-feedback">
                   صحیح است!
               </div>
           </div><!-- form-group -->
+               {{-- <div id="jstree_demo1"></div> --}}
                </div>
                <div class="row">
                 <div class="form-group col-md-6">
                     <label for="recipient-name" class="col-form-label">نوع:</label>
-                    <select name="service_type" id="service_type"  class="js-example-basic-single" dir="rtl">
+                    <select name="category_type" id="category_type"  class="js-example-basic-single" dir="rtl">
                         <option></option>
                         <option value="خدمات شرکتی">خدمات شرکتی</option>
                         <option value="فروشگاه">فروشگاه</option>
@@ -79,15 +71,15 @@
                     </select>  
                 </div>
                   <div class="form-group col-md-6">
-                    <label for="service_icon" class="col-form-label"> ایکون:</label>
-                    <input type="file" class="form-control" name="service_icon" id="service_icon">
+                    <label for="category_icon" class="col-form-label"> ایکون:</label>
+                    <input type="file" class="form-control" name="category_icon" id="category_icon">
                   </div>
                </div>
               
                <div class="row">
                 <div class="form-group col-md-12">
                     <label for="recipient-name" class="col-form-label">توضیحات عمومی:</label>
-                    <textarea type="text" class="form-control" id="recipient-name">
+                    <textarea type="text" class="form-control" name="category_description" id="category_description">
                     </textarea>
                   </div>
                </div>
@@ -120,109 +112,17 @@
 {{-- modal for edit --}}
 
 <div class="modal fade bd-example-modal-lg-edit" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">    <div class="modal-dialog modal-lg">
-    <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">ویرایش دسته بندی خدمات</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <form>
-           <div class="row">
-            <div class="form-group col-md-12">
-                <label for="recipient-name" class="col-form-label">عنوان:</label>
-                <input type="text" class="form-control" id="recipient-name">
-              </div>
-              
-           </div>
-           <div class="row">
-            <div class=" col-md-6">
-                <h5 class="card-title">دسته: </h5>
-                <div id="jstree_demo1"></div>
-              </div>
-           </div>
-           <div class="row">
-            <div class="form-group col-md-6">
-                <label for="recipient-name" class="col-form-label">نوع:</label>
-                <select name="type" class="js-example-basic-single" dir="rtl">
-                    <option></option>
-                    <option value="France">خدمات شرکتی</option>
-                    <option value="Brazil">فروشگاه</option>
-                    <option value="Yemen">خدمات پس از فروش</option>
-                    <option value="United States">خدمات اصلی</option>
-                    <option value="China">پیشنهاد ویژه</option>
-                    <option value="Argentina">خدمات فرعی</option>
-                </select>  
-            </div>
-              <div class="form-group col-md-6">
-                <label for="recipient-name" class="col-form-label"> ایکون:</label>
-                <input type="file" class="form-control" id="recipient-name">
-              </div>
-           </div>
-           <div class="row">
-            <div class="form-group col-md-12">
-                <label for="recipient-name" class="col-form-label">توضیحات تکمیلی:</label>
-                <textarea type="text" class="form-control" id="recipient-name">
-                </textarea>
-              </div>
-             
-           </div>
-           <div class="row">
-            <div class="form-group col-md-12">
-                <label for="recipient-name" class="col-form-label">توضیحات عمومی:</label>
-                <textarea type="text" class="form-control" id="recipient-name">
-                </textarea>
-              </div>
-           </div>
-           <h6>نمایش در صفحه اصلی: </h6>
-              <br>
-          <div class="row">
-              
-            <div class="form-group col-md-6">
-                <label for="recipient-name" class="col-form-label">تصویر:</label>
-                <input type="file" class="form-control" id="recipient-name">
-              </div>
-              <div class="form-group col-md-6">
-                <label for="recipient-name" class="col-form-label">قیمت ارسال پیشنهاد: </label>
-                <input type="text" class="form-control" id="recipient-name">
-              </div>
-           </div>
-            
-            
-            
-  
-           
-          </form>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">بستن</button>
-          <button type="button" class="btn btn-primary">ارسال</button>
-        </div>
+    <div class="modal-content edit-modal-content">
+       
       </div>
 </div>
 </div>
 
 
-
 <div class="container-fluid">
     <div class="card">
         <div class="container_icon card-body d-flex justify-content-end">
-           
-          
-
           <div class="delete-edit" > 
-            {{-- <a href="#" title="حذف " class="sweet-multiple mx-2">
-            <span class="__icon bg-danger">
-                <i class="fa fa-trash"></i>
-            </span>
-           </a>
-
-           <a href="#" title="تازه سازی" data-toggle="modal" data-target=".bd-example-modal-lg-edit" class="mx-2" >
-            <span class="__icon bg-info">
-                <i class="fa fa-edit"></i>
-            </span>
-           </a> --}}
         </div>
         <div>
           <a href="#" class="mx-2 btn--filter"  title="فیلتر اطلاعات">
@@ -241,8 +141,6 @@
                 </span>
             </a>
            </div>
-
-
         </div>
     </div>
 
@@ -274,7 +172,7 @@
         </div>
       </div>
     </div>
-
+{{-- end filtering --}}
 
     <div class="card">
         <div class="card-body">
@@ -290,132 +188,41 @@
                         <th>عنوان</th>
                         <th> دسته بالا دستی</th>
                         <th> نوع</th>
-                        <th>توضیحات تکمیلی</th>
                         <th> توضیحات عمومی</th>
-                        <th>قیمت پیشنهادی</th>
-                        <th>نمایش در صفحه اصلی</th>
-                        <th>عکس</th>
-                        
+                        <th>عکس</th> 
                     </tr>
                     </thead>
                     <tbody>
-                    <tr>
-                        <td>
+                      @foreach ($all_categories as $key=>$category)
+                      <tr>
+                        <td>    
                             <div class="custom-control custom-checkbox custom-control-inline" style="margin-left: -1rem;">
-                                <input type="checkbox" id="1" name="customCheckboxInline1" 
-                                class="custom-control-input"
-                                value="1"
-                                >
-                                <label class="custom-control-label" for="1"></label>
-                            </div>
+                            <input data-id=" {{$category->id}} " type="checkbox" id="{{ $key}}" name="customCheckboxInline1" class="custom-control-input" value="1">
+                              <label class="custom-control-label" for="{{$key}}"></label>
+                            </div>  
                         </td>
-                        <td>1</td>
-                        <td> پیک</td>
-                        <td></td>
-                        <td>شرکتی</td>
-                        <td></td>
-                        <td></td>
-                        <td>2000</td>
-                        <td class="text-success">
-                            <i class="fa fa-check"></i>
-                        </td>
+                        <td> {{$key+1}} </td>
+                        <td>{{$category->category_title}}</td>
                         <td>
-
+                          @if ($category->category_parent == 0)
+                          {{'ندارد'}}
+                          @else
+                          {{\App\Models\Services\ServiceCategory::where('id',$category->category_parent)->first()->category_title}}
+                          @endif    
                         </td>
+                        <td>{{$category->category_type}}</td>
+                        <td>{{$category->category_desc}}</td>
+                        <td>
+                          @if ($category->category_icon)
+                        <img width="75px" style="max-height: 60px !important" class="img-fluid "  src="{{asset("/uploads/category_icons/$category->category_title/$category->category_icon")}}" alt="">
+                         @else
+                          ندارد
+                        @endif
+                        </td>                       
                     </tr>
-                    <tr>
-                        <td>
-                            <div class="custom-control custom-checkbox custom-control-inline" style="margin-left: -1rem;">
-                                <input type="checkbox" id="2" name="customCheckboxInline1" 
-                                class="custom-control-input" value="2">
-                                <label class="custom-control-label" for="2"></label>
-                            </div>
-                        </td>
-                        <td>2</td>
-                        <td> پیک</td>
-                        <td></td>
-                        <td>شرکتی</td>
-                        <td></td>
-                        <td></td>
-                        <td>2000</td>
-                        <td class="text-success">
-                            <i class="fa fa-check"></i>
-                        </td>
-                        <td>
-                            
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div class="custom-control custom-checkbox custom-control-inline" style="margin-left: -1rem;">
-                                <input type="checkbox" id="3" name="customCheckboxInline1" 
-                                class="custom-control-input" value="3">
-                                <label class="custom-control-label" for="3"></label>
-                            </div>
-                        </td>
-                        <td>3</td>
-                        <td> پیک</td>
-                        <td></td>
-                        <td>شرکتی</td>
-                        <td></td>
-                        <td></td>
-                        <td>2000</td>
-                        <td class="text-success">
-                            <i class="fa fa-check"></i>
-                        </td>
-                        <td>
-                            
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div class="custom-control custom-checkbox custom-control-inline" style="margin-left: -1rem;">
-                                <input type="checkbox" id="4" name="customCheckboxInline1" 
-                                class="custom-control-input" value="4">
-                                <label class="custom-control-label" for="4"></label>
-                            </div>
-                        </td>
-                        <td>4</td>
-                        <td> پیک</td>
-                        <td></td>
-                        <td>شرکتی</td>
-                        <td></td>
-                        <td></td>
-                        <td>2000</td>
-                        <td class="text-success">
-                            <i class="fa fa-check"></i>
-                        </td>
-                        <td>
-                            
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div class="custom-control custom-checkbox custom-control-inline" style="margin-left: -1rem;">
-                                <input type="checkbox" id="5" name="customCheckboxInline1" 
-                                class="custom-control-input" value="5">
-                                <label class="custom-control-label" for="5"></label>
-                            </div>
-                        </td>
-                        <td>5</td>
-                        <td> پیک</td>
-                        <td></td>
-                        <td>شرکتی</td>
-                        <td></td>
-                        <td></td>
-                        <td>2000</td>
-                        <td class="text-danger">
-                            <i class="fa fa-close"></i>
-                        </td>
-                        <td>
-                            
-                        </td>
-                    </tr>
-                   
-                    </tbody>
-                   
-                </table>
-            
+                      @endforeach                 
+                    </tbody>             
+                </table>        
         </div>
     </div>
 </div>
@@ -423,23 +230,87 @@
 
 @section('css')
 
-    <!-- begin::treeview -->
-    <link rel="stylesheet" href="{{route('BaseUrl')}}/Pannel/assets/vendors/treeview/themes/default/style.min.css" type="text/css">
-    <!-- end::treeview -->
+   
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" rel="stylesheet" />
 
-    <style></style>
+    <style>
+    select {
+      font-family: 'FontAwesome', 'sans-serif';
+    }
+    </style>
 @endsection
 
 @section('js')
-
-<!-- begin::tree view -->
-<script src="{{route('BaseUrl')}}/Pannel/assets/vendors/treeview/jstree.min.js"></script>
-<script src="{{route('BaseUrl')}}/Pannel/assets/js/examples/treeview.js"></script>
-<!-- end::tree view -->
-
     <script>
     $(document).ready(function(){
+      $.ajaxSetup({
+      headers: {
+          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      }
+    });
 
+   // form validation 
+   var form = $("#user--form");
+    
+    form.validate({
+        rules: {
+          category_title: {
+            required: true,
+            // digits: true,
+            // minlength: 5,
+            // maxlength: 5
+          },
+          category_type:{
+            required:true
+          },
+        },
+        messages: {
+          category_title: {
+            //minlength: jQuery.format("Zip must be {0} digits in length"),
+            //maxlength: jQuery.format("Please use a {0} digit zip code"),
+            required: "عنوان دسته بندی را وارد نمایید"
+          },
+          category_type: {
+            //minlength: jQuery.format("Zip must be {0} digits in length"),
+            //maxlength: jQuery.format("Please use a {0} digit zip code"),
+            required: "نوع دسته بندی را انتخاب نمایید"
+          },
+          
+        }
+      });
+
+
+// $('#service_category').each(e => {
+//   console.log(e)
+// })
+      $('.level-1').on('click',function(e){
+
+       var id = $(this).attr('data-id')
+       
+       $('.level-2').each(function(e){
+         console.log(e)
+      })
+    });
+    // icon size validations
+$("input[type='file']").on("change", function () {
+    var fileInput = $("input[type='file']")[0],
+    file = fileInput.files && fileInput.files[0];
+  if( file ) {
+    var img = new Image();
+    img.src = window.URL.createObjectURL( file );
+    img.onload = function() {
+    var width = img.naturalWidth,
+        height = img.naturalHeight;
+    window.URL.revokeObjectURL( img.src );
+    if(width <= 400 && height <= 400 ) {}else{
+      swal("اخطار!", "فایل ایکون حداکثر باید در ابعاد 400X400 باشد", "warning", {
+			button: "باشه"
+    });
+    $("input[type='file']").val('')
+    }
+  }
+  }
+});
 
       // validate form
       var form = $("#user--form");
@@ -473,10 +344,10 @@
                 $(this).parents('tr').css('background-color','');
 
             }
-            var array=[]
+            array=[]
             $('input[type="checkbox"]').each(function(){
                 if($(this).is(':checked')){
-                array.push($(this).val())
+                  array.push($(this).attr('data-id'))
 
                }
             if(array.length !== 0){
@@ -520,13 +391,87 @@
     })
 
 
+
+
+       // edit 
+
+       $('.bd-example-modal-lg-edit').on('shown.bs.modal', function (event) {
+       
+       category_id =  $('table input[type="checkbox"]:checked').attr('data-id')
+      
+    
+    $.ajax({
+    
+    type:'post',
+    url:'{{route("Category.Edit.getData")}}',
+    cache: false,
+                async: true,
+    data:{category_id:category_id},
+    success:function(data){
+       
+       $('.edit-modal-content').html(data)
+       $('.js-example-basic-single').select2({
+         placeholder: 'انتخاب کنید'
+        });
+        editform= $('#edit--form')
+       editform.validate({
+        rules: {
+          category_title: {
+            required: true,
+            // digits: true,
+            // minlength: 5,
+            // maxlength: 5
+          },
+          category_type: {
+            required: true,
+            // digits: true,
+            // minlength: 5,
+            // maxlength: 5
+          }
+        },
+        messages: {
+          category_title: {
+            //minlength: jQuery.format("Zip must be {0} digits in length"),
+            //maxlength: jQuery.format("Please use a {0} digit zip code"),
+            required: "لطفا عنوان دسته بندی را وارد نمایید"
+          },
+          category_type: {
+            //minlength: jQuery.format("Zip must be {0} digits in length"),
+            //maxlength: jQuery.format("Please use a {0} digit zip code"),
+            required: "لطفا نوع دسته بندی را انتخاب نمایید"
+          }
+        }
+      });
+         }
+    
+      });
+    
+    }); 
+    
+
+
     $('.delete').click(function(e){
                 e.preventDefault()
-                console.log(array)
-
                 // ajax request
+                $.ajax({
 
+                type:'post',
+                url:'{{route("Category.Delete")}}',
+                data:{array:array},
+                success:function(data){
+                  swal("حذف با موفقیت انجام شد", {
+                    icon: "success",
+					          button: "تایید"
+                       });
+
+                       setTimeout(()=>{
+                        location.reload()
+                       },2000)
+               
+                }
             })
+
+    })
 
 })
 </script>

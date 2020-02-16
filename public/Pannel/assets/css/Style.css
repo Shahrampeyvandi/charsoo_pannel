@@ -130,3 +130,13 @@ tr {
     margin-right: auto;
 }
 
+.level-2{
+margin-right: 10px;
+font-size: 17px;
+
+}
+option.level-1 {
+    font-size: 17px;
+    font-weight: 600;
+    color: #6b5a5a;
+}

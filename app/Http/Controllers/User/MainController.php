@@ -17,7 +17,65 @@ class MainController extends Controller
 
     public function UserList()
     {
-        return view('User.UsersList');
+     
+      $users = \App\Models\User::latest()->get();
+      return view('User.UsersList',compact('users'));
+    }
+
+    public function UserOrderBy(Request $request)
+    {
+      
+      if ($request->data == 'name') {
+        $users = \App\Models\User::OrderBy('user_firstname','ASC')->get();
+      }
+      if ($request->data == 'lastname') {
+        $users = \App\Models\User::OrderBy('user_lastname','ASC')->get();
+      }
+      if ($request->data == 'username') {
+        $users = \App\Models\User::OrderBy('user_username','ASC')->get();
+      }
+      
+      $tbody ='';
+      foreach ($users as $key => $user) {
+        $tbody .= '
+        <tr>
+        <td>
+          <div class="custom-control custom-checkbox custom-control-inline" style="margin-left: -1rem;">
+          <input data-id=" {{$user->id}} " type="checkbox" id="{{ $key}}" name="customCheckboxInline1" class="custom-control-input" value="1">
+            <label class="custom-control-label" for="{{$key}}"></label>
+          </div>
+        </td>
+        <td> '.($key+1).' </td>
+        <td>'.$user->user_firstname.'</td>
+        <td>'.$user->user_lastname.'</td>
+        <td>'.$user->user_username.'</td>
+        <td>'.$user->user_responsibility.'</td>
+        <td>'.$user->user_national_code.'</td>
+        <td>'.$user->user_mobile.'</td>
+        <td>
+          '.($user->user_prfile_pic !== '' ?
+              '<img width="75px" class="img-fluid " src="uploads/users/profile_pic/'.$user->user_national_code.'/'.$user->user_prfile_pic.' " />'
+          :
+          '<img width="75px" class="img-fluid " src="Pannel/img/avatar.jpg" />'
+).'
+          
+        </td>
+      </tr>
+
+        ';
+      }
+     
+      return $tbody;
+    }
+
+    public function FilterUsers(Request $request)
+    {
+      
+    $users =  User::where('user_firstname', 'like', '%' . $request->word. '%')
+      ->get();
+      return view('User.UsersList',compact('users'));
+
+ 
     }
 
     public function SubmitUser(Request $request)
