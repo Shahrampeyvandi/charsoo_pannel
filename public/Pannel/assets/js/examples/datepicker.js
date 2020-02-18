@@ -19,6 +19,14 @@ $(document).ready(function () {
 		changeYear: true,
 		showButtonPanel: true
 	});
+	$('.date-picker-shamsi-list').datepicker({
+		dateFormat: "yy/mm/dd",
+		showOtherMonths: true,
+		selectOtherMonths: true,
+		changeMonth: true,
+		changeYear: true,
+		showButtonPanel: true
+	});
 
 	$('input[name="date-picker-shamsi-limited"]').datepicker({
 		dateFormat: "yy/mm/dd",

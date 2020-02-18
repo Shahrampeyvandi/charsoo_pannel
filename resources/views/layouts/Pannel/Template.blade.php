@@ -106,7 +106,9 @@ x1 = h + ":" + m + ":" +  x.getSeconds();
 document.getElementById('ct').innerHTML = x1;
 display_c();
  }
+ 
     </script>
+    
 </body>
 
 </html>

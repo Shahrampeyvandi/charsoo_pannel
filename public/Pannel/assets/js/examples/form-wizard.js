@@ -25,9 +25,7 @@ $(document).ready(function () {
             // minlength: 5,
             // maxlength: 5
           },
-          service_category: {
-              required:true
-          },
+         
           service_percentage: {
             required: true,
             range:[0,100]

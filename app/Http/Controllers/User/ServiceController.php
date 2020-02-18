@@ -57,7 +57,7 @@ class ServiceController extends Controller
 
         Service::create([
             'service_title' => $request->title,
-            'service_category_id' => $request->service_category,
+            'service_category_id' => $request->service_category !== null ? $request->service_category : 0,
             'service_percentage' => $request->service_percentage,
             'service_offered_price' => $request->service_offered_price,
             'service_desc' => $request->service_desc,
@@ -235,8 +235,6 @@ $list = '<div class="modal-body">
                     </div>
                 </div><!-- form-group -->
             </div>
-               
-       
     </section>
     <h3> قیمت</h3>
     <section>
@@ -248,8 +246,6 @@ $list = '<div class="modal-body">
                 <option '.($service->price_type == 'طبق لیست' ? 'selected=""' : '').' value="طبق لیست"> طبق لیست</option>
              </select>
         </div><!-- form-group -->
-
-        
         <div class="form-group wd-xs-300" id="price-wrapper" 
         '.($service->price_type == 'رقمی' ? 'style="display:block;"' : 'style="display:none;"').'
         >
@@ -261,10 +257,6 @@ $list = '<div class="modal-body">
                 صحیح است!
             </div>
         </div><!-- form-group -->
-            
-           
-           
-           
             <div class="form-group wd-xs-300">
                 <label class="form-control-label"> تصویر 1: </label>
                 <input id="email" class="form-control text-right" name="pic_1"  type="file"  dir="rtl">
@@ -279,8 +271,6 @@ $list = '<div class="modal-body">
                     صحیح است!
                 </div>
             </div><!-- form-group -->
-            
-        
     </section>
     <h3>انتخاب سوالات از بانک</h3>
     <section>
@@ -308,11 +298,9 @@ $list = '<div class="modal-body">
 </div>
 </div>';
 
-     
-       
- 
-         return $list;
-    }
+return $list;
+
+}
 
     public function SubmitServiceEdit(Request $request)
     {

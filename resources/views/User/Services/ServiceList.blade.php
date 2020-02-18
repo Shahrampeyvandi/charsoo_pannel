@@ -325,7 +325,11 @@
                             
                             </td>
                             <td>
-                              {{$service->relationCategory->category_title}}                            
+                                @if ($service->relationCategory !== null)
+                                {{$service->relationCategory->category_title}} 
+                                @else
+                                    ندارد
+                                @endif
                             </td>
                             <td>{{$service->service_rol}}</td>
                             <td>--</td>
@@ -462,7 +466,7 @@
             
     })
 
-    $('.bd-example-modal-lg-edit').on('shown.bs.modal', function (event) {
+$('.bd-example-modal-lg-edit').on('shown.bs.modal', function (event) {
    category_id =  $('table input[type="checkbox"]:checked').attr('data-id')
     $.ajax({
     type:'post',
@@ -485,9 +489,7 @@
             // minlength: 5,
             // maxlength: 5
           },
-          service_category: {
-              required:true
-          },
+          
           service_percentage: {
             required: true,
             range:[0,100]

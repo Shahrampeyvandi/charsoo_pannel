@@ -16,7 +16,7 @@ class CreateServiceCategoriesTable extends Migration
         Schema::create('service_categories', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('category_title');
-            $table->integer('category_parent')->default(0);
+            $table->integer('category_parent')->nullable();
             $table->string('category_type');
             $table->string('category_icon')->nullable();
             $table->text('category_desc')->nullable();

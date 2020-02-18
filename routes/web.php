@@ -50,9 +50,19 @@ Route::group(['middleware' => ['checkAuth']], function () {
 
     Route::post('/SubmitService', 'User\ServiceController@SubmitService')->name('Service.Submit');
 
-    Route::get('/Services/Personals', 'User\ServiceCategoryController@PersonalsList')->name('Pannel.Services.Personels');
+    Route::get('/Services/Personals', 'User\PersonalController@PersonalsList')->name('Pannel.Services.Personels');
+    
+    Route::post('Services/technician', 'User\PersonalController@technicianSubmit')->name('Service.technician.Submit');
 
-    Route::post('Services/technician', 'User\ServiceCategoryController@technicianSubmit')->name('Service.technician.Submit');
+    Route::post('getPersonalData', 'User\PersonalController@getPersonalData')->name('Personal.Edit.getData');
+    
+    Route::post('Personal/Edit/Submit', 'User\PersonalController@SubmitPersonalEdit')->name('Personal.Edit.Submit');
+    
+    Route::post('Services/Personals/N', 'User\PersonalController@CheckNationalNum')->name('Personal.CheckNationalNum');
+    
+    Route::post('Services/Personals/OrderBy', 'User\PersonalController@PersonalOrderBy')->name('Personal.OrderBy.Table');
+
+    Route::post('Services/Personals/Delete', 'User\PersonalController@DeletePersonal')->name('Personal.Delete');
 
     Route::get('/Cunsomers/List', 'User\CunsomerController@CunsomerList')->name('Pannel.Cunsomers.List');
 

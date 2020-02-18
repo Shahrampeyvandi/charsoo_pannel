@@ -224,24 +224,22 @@
               <th></th>
               <th>ردیف</th>
               <th>
-              <a  href="#" data-id="name" class="name_field text-white">
+              <a href="#" data-id="name" class="name_field text-white">
                 نام
                 <i class="fa fa-angle-down"></i>  
               </a>
               </th>
               <th>
-                <a  href="#" data-id="lastname" class="name_field text-white">
+                <a href="#" data-id="lastname" class="name_field text-white">
                   نام خانوادگی
                   <i class="fa fa-angle-down"></i>  
                 </a>
               </th>
               <th>
-                <a  href="#" data-id="username" class="name_field text-white">
+                <a href="#" data-id="username" class="name_field text-white">
                   نام کاربری
                   <i class="fa fa-angle-down"></i>  
                 </a>
-                
-              
               </th>
               <th>نقش</th>
               <th>کد ملی</th>

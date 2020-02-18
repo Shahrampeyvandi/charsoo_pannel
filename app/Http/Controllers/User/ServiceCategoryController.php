@@ -201,15 +201,8 @@ class ServiceCategoryController extends Controller
 
     
 
-    public function PersonalsList()
-    {
-        return view('User.PersonalsList');
-    }
-
-    public function technicianSubmit()
-    {
-        dd('dfsf');
-    }
+   
+    
 
     public function OnlinePersonals()
     {
