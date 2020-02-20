@@ -48,6 +48,8 @@ Route::group(['middleware' => ['checkAuth']], function () {
     
     Route::post('Service/OrderBy', 'User\ServiceController@ServiceOrderBy')->name('Service.OrderBy.Table');
 
+    Route::post('Service/FilterData', 'User\ServiceController@FilterServices')->name('Service.FilterData');
+
     Route::post('/SubmitService', 'User\ServiceController@SubmitService')->name('Service.Submit');
 
     Route::get('/Services/Personals', 'User\PersonalController@PersonalsList')->name('Pannel.Services.Personels');
@@ -65,11 +67,44 @@ Route::group(['middleware' => ['checkAuth']], function () {
     Route::post('Services/Personals/Delete', 'User\PersonalController@DeletePersonal')->name('Personal.Delete');
 
     Route::get('/Cunsomers/List', 'User\CunsomerController@CunsomerList')->name('Pannel.Cunsomers.List');
+   
+    Route::post('/Cunsomers/Delete', 'User\CunsomerController@DeleteCustomers')->name('Customers.Delete');
+   
+    Route::post('/Cunsomers/getData', 'User\CunsomerController@getData')->name('Customer.Edit.getData');
+
+    Route::post('/Cunsomer/Edit', 'User\CunsomerController@EditCustomer')->name('Customer.Edit.Submit');
+    
+    Route::post('Customers/OrderBy', 'User\CunsomerController@OrderBy')->name('Customers.OrderBy.Table');
+
+    Route::post('Customers/Filter', 'User\CunsomerController@FilterCustomer')->name('Customers.Filter');
 
     Route::get('/Cities/List', 'User\CityController@CityList')->name('Pannel.City.List');
 
     Route::post('Cities/List', 'User\CityController@SubmitCity')->name('Pannel.City.Insert');
+    
+    Route::post('Cities/Delete', 'User\CityController@DeleteCity')->name('City.Delete');
+
+    Route::post('/Cities/getData', 'User\CityController@getData')->name('City.Edit.getData');
+
+    Route::post('Cities/Edit', 'User\CityController@EditCity')->name('City.Edit.Insert');
 
     Route::get('/Services/OnlinePersonals', 'User\ServiceCategoryController@OnlinePersonals')->name('Pannel.Services.OnlinePersonals');
+
+    Route::get('/RolesList', 'User\RoleController@RolesList')->name('Pannel.Roles');
+
+    Route::post('/InsertRole', 'User\RoleController@InsertRole')->name('Role.Submit');
+
+    Route::post('/DeleteRole', 'User\RoleController@DeleteRole')->name('Role.Delete');
+    
+    Route::post('/Roles/getData', 'User\RoleController@getData')->name('Roles.Edit.getData');
+
+    Route::post('/Roles/Edit/Submit', 'User\RoleController@SubmitEditRole')->name('Roles.Edit.Submit');
+
+    Route::get('/OrderList', 'User\OrderController@OrderList')->name('Pannel.Customers.Orders');
+
+    
+    
+
+
 
 });  /*    E N D - R O U T E - G R O U P    */

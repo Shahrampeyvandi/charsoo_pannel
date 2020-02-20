@@ -25,175 +25,108 @@
 
 {{-- modal for create --}}
 
-<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">    <div class="modal-dialog modal-lg">
-        <div class="modal-content">  
-            <div class="modal-body">
-                <div id="wizard2">
-                <form id="example-advanced-form" method="post" action="{{route('Service.Submit')}}" enctype="multipart/form-data">
-                    @csrf
-                    <h3>خدمت</h3>
-                    <section>  
-                            <div class="form-group wd-xs-300">
-                                <label>عنوان </label>
-                                <input type="text" id="title" name="title" class="form-control" placeholder="نام" >
-                                
-                            </div><!-- form-group -->
-                            
-                                <div class="form-group wd-xs-300">
-                                    <label for="recipient-name" class="col-form-label">دسته:</label>
-                                    <select  @if ($count > 1)
-                                        size=" {{$count + 1 }} "   @else  size="3"
-                                     @endif   class="form-control" name="service_category" id="service_category">
-                                     {!! $list !!}
-                                    </select>
-                                                      
-                                <div class="valid-feedback">
-                                    صحیح است!
-                                </div>
-                            </div><!-- form-group -->
-                            <div class="row">
-                                <div class="form-group col-md-6">
-                                    <label>درصد پورسانت </label>
-                                    <input type="number" name="service_percentage" id="service_percentage" class="form-control" placeholder="">
-                                    <div class="valid-feedback">
-                                        صحیح است!
-                                    </div>
-                                </div><!-- form-group -->
-                                <div class="form-group col-md-6">
-                                    <label>قیمت ارسال پیشنهاد (تومان) </label>
-                                    <input type="number" name="service_offered_price" id="service_offered_price" class="form-control" placeholder="">
-                                    <div class="valid-feedback">
-                                        صحیح است!
-                                    </div>
-                                </div><!-- form-group -->
-                            </div>
-                            <div class="form-group wd-xs-300">
-                                <label>توضیحات </label>
-                                <textarea type="text" name="service_desc" class="form-control" placeholder="">
-                                </textarea>
-                                <div class="valid-feedback">
-                                    صحیح است!
-                                </div>
-                            </div><!-- form-group -->
-                            <div class="form-group wd-xs-300">
-                                <label>تذکرات </label>
-                                <input type="text" name="service_alerts" class="form-control" placeholder="" >
-                                <div class="valid-feedback">
-                                    صحیح است!
-                                </div>
-                            </div><!-- form-group -->
-
-                            <p>شهر  </p>
-                            <div class="form-group wd-xs-300">
-                                
-                                <div class="custom-control custom-radio custom-control-inline">
-                                    <input required type="radio" id="customRadioInline1" name="service_city"
-                                     class="custom-control-input checkbox__" value="مشهد" checked>
-                                    <label class="custom-control-label " for="customRadioInline1">مشهد</label>
-                                </div>
-                                <div class="custom-control custom-radio custom-control-inline">
-                                    <input required type="radio" id="customRadioInline2" name="service_city"
-                                     class="custom-control-input checkbox__" value="نیشابور">
-                                    <label class="custom-control-label" for="customRadioInline2">نیشابور</label>
-                                </div>
-                                <div class="custom-control custom-radio custom-control-inline">
-                                    <input required type="radio" id="customRadioInline3" name="service_city"
-                                     class="custom-control-input checkbox__" value="سبزوار">
-                                    <label class="custom-control-label" for="customRadioInline3">سبزوار</label>
-                                </div>
-                                <div class="custom-control custom-radio custom-control-inline">
-                                    <input required type="radio" id="customRadioInline4" name="service_city"
-                                     class="custom-control-input checkbox__" value="فریمان">
-                                    <label class="custom-control-label" for="customRadioInline4">فریمان</label>
-                                </div>
-                            </div> 
-                            <div class="form-group wd-xs-300">
-                                <label for="recipient-name" class="col-form-label">نوع ارجاع:</label>
-                                <select required name="type_send"   class="form-control" id="exampleFormControlSelect2">
-                                    <option value="ارجاع اتوماتیک">ارجاع اتوماتیک</option>
-                                    <option value="ارجاع دستی">ارجاع دستی</option>  
-                                    <option value="ارجاع منتخب">ارجاع منتخب</option>  
-                                    <option value="ارجاع به کمترین فاصله">ارجاع به کمترین فاصله</option>  
-                                </select>
-                            </div>
-                            <div class="row">
-                                <div class="form-group col-md-6">
-                                    <label>نام کارگزاری </label>
-                                    <input type="text" name="service_rol" class="form-control" placeholder="" >
-                                    <div class="valid-feedback">
-                                        صحیح است!
-                                    </div>
-                                </div><!-- form-group -->
-                                <div class="form-group col-md-6">
-                                    <label>ایکون </label>
-                                    <input type="file" id="service_icon" name="service_icon" class="form-control" placeholder="" >
-                                    <div class="valid-feedback">
-                                        صحیح است!
-                                    </div>
-                                </div><!-- form-group -->
-                            </div>
-                    </section>
-                    <h3> قیمت</h3>
-                    <section>
-                        <div class="form-group wd-xs-300">
-                            <label for="recipient-name" class="col-form-label">نوع :</label>
-                            <select  name="price_type"   class="form-control" id="price_type">
-                                
-                                <option selected="" value="توافقی"> توافقی</option>
-                                <option value="رقمی"> رقمی</option>
-                                <option value="طبق لیست"> طبق لیست</option>
-                             </select>
-                        </div><!-- form-group -->
-                        <div class="form-group wd-xs-300" id="price-wrapper" style="display:none;">
-                            <label class="form-control-label"> قیمت (به تومان):</label>
-                            <input id="service_price" class="form-control text-right" name="service_price" placeholder="0" type="number"  dir="rtl">
-                            <div class="valid-feedback">
-                                صحیح است!
-                            </div>
-                        </div><!-- form-group -->
-                            <div class="form-group wd-xs-300">
-                                <label class="form-control-label"> تصویر 1: </label>
-                                <input id="email" class="form-control text-right" name="pic_1"  type="file"  dir="rtl">
-                                <div class="valid-feedback">
-                                    صحیح است!
-                                </div>
-                            </div><!-- form-group -->
-                            <div class="form-group wd-xs-300">
-                                <label class="form-control-label"> تصویر 2: </label>
-                                <input id="email" class="form-control text-right" name="pic_2"  type="file"  dir="rtl">
-                                <div class="valid-feedback">
-                                    صحیح است!
-                                </div>
-                            </div><!-- form-group -->     
-                    </section>
-                    <h3>انتخاب سوالات از بانک</h3>
-                    <section>
-                    </section>
-                    <h3>پیشنهاد ویژه</h3>
-                    <section>
-                        <div class="form-group wd-xs-300">
-                            <div class="custom-control custom-checkbox">
-                                <input type="checkbox" class="custom-control-input" name="service_offered_status" id="customCheck" checked>
-								<label class="custom-control-label" for="customCheck">به عنوان پیشنهاد ویژه در نظر گرفته شود</label>
-                            </div>        
-                        </div>   
-                        <div class="form-group wd-xs-300">
-                            <label for="recipient-name" class="col-form-label">این سرویس در چه خدماتی به عنوان ویژه در نظر گرفته شود: </label>
-                            <select  name="service_special_category"   class="form-control" id="exampleFormControlSelect2">
-                                @foreach (\App\Models\Services\Service::latest()->get() as $service)
-                                 <option value="{{$service->service_id}}">{{$service->service_title}}</option>
-                                @endforeach  
-                            </select>
-                        </div> 
-                    </section>
-                    </form>
-                </div>
+<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">ثبت کاربر</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form id="user--form" method="post" action=" {{route('User.Submit')}} " enctype="multipart/form-data">
+        @csrf
+        <div class="modal-body">
+          
+          <div class="row">
+            <div class="form-group col-md-6">
+              <label for="user_name" class="col-form-label"><span class="text-danger">*</span> نام: </label>
+              <input type="text" class="form-control" name="user_name" id="user_name">
             </div>
-            
+            <div class="form-group col-md-6">
+              <label for="user_family" class="col-form-label"><span class="text-danger">*</span> نام خانوادگی:</label>
+              <input type="text" class="form-control" name="user_family" id="user_family">
+            </div>
           </div>
+          <div class="row">
+            <div class="form-group col-md-6">
+              <label for="user_pass" class="col-form-label"><span class="text-danger">*</span> شماره همراه:</label>
+              <input type="text" class="form-control" name="user_pass" id="user_pass">
+            </div>
+            <div class="form-group col-md-6">
+              <label for="confirm_user_pass" class="col-form-label"><span class="text-danger">*</span> 
+                توضیحات:</label>
+              <textarea type="text" class="form-control" name="confirm_user_pass" id="confirm_user_pass">
+
+              </textarea>
+            </div>
+          </div>
+          <div class="row">
+            <div class="form-group col-md-6">
+              <label for="user_email" class="col-form-label">انتخاب شهر:</label>
+              <input type="text" class="form-control" name="user_email" id="user_email">
+            </div>
+            <div class="form-group col-md-6">
+              <label for="username" class="col-form-label"><span class="text-danger">*</span> ادرس دقیق: </label>
+              <textarea type="text" class="form-control" name="username" id="username">
+              </textarea>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="form-group col-md-6">
+                <label for="recipient-name" class="col-form-label">انتخاب ساعت اول درخواستی:</label>
+                <select required name="type_send"   class="form-control" id="exampleFormControlSelect2">
+                    <option value="8-12">8-12</option>
+                    <option value="12-16">12-16</option>  
+                    <option value="16-20">16-20</option>  
+                    <option value="20-24">20-24</option>  
+                </select>
+            </div>
+            <div class="form-group col-md-6">
+                <label for="user_email" class="col-form-label">انتخاب تاریخ اول درخواستی: </label>
+                <input type="text"
+                 class="date-picker-shamsi form-control"
+                  name="user_email" id="user_email"
+                  autocomplete="off"
+                  >
+              </div>
+          </div>
+          <div class="row">
+            <div class="form-group col-md-6">
+                <label for="recipient-name" class="col-form-label">انتخاب ساعت دوم درخواستی:</label>
+                <select required name="type_send"   class="form-control" id="exampleFormControlSelect2">
+                    <option value="8-12">8-12</option>
+                    <option value="12-16">12-16</option>  
+                    <option value="16-20">16-20</option>  
+                    <option value="20-24">20-24</option>  
+                </select>
+            </div>
+            <div class="form-group col-md-6">
+                <label for="user_email" class="col-form-label">انتخاب تاریخ دوم درخواستی: </label>
+                <input type="text"
+                 class="date-picker-shamsi form-control"
+                  name="user_email" id="user_email"
+                  autocomplete="off"
+                  >
+              </div>
+          </div>
+          
+         
+         
+
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">بستن</button>
+          <button type="submit" class="btn btn-primary">ذخیره</button>
+        </div>
+      </form>
     </div>
   </div>
 </div>
+
 
 {{-- modal for edit --}}
 
@@ -306,20 +239,20 @@
                     </tr>
                     </thead>
                     <tbody class="tbody">
-                        @foreach ($services as $key=> $service)
+                        @foreach ($orders as $key=> $order)
                         <tr>
                             <td>
                                 <div class="custom-control custom-checkbox custom-control-inline" style="margin-left: -1rem;">
-                                <input data-id=" {{$service->id}} " type="checkbox" id="{{ $key}}" name="customCheckboxInline1" class="custom-control-input" value="1">
+                                <input data-id=" {{$order->id}} " type="checkbox" id="{{ $key}}" name="customCheckboxInline1" class="custom-control-input" value="1">
                                   <label class="custom-control-label" for="{{$key}}"></label>
                                 </div>
                             </td>
                             <td> {{$key+1}} </td>
-                            <td>{{$service->service_title}}</td>
-                            <td>{{$service->service_broker_name}}</td>
+                            <td>{{$order->order_title}}</td>
+                            <td>{{$order->order_broker_name}}</td>
                             <td>
-                                @if ($service->service_desc !== null)
-                                {{$service->service_desc}}
+                                @if ($order->order_desc !== null)
+                                {{$order->order_desc}}
                                 @else
                                 --
                                 @endif

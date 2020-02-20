@@ -19,12 +19,12 @@
         </div>
       </div>
     </div>
-  </div>
+</div>
 
 
   {{-- modal for create --}}
-  <div class="modal fade" id="exampleModal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
+<div class="modal fade" id="exampleModal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="exampleModalLabel">ثبت شهر</h5>
@@ -32,12 +32,14 @@
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
-      <form action=" {{route('Pannel.City.Insert')}} " method="post">
+      <form id="create--city" action=" {{route('Pannel.City.Insert')}} " method="post">
           @csrf
         <div class="modal-body">
             <div class="form-group col-md-12">
                 <label for="city_name" class="col-form-label">شهر:  </label>
-                <input type="text" class="form-control" id="city_name">
+                <input type="text" class="form-control"
+                name="city_name"
+                id="city_name">
             </div>
           </div>
           <div class="modal-footer">
@@ -53,28 +55,10 @@
 {{-- modal for edit --}}
 
 
-<div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade bd-example-modal-lg-edit" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">ویرایش شهر</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-      <form action=" {{route('Pannel.City.Insert')}} " method="post">
-          @csrf
-        <div class="modal-body">
-            <div class="form-group col-md-12">
-                <label for="city_name" class="col-form-label">شهر:  </label>
-                <input type="text" class="form-control" id="city_name">
-            </div>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">بستن</button>
-            <button type="submit" class="btn btn-primary">ذخیره </button>
-          </div>
-      </form>
+      <div class="modal-content edit-modal-content">
+        
       </div>
     </div>
   </div>
@@ -82,11 +66,7 @@
 <div class="container-fluid">
     <div class="card">
         <div class="container_icon card-body d-flex justify-content-end">
-           
-          
-
-          <div class="delete-edit" > 
-           
+          <div class="delete-edit" >   
         </div>
         <div>
           <a href="#" class="mx-2 btn--filter"  title="فیلتر اطلاعات">
@@ -94,7 +74,6 @@
                 <i class="fa fa-search"></i>
             </span>
         </a>
-
             <a href="#" data-toggle="modal" data-target="#exampleModal1" title="افزودن کاربر">
                 <span class="__icon bg-success">
                     <i class="fa fa-plus"></i>
@@ -106,12 +85,8 @@
                 </span>
             </a>
            </div>
-
-
         </div>
-    </div>
-
-
+  </div>
     {{-- filtering --}}
     <div class="card filtering" style="display:none;">
       <div class="card-body">
@@ -140,15 +115,14 @@
         </div>
       </div>
     </div>
-
     <div class="card">
         <div class="card-body">
             <div class="card-title">
                 <h5 class="text-center">مدیریت شهر</h5>
                 <hr>
             </div>
-            <div class="table-responsive">
-                <table class="table table-striped  table-bordered">
+            <div style="overflow-x: auto;">
+              <table  id="example1" class="table table-striped  table-bordered" >
                     <thead>
                     <tr>
                         <th></th>
@@ -159,75 +133,22 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr>
+                      @foreach ($cities as $key=>$city)
+                      <tr>
                         <td>
-                            <div class="custom-control custom-checkbox custom-control-inline" style="margin-left: -1rem;">
-                                <input type="checkbox" id="1" name="customCheckboxInline1" 
-                                class="custom-control-input"
-                                value="1"
-                                >
-                                <label class="custom-control-label" for="1"></label>
-                            </div>
+                          <div class="custom-control custom-checkbox custom-control-inline"
+                              style="margin-left: -1rem;">
+                              <input data-id=" {{$city->id}} " type="checkbox" id="{{ $key}}"
+                                  name="customCheckboxInline1" class="custom-control-input" value="1">
+                              <label class="custom-control-label" for="{{$key}}"></label>
+                          </div>
                         </td>
-                        <td>1</td>
-                        <td>مشهد</td>
-                        <td>1/2/98</td>
-                        <td>2/4/98</td>
-                       
-                    </tr>
-                    <tr>
-                        <td>
-                            <div class="custom-control custom-checkbox custom-control-inline" style="margin-left: -1rem;">
-                                <input type="checkbox" id="2" name="customCheckboxInline1" 
-                                class="custom-control-input" value="2">
-                                <label class="custom-control-label" for="2"></label>
-                            </div>
-                        </td>
-                        <td>2</td>
-                        <td>مشهد</td>
-                        <td>1/2/98</td>
-                        <td>2/4/98</td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div class="custom-control custom-checkbox custom-control-inline" style="margin-left: -1rem;">
-                                <input type="checkbox" id="3" name="customCheckboxInline1" 
-                                class="custom-control-input" value="3">
-                                <label class="custom-control-label" for="3"></label>
-                            </div>
-                        </td>
-                        <td>3</td>
-                        <td>مشهد</td>
-                        <td>1/2/98</td>
-                        <td>2/4/98</td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div class="custom-control custom-checkbox custom-control-inline" style="margin-left: -1rem;">
-                                <input type="checkbox" id="4" name="customCheckboxInline1" 
-                                class="custom-control-input" value="4">
-                                <label class="custom-control-label" for="4"></label>
-                            </div>
-                        </td>
-                        <td>4</td>
-                        <td>مشهد</td>
-                        <td>1/2/98</td>
-                        <td>2/4/98</td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div class="custom-control custom-checkbox custom-control-inline" style="margin-left: -1rem;">
-                                <input type="checkbox" id="5" name="customCheckboxInline1" 
-                                class="custom-control-input" value="5">
-                                <label class="custom-control-label" for="5"></label>
-                            </div>
-                        </td>
-                        <td>5</td>
-                        <td>مشهد</td>
-                        <td>1/2/98</td>
-                        <td>2/4/98</td>
-                    </tr>
-                   
+                        <td> {{$key+1}} </td>
+                        <td>{{$city->city_name}}</td>
+                        <td>{{\Morilog\Jalali\Jalalian::forge($city->created_at)->format('%d/ %m /%Y')}}</td>
+                        <td>{{\Morilog\Jalali\Jalalian::forge($city->update_at)->format('%d/ %m /%Y')}}</td>          
+                      </tr>
+                      @endforeach
                     </tbody>
                    
                 </table>
@@ -252,7 +173,29 @@
 <!-- end::form wizard -->
 <script>
     $(document).ready(function(){
-        
+      $.ajaxSetup({
+            headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+      $('#create--city').validate({
+     
+        rules: {
+          city_name: {
+            required: true,
+            // digits: true,
+            // minlength: 5,
+            maxlength: 20
+          }
+        },
+        messages: {
+          city_name: {
+            //minlength: jQuery.format("Zip must be {0} digits in length"),
+            maxlength:'نام حداکثر 20 کاراکتر میتواند داشته باشد',
+            required: "لطفا نام شهر را وارد نمایید"
+          },
+        }
+      })
         $('.btn--filter').click(function(){
           $('.filtering').toggle(200)
         })
@@ -264,11 +207,10 @@
                 $(this).parents('tr').css('background-color','');
 
             }
-            var array=[]
+            array=[]
             $('table input[type="checkbox"]').each(function(){
                 if($(this).is(':checked')){
-                array.push($(this).val())
-
+                  array.push($(this).attr('data-id'))
                }
             if(array.length !== 0){
 
@@ -310,14 +252,62 @@
             
     })
 
+
+                  // edit 
+
+$('.bd-example-modal-lg-edit').on('shown.bs.modal', function (event) {
+       id = $('table input[type="checkbox"]:checked').attr('data-id')
+       $.ajax({
+       type:'post',
+       url:'{{route("City.Edit.getData")}}',
+       cache: false,
+       async: true,
+       data:{id:id},
+       success:function(data){
+          $('.edit-modal-content').html(data)
+          editform= $('#edit--city')
+          editform.validate({
+            rules: {
+          city_name: {
+            required: true,
+            // digits: true,
+            // minlength: 5,
+            maxlength: 20
+          }
+        },
+        messages: {
+          city_name: {
+            //minlength: jQuery.format("Zip must be {0} digits in length"),
+            maxlength:'نام حداکثر 20 کاراکتر میتواند داشته باشد',
+            required: "لطفا نام شهر را وارد نمایید"
+          },
+        }
+             })
+           }
+         })
+        })  
+
     $('.delete').click(function(e){
                 e.preventDefault()
                 console.log(array)
 
-                // ajax request
+            // ajax request
+                $.ajax({
+                type:'post',
+                url:'{{route("City.Delete")}}',
+                data:{array:array},
+                success:function(data){
+                  swal("حذف با موفقیت انجام شد", {
+                    icon: "success",
+					          button: "تایید"
+                       });
 
-            })
-
+                       setTimeout(()=>{
+                        location.reload()
+                       },2000)
+           }
+        })
+     })
 })
 </script>
 @endsection

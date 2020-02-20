@@ -14,6 +14,7 @@
         "laravel/tinker": "^1.0",
         "morilog/jalali": "3.*",
         "spatie/laravel-permission": "^3.6",
+        "tymon/jwt-auth": "1.0.*",
         "uxweb/sweet-alert": "^2.0"
     },
     "require-dev": {

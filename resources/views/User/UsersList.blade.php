@@ -433,13 +433,11 @@ success:function(data){
 
       // edit 
 
-      $('.bd-example-modal-lg-edit').on('shown.bs.modal', function (event) {
+$('.bd-example-modal-lg-edit').on('shown.bs.modal', function (event) {
        
-   user_id =  $('table input[type="checkbox"]:checked').attr('data-id')
-  
+user_id =  $('table input[type="checkbox"]:checked').attr('data-id')
 
 $.ajax({
-
 type:'post',
 url:'{{route("User.Edit.getData")}}',
 cache: false,
@@ -512,16 +510,12 @@ success:function(data){
             digits: 'شماره موبایل بایستی به صورت عددی وارد شود',
             minlength: 'شماره موبایل بایستی 11 رقم باشد',
             maxlength: 'شماره موبایل بایستی 11 رقم باشد',
-     
-
-          },
+          }
         }
-      });
-}
-
-        })
-
-        })  
+      })
+    }
+  })
+ })  
 
         
         $('.btn--filter').click(function(){

@@ -435,8 +435,8 @@
                 <h5 class="text-center">مدیریت خدمت رسان</h5>
                 <hr>
             </div>
-            <div class="table-responsive">
-                <table class="table table-striped  table-bordered">
+            <div style="overflow-x: auto;">
+                <table  id="example1" class="table table-striped  table-bordered" >
                     <thead>
                         <tr>
                             <th></th>

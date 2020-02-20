@@ -42,9 +42,9 @@ return [
         ],
 
         'api' => [
-            'driver' => 'token',
-            'provider' => 'users',
-            'hash' => false,
+            'driver' => 'jwt',
+            'provider' => 'cunsomers',
+            'hash' => True,
         ],
     ],
 
@@ -70,8 +70,12 @@ return [
             'driver' => 'eloquent',
             'model' => App\Models\User::class,
         ],
+        'cunsomers' => [
+            'driver' => 'database',
+            'table' => 'cunsomers',
+        ],
 
-        // 'users' => [
+        // 'cunsomers' => [
         //     'driver' => 'database',
         //     'table' => 'users',
         // ],
