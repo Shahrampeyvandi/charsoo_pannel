@@ -88,7 +88,17 @@ Route::get('/Logout', function () {
 
     Route::post('Cities/Edit', 'User\CityController@EditCity')->name('City.Edit.Insert');
 
-    Route::get('/Services/OnlinePersonals', 'User\ServiceCategoryController@OnlinePersonals')->name('Pannel.Services.OnlinePersonals');
+
+
+    Route::get('/Services/OnlinePersonals', 'User\PersonalController@OnlinePersonals')->name('Pannel.Services.OnlinePersonals');
+    
+    Route::get('/Services/TrackPersonals', 'User\PersonalController@TrackPersonals')->name('Pannel.Services.TrackPersonals');
+
+
+    Route::get('Setting', 'User\SettingController@Setting')->name('Pannel.Setting');
+    
+    Route::post('Setting', 'User\SettingController@SettingChange')->name('Pannel.Setting');
+
 
     Route::get('/RolesList', 'User\RoleController@RolesList')->name('Pannel.Roles');
 

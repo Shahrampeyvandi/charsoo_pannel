@@ -41,9 +41,19 @@
                 class="active"
             @endif href=" {{route('Pannel.City.List')}} "><i class="icon ti-layout-accordion-list"></i> <span> شهر </span> </a></li>
 
+          
             <li><a @if (Illuminate\Support\Facades\Route::currentRouteName() == 'Pannel.Services.OnlinePersonals')
                 class="active"
-            @endif href=" {{route('Pannel.Services.OnlinePersonals')}} "><i class="icon ti-rss-alt"></i> <span> خدمت رسان های انلاین </span> </a></li>
+            @endif href=" {{route('Pannel.Services.OnlinePersonals')}}"><i class="icon ti-rss-alt"></i> <span> خدمت رسان های انلاین </span> </a></li>
+            <li><a @if (Illuminate\Support\Facades\Route::currentRouteName() == 'Pannel.Services.TrackPersonals')
+                class="active"
+            @endif href=" {{route('Pannel.Services.TrackPersonals')}} "><i class="icon ti-rss-alt"></i> <span> مسیر حرکت خدمت رسان ها </span> </a></li>
+            <li><a @if (Illuminate\Support\Facades\Route::currentRouteName() == 'Pannel.Setting')
+                class="active"
+            @endif href=" {{route('Pannel.Setting')}}"><i class="icon ti-layout"></i> <span> تنظیمات </span> </a></li>
+            
+            
+            
             <li><a @if (Illuminate\Support\Facades\Route::currentRouteName() == 'Pannel.Customers.Orders')
                 class="active"
             @endif href=" {{route('Pannel.Customers.Orders')}} "><i class="icon ti-money"></i> <span> گردش کار</span> </a></li>
