@@ -36,8 +36,13 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function Services()
+    // public function Services()
+    // {
+    //     return $this->hasMany(Service::class,'user_id','id');
+    // }
+
+    public function services()
     {
-        return $this->hasMany(Service::class,'user_id','id');
+        return $this->belongsToMany(Service::class);
     }
 }

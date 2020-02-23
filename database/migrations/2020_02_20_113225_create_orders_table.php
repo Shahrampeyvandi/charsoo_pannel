@@ -15,20 +15,20 @@ class CreateOrdersTable extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->integer('service_id');
             $table->string('order_unique_code');
             $table->string('order_type');
             $table->text('order_desc')->nullable();
-            $table->string('order_show_mobile');
+            $table->string('order_show_mobile')->nullable();
             $table->string('order_firstname_customer');
             $table->string('order_lastname_customer');
-            $table->string('order_username_customer');
-            $table->string('order_service_name');
-            $table->string('order_broker_name');
-            $table->string('order_datetime_one_start');
-            $table->string('order_datetime_one_end');
-            $table->string('order_datetime_two_start');
-            $table->string('order_datetime_two_end');
-            $table->string('order_reffered_to');
+            $table->string('order_username_customer')->nullable();
+            $table->string('order_broker_name')->nullable();
+            $table->string('order_time_first')->nullable();
+            $table->string('order_time_second')->nullable();
+            $table->string('order_date_first')->nullable();
+            $table->string('order_date_second')->nullable();
+            $table->string('order_reffered_to')->nullable();
             $table->timestamps();
         });
     }

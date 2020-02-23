@@ -14,7 +14,7 @@ class CunsomerController extends Controller
     {
 
     
-        $customers = Cunsomer::where('broker_id',1)->latest()->get();
+        $customers = Cunsomer::latest()->get();
         return view('User.Cunsomers.CunsomerList',compact('customers'));
     }
 

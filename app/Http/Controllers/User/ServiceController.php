@@ -55,7 +55,7 @@ class ServiceController extends Controller
         }
 
 
-        Service::create([
+       $service = Service::create([
             'service_title' => $request->title,
             'service_category_id' => $request->service_category !== null ? $request->service_category : 0,
             'service_percentage' => $request->service_percentage,
@@ -65,7 +65,6 @@ class ServiceController extends Controller
             'service_alerts' => $request->service_alerts,
             'service_city' => $request->service_city,
             'service_type_send' => $request->type_send,
-            'service_rol' => $request->service_rol,
             'price_type' => $request->price_type,
             'service_offered_status' => $request->service_offered_status,
             'service_special_category' => $request->service_special_category,
@@ -73,6 +72,12 @@ class ServiceController extends Controller
             'service_pic_first' => $pic1,
             'service_pic_second' => $pic2
         ]);
+
+        if ($request->has('service_role')) {
+            $service->user()->attach($request->service_role);
+        }
+
+        
 
         alert()->success(' خدمت با موفقیت ثبت شد', 'عملیات موفق')->autoclose(2000);
         return back();

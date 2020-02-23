@@ -30,94 +30,125 @@
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">ثبت کاربر</h5>
+        <h5 class="modal-title" id="exampleModalLabel">مدیریت سفارشات</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <form id="user--form" method="post" action=" {{route('User.Submit')}} " enctype="multipart/form-data">
+      <form id="user--form" method="post" action=" {{route('Order.Submit')}} " enctype="multipart/form-data">
         @csrf
         <div class="modal-body">
           
           <div class="row">
             <div class="form-group col-md-6">
+              <label for="user_mobile" class="col-form-label"><span class="text-danger">*</span> شماره همراه:</label>
+              <input type="number" class="form-control" name="user_mobile" id="user_mobile">
+            </div>
+            <div class="form-group col-md-6">
               <label for="user_name" class="col-form-label"><span class="text-danger">*</span> نام: </label>
               <input type="text" class="form-control" name="user_name" id="user_name">
             </div>
+            
+          </div>
+          <div class="row">
             <div class="form-group col-md-6">
               <label for="user_family" class="col-form-label"><span class="text-danger">*</span> نام خانوادگی:</label>
               <input type="text" class="form-control" name="user_family" id="user_family">
             </div>
-          </div>
-          <div class="row">
             <div class="form-group col-md-6">
-              <label for="user_pass" class="col-form-label"><span class="text-danger">*</span> شماره همراه:</label>
-              <input type="text" class="form-control" name="user_pass" id="user_pass">
-            </div>
-            <div class="form-group col-md-6">
-              <label for="confirm_user_pass" class="col-form-label"><span class="text-danger">*</span> 
+              <label for="user_desc" class="col-form-label"><span class="text-danger">*</span> 
                 توضیحات:</label>
-              <textarea type="text" class="form-control" name="confirm_user_pass" id="confirm_user_pass">
+              <textarea type="text" class="form-control" name="user_desc" id="user_desc">
 
               </textarea>
             </div>
           </div>
           <div class="row">
             <div class="form-group col-md-6">
-              <label for="user_email" class="col-form-label">انتخاب شهر:</label>
-              <input type="text" class="form-control" name="user_email" id="user_email">
-            </div>
+              <label for="recipient-name" class="col-form-label">شهر: </label>
+              <select required name="user_city"   class="form-control" id="exampleFormControlSelect2">
+                  @foreach (\App\Models\City\City::all() as $item)
+              <option value="{{$item->id}}">{{$item->city_name}}</option>
+                  @endforeach
+                
+              </select>
+          </div>
             <div class="form-group col-md-6">
-              <label for="username" class="col-form-label"><span class="text-danger">*</span> ادرس دقیق: </label>
-              <textarea type="text" class="form-control" name="username" id="username">
+              <label for="user_address" class="col-form-label"><span class="text-danger">*</span> ادرس دقیق: </label>
+              <textarea type="text" class="form-control" name="user_address" id="user_address">
               </textarea>
             </div>
           </div>
 
           <div class="row">
             <div class="form-group col-md-6">
-                <label for="recipient-name" class="col-form-label">انتخاب ساعت اول درخواستی:</label>
-                <select required name="type_send"   class="form-control" id="exampleFormControlSelect2">
-                    <option value="8-12">8-12</option>
-                    <option value="12-16">12-16</option>  
-                    <option value="16-20">16-20</option>  
-                    <option value="20-24">20-24</option>  
+                <label for="time_one" class="col-form-label">انتخاب ساعت اول درخواستی:</label>
+                <select required name="time_one"   class="form-control" id="exampleFormControlSelect2">
+                  <option value="8 تا 12">8 تا 12</option>
+                    <option value="12 تا 16">12 تا 16</option>  
+                    <option value="16 تا 20">16 تا 20</option>  
+                    <option value="20 تا 24">20 تا 24</option>  
                 </select>
             </div>
             <div class="form-group col-md-6">
-                <label for="user_email" class="col-form-label">انتخاب تاریخ اول درخواستی: </label>
-                <input type="text"
-                 class="date-picker-shamsi form-control"
-                  name="user_email" id="user_email"
-                  autocomplete="off"
-                  >
+                <label for="date_one" class="col-form-label">انتخاب تاریخ: </label>
+                <input type="text" id="date_one" name="date_one"
+                autocomplete="off"
+                class="form-control text-right date-picker-shamsi"
+                 dir="ltr">
               </div>
           </div>
           <div class="row">
             <div class="form-group col-md-6">
-                <label for="recipient-name" class="col-form-label">انتخاب ساعت دوم درخواستی:</label>
-                <select required name="type_send"   class="form-control" id="exampleFormControlSelect2">
-                    <option value="8-12">8-12</option>
-                    <option value="12-16">12-16</option>  
-                    <option value="16-20">16-20</option>  
-                    <option value="20-24">20-24</option>  
+                <label for="time_two" class="col-form-label">انتخاب ساعت دوم درخواستی:</label>
+                <select required name="time_two"   class="form-control" id="exampleFormControlSelect2">
+                    <option value="8 تا 12">8 تا 12</option>
+                    <option value="12 تا 16">12 تا 16</option>  
+                    <option value="16 تا 20">16 تا 20</option>  
+                    <option value="20 تا 24">20 تا 24</option>  
                 </select>
             </div>
             <div class="form-group col-md-6">
-                <label for="user_email" class="col-form-label">انتخاب تاریخ دوم درخواستی: </label>
-                <input type="text"
-                 class="date-picker-shamsi form-control"
-                  name="user_email" id="user_email"
-                  autocomplete="off"
-                  >
+              <label for="date_two" class="col-form-label">انتخاب تاریخ: </label>
+              <input type="text" id="date_two" name="date_two"
+              autocomplete="off"
+              class="form-control text-right date-picker-shamsi"
+               dir="ltr">
               </div>
           </div>
-          
-         
-         
+          <div class="row">
+            <div class="form-group col-md-12">
+              <label for="recipient-name" class="col-form-label">دسته:</label>
+              <select  @if ($count > 1)
+                size=" {{$count}} "   @else  size="3"
+             @endif  class="form-control" name="category" id="category">
+                 {!! $list !!}
+              </select>
+                                
+          <div class="valid-feedback">
+              صحیح است!
+          </div>
+      </div><!-- form-group -->
+          </div>
+          <div class="row">
+            <div class="form-group col-md-12">
+              <label for="recipient-name" class="col-form-label">نام خدمت:</label>
+              <select name="service_name" id="service_name"  class="js-example-basic-single" dir="rtl">
+                  <option value="">ابتدا دسته بندی را انتخاب نمایید</option>
+                  {{-- @foreach ($services as $service)
+                    <option value="{{$service->id}}">{{$service->service_title}}</option>         
+                  @endforeach --}}
+                  
 
+                 
 
+              </select>  
+          </div>
+          </div>
         </div>
+        
+        
+
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">بستن</button>
           <button type="submit" class="btn btn-primary">ذخیره</button>
@@ -132,20 +163,118 @@
 
 <div class="modal fade bd-example-modal-lg-edit" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">    <div class="modal-dialog modal-lg">
     <div class="modal-content edit-modal-content">
-      
-      </div>
+    <form action="{{route('Order.ChoicePersonal')}}" method="post">
+        @csrf
+        <div class="card">
+          <div class="card-body" >
+              <div class="card-title">
+                  <h5 class="text-center">خدمت رسان ها</h5>
+                  <hr>
+              </div>
+                 <div style="overflow-x: auto;">
+                  <table  id="example1" class=" table-striped  table-bordered" style="width:100%;">
+                      <thead>
+                      <tr>
+                          <th></th>
+                          <th>ردیف</th>
+                          <th>
+                             نام
+                          </th>
+                          <th>
+                             نام خانوادگی
+                          </th>
+                          <th> شماره همراه</th>
+                         
+                          <th> فعال</th>
+                      
+                      </tr>
+                      </thead>
+                      <tbody class="tbody--edit">
+                      </tbody>
+                  </table>
+                 </div>
+          </div>    
+          <div class="card-footer text-left">
+            <button type="submit" class="btn btn-primary">ارجاع</button>
+          </div>
+        </div>
+      </form>
+    </div> 
 </div>
 </div>
 
+<div class="modal fade bd-example-modal-lg-detail" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">    <div class="modal-dialog modal-lg">
+  <div class="modal-content edit-modal-content">
+  
+      <div class="card">
+        <div class="card-title">
+          <h5 class="text-center">جزییات سفارش</h5>
+         
+      </div>
+        <div class="card-body order-detail" >
+          
+             
+
+        </div>    
+        
+      </div>
+    
+  </div> 
+</div>
+</div>
+
+<div class="modal fade bd-example-modal-lg-chosen" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">    <div class="modal-dialog modal-lg">
+  <div class="modal-content edit-modal-content">
+  <form action="{{route('Order.Choise.ChosenPersonal')}}" method="post">
+      @csrf
+      <div class="card">
+        <div class="card-body" >
+            <div class="card-title">
+                <h5 class="text-center">خدمت رسان ها</h5>
+                <hr>
+            </div>
+               <div style="overflow-x: auto;">
+                <table  id="" class=" table-striped  table-bordered" style="width:100%;">
+                    <thead>
+                    <tr>
+                        <th></th>
+                        <th>ردیف</th>
+                        <th>
+                           نام
+                        </th>
+                        <th>
+                           نام خانوادگی
+                        </th>
+                        <th> شماره همراه</th>
+                       
+                        <th> فعال</th>
+                    
+                    </tr>
+                    </thead>
+                    <tbody class="tbody--chosen">
+                    </tbody>
+                </table>
+               </div>
+        </div>    
+        <div class="card-footer text-left">
+          <button type="submit" class="btn btn-primary">ارجاع</button>
+        </div>
+      </div>
+    </form>
+  </div> 
+</div>
+</div>
 
 
 <div class="container-fluid">
     <div class="card">
-        <div class="container_icon card-body d-flex justify-content-end">
-          <div class="delete-edit" > 
-        </div>
-        <div>
-            <a href="#" class="mx-2 btn--filter"  title="فیلتر اطلاعات">
+        <div class="container_icon card-body ">
+        <div class="row">
+          <div class="delete-edit col-md-9" > 
+          </div>
+          <div class="col-md-3">
+             <div class="text-left">
+              <a href="#" class="mx-2 btn--filter"  title="فیلتر اطلاعات">
                 <span class="__icon bg-info">
                     <i class="fa fa-search"></i>
                 </span>
@@ -155,12 +284,14 @@
                     <i class="fa fa-plus"></i>
                 </span>
             </a>
-            <a href=" {{route('Pannel.Services.Questions')}} " title="تازه سازی" class="mx-2" >
+            <a href="{{route('Pannel.Customers.Orders')}}" title="تازه سازی" class="mx-2" >
                 <span class="__icon bg-primary">
                     <i class="fa fa-refresh"></i>
                 </span>
             </a>
-           </div>
+             </div>
+             </div>
+        </div>
         </div>
     </div>
 
@@ -200,7 +331,7 @@
     <div class="card">
         <div class="card-body" >
             <div class="card-title">
-                <h5 class="text-center">مدیریت خدمات</h5>
+                <h5 class="text-center">مدیریت سفارشات</h5>
                 <hr>
             </div>
                <div style="overflow-x: auto;">
@@ -211,31 +342,35 @@
                         <th>ردیف</th>
                         <th>
                             <a href="#" data-id="title" class="name_field text-white">
-                                عنوان
+                                کد سفارس
                                 <i class="fa fa-angle-down"></i>  
                               </a>
                         </th>
                         <th>
                             <a href="#" data-id="broker_name" class="name_field text-white" >
-                                نام کارگزاری
+                                نوع
                                 <i class="fa fa-angle-down"></i>  
                               </a>
                         </th>
                         <th> توضیحات</th>
-                        <th>دسته بندی خدمات</th>
-                        <th> نقش</th>
-                        <th>فاصله</th>
+                        <th>نام مشتری</th>
+                        <th> نام خانوادگی مشتری</th>
+                        <th>نام کاربری مشتری</th>
                         <th>
                             <a  href="#" data-id="persent" class="name_field text-white">
-                                درصد پورسانت
+                                نام خدمت
                                 <i class="fa fa-angle-down"></i>  
                             </a>
                         </th>
-                        <th>پیشنهاد ویژه در خدمات زیر</th>
-                        <th>نوع خدمت</th>
-                        <th>نوع ارجاع</th>
+                        <th>نام کارگزاری</th>
+                       
+                        <th>زمان اول درخواستی</th>
 
-                        <th>عکس</th> 
+                       
+                        <th>زمان دوم درخواستی</th> 
+                        <th> تاریخ ثبت</th>
+                        <th> ارجاع شده به</th>
+
                     </tr>
                     </thead>
                     <tbody class="tbody">
@@ -243,13 +378,15 @@
                         <tr>
                             <td>
                                 <div class="custom-control custom-checkbox custom-control-inline" style="margin-left: -1rem;">
-                                <input data-id=" {{$order->id}} " type="checkbox" id="{{ $key}}" name="customCheckboxInline1" class="custom-control-input" value="1">
+                                <input data-id=" {{$order->relatedService->id}}" 
+                                data-order="{{$order->id}}"
+                                type="checkbox" id="{{ $key}}" name="customCheckboxInline1" class="custom-control-input" value="1">
                                   <label class="custom-control-label" for="{{$key}}"></label>
                                 </div>
                             </td>
                             <td> {{$key+1}} </td>
-                            <td>{{$order->order_title}}</td>
-                            <td>{{$order->order_broker_name}}</td>
+                            <td>{{$order->order_unique_code}}</td>
+                            <td>{{$order->order_type}}</td>
                             <td>
                                 @if ($order->order_desc !== null)
                                 {{$order->order_desc}}
@@ -259,35 +396,47 @@
                             
                             </td>
                             <td>
-                                @if ($service->relationCategory !== null)
-                                {{$service->relationCategory->category_title}} 
-                                @else
-                                    ندارد
-                                @endif
-                            </td>
-                            <td>{{$service->service_rol}}</td>
-                            <td>--</td>
-                            <td>
-                              {{$service->service_percentage . '%'}}
+                           
+                                {{$order->order_firstname_customer}} 
+                             
                             </td>
                             <td>
-                                {{$service->service_special_category}}
+                             {{$order->order_lastname_customer}}
                             </td>
-                            <td>{{$service->price_type}}</td>
-                            <td>{{$service->service_type_send}}</td>
+                          
+                            <td>
+                              {{$order->order_username_customer}}
+                            </td>
+                            <td>
+                                {{$order->relatedService->service_title}}
+                            </td>
+                            <td>
+                           
+                              @if ($service_broker = \App\Models\Services\Service::where('id',$order->relatedService->id)->first()->user->first() !== null)
+                                  {{\App\Models\Services\Service::where('id',$order->relatedService->id)->first()->user->first()->user_username}}
+                              @else
+                              ندارد
+                               @endif 
+                            
+                            </td>
+                            <td>
+                              {{\Morilog\Jalali\Jalalian::forge($order->order_date_first)->format('%B %d، %Y') .'ساعت'. $order->order_time_first}}
+                            </td>
+                            <td>
+                              {{\Morilog\Jalali\Jalalian::forge($order->order_date_second)->format('%B %d، %Y') .'ساعت'. $order->order_time_second}}
+                            </td>
                             <td> 
-                            @if ($service->service_icon !== '')
-                                <img width="75px" class="img-fluid " src=" {{asset("uploads/service_icons/$service->service_title/$service->service_icon")}} " />
-                            @else
-                           --
-                            @endif
-
+                              {{\Morilog\Jalali\Jalalian::forge($order->created_at)->format('%B %d، %Y')}}
+                            </td>
+                            <td>
+                             
+                              @foreach ($order->personals as $personal)
+                                  {{$personal->personal_firstname .' - '. $personal->personal_lastname}}
+                                 <br>
+                              @endforeach
                             </td>
                         </tr>   
                         @endforeach
-                      
-                    
-                   
                     </tbody>
                    
                 </table>
@@ -311,6 +460,29 @@
       font-size: 15px;
     font-weight: 600;
     }
+    option {
+    font-size: 18px;
+}
+.table{
+  width: 115%;
+}
+.table th{
+  width: 7%;
+}
+.delete-edit a{
+  display: inline-block;
+}
+
+.delete-edit a span{
+  margin: 10px 0;
+}
+
+.order-detail span{
+  display: inline-block;
+    margin: 5px 0;
+}
+
+
     </style>
 @endsection
 
@@ -357,7 +529,7 @@
             
             $('.table input[type="checkbox"]').each(function(){
                 if($(this).is(':checked')){
-                    array.push($(this).attr('data-id'))
+                    array.push($(this).attr('data-order'))
 
                }
             if(array.length !== 0){
@@ -377,15 +549,46 @@
                     $('.container_icon').removeClass('justify-content-end')
                     $('.container_icon').addClass('justify-content-between')
                     $('.delete-edit').html(`
-                    <a href="#" title="حذف " data-toggle="modal" data-target="#exampleModal" class=" mx-2">
+                    <a href="#" title="حذف " data-toggle="modal" data-target="#exampleModal" class="   m-2">
             <span class="__icon bg-danger">
                 <i class="fa fa-trash"></i>
             </span>
            </a>
+           <a href="#" title="" data-toggle="modal" data-target=".bd-example-modal-lg-detail" class="  m-2" >
+            <span class=" bg-secondary" style="padding: 13px 10px 4px 10px;
+    border-radius: 4px;
+    box-shadow: 0 1px 6px 0 #6464a9;">
+                جزییات سفارش 
+            </span>
+           </a>
 
-           <a href="#" title="تازه سازی" data-toggle="modal" data-target=".bd-example-modal-lg-edit" class="mx-2" >
-            <span class="__icon bg-info">
-                <i class="fa fa-edit"></i>
+           <a href="#" title="" data-toggle="modal" data-target=".bd-example-modal-lg-edit" class="  m-2" >
+            <span class=" bg-info" style="padding: 13px 10px 4px 10px;
+    border-radius: 4px;
+    box-shadow: 0 1px 6px 0 #6464a9;">
+                ارجاع دستی به خدمت رسان 
+            </span>
+           </a>
+           <a href="#" title="" data-toggle="modal" data-target=".bd-example-modal-lg-chosen" class="  m-2" >
+            <span class=" bg-success" style="padding: 13px 10px 4px 10px;
+    border-radius: 4px;
+    box-shadow: 0 1px 6px 0 #6464a9;">
+                ارجاع دستی به خدمت رسان های منتخب 
+            </span>
+           </a>
+          </a>
+           <a href="#" title="" data-toggle="modal" data-target=".bd-example-modal-lg-transactions" class="  m-2" >
+            <span class=" bg-primary" style="padding: 13px 10px 4px 10px;
+    border-radius: 4px;
+    box-shadow: 0 1px 6px 0 #6464a9;">
+                تراکنش های سفارش
+            </span>
+           </a>
+           <a href="#" title="" data-toggle="modal" data-target=".bd-example-modal-lg-edit" class="  m-2" >
+            <span class=" bg-dark" style="padding: 13px 10px 4px 10px;
+    border-radius: 4px;
+    box-shadow: 0 1px 6px 0 #6464a9;">
+                مشاهده لیست پیشنهادات خدمت رسان ها
             </span>
            </a>
                     `)
@@ -401,149 +604,53 @@
     })
 
 $('.bd-example-modal-lg-edit').on('shown.bs.modal', function (event) {
-   category_id =  $('table input[type="checkbox"]:checked').attr('data-id')
+   service_id =  $('table input[type="checkbox"]:checked').attr('data-id')
+   order_id = $('table input[type="checkbox"]:checked').attr('data-order')
     $.ajax({
     type:'post',
-    url:'{{route("Service.Edit.getData")}}',
+    url:'{{route("Order.Edit.getPersonals")}}',
     cache: false,
     async: true,
-    data:{category_id:category_id},
+    data:{service_id:service_id,order_id:order_id},
     success:function(data){
-       $('.edit-modal-content').html(data)
-       $('.js-example-basic-single').select2({
-         placeholder: 'انتخاب کنید'
-        });
-        editform= $('#edit--form')
-        var form = $("#example-advanced-form1").show();
-    form.validate({
-        rules: {
-          title: {
-            required: true,
-            // digits: true,
-            // minlength: 5,
-            // maxlength: 5
-          },
-          
-          service_percentage: {
-            required: true,
-            range:[0,100]
-          },
-          firstname: {
-            required:true
-        }, 
-        lastname: {
-            required:true
-        },
-        national_num:{
-            required:true,
-            
-            maxlength:10
-        },
-        work_experience_month_num: {
-            required:true,
-            range:[0,12]
-        }
-        },
-        messages: {
-          title: {
-            //minlength: jQuery.format("Zip must be {0} digits in length"),
-            //maxlength: jQuery.format("Please use a {0} digit zip code"),
-            required: "لطفا عنوان را وارد نمایید"
-          },
-          service_category: {
-            required:'سرگروه خدمت را انتخاب نمایید'
-        },
-        service_percentage: {
-            required:'درصد پورسانت را وارد نمایید',
-            range:'پورسانت حداکثر 100% میباشد'
-        },
-        firstname: {
-            required:'لطفا نام خود را وارد نمایید'
-        }, 
-        lastname: {
-            required:'لطفا نام خانوادگی خود را وارد نمایید'
-        },
-        national_num:{
-            required: ' کد ملی خود را وارد نمایید',
-            maxlength:'کد ملی بایستی حداکثر 10 رقم باشد'
-        },
-        work_experience_month_num: {
-            required:'فیلد اجباری است',
-            range:'ماه باید در بازه 0 تا12 باشد',
-           
-        }
-        }
+       $('.tbody--edit').html(data)
+     
+         }
+    
       });
-    form.steps({
-    headerTag: "h3",
-    bodyTag: "section",
-    transitionEffect: "slideLeft",
-    labels: {
-        cancel: 'انصراف',
-        current: 'قدم کنونی:',
-        pagination: 'صفحه بندی',
-        finish: 'ثبت اطلاعات',
-        next: 'بعدی',
-        previous: 'قبلی',
-        loading: 'در حال بارگذاری ...'
-    },
-    onStepChanging: function (event, currentIndex, newIndex)
-    {
-        // Allways allow previous action even if the current form is not valid!
-        if (currentIndex > newIndex)
-        {
-            return true;
-        }
-        // Forbid next action on "Warning" step if the user is to young
-        if (newIndex === 3 && Number($("#age-2").val()) < 18)
-        {
-            return false;
-        }
-        // Needed in some cases if the user went back (clean up)
-        if (currentIndex < newIndex)
-        {
-            // To remove error styles
-            form.find(".body:eq(" + newIndex + ") label.error").remove();
-            form.find(".body:eq(" + newIndex + ") .error").removeClass("error");
-        }
-        
-        return form.valid();
-    },
-    onStepChanged: function (event, currentIndex, priorIndex)
-    {
-        // Used to skip the "Warning" step if the user is old enough.
-        if (currentIndex === 2 && Number($("#age-2").val()) >= 18)
-        {
-            form.steps("next");
-        }
-        // Used to skip the "Warning" step if the user is old enough and wants to the previous step.
-        if (currentIndex === 2 && priorIndex === 3)
-        {
-            form.steps("previous");
-        }
-    },
-    onFinishing: function (event, currentIndex)
-    {
-        form.validate().settings.ignore = ":disabled";
-        return form.valid();
-    },
-    onFinished: function (event, currentIndex)
-    {
-        // var file =$('#service_icon')
-        // var formData = new FormData($(this)[0]);
-        // formData.append('file',$('#service_icon'))
-        // console.log(formData)
-        form.submit()
-        
-    }
-}).validate({
-    errorPlacement: function errorPlacement(error, element) { element.before(error); },
-    rules: {
-        confirm: {
-            equalTo: "#password-2"
-        }
-    }
-});
+    
+    }); 
+
+    $('.bd-example-modal-lg-detail').on('shown.bs.modal', function (event) {
+   service_id =  $('table input[type="checkbox"]:checked').attr('data-id')
+   order_id = $('table input[type="checkbox"]:checked').attr('data-order')
+    $.ajax({
+    type:'post',
+    url:'{{route("Order.getDetailOrder")}}',
+    cache: false,
+    async: true,
+    data:{service_id:service_id,order_id:order_id},
+    success:function(data){
+       $('.order-detail').html(data)
+     
+         }
+    
+      });
+    
+    }); 
+
+    $('.bd-example-modal-lg-chosen').on('shown.bs.modal', function (event) {
+   service_id =  $('table input[type="checkbox"]:checked').attr('data-id')
+   order_id = $('table input[type="checkbox"]:checked').attr('data-order')
+    $.ajax({
+    type:'post',
+    url:'{{route("Order.getChosenPersonal")}}',
+    cache: false,
+    async: true,
+    data:{service_id:service_id,order_id:order_id},
+    success:function(data){
+       $('.tbody--chosen').html(data)
+     
          }
     
       });
@@ -588,7 +695,7 @@ $('.bd-example-modal-lg-edit').on('shown.bs.modal', function (event) {
                   $.ajax({
 
                 type:'post',
-                url:'{{route("Service.Delete")}}',
+                url:'{{route("Order.Delete")}}',
                 data:{array:array},
                 success:function(data){
                   swal("حذف با موفقیت انجام شد", {
@@ -596,9 +703,9 @@ $('.bd-example-modal-lg-edit').on('shown.bs.modal', function (event) {
 					          button: "تایید"
                        });
 
-                       setTimeout(()=>{
-                        location.reload()
-                       },2000)   
+               setTimeout(()=>{
+                  location.reload()
+              },2000)   
       }
  })
 })
@@ -642,6 +749,33 @@ $("#service_icon").on("change", function () {
   }
   }
 });
+
+$('#category').change(function(){
+var data = $(this).val();
+$.ajax({
+type:'post',
+url:'{{route("Order.Category.getService")}}',
+data:{data:data},
+success:function(data){ 
+$('#service_name').html(data)
+   }
+ })
+})
+
+$('#user_mobile').blur(function(){
+  var data = $(this).val();
+$.ajax({
+type:'post',
+url:'{{route("Order.CheckCustomer")}}',
+data:{data:data},
+success:function(data){ 
+
+$('#user_name').val(data.customer.customer_firstname)
+$('#user_family').val(data.customer.customer_lastname)
+
+   }
+ })
+})
 
 })
 </script>

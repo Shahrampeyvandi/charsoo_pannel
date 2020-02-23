@@ -21,6 +21,11 @@ class Service extends Model
     }
     public function personal()
     {
-        return $this->belongsTo(Personal::class)->withPivot(['personal_chosen_status','personal_confirmed_services']);
+        return $this->belongsToMany(Personal::class)->withPivot(['personal_chosen_status','personal_confirmed_services']);
+    }
+
+    public function user()
+    {
+        return $this->belongsToMany(User::class);
     }
 }

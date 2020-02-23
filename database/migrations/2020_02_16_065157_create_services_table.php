@@ -23,7 +23,6 @@ class CreateServicesTable extends Migration
             $table->text('service_alerts')->nullable();
             $table->string('service_city');
             $table->string('service_type_send');
-            $table->string('service_rol')->nullable();
             $table->string('service_price')->nullable();
             $table->string('price_type');
             $table->string('service_icon')->nullable();

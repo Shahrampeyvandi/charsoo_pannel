@@ -102,9 +102,26 @@ Route::group(['middleware' => ['checkAuth']], function () {
 
     Route::get('/OrderList', 'User\OrderController@OrderList')->name('Pannel.Customers.Orders');
 
-    
-    
+    Route::post('/SubmitOrder', 'User\OrderController@SubmitOrder')->name('Order.Submit');
 
+    Route::post('/getServices', 'User\OrderController@getServices')->name('Order.Category.getService');
 
+    Route::post('checkCustomer', 'User\OrderController@checkCustomer')->name('Order.CheckCustomer');
+
+    Route::post('getPersonals', 'User\OrderController@getPersonals')->name('Order.Edit.getPersonals');
+
+    Route::post('getChosenPersonal', 'User\OrderController@getChosenPersonal')->name('Order.getChosenPersonal');
+    
+    Route::post('getChosenPersonal', 'User\OrderController@getChosenPersonal')->name('Order.getChosenPersonal');
+
+    Route::post('choisePersonal', 'User\OrderController@choisePersonal')->name('Order.ChoicePersonal');
+    
+    Route::post('ChosenPersonal', 'User\OrderController@choiseChosenPersonal')->name('Order.Choise.ChosenPersonal');
+
+    Route::post('getDetailOrder', 'User\OrderController@getDetailOrder')->name('Order.getDetailOrder');
+
+    Route::post('deleteOrder', 'User\OrderController@deleteOrder')->name('Order.Delete');
+
+    
 
 });  /*    E N D - R O U T E - G R O U P    */

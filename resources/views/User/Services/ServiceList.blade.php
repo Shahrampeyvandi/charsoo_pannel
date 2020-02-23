@@ -117,13 +117,13 @@
                                 </select>
                             </div>
                             <div class="row">
-                                <div class="form-group col-md-6">
-                                    <label>نام کارگزاری </label>
-                                    <input type="text" name="service_rol" class="form-control" placeholder="" >
-                                    <div class="valid-feedback">
-                                        صحیح است!
-                                    </div>
-                                </div><!-- form-group -->
+                                <label for="recipient-name" class="col-form-label">نوع ارجاع:</label>
+                                <select required name="service_role"   class="form-control" id="exampleFormControlSelect2">
+                                    @foreach (\App\Models\User::all() as $item)
+                                <option value="{{$item->id}}">{{$item->user_username}}</option>
+                                    @endforeach
+                                      
+                                </select>
                                 <div class="form-group col-md-6">
                                     <label>ایکون </label>
                                     <input type="file" id="service_icon" name="service_icon" class="form-control" placeholder="" >

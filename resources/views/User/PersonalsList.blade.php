@@ -293,7 +293,7 @@
                                         style="margin-left: -1rem;">
                                         <input type="checkbox" id="service_1" name="service[service_{{$key+1}}][1]"
                                             class="custom-control-input" value="{{$service->id}}">
-                                        <label class="custom-control-label" for="service_1">خدمات و تغییر فصل</label>
+                                        <label class="custom-control-label" for="service_1">{{$service->service_title}}</label>
                                     </div>
                                 </div><!-- form-group -->
                                 <div class="form-group col-md-4">

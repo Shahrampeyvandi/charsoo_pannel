@@ -14,7 +14,7 @@ class ServiceCategoryController extends Controller
     {
        $category_parent_list = ServiceCategory::where('category_parent',0)->get();
        $count = ServiceCategory::where('category_parent',0)->count();
-        $list ='';
+        $list ='<option data-parent="0" value="0" class="level-1">بدون دسته بندی</option>';
        foreach ($category_parent_list as $key => $item) {
            
            $list .= '<option data-id="'.$item->id.'" value="'.$item->id.'" class="level-1">'.$item->category_title.' 

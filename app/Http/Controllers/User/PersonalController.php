@@ -382,7 +382,7 @@ class PersonalController extends Controller
                                      value="'.$service->id.'"
                                      '.($dd !== null ? 'checked=""' : '' ).'
                                      >
-                                <label  for="service_1">خدمات و تغییر فصل</label>
+                                <label  for="service_1">'.$service->service_title.'</label>
                             </div>
                         </div><!-- form-group -->
                         <div class="form-group col-md-4">
@@ -415,7 +415,7 @@ class PersonalController extends Controller
                                      value="'.$service->id.'"
                                    
                                      >
-                                <label  for="service_1">خدمات و تغییر فصل</label>
+                                <label  for="service_1">'.$service->service_title.'</label>
                             </div>
                         </div><!-- form-group -->
                         <div class="form-group col-md-4">
