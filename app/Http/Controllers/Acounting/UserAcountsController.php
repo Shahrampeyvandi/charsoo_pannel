@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers\Acounting;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Cunsomers\Cunsomer;
 use App\Models\Personals\Personal;
 
-class TransactionsController extends Controller
+class UserAcountsController extends Controller
 {
+
     public function index()
     {
 
@@ -16,5 +16,6 @@ class TransactionsController extends Controller
 
         $cansomers = Cunsomer::all();
 
-        return view('User.Acounting.Transactions', compact(['personals','cansomers']));
-    }}
+        return view('User.Acounting.UserAcounts', compact(['personals','cansomers']));
+    }
+}

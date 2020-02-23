@@ -23,4 +23,4 @@ Route::get('logout', 'Api\AuthController@logout');
 Route::get('user', 'Api\AuthController@getAuthUser');
 
 
-Route::POST('sendcode','Api\SMSCodeController@sendcode');
+Route::get('sendcode','Api\SMSCodeController@sendcode');

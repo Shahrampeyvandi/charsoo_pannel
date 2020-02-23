@@ -3,17 +3,21 @@
 @section('css')
 
 
-    
+
 @endsection
 @section('content')
 
 
      {{-- filtering --}}
-     <div class="card filtering" >
+     <div class="card filtering container-fluid" >
         <div class="card-body">
+          <div class="card-title">
+            <h5 class="text-center">تنظیمات</h5>
+            <hr>
+        </div>
           <div class="row" >
             <div class="col-md-12">
-          
+
               <form method="POST">
                 <!-- form-group -->
                 <div class="row">
@@ -202,5 +206,5 @@
 
 
 
-    
+
 @endsection

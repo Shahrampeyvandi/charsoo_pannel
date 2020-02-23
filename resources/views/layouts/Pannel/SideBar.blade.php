@@ -47,24 +47,38 @@
                     <li><a 
                         @if (Illuminate\Support\Facades\Route::currentRouteName() == 'Pannel.User.List')
                         class="active"
-                    @endif href="{{route('Pannel.User.List')}}">   <span> حساب های کاربران </span> </a> </li>
+                    @endif href="{{route('Pannel.Acounting.PersonalAcounts')}}">   <span> حساب های کاربران </span> </a> </li>
                     <li><a 
                         @if (Illuminate\Support\Facades\Route::currentRouteName() == 'Pannel.Roles')
                         class="active"
-                    @endif href="{{route('Pannel.Roles')}}">   <span> گزارش تراکنش ها </span> </a> </li>
+                    @endif href="{{route('Pannel.Acounting.Transactions')}}">   <span> گزارش تراکنش ها </span> </a> </li>
                     <li><a 
                         @if (Illuminate\Support\Facades\Route::currentRouteName() == 'Pannel.Roles')
                         class="active"
-                    @endif href="{{route('Pannel.Roles')}}">   <span> تسویه حساب خدمت رسان ها </span> </a> </li>
+                    @endif href="{{route('Pannel.Acounting.CheckoutPersonals')}}">   <span> تسویه حساب خدمت رسان ها </span> </a> </li>
                 </ul>
             </li>
 
-            <li><a @if (Illuminate\Support\Facades\Route::currentRouteName() == 'Pannel.Services.OnlinePersonals')
+            <li><a href=""><i class="icon ti-rss-alt"></i>  <span> رهگیری خدمت رسان ها </span></a>
+                <ul>
+                    <li><a 
+                        @if (Illuminate\Support\Facades\Route::currentRouteName() == 'Pannel.Services.OnlinePersonals')
+                        class="active"
+                    @endif href="{{route('Pannel.Services.OnlinePersonals')}}">   <span> خدمت رسان های انلاین  </span> </a> </li>
+                    <li><a 
+                        @if (Illuminate\Support\Facades\Route::currentRouteName() == 'Pannel.Services.TrackPersonals')
+                        class="active"
+                    @endif href="{{route('Pannel.Services.TrackPersonals')}}">   <span> مسیر حرکت خدمت رسان ها </span> </a> </li>
+                  </ul>
+            </li>
+
+            {{-- <li><a @if (Illuminate\Support\Facades\Route::currentRouteName() == 'Pannel.Services.OnlinePersonals')
                 class="active"
             @endif href=" {{route('Pannel.Services.OnlinePersonals')}}"><i class="icon ti-rss-alt"></i> <span> خدمت رسان های انلاین </span> </a></li>
             <li><a @if (Illuminate\Support\Facades\Route::currentRouteName() == 'Pannel.Services.TrackPersonals')
                 class="active"
             @endif href=" {{route('Pannel.Services.TrackPersonals')}} "><i class="icon ti-rss-alt"></i> <span> مسیر حرکت خدمت رسان ها </span> </a></li>
+             --}}
             <li><a @if (Illuminate\Support\Facades\Route::currentRouteName() == 'Pannel.Setting')
                 class="active"
             @endif href=" {{route('Pannel.Setting')}}"><i class="icon ti-layout"></i> <span> تنظیمات </span> </a></li>

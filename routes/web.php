@@ -91,9 +91,10 @@ Route::get('/Services/OnlinePersonals', 'User\PersonalController@OnlinePersonals
 
 Route::get('/Services/TrackPersonals', 'User\PersonalController@TrackPersonals')->name('Pannel.Services.TrackPersonals');
 
- Route::get('/Acounting/PersonalAcounts', 'Acounting\PersonalAcountsController@index')->name('Pannel.Acounting.PersonalAcounts');
- Route::get('/Acounting/Transactions', 'Acounting\TransactionsController@index')->name('Pannel.Acounting.Transactions');
- Route::get('/Acounting/CheckoutPersonals', 'Acounting\CheckoutPersonalsController@index')->name('Pannel.Acounting.CheckoutPersonals');
+Route::get('/Acounting/UserAcounts', 'Acounting\UserAcountsController@index')->name('Pannel.Acounting.PersonalAcounts');
+Route::get('/Acounting/Transactions', 'Acounting\TransactionsController@index')->name('Pannel.Acounting.Transactions');
+Route::get('/Acounting/CheckoutPersonals', 'Acounting\CheckoutPersonalsController@index')->name('Pannel.Acounting.CheckoutPersonals');
+Route::POST('/Acounting/CheckoutPersonals/Submit', 'Acounting\CheckoutPersonalsController@submit')->name('Pannel.Acounting.CheckoutPersonals.Submit');
 
 Route::get('Setting', 'User\SettingController@Setting')->name('Pannel.Setting');
 
