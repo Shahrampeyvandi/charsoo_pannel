@@ -4,22 +4,37 @@ namespace App\Http\Controllers\User;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Orders\Order;
 use App\Models\User;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
+use Spatie\Permission\Models\Role;
 
 class MainController extends Controller
 {
     public function index()
     {
-        return view('User.Dashboard');
+      
+      if (auth()->user()->id == 1) {
+        $orders = Order::where('order_type','معلق')->count();
+      } else {
+        if (count(auth()->user()->services)) {
+          $orders = Order::whereIn('service_id',auth()->user()->services->pluck('id')->toArray())->count();
+        }else{
+          $orders = 0;
+        }
+      }
+
+      
+        return view('User.Dashboard',compact('orders'));
     }
 
     public function UserList()
     {
-     
+  
+     $roles = Role::all();
       $users = \App\Models\User::latest()->get();
-      return view('User.UsersList',compact('users'));
+      return view('User.UsersList',compact(['users','roles']));
     }
 
     public function UserOrderBy(Request $request)
@@ -100,7 +115,7 @@ class MainController extends Controller
             $fileName = '';
         }
 
-        $insert_status = User::create([
+        $user = User::create([
             'user_firstname' => $request->user_name,
             'user_lastname' => $request->user_family,
             'user_username' => $request->username,
@@ -111,6 +126,9 @@ class MainController extends Controller
             'user_password' => Hash::make($request->user_pass),
             'user_prfile_pic' => $fileName,
         ]);
+
+
+        $user->assignRole($request->user_responsibility);
         
        
             // Alert::success( 'اطلاعات با موفقیت ثبت شد','موفق')->persistent("باشه");

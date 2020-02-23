@@ -91,45 +91,14 @@
          
           <p>انتخاب نقش: </p>
           <div class="row">
-            <div class="custom-control custom-radio custom-control-inline">
-              <input type="radio" id="customRadioInline4" name="user_responsibility" class="custom-control-input"
-                value="مدیریت">
-              <label class="custom-control-label" for="customRadioInline4">مدیریت</label>
-            </div>
-            <div class="custom-control custom-radio custom-control-inline">
-              <input type="radio" id="customRadioInline1" name="user_responsibility"
-                class="custom-control-input checkbox__" value="tester">
-              <label class="custom-control-label " for="customRadioInline1">tester</label>
-            </div>
-            <div class="custom-control custom-radio custom-control-inline">
-              <input type="radio" id="customRadioInline2" name="user_responsibility"
-                class="custom-control-input checkbox__" value="مشتری">
-              <label class="custom-control-label" for="customRadioInline2">مشتری</label>
-            </div>
-            <div class="custom-control custom-radio custom-control-inline">
-              <input type="radio" id="customRadioInline3" name="user_responsibility" class="custom-control-input"
-                value="خدمت رسان">
-              <label class="custom-control-label" for="customRadioInline3">خدمت رسان</label>
-            </div>
-            
-            <div class="custom-control custom-radio custom-control-inline">
-              <input type="radio" id="customRadioInline5" name="user_responsibility" class="custom-control-input"
-                value="adminbuilding">
-              <label class="custom-control-label" for="customRadioInline5">adminbuilding</label>
-            </div>
-            <div class="custom-control custom-radio custom-control-inline">
-              <input type="radio" id="customRadioInline6" name="user_responsibility" class="custom-control-input"
-                value="unitbuilding">
-              <label class="custom-control-label" for="customRadioInline6">unitbuilding</label>
-            </div>
-            <div class="custom-control custom-radio custom-control-inline">
-              <input type="radio" id="customRadioInline7" name="user_responsibility" class="custom-control-input"
-                value="zitco">
-              <label class="custom-control-label" for="customRadioInline7">zitco</label>
-            </div>
+           @foreach ($roles as $key=> $role)
+           <div class="custom-control custom-radio custom-control-inline">
+            <input type="radio" id="{{$key+1}}" name="user_responsibility" class="custom-control-input"
+              value="{{$role->name}}">
+            <label class="custom-control-label" for="{{$key+1}}">{{$role->name}}</label>
           </div>
-
-
+           @endforeach
+          </div>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">بستن</button>

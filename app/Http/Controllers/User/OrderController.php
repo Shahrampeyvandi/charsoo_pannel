@@ -196,7 +196,6 @@ class OrderController extends Controller
         foreach ($order->orderImages as $key => $image) {
            $list .= '<div class="col-md-6 twxt-center">
             <img class="img-fluid" src="'.asset('Pannel/img/profile.png').'" />
-            
             </div>';
         }
         
