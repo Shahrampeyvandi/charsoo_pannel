@@ -36,7 +36,7 @@
 
                         </h3>
 
-                        <p> سفارشات معلق</p>
+                        <p> خدمات در حال انجام</p>
                     </div>
                     <div class="icon" style="padding: 31px 0 10px 34px;
                     font-size: 50px;">
