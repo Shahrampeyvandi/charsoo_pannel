@@ -6,18 +6,22 @@
             <li><a @if (Illuminate\Support\Facades\Route::currentRouteName() == 'Dashboard')
                 class="active"
             @endif href="Dashboard"><i class="icon ti-home"></i> <span>داشبورد</span> </a></li>
-            <li><a href=""><i class="icon ti-user"></i>  <span> کاربران </span></a>
+            @if (auth()->user()->can('user_menu'))
+             <li><a href=""><i class="icon ti-user"></i>  <span> کاربران </span></a>
                 <ul>
-                    <li><a 
-                        @if (Illuminate\Support\Facades\Route::currentRouteName() == 'Pannel.User.List')
-                        class="active"
+                   <li><a 
+                    @if (Illuminate\Support\Facades\Route::currentRouteName() == 'Pannel.User.List')
+                    class="active"
                     @endif href="{{route('Pannel.User.List')}}">   <span> مدیریت کاربران </span> </a> </li>
-                    <li><a 
+                   @endif
+                   @if (auth()->user()->hasRole('admin_panel'))
+                       <li><a 
                         @if (Illuminate\Support\Facades\Route::currentRouteName() == 'Pannel.Roles')
                         class="active"
-                    @endif href="{{route('Pannel.Roles')}}">   <span> نقش ها </span> </a> </li>
-                </ul>
-            </li>
+                        @endif href="{{route('Pannel.Roles')}}">   <span> نقش ها </span> </a> </li>
+                    </ul>
+             </li>
+            @endif
             
             <li><a @if (Illuminate\Support\Facades\Route::currentRouteName() == 'Pannel.Services.Category')
                 class="active"

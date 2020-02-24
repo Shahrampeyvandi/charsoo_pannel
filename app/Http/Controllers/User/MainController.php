@@ -15,7 +15,7 @@ class MainController extends Controller
 {
     public function index()
     {
-      if (auth()->user()->id == 1) {
+      if (auth()->user()->hasRole('admin_panel')) {
         $pending_orders = Order::where('order_type','معلق')->count();
         $doing_orders = Order::where('order_type','در حال انجام')->count();
         $broker_name = 'ادمین سایت';
@@ -50,12 +50,18 @@ class MainController extends Controller
          array_push($service_chart_ordercount,$orders_service_count);
         }
 
-      
+       $service_chart_json = json_encode($service_chart_array);
+       $service_chart_ordercount_json = json_encode($service_chart_ordercount);
+      $max_Y =  max($service_chart_ordercount);
 
 
 
 
       } else {
+        $broker_lists = '';
+        $service_chart_json='';
+        $service_chart_ordercount_json = '';
+        $max_Y = '';
         $service_array = auth()->user()->services->pluck('id')->toArray();
         if (count(auth()->user()->services)) {
           $pending_orders = Order::whereIn('service_id',$service_array)->where('order_type','معلق')->count();
@@ -74,16 +80,40 @@ class MainController extends Controller
         'doing_orders',
         'broker_name',
         'broker_lists',
-        'service_list_chart'
+        'service_chart_json',
+        'service_chart_ordercount_json',
+        'max_Y'
         ]));
     }
 
 
     public function UserList()
     {
+      
+    
+      if (auth()->user()->hasRole('admin_panel')) {
+        $roles = Role::all();
+        $users = \App\Models\User::latest()->get();
+      }else{
+        if (auth()->user()->roles->first()->broker !== null) {
+          $role_id = auth()->user()->roles->first()->id;
+          $roles = Role::where('id',$role_id)->orWhere('sub_broker',$role_id)->get();
+        $users =  User::whereHas('roles', function ($q) use ($role_id) {
+            $q->where('id',$role_id)->orWhere('sub_broker',$role_id);
+        })->get();
+        }
+
+        if (auth()->user()->roles->first()->sub_broker !== null) {
+          $role_id = auth()->user()->roles->first()->sub_broker;
+          $roles = Role::where('id',$role_id)->orWhere('sub_broker',$role_id)->get();
+          $users =  User::whereHas('roles', function ($q) use ($role_id) {
+              $q->where('id',$role_id)->orWhere('sub_broker',$role_id);
+          })->get();
+         
+        }
+      }
   
-     $roles = Role::all();
-      $users = \App\Models\User::latest()->get();
+    
       return view('User.UsersList',compact(['users','roles']));
     }
 
@@ -238,18 +268,22 @@ class MainController extends Controller
               <input type="text" class="form-control" name="user_family" value="'.$user->user_lastname.'" id="user_family">
             </div>
           </div>
-          <div class="row">
-            <div class="form-group col-md-6">
-              <label for="user_pass" class="col-form-label"><span class="text-danger">*</span> تغییر پسورد: </label>
-              <input type="text" class="form-control" name="user_pass" id="user_passa">
-            </div>
-            <div class="form-group col-md-6">
-              <label for="confirm_user_pass" class="col-form-label"><span class="text-danger">*</span> تکرار
-                پسورد:</label>
-              <input type="text" class="form-control" name="confirm_user_pass" id="confirm_user_pass">
-            </div>
-          </div>
-          <div class="row">
+         ';
+         if (auth()->user()->can('user_pass')) {
+           $list .= ' <div class="row">
+           <div class="form-group col-md-6">
+             <label for="user_pass" class="col-form-label"><span class="text-danger">*</span> تغییر پسورد: </label>
+             <input type="text" class="form-control" name="user_pass" id="user_passa">
+           </div>
+           <div class="form-group col-md-6">
+             <label for="confirm_user_pass" class="col-form-label"><span class="text-danger">*</span> تکرار
+               پسورد:</label>
+             <input type="text" class="form-control" name="confirm_user_pass" id="confirm_user_pass">
+           </div>
+         </div>';
+         }
+         
+         $list .= '<div class="row">
             <div class="form-group col-md-6">
               <label for="user_email" class="col-form-label">ایمیل:</label>
               <input type="text" value="'.$user->user_email.'"  class="form-control" name="user_email" id="user_email">

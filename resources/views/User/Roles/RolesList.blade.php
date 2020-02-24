@@ -41,43 +41,67 @@
                                     placeholder="نام">
 
                             </div><!-- form-group -->
-                            <div class="form-group wd-xs-300">
-                                <div class="custom-control custom-checkbox custom-control-inline"
-                                    style="margin-left: -1rem;">
-                                    <input type="checkbox" id="broker_status" name="broker_status"
-                                        class="custom-control-input" value="1">
-                                    <label class="custom-control-label" for="broker_status">به عنوان کارگزاری در نظر
-                                        گرفته شود</label>
-                                </div>
+
+                            <div class="custom-control custom-radio custom-control-inline">
+                                <input type="radio" id="broker_status" name="broker_status" class="custom-control-input"
+                                  value="1">
+                                <label class="custom-control-label" for="broker_status">به عنوان کارگزاری در نظر
+                                    گرفته شود</label>
+                              </div>
+                              <div class="custom-control custom-radio custom-control-inline">
+                                <input type="radio" id="sub_broker_status" name="broker_status" class="custom-control-input"
+                                  value="1">
+                                <label class="custom-control-label" for="sub_broker_status">به عنوان زیر مجموعه کارگزاری در نظر گرفته شود
+                                    </label>
+                              </div>
+                           
+                            
+                            <div class="form-group wd-xs-300 broker-select" style="display:none;">
+                                <label for="recipient-name" class="col-form-label">نام کارگزاری</label>
+                                <select  name="broker_id"   class="form-control" id="exampleFormControlSelect2">
+                                    <option value="" selected="">باز کردن فهرست انتخاب</option>
+                                  @foreach ($brokers as $broker)
+                                  <option value="{{$broker->id}}">{{$broker->name}}</option>  
+                                  @endforeach
+                                </select>
                             </div>
                         </section>
                         <h3> مجوز ها</h3>
                         <section>
                             <p>کاربران</p>
                             <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group wd-xs-300">
+                                        <div class="custom-control custom-checkbox custom-control-inline"
+                                            style="margin-left: -1rem;">
+                                            <input type="checkbox" id="user_menu" name="user_menu"
+                                                class="custom-control-input" value="1">
+                                            <label class="custom-control-label" for="user_menu">منو کاربر</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row user--permisions" style="display:none;">
                                 <div class="col-md-6">
                                     <div class="form-group wd-xs-300">
                                         <div class="custom-control custom-checkbox custom-control-inline"
                                             style="margin-left: -1rem;">
-                                            <input type="checkbox" id="insert_user" name="insert_user"
+                                            <input type="checkbox" id="user_list" name="user_list"
                                                 class="custom-control-input" value="1">
-                                            <label class="custom-control-label" for="insert_user">ثبت کاربر</label>
+                                            <label class="custom-control-label" for="user_list">لیست کاربر</label>
                                         </div>
 
                                     </div>
                                     <div class="form-group wd-xs-300">
                                         <div class="custom-control custom-checkbox custom-control-inline"
                                             style="margin-left: -1rem;">
-                                            <input type="checkbox" id="user_transaction" name="user_transaction"
-                                                class="custom-control-input" value="1">
-                                            <label class="custom-control-label" for="user_transaction">تراکنش های
-                                                کاربر</label>
+                                            <input type="checkbox" id="insert_user" name="insert_user"
+                                                class="custom-control-input" value="1" >
+                                            <label class="custom-control-label" for="insert_user">ثبت کاربر</label>
                                         </div>
 
                                     </div>
-
-
-
+                                
                                     <div class="form-group wd-xs-300">
                                         <div class="custom-control custom-checkbox custom-control-inline"
                                             style="margin-left: -1rem;">
@@ -88,32 +112,8 @@
                                         </div>
 
                                     </div>
-
-                                    <div class="form-group wd-xs-300">
-                                        <div class="custom-control custom-checkbox custom-control-inline"
-                                            style="margin-left: -1rem;">
-                                            <input type="checkbox" id="user_menu" name="user_menu"
-                                                class="custom-control-input" value="1">
-                                            <label class="custom-control-label" for="user_menu">منو کاربر</label>
-                                        </div>
-
-                                    </div>
-
                                 </div>
                                 <div class="col-md-6">
-
-
-
-                                    <div class="form-group wd-xs-300">
-                                        <div class="custom-control custom-checkbox custom-control-inline"
-                                            style="margin-left: -1rem;">
-                                            <input type="checkbox" id="user_list" name="user_list"
-                                                class="custom-control-input" value="1">
-                                            <label class="custom-control-label" for="user_list">لیست کاربر</label>
-                                        </div>
-
-                                    </div>
-
                                     <div class="form-group wd-xs-300">
                                         <div class="custom-control custom-checkbox custom-control-inline"
                                             style="margin-left: -1rem;">
@@ -130,6 +130,16 @@
                                                 class="custom-control-input" value="1">
                                             <label class="custom-control-label" for="user_edit">ویرایش کاربر</label>
                                         </div>
+                                    </div>
+                                    <div class="form-group wd-xs-300">
+                                        <div class="custom-control custom-checkbox custom-control-inline"
+                                            style="margin-left: -1rem;">
+                                            <input type="checkbox" id="user_transaction" name="user_transaction"
+                                                class="custom-control-input" value="1">
+                                            <label class="custom-control-label" for="user_transaction">تراکنش های
+                                                کاربر</label>
+                                        </div>
+
                                     </div>
                                 </div>
                             </div>
@@ -342,6 +352,7 @@
                             <th></th>
                             <th>ردیف</th>
                             <th>نام نقش</th>
+                            <th>کارگزاری مربوطه</th>
                             <th> مجوز ها</th>
                            
                         </tr>
@@ -359,6 +370,12 @@
                             </td>
                             <td> {{$key+1}} </td>
                             <td>{{$role->name}}</td>
+                            <td>
+                                @if ($role->sub_broker !== null)
+                                {{Spatie\Permission\Models\Role::where('id',$role->sub_broker)->first()->name}}
+                                @endif
+                               
+                            </td>
                             <td>
                                 @foreach (\Spatie\Permission\Models\Role::findByName($role->name)->permissions as
                                 $permission)
@@ -455,6 +472,23 @@
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
+
+      $('#sub_broker_status').click(function(){
+          if ($(this).is(':checked')) {
+              $('.broker-select').slideDown()
+          }else{
+            $('.broker-select').slideUp()
+
+          }
+      })  
+
+      $('#broker_status').click(function(){
+         
+            $('.broker-select').slideUp()
+
+          
+      })  
+
       $('#create--city').validate({
      
         rules: {
@@ -659,6 +693,14 @@ $('.bd-example-modal-lg-edit').on('shown.bs.modal', function (event) {
                        },2000)
            }
         })
+     })
+
+     $('#user_menu').click(function(){
+         if ($(this).is(':checked')) {
+             $('.user--permisions').slideDown()
+         }else{
+            $('.user--permisions').slideUp()      
+         }
      })
 })
 </script>

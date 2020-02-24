@@ -9,20 +9,38 @@ use Spatie\Permission\Models\Role;
 
 class RoleController extends Controller
 {
+    public function __construct()
+{
+    $this->middleware(['role:admin_panel']);
+}
     public function RolesList()
     {
        $roles = Role::all();
-        return view('User.Roles.RolesList',compact('roles'));
+       $brokers = Role::where('broker',1)->get();
+        return view('User.Roles.RolesList',compact(['roles','brokers']));
     }
 
     public function InsertRole(Request $request)
     {
-        
-     $array = $request->except(['role_name','_token','broker_status']);
+     $array = $request->except(['role_name','_token','broker_status','broker_id']);
+     if ($request->broker_status !== null) {
+         if ($request->broker_id !== null) {
+            $role = Role::create([
+                'name' => $request->role_name,
+                'sub_broker' => $request->broker_id
+                ]);
+         }else{
+            $role = Role::create([
+                'name' => $request->role_name,
+                'broker' => 1,
+                ]);
+         }
+     }else{
         $role = Role::create([
             'name' => $request->role_name,
-            'broker' => $request->broker_status
             ]);
+     }
+       
 
             $role->givePermissionTo(array_keys($array));
             alert()->success('نقش با موفقیت ثبت گردید', 'عملیات موفق')->autoclose(2000);

@@ -31,8 +31,8 @@
             <div class="col-lg-4 col-xs-6 my-3">
                 <!-- small box -->
                 <div class="small-box mx-5" style="display: flex;justify-content: space-between; padding: 20px;
-                box-shadow: 0 6px 20px 0 rgba(255, 53, 19, 0.5)!important;
-                background: linear-gradient(-45deg,#9c1405,#e91d26)!important;
+                box-shadow: 0 6px 20px 0 #8794f3!important;
+    background: linear-gradient(-45deg,#052c9c,#8794f3)!important;
                 color: #fff;
                 border-radius: 7px;">
                     <div class="inner">
@@ -58,11 +58,11 @@
                 border-radius: 7px;">
                     <div class="inner">
                         <h3>
-                            3
+                            0
 
                         </h3>
 
-                        <p> سفارشات معلق</p>
+                        <p> تعداد خدمت رسان های انلاین</p>
                     </div>
                     <div class="icon" style="padding: 31px 0 10px 34px;
                     font-size: 50px;">
@@ -73,7 +73,7 @@
         </div>
     </div>
 
-   @if (auth()->user()->id == 1)
+   @if (auth()->user()->hasRole('admin_panel'))
    <div class="card">
     <div class="card-body">
         <div class="card-title">
@@ -108,7 +108,7 @@
         </div>
         </div>
 </div>
-   @endif
+   
 
    
         <div class="row">
@@ -125,7 +125,9 @@
                 </div>
             </div>
    
-</div>       
+</div>  
+@endif     
+</div>
 @endsection
 
 @section('js')
@@ -172,12 +174,12 @@ chart_demo_4();
             var ctx = document.getElementById("chart_demo_4").getContext("2d");
             var densityData = {
                 backgroundColor: chartColors.success.base,
-                data: [10, 20, 40, 60, 80, 40, 60, 80, 40, 80, 20, 59]
+                data: <?php echo $service_chart_ordercount_json; ?>
             };
             new Chart(ctx, {
                 type: 'bar',
                 data: {
-                    labels: <?php echo $service_list_chart; ?>,
+                    labels: <?php echo $service_chart_json; ?>,
                     datasets: [densityData]
                 },
                 options: {
@@ -204,7 +206,7 @@ chart_demo_4();
                             ticks: {
                                 fontColor: chartColors.warning,
                                 min: 0,
-                                max: 100,
+                                max: <?php echo $max_Y ?> + 9,
                                 beginAtZero: true
                             }
                         }]

@@ -14,19 +14,22 @@ Route::group(['middleware' => ['checkAuth']], function () {
 
     Route::get('/Dashboard', 'User\MainController@index')->name('Dashboard');
 
-    Route::get('/UserList', 'User\MainController@UserList')->name('Pannel.User.List');
+    Route::group(['middleware' => ['permission:user_menu']], function () {
+        
+        Route::get('/UserList', 'User\MainController@UserList')->name('Pannel.User.List');
 
-    Route::post('UserInsert', 'User\MainController@SubmitUser')->name('User.Submit');
-
-    Route::post('UserEdit', 'User\MainController@SubmitUserEdit')->name('User.Edit.Submit');
-   
-    Route::post('UserOrderBy', 'User\MainController@UserOrderBy')->name('User.OrderBy.Table');
-
-    Route::post('Users/FilterData', 'User\MainController@FilterUsers')->name('Users.FilterData');
+        Route::post('UserInsert', 'User\MainController@SubmitUser')->name('User.Submit');
     
-    Route::post('UserDelete', 'User\MainController@DeleteUser')->name('Users.Delete');
-
-    Route::post('getUserData', 'User\MainController@getUserData')->name('User.Edit.getData');
+        Route::post('UserEdit', 'User\MainController@SubmitUserEdit')->name('User.Edit.Submit');
+       
+        Route::post('UserOrderBy', 'User\MainController@UserOrderBy')->name('User.OrderBy.Table');
+    
+        Route::post('Users/FilterData', 'User\MainController@FilterUsers')->name('Users.FilterData');
+        
+        Route::post('UserDelete', 'User\MainController@DeleteUser')->name('Users.Delete');
+    
+        Route::post('getUserData', 'User\MainController@getUserData')->name('User.Edit.getData');
+    });
 
     Route::get('/Services/Categories', 'User\ServiceCategoryController@CategoryList')->name('Pannel.Services.Category');
 

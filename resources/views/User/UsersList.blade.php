@@ -125,19 +125,25 @@
 <div class="container-fluid">
   <div class="card">
     <div class="container_icon card-body d-flex justify-content-end">
+      @if (auth()->user()->can(['user_delete','user_edit']))
       <div class="delete-edit">
       </div>
+      @else
+      <div></div>
+      @endif
       <div>
         <a href="#" class="mx-2 btn--filter" title="فیلتر اطلاعات">
           <span class="__icon bg-info">
             <i class="fa fa-search"></i>
           </span>
         </a>
-        <a href="#" data-toggle="modal" data-target=".bd-example-modal-lg" title="افزودن کاربر">
-          <span class="__icon bg-success">
-            <i class="fa fa-plus"></i>
-          </span>
-        </a>
+       @if (auth()->user()->can('insert_user'))
+       <a href="#" data-toggle="modal" data-target=".bd-example-modal-lg" title="افزودن کاربر">
+        <span class="__icon bg-success">
+          <i class="fa fa-plus"></i>
+        </span>
+      </a>
+       @endif
         <a href=" {{route('Pannel.User.List')}} " title="تازه سازی" class="mx-2" >
           <span class="__icon bg-primary">
             <i class="fa fa-refresh"></i>
@@ -218,38 +224,33 @@
             </tr>
           </thead>
           <tbody class="tbody">
-
-            @foreach ($users as $key=>$user)
-            <tr>
-              <td>
-                <div class="custom-control custom-checkbox custom-control-inline" style="margin-left: -1rem;">
-                <input data-id=" {{$user->id}} " type="checkbox" id="{{ $key}}" name="customCheckboxInline1" class="custom-control-input" value="1">
-                  <label class="custom-control-label" for="{{$key}}"></label>
-                </div>
-              </td>
-              <td> {{$key+1}} </td>
-              <td>{{$user->user_firstname}}</td>
-              <td>{{$user->user_lastname}}</td>
-              <td>{{$user->user_username}}</td>
-              <td>{{$user->user_responsibility}}</td>
-              <td>{{$user->user_national_code}}</td>
-              <td>{{$user->user_mobile}}</td>
-              <td>
-                @if ($user->user_prfile_pic !== '')
-                    <img width="75px" class="img-fluid " src=" {{asset("uploads/users/profile_pic/$user->user_national_code/$user->user_prfile_pic")}} " />
-                @else
-                <img width="75px" class="img-fluid " src=" {{asset("Pannel/img/avatar.jpg")}} " />
-
-                @endif
-              </td>
-            </tr>
-            @endforeach
+          
+           @foreach ($users as $key=>$user)
+           <tr>
+             <td>
+               <div class="custom-control custom-checkbox custom-control-inline" style="margin-left: -1rem;">
+               <input data-id="{{$user->id}}" type="checkbox" id="user_{{ $key}}" name="customCheckboxInline1" class="custom-control-input" value="1">
+                 <label class="custom-control-label" for="user_{{$key}}"></label>
+               </div>
+             </td>
+             <td> {{$key+1}} </td>
+             <td>{{$user->user_firstname}}</td>
+             <td>{{$user->user_lastname}}</td>
+             <td>{{$user->user_username}}</td>
+             <td>{{$user->user_responsibility}}</td>
+             <td>{{$user->user_national_code}}</td>
+             <td>{{$user->user_mobile}}</td>
+             <td>
+               @if ($user->user_prfile_pic !== '')
+                   <img width="75px" class="img-fluid " src=" {{asset("uploads/users/profile_pic/$user->user_national_code/$user->user_prfile_pic")}} " />
+               @else
+               <img width="75px" class="img-fluid " src=" {{asset("Pannel/img/avatar.jpg")}} " />
+               @endif
+             </td>
+           </tr>
+           @endforeach
            
-           
-
           </tbody>
-          
-          
         </table>
       </div>
       </div>
