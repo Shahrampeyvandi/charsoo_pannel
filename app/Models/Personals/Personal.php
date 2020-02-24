@@ -4,6 +4,8 @@ namespace App\Models\Personals;
 
 use App\Models\Orders\Order;
 use App\Models\Services\Service;
+use App\Models\Personals\Position;
+use App\Models\Acounting\UserAcounts;
 use Illuminate\Database\Eloquent\Model;
 
 class Personal extends Model
@@ -18,5 +20,15 @@ class Personal extends Model
     public function order()
     {
         return $this->belongsToMany(Order::class);
+    }
+	
+	  public function positions()
+    {
+        return $this->hasMany(Position::class);
+    }
+
+    public function useracounts()
+    {
+        return $this->hasMany(UserAcounts::class);
     }
 }
