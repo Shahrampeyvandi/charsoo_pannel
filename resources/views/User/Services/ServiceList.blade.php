@@ -116,14 +116,14 @@
                                     <option value="ارجاع به کمترین فاصله">ارجاع به کمترین فاصله</option>  
                                 </select>
                             </div>
-                            <div class="row">
-                                <label for="recipient-name" class="col-form-label">نوع ارجاع:</label>
+                         
+                                <div class="form-group wd-xs-300">
+                                <label for="recipient-name" class="col-form-label">نام کارگزاری: </label>
                                 <select required name="service_role"   class="form-control" id="exampleFormControlSelect2">
-                                    @foreach (\App\Models\User::all() as $item)
-                                <option value="{{$item->id}}">{{$item->user_username}}</option>
-                                    @endforeach
+                                    {!! $brokers !!}
                                       
                                 </select>
+                                </div>
                                 <div class="form-group col-md-6">
                                     <label>ایکون </label>
                                     <input type="file" id="service_icon" name="service_icon" class="form-control" placeholder="" >
@@ -131,7 +131,7 @@
                                         صحیح است!
                                     </div>
                                 </div><!-- form-group -->
-                            </div>
+                            
                     </section>
                     <h3> قیمت</h3>
                     <section>

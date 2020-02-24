@@ -7,11 +7,19 @@ use App\Models\Services\Service;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\File;
 use App\Models\Services\ServiceCategory;
+use App\Models\User;
 
 class ServiceController extends Controller
 {
     public function ServiceList()
     {
+        
+        $brokers ='';
+        foreach (User::all() as $key => $user) {
+            if (count($user->roles->where('broker',1))) {
+                $brokers .= '<option value="{{$item->id}}">'.$user->user_username.'</option>';
+            }
+        }
        $category_parent_list = ServiceCategory::where('category_parent',0)->get();
        $count = ServiceCategory::where('category_parent',0)->count();
         $list ='';
@@ -27,7 +35,7 @@ class ServiceController extends Controller
        }
 
       $services = Service::latest()->get();
-        return view('User.Services.ServiceList',compact(['list','count','services']));
+        return view('User.Services.ServiceList',compact(['list','count','services','brokers']));
     }
 
     public function SubmitService(Request $request)
@@ -86,6 +94,7 @@ class ServiceController extends Controller
     public function DeleteService(Request $request)
     {
         foreach ($request->array as $service) {
+            Service::where('id',$service)->first()->personal()->detach();
             Service::where('id',$service)->delete();
         }
         return 'success';

@@ -121,7 +121,7 @@ $(document).ready(function () {
 
     chart_demo_3();
 
-    chart_demo_4();
+    
 
     chart_demo_5();
 
@@ -332,7 +332,7 @@ $(document).ready(function () {
         if ($('#chart_demo_4').length) {
             var ctx = document.getElementById("chart_demo_4").getContext("2d");
             var densityData = {
-                backgroundColor: chartColors.primary.light,
+                backgroundColor: chartColors.success.base,
                 data: [10, 20, 40, 60, 80, 40, 60, 80, 40, 80, 20, 59]
             };
             new Chart(ctx, {
@@ -352,18 +352,18 @@ $(document).ready(function () {
                     scales: {
                         xAxes: [{
                             gridLines: {
-                                color: chartColors.borderColor
+                                color: chartColors.primary.base
                             },
                             ticks: {
-                                fontColor: chartColors.fontColor
+                                fontColor: chartColors.dark
                             }
                         }],
                         yAxes: [{
                             gridLines: {
-                                color: chartColors.borderColor
+                                color: chartColors.primary.base
                             },
                             ticks: {
-                                fontColor: chartColors.fontColor,
+                                fontColor: chartColors.warning,
                                 min: 0,
                                 max: 100,
                                 beginAtZero: true

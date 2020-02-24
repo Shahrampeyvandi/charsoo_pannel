@@ -57,7 +57,7 @@
         @yield('content')
     </main>
 
-
+    
 
 
     <script src="{{route('BaseUrl')}}/Pannel/assets/vendors/bundle.js"></script>

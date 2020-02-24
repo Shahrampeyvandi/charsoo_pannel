@@ -5,6 +5,7 @@ namespace App\Http\Controllers\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Orders\Order;
+use App\Models\Services\Service;
 use App\Models\User;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
@@ -14,20 +15,69 @@ class MainController extends Controller
 {
     public function index()
     {
-      
       if (auth()->user()->id == 1) {
-        $orders = Order::where('order_type','معلق')->count();
+        $pending_orders = Order::where('order_type','معلق')->count();
+        $doing_orders = Order::where('order_type','در حال انجام')->count();
+        $broker_name = 'ادمین سایت';
+        $broker_lists = '';
+        $count = 1;
+        foreach (User::all() as $key => $broker) {
+          if (count($broker->roles->where('broker',1))) {
+            
+          $broker_services_array = $broker->services->pluck('id')->toArray();
+          $broker_pending_orders = Order::whereIn('service_id',$broker_services_array)->where('order_type','معلق')->count();
+          $broker_doing_orders = Order::whereIn('service_id',$broker_services_array)->where('order_type','در حال انجام')->count();
+          $broker_reffered_orders = Order::whereIn('service_id',$broker_services_array)->where('order_type','ارجاع داده شده')->count();
+          $broker_performed_orders = Order::whereIn('service_id',$broker_services_array)->where('order_type','انجام شده')->count();
+          $broker_lists .= ' <tr>
+              <td>'.$count.'</td>
+              <td>'.$broker->roles->first()->name.'</td>
+              <td>'.$broker_doing_orders.'</td>
+              <td>'.$broker_reffered_orders.'</td>
+              <td>'.$broker_performed_orders.'</td>
+          </tr>';
+          $count ++;
+          }
+        }
+
+        $service_list_chart = Service::OrderBy('service_title')->pluck('service_title')->toJson();
+      
+        $service_chart_array = [];
+        $service_chart_ordercount =[];
+        foreach (Service::all() as $key => $service) {
+          array_push($service_chart_array,$service->service_title);
+         $orders_service_count = Order::where('service_id',$service->id)->count();
+         array_push($service_chart_ordercount,$orders_service_count);
+        }
+
+      
+
+
+
+
       } else {
+        $service_array = auth()->user()->services->pluck('id')->toArray();
         if (count(auth()->user()->services)) {
-          $orders = Order::whereIn('service_id',auth()->user()->services->pluck('id')->toArray())->count();
+          $pending_orders = Order::whereIn('service_id',$service_array)->where('order_type','معلق')->count();
+          $doing_orders = Order::whereIn('service_id',$service_array)->where('order_type','در حال انجام')->count();
+          $broker_name = auth()->user()->roles->first()->name;
         }else{
-          $orders = 0;
+          $pending_orders = 0;
+          $doing_orders = 0;
+          $broker_name = auth()->user()->roles->first()->name;
         }
       }
 
-      
-        return view('User.Dashboard',compact('orders'));
+
+      return view('User.Dashboard',compact([
+        'pending_orders',
+        'doing_orders',
+        'broker_name',
+        'broker_lists',
+        'service_list_chart'
+        ]));
     }
+
 
     public function UserList()
     {
@@ -156,7 +206,7 @@ class MainController extends Controller
       
       <input type="hidden" name="_token" value="'.$csrf.'">
      
-      <input type="hidden" name="user_national_num" value="'.$user->user_national_code.'">
+      <input type="hidden" name="user_national_num" value="'.$user->id.'">
 
       <div class="modal-body">
           <div class="row">
@@ -221,57 +271,18 @@ class MainController extends Controller
           </div>
          
           <p>انتخاب نقش: </p>
-          <div class="row">
-          <div class="mx-2">
-          <input type="radio" 
-          '.($user->user_responsibility == 'مدیریت' ? 'checked=""' : '').'
-          id="customRadioInline4" name="user_responsibility" class=""
-            value="مدیریت">
-          <label class="" for="customRadioInline4">مدیریت</label>
-        </div>
-
-          <div class="mx-2">
-            <input type="radio" id="customRadioInline1" name="user_responsibility"
-              class=" " checked="" 
-              '.($user->user_responsibility == 'tester' ? 'checked=""' : '').'
-               value="tester">
-            <label class=" " for="customRadioInline1">tester</label>
-          </div>
-          <div class="mx-2">
-            <input type="radio" id="customRadioInline2" name="user_responsibility"
-              class=" " '.($user->user_responsibility == 'مشتری' ? 'checked=""' : '').' value="مشتری">
-            <label class="" for="customRadioInline2">مشتری</label>
-          </div>
-          <div class="mx-2">
-            <input type="radio"
-            '.($user->user_responsibility == 'خدمت رسان' ? 'checked=""' : '').'
-            id="customRadioInline3" name="user_responsibility" class=""
-              value="خدمت رسان">
-            <label class="" for="customRadioInline3">خدمت رسان</label>
-          </div>
-          
-          <div class="mx-2">
+          <div class="row">';
+          foreach (Role::all() as $key => $role) {
+            $list .= '<div class="mx-2">
             <input type="radio" 
-            '.($user->user_responsibility == 'adminbuilding' ? 'checked=""' : '').'
-            id="customRadioInline5" name="user_responsibility" class=""
-              value="adminbuilding">
-            <label class="" for="customRadioInline5">adminbuilding</label>
-          </div>
-          <div class="mx-2">
-            <input type="radio" 
-            '.($user->user_responsibility == 'unitbuilding' ? 'checked=""' : '').'
-            id="customRadioInline6" name="user_responsibility" class=""
-              value="unitbuilding">
-            <label class="" for="customRadioInline6">unitbuilding</label>
-          </div>
-          <div class="mx-2">
-            <input type="radio" 
-            '.($user->user_responsibility == 'zitco' ? 'checked=""' : '').'
-            id="customRadioInline7" name="user_responsibility" class=""
-              value="zitco">
-            <label class="" for="customRadioInline7">zitco</label>
-          </div>
-        </div>
+            
+            id="customRadioInline4" name="user_responsibility" class=""
+              value="'.$role->id.'">
+            <label class="" for="customRadioInline4">'.$role->name.'</label>
+          </div>';
+          }
+    
+       $list .=' </div>
 
 
         </div>
@@ -287,7 +298,7 @@ class MainController extends Controller
 
     public function SubmitUserEdit(Request $request)
     {
-        
+      
         if ($request->has('user_profile') && $request->user_pass !== null) {
             
             File::deleteDirectory(public_path('uploads/users/profile_pic/'.$request->user_national_num));
@@ -353,8 +364,16 @@ class MainController extends Controller
         }
 
            
-            User::where('user_national_code',$request->user_national_num)->update($array);
-       
+           User::where('id',$request->user_national_num)->update($array);
+           $user = User::where('id',$request->user_national_num)->first();
+        
+
+
+        if ($request->has('user_responsibility')) {
+          if (!$user->hasRole($request->user_responsibility)) {
+            $user->syncRoles($user->user_responsibility);
+          }
+        }
    
 
         alert()->success('اطلاعات کاربر با موفقیت ویرایش شد ', 'عملیات موفق')->autoclose(2000);
