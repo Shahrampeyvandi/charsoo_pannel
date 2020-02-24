@@ -118,7 +118,7 @@
        var latlngs = [];
 
        var greenIcon = L.icon({
-      iconUrl: '{{route('BaseUrl')}}/online-marker-icon.png',
+      iconUrl: '{{route('BaseUrl')}}/mapmarker/online-marker-icon.png',
 
       iconSize:     [50, 50], // size of the icon
       iconAnchor:   [20, 20], // point of the icon which will correspond to marker's location

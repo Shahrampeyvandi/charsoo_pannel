@@ -20,7 +20,7 @@ class CreateCheckoutPersonalsTable extends Migration
             $table->integer('amount');
             $table->string('shaba');
             $table->unsignedBigInteger('transations_id')->nullable();
-            $table->dateTime('payed_at');	
+            $table->dateTime('payed_at')->nullable();
             $table->text('description')->nullable();
             $table->foreign('transations_id')->references('id')->on('transations');
             $table->foreign('user_acounts_id')->references('id')->on('user_acounts');

@@ -87,11 +87,14 @@
                             <th></th>
                             <th>شناسه تراکنش</th>
                             <th>شماره همراه</th>
+                            <th>نقش</th>
+
                             <th>نام خانوادگی</th>
                             <th>نام</th>
 
 
                             <th>نوع تراکنش</th>
+                            <th>از/به</th>
 
                             <th>مبلغ</th>
                             <th>تاریخ</th>
@@ -101,7 +104,7 @@
                                     کد سفارش
                             </th>
                             <th>
-از حساب / به حساب
+                                منتهی به
                             </th>
 
 
@@ -127,12 +130,17 @@
                             </td>
                              <td>{{$transaction->id}}</td>
                              <td>{{$personal->personal_mobile}}</td>
+                             <td>{{$useracount->user}}</td>
                              <td>{{$personal->personal_lastname}}</td>
                              <td>{{$personal->personal_firstname}}</td>
 
                              <td>{{$transaction->type}}</td>
+
+                             <td>{{$useracount->type}}</td>
+
                              <td>{{$transaction->amount}}</td>
-                             <td>{{$transaction->created_at}}</td>
+                             {{-- <td>{{$transaction->created_at}}</td> --}}
+                             <td> {{\Morilog\Jalali\Jalalian::forge($transaction->created_at)->format('%Y-%m-%d H:i:s')}}
 
                             <td>{{$transaction->for}}</td>
 

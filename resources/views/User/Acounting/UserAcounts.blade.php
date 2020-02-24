@@ -131,12 +131,11 @@
 
                             @if ($useracount->cash > 0)
                             {{-- <i class="fa fa-check"></i> --}}
-                            <td>{{$useracount->cash}}
+                            <td  class="text-success">{{$useracount->cash}}
                             </td>
 
                             @else
                             <td class="text-danger">{{$useracount->cash}}
-                                <i class="fa fa-close"></i>
                             </td>
 
                             @endif

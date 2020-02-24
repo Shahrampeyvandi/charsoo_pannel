@@ -106,6 +106,8 @@ class CheckoutPersonalsController extends Controller
 
              $checkout->payed='1';
              $checkout->transations_id = $tranatioin->id;
+             $checkout->payed_at = $tranatioin->created_at;
+
              $checkout->update();
 
             
