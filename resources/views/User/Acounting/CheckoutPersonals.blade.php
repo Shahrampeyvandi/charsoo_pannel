@@ -247,12 +247,17 @@
 
 
 
-                            <td>{{$checkoutpersonal->created_at}}</td>
+                            <td> {{\Morilog\Jalali\Jalalian::forge($checkoutpersonal->created_at)->format('%Y-%m-%d H:i:s')}}
+
                             <td>{{$checkoutpersonal->transations_id}}</td>
 
-                            <td>{{$checkoutpersonal->created_at}}</td>
                             {{-- <td>{{$checkoutpersonal->payed_at}}</td> --}}
+                            @if($checkoutpersonal->payed_at)
+                            <td> {{\Morilog\Jalali\Jalalian::forge($checkoutpersonal->payed_at)->format('%Y-%m-%d H:i:s')}}
 
+                                @else
+                                <td></td>
+                                @endif
 
                             <td>{{$checkoutpersonal->description}}</td>
 

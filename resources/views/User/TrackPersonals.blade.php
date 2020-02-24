@@ -36,7 +36,7 @@
           </div>
           <div class="form-group col-md-6">
             <label for="recipient-name" class="col-form-label">تاریخ: </label>
-            <input type="text" name="date" class="form-control date" id="date"
+            {{-- <input type="text" name="date" class="form-control date" id="date"
 
 
             @if (!empty($id))
@@ -46,7 +46,19 @@
             @endif
 
 
-           >
+           >  
+            --}}
+           <input type="text" id="date" name="date"
+           autocomplete="off"
+           class="form-control text-right date-picker-shamsi"
+
+           @if (!empty($id))
+
+            value="{{$id[1]}}"
+
+            @endif
+
+            dir="ltr">
 
 
           </div>
@@ -147,7 +159,7 @@
      var latlngs = [];
 
      var greenIcon = L.icon({
-    iconUrl: '{{route('BaseUrl')}}/marker-icon.png',
+    iconUrl: '{{route('BaseUrl')}}/mapmarker/marker-icon.png',
 
     iconSize:     [25, 45], // size of the icon
     iconAnchor:   [10, 40], // point of the icon which will correspond to marker's location
