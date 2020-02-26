@@ -131,11 +131,24 @@
 
                             @if ($useracount->cash > 0)
                             {{-- <i class="fa fa-check"></i> --}}
-                            <td  class="text-success">{{$useracount->cash}}
+                           <td  class="text-success">
+                                {{--  {{$useracount->cash}} --}}
+                                <?php
+   
+                                echo number_format($useracount->cash);
+   
+                                ?>
+                                </td>
                             </td>
 
                             @else
-                            <td class="text-danger">{{$useracount->cash}}
+                            <td class="text-danger">
+                                {{-- {{$useracount->cash}} --}}
+                                <?php
+   
+                                echo number_format($useracount->cash);
+   
+                                ?>
                             </td>
 
                             @endif
@@ -174,9 +187,15 @@
                             <td>{{$useracount->id}}</td>
                             <td>{{$cansomer->customer_mobile}}</td>
                             <td>{{$useracount->type}}</td>
-                            <td>{{$useracount->cash}}
+                            <td class="text-success">
+                                {{-- {{$useracount->cash}} --}}
                             
-                            
+                                <?php
+   
+                                echo number_format($useracount->cash);
+   
+                                ?>
+                                </td>
 
 
 

@@ -122,7 +122,7 @@
 
       iconSize:     [50, 50], // size of the icon
       iconAnchor:   [20, 20], // point of the icon which will correspond to marker's location
-      popupAnchor:  [0, -50] // point from which the popup should open relative to the iconAnchor
+      popupAnchor:  [0, -30] // point from which the popup should open relative to the iconAnchor
       });
 
 
@@ -130,9 +130,9 @@
 
 
 
-       @foreach($online as $position)
+       @foreach($online as $key=>$position)
             L.marker([{{$position->tool}}, {{$position->arz}}],{icon: greenIcon}).addTo(map)
-          .bindPopup('خدمت رسان با کد {{$position->personal_id}} <br>')
+          .bindPopup('{{$person[$key]->personal_firstname}} {{$person[$key]->personal_lastname}}<br>{{$person[$key]->personal_mobile}}')
           .openPopup();
 
       latlngs.push([{{$position->tool}},{{$position->arz}}])

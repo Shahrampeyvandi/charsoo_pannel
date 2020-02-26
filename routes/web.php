@@ -134,6 +134,8 @@ Route::group(['middleware' => ['checkAuth']], function () {
 
     Route::get('/Acounting/UserAcounts', 'Acounting\UserAcountsController@index')->name('Pannel.Acounting.PersonalAcounts');
     Route::get('/Acounting/Transactions', 'Acounting\TransactionsController@index')->name('Pannel.Acounting.Transactions');
+    Route::POST('/Acounting/Transactions/Submit', 'Acounting\TransactionsController@submit')->name('Pannel.Acounting.Transactions.Submit');
+
     Route::get('/Acounting/CheckoutPersonals', 'Acounting\CheckoutPersonalsController@index')->name('Pannel.Acounting.CheckoutPersonals');
     Route::POST('/Acounting/CheckoutPersonals/Submit', 'Acounting\CheckoutPersonalsController@submit')->name('Pannel.Acounting.CheckoutPersonals.Submit');
     Route::POST('/Acounting/CheckoutPersonals/Pay', 'Acounting\CheckoutPersonalsController@pay')->name('Pannel.Acounting.CheckoutPersonals.Pay');
@@ -141,4 +143,6 @@ Route::group(['middleware' => ['checkAuth']], function () {
     Route::get('Setting', 'User\SettingController@Setting')->name('Pannel.Setting');
 
     Route::post('Setting', 'User\SettingController@SettingChange')->name('Pannel.Setting');
+
+    Route::get('/Acounting/CheckoutPersonals/Export','Acounting\CheckoutPersonalsController@export')->name('Pannel.Acounting.CheckoutPersonals.Export');
 }); /*    E N D - R O U T E - G R O U P    */

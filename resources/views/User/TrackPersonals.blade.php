@@ -11,7 +11,7 @@
 
      {{-- filtering --}}
      <div class="card filtering container-fluid" >
-        <div class="card-body">
+        <div class="card-body" style="height:300px">
           <div class="row " >
             <div class="form-group col-md-6">
                 <form method="GET">

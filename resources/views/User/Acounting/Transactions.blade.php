@@ -14,6 +14,119 @@
     </div>
 </div>
 
+{{--model for add transaction--}}
+<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">ثبت تراکنش</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form id="user--form" method="post" action=" {{route('Pannel.Acounting.Transactions.Submit')}} ">
+        @csrf
+        <div class="modal-body">
+            <div class="row">
+                <div class="form-group col-md-12">
+                  <label for="recipient-name" class="col-form-label"><span class="text-danger">*</span>حساب اعتبار:</label>
+                  <select required name="useracountid" id="service_name"  class="js-example-basic-single" dir="rtl">
+                      <option value="">حساب اعتبار را انتخاب کنید</option>
+                    
+                  
+                      @foreach($personals as $personal)
+                      @foreach($personal->useracounts as $useracount)
+               
+                      <option value="{{$useracount->id}}">{{$useracount->user}} - {{$useracount->type}} - {{$personal->personal_firstname}} {{$personal->personal_lastname}} {{$personal->personal_mobile}}-({{$useracount->cash}}تومان)</option>
+                 
+                      @endforeach
+                      @endforeach
+                      
+                      @foreach($cansomers as $cunsomer)
+                      @foreach($cunsomer->useracounts as $useracount)
+               
+                      <option value="{{$useracount->id}}">{{$useracount->user}} - {{$useracount->type}} - {{$cunsomer->customer_firstname}} {{$cunsomer->customer_lastname}} {{$cunsomer->customer_mobile}}-({{$useracount->cash}}تومان)</option>
+                 
+                      @endforeach
+                      @endforeach
+                  </select>  
+              </div>
+              </div>
+          <div class="row">
+            <div class="form-group col-md-6">
+              <label for="user_mobile" class="col-form-label"><span class="text-danger">*</span> نوع تراکنش:</label>
+              <select required name="type"   class="form-control" id="exampleFormControlSelect2">
+                <option value="واریز">واریز</option>
+                  <option value="برداشت">برداشت</option>  
+              </select>
+       
+            </div>
+            <div class="form-group col-md-6">
+              <label for="user_name" class="col-form-label"><span class="text-danger">*</span> بابت: </label>
+              <select required name="for"   class="form-control" id="exampleFormControlSelect2">
+                <option value="پورسانت خدمت">پورسانت خدمت</option>
+                  <option value="بازگشت وجه">بازگشت وجه</option>  
+                  <option value="شارژ هدیه">شارژ هدیه</option>  
+                  <option value="انتقال به شارژ">انتقال به شارژ</option>  
+                  <option value="ارسال پیشنهاد">ارسال پیشنهاد</option>  
+                  <option value="هزینه خدمت">هزینه خدمت</option>  
+                  <option value="تسویه">تسویه</option>  
+                  <option value="شارژ">شارژ</option>  
+                  <option value="دستمزد">دستمزد</option>  
+
+              </select>
+
+                      
+            </div>
+            
+          </div>
+          <div class="row">
+            <div class="form-group col-md-6">
+              <label for="user_family" class="col-form-label"> شناسه سفارش:</label>
+              <input type="text" class="form-control" name="order_id" id="user_family">
+            </div>
+            <div class="form-group col-md-6">
+              <label for="user_desc" class="col-form-label"><span class="text-danger">*</span> 
+                مبلغ:</label>
+                <input type="number" class="form-control" name="amount" id="user_family">
+
+              </textarea>
+            </div>
+          </div>
+          <div class="row">
+            <div class="form-group col-md-6">
+              <label for="recipient-name" class="col-form-label">منتهی به: </label>
+              <input type="text" class="form-control" name="from_to" id="user_family">
+
+          </div>
+            <div class="form-group col-md-6">
+              <label for="user_address" class="col-form-label"> توضیحات: </label>
+              <textarea type="text" class="form-control" name="description" id="user_address">
+              </textarea>
+            </div>
+          </div>
+
+  
+          
+      <!-- form-group -->
+
+        </div>
+        
+        
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">بستن</button>
+          <button type="submit" class="btn btn-primary">ثبت تراکنش</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+{{-- modal for edit --}}
+
 <div class="container-fluid">
     <div class="card">
         <div class="container_icon card-body d-flex justify-content-end">
@@ -138,7 +251,14 @@
 
                              <td>{{$useracount->type}}</td>
 
-                             <td>{{$transaction->amount}}</td>
+                             {{-- <td>{{$transaction->amount}}</td> --}}
+                             <td>
+                             <?php
+
+                             echo number_format($transaction->amount);
+
+                             ?>
+                             </td>
                              {{-- <td>{{$transaction->created_at}}</td> --}}
                              <td> {{\Morilog\Jalali\Jalalian::forge($transaction->created_at)->format('%Y-%m-%d H:i:s')}}
 
@@ -177,12 +297,27 @@
                             </td>
                              <td>{{$transaction->id}}</td>
                              <td>{{$cansomer->customer_mobile}}</td>
+                             <td>{{$useracount->user}}</td>
+
                              <td>{{$cansomer->customer_lastname}}</td>
                              <td>{{$cansomer->customer_firstname}}</td>
 
                              <td>{{$transaction->type}}</td>
-                             <td>{{$transaction->amount}}</td>
-                             <td>{{$transaction->created_at}}</td>
+                             <td>{{$useracount->type}}</td>
+
+                             {{-- <td>{{$transaction->amount}}</td> --}}
+
+                             <td>
+                                <?php
+   
+                                echo number_format($transaction->amount);
+   
+                                ?>
+                                </td>
+
+
+                             {{-- <td>{{$transaction->created_at}}</td> --}}
+                             <td> {{\Morilog\Jalali\Jalalian::forge($transaction->created_at)->format('%Y-%m-%d H:i:s')}}
 
                             <td>{{$transaction->for}}</td>
 
@@ -245,7 +380,12 @@
           $('.filtering').toggle(200)
         })
 
-           $('table input[type="checkbox"]').change(function(){
+        $('input[type="checkbox"]').change(function(){
+           if( $(this).is(':checked')){
+            $(this).parents('tr').css('background-color','#41f5e07d');
+            }else{
+                $(this).parents('tr').css('background-color','');
+            }
             array=[]
             $('table input[type="checkbox"]').each(function(){
 
@@ -255,34 +395,34 @@
 
             if(array.length !== 0){
 
-                if (array.length !== 1) {
-                    $('.container_icon').removeClass('justify-content-end')
-                    $('.container_icon').addClass('justify-content-between')
-                    $('.delete-edit').html(`
-                    <a href="#" title="حذف " data-toggle="modal" data-target="#exampleModal" class="sweet-multiple mx-2">
-            <span class="__icon bg-danger">
-                <i class="fa fa-trash"></i>
-            </span>
-           </a>
-                    `)
-                }else{
+        //         if (array.length !== 1) {
+        //             $('.container_icon').removeClass('justify-content-end')
+        //             $('.container_icon').addClass('justify-content-between')
+        //             $('.delete-edit').html(`
+        //             <a href="#" title="حذف " data-toggle="modal" data-target="#exampleModal" class="sweet-multiple mx-2">
+        //     <span class="__icon bg-danger">
+        //         <i class="fa fa-trash"></i>
+        //     </span>
+        //    </a>
+        //             `)
+        //         }else{
 
-                    $('.container_icon').removeClass('justify-content-end')
-                    $('.container_icon').addClass('justify-content-between')
-                    $('.delete-edit').html(`
-                    <a href="#" title="حذف " data-toggle="modal" data-target="#exampleModal" class="sweet-multiple mx-2">
-            <span class="__icon bg-danger">
-                <i class="fa fa-trash"></i>
-            </span>
-           </a>
+        //             $('.container_icon').removeClass('justify-content-end')
+        //             $('.container_icon').addClass('justify-content-between')
+        //             $('.delete-edit').html(`
+        //             <a href="#" title="حذف " data-toggle="modal" data-target="#exampleModal" class="sweet-multiple mx-2">
+        //     <span class="__icon bg-danger">
+        //         <i class="fa fa-trash"></i>
+        //     </span>
+        //    </a>
 
-           <a href="#" title="تازه سازی" data-toggle="modal" data-target=".bd-example-modal-lg-edit" class="mx-2" >
-            <span class="__icon bg-info">
-                <i class="fa fa-edit"></i>
-            </span>
-           </a>
-                    `)
-                }
+        //    <a href="#" title="تازه سازی" data-toggle="modal" data-target=".bd-example-modal-lg-edit" class="mx-2" >
+        //     <span class="__icon bg-info">
+        //         <i class="fa fa-edit"></i>
+        //     </span>
+        //    </a>
+        //             `)
+        //         }
             }
             else{
                 $('.container_icon').removeClass('justify-content-between')
@@ -317,13 +457,13 @@ $('.bd-example-modal-lg-edit').on('shown.bs.modal', function (event) {
        $('.js-example-basic-single').select2({
          placeholder: 'انتخاب کنید'
         });
-        editform= $('#edit--form')
-        var form = $("#example-advanced-form1").show();
+        editform= $('#user--form')
+        var form = $("#user--form").show();
     form.validate({
         rules: {
          
          
-          service_percentage: {
+          amount: {
             required: true,
             range:[0,100]
           },

@@ -61,7 +61,7 @@
 
           <div class="row">
             <div class="form-group col-md-12">
-                <select name="personals" id="personals_type"  class="js-example-basic-single" dir="rtl" multiple="multiple">
+                <select name="personals" id="personals_type"  class="js-example-basic-single" dir="rtl">
                     <option value="all" >همه</option>
         
         
@@ -82,7 +82,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">بستن</button>
-          <button type="submit" class="btn btn-primary">ذخیره</button>
+          <button type="submit" class="btn btn-primary">ایجاد</button>
         </div>
       </form>
     </div>
@@ -134,6 +134,11 @@
                 <a href="#" title="تازه سازی" class="mx-2" onclick="location.reload()">
                     <span class="__icon bg-primary">
                         <i class="fa fa-refresh"></i>
+                    </span>
+                </a>
+                <a href="{{route('Pannel.Acounting.CheckoutPersonals.Export')}}" title="خروجی اکسل" class="mx-2">
+                    <span class="__icon bg-primary">
+                        <i class="fa fa-table"></i>
                     </span>
                 </a>
             </div>
@@ -239,9 +244,14 @@
                              </td>
                              @endif
 
-                             <td>{{$checkoutpersonal->amount}}</td>
+                             {{-- <td>{{$checkoutpersonal->amount}}</td> --}}
+                             <td>
+                             <?php
+   
+                             echo number_format($checkoutpersonal->amount);
 
-
+                             ?>
+</td>
 
                             <td>{{$checkoutpersonal->shaba}}</td>
 

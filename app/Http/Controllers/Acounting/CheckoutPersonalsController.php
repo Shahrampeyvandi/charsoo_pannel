@@ -8,6 +8,10 @@ use App\Models\Acounting\Transations;
 use App\Models\Acounting\UserAcounts;
 use App\Models\Personals\Personal;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use App\Exports\CheckoutExport;
+use Maatwebsite\Excel\Facades\Excel;
+
 
 class CheckoutPersonalsController extends Controller
 {
@@ -22,6 +26,23 @@ class CheckoutPersonalsController extends Controller
 
     public function submit(Request $request)
     {
+
+
+        $validation = $this->getValidationFactory()->make($request->all(), [
+            'personals' => 'required',
+
+
+        ]);
+
+        if ($validation->fails()) {
+
+            //return response()->json(['messsage' => 'invalid'], 400);
+            alert()->error('باید حساب یکی از خدمت گذاران را انتخاب کنید.', 'تسویه ایجاد نشد')->autoclose(2000);
+            return 'error';
+            //return back();
+
+        }
+
 
         $personals = Personal::all();
 
@@ -120,5 +141,75 @@ class CheckoutPersonalsController extends Controller
         //return back;
         alert()->success('پرداخت با موفقیت انجام گردید!', 'پرداخت موفق')->autoclose(2000);
         return 'success';
+    }
+
+
+    public function export()
+    {
+
+        // $checkouts = DB::table('checkout_personals')
+        // ->where('payed', '=', '0')
+        // ->get();
+
+        // $person=array();
+        // foreach ($checkouts as $key=>$checkout) {
+        //     $useracount = UserAcounts::find($checkout->user_acounts_id);
+
+        //  $person[$key]=Personal::find($useracount->personal_id);
+
+        //  //dd($person);
+
+        // }
+        // //dd($person);
+
+
+        // $checkoutsArray = []; 
+
+        // // Define the Excel spreadsheet headers
+        // $checkoutsArray[] = ['شناسه تسویه', 'شماره همراه','نام خانوادگی','مبلغ','شماره شبا'];
+    
+
+        // foreach ($person as $key=>$pers) {
+
+        //     $per=[
+
+        //         'شناسه تسویه'=>$checkouts[$key]->id,
+        //         'شماره همراه'=>$person[$key]->personal_mobile,
+        //         'نام خانوادگی'=>$person[$key]->personal_lastname,
+        //         'مبلغ'=>$checkouts[$key]->amount,
+        //         'شماره شبا'=>$checkouts[$key]->shaba
+        //     ];
+        //     $checkoutsArray[] = $per;
+
+        // }
+    
+        // //dd($checkoutsArray);
+    
+
+        // Excel::create('payments', function($excel) use ($checkoutsArray) {
+
+        //     // Set the spreadsheet title, creator, and description
+        //     $excel->setTitle('Payments');
+        //     $excel->setCreator('Laravel')->setCompany('WJ Gilmore, LLC');
+        //     $excel->setDescription('payments file');
+    
+        //     // Build the spreadsheet, passing in the payments array
+        //     $excel->sheet('sheet1', function($sheet) use ($checkoutsArray) {
+        //         $sheet->fromArray($checkoutsArray, null, 'A1', false, false);
+        //     });
+    
+        // })->download('xlsx');
+    
+        // $export = new CheckoutExport([
+        //     [1, 2, 3],
+        //     [4, 3, 6]
+        // ]);
+
+        //return Excel::download($export, 'invoices.xlsx');
+        return Excel::download(new CheckoutExport, 'checkouts.xlsx');
+
+        //return Excel::download(new CheckoutExport, 'excel.xlsx');
+
+    
     }
 }
