@@ -144,6 +144,218 @@
                                 </div>
                             </div>
                             <hr>
+                            <p>دسته بندی خدمات</p>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group wd-xs-300">
+                                        <div class="custom-control custom-checkbox custom-control-inline"
+                                            style="margin-left: -1rem;">
+                                            <input type="checkbox" id="category_menu" name="category_menu"
+                                                class="custom-control-input" value="1">
+                                            <label class="custom-control-label" for="category_menu">منوی دسته بندی</label>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>  
+                            <div class="row category--permisions" style="display:none;">
+                                    <div class="col-md-4">
+                                        <div class="form-group wd-xs-300">
+                                            <div class="custom-control custom-checkbox custom-control-inline"
+                                                style="margin-left: -1rem;">
+                                                <input type="checkbox" id="category_insert" name="category_insert"
+                                                    class="custom-control-input" value="1">
+                                                <label class="custom-control-label" for="category_insert">افزودن دسته بندی</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group wd-xs-300">
+                                            <div class="custom-control custom-checkbox custom-control-inline"
+                                                style="margin-left: -1rem;">
+                                                <input type="checkbox" id="category_delete" name="category_delete"
+                                                    class="custom-control-input" value="1">
+                                                <label class="custom-control-label" for="category_delete">حذف دسته بندی</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group wd-xs-300">
+                                            <div class="custom-control custom-checkbox custom-control-inline"
+                                                style="margin-left: -1rem;">
+                                                <input type="checkbox" id="category_edit" name="category_edit"
+                                                    class="custom-control-input" value="1">
+                                                <label class="custom-control-label" for="category_edit">ویرایش دسته بندی</label>
+                                            </div>
+                                        </div>
+    
+                                    </div>
+                                </div>
+                              
+                                <hr>
+                                <p>خدمات</p>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group wd-xs-300">
+                                            <div class="custom-control custom-checkbox custom-control-inline"
+                                                style="margin-left: -1rem;">
+                                                <input type="checkbox" id="service_menu" name="service_menu"
+                                                    class="custom-control-input" value="1">
+                                                <label class="custom-control-label" for="service_menu">منوی خدمات</label>
+                                            </div>
+    
+                                        </div>
+                                    </div>
+                                </div>  
+                                <div class="row service--permisions" style="display:none;">
+                                        <div class="col-md-4">
+                                            <div class="form-group wd-xs-300">
+                                                <div class="custom-control custom-checkbox custom-control-inline"
+                                                    style="margin-left: -1rem;">
+                                                    <input type="checkbox" id="service_insert" name="service_insert"
+                                                        class="custom-control-input" value="1">
+                                                    <label class="custom-control-label" for="service_insert">افزودن خدمت</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group wd-xs-300">
+                                                <div class="custom-control custom-checkbox custom-control-inline"
+                                                    style="margin-left: -1rem;">
+                                                    <input type="checkbox" id="service_delete" name="service_delete"
+                                                        class="custom-control-input" value="1">
+                                                    <label class="custom-control-label" for="service_delete">حذف خدمت</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group wd-xs-300">
+                                                <div class="custom-control custom-checkbox custom-control-inline"
+                                                    style="margin-left: -1rem;">
+                                                    <input type="checkbox" id="service_edit" name="service_edit"
+                                                        class="custom-control-input" value="1">
+                                                    <label class="custom-control-label" for="service_edit">ویرایش خدمت</label>
+                                                </div>
+                                            </div>
+        
+                                        </div>
+                                    </div>
+                                  
+                                    <hr>
+                                    <p>خدمت رسان ها</p>
+                                    <div class="row ">
+                                        <div class="col-md-12 ">
+                                            <div class="form-group wd-xs-300">
+                                                <div class="custom-control custom-checkbox custom-control-inline"
+                                                    style="margin-left: -1rem;">
+                                                    <input type="checkbox" id="personal_menu" name="personal_menu"
+                                                        class="custom-control-input" value="1">
+                                                    <label class="custom-control-label" for="personal_menu">منوی خدمت رسان ها</label>
+                                                </div>
+        
+                                            </div>
+                                        </div>
+                                    </div>  
+                                    <div class="row personal--permisions" style="display:none;">
+                                            <div class="col-md-4">
+                                                <div class="form-group wd-xs-300">
+                                                    <div class="custom-control custom-checkbox custom-control-inline"
+                                                        style="margin-left: -1rem;">
+                                                        <input type="checkbox" id="personal_insert" name="personal_insert"
+                                                            class="custom-control-input" value="1">
+                                                        <label class="custom-control-label" for="personal_insert">افزودن خدمت رسان</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group wd-xs-300">
+                                                    <div class="custom-control custom-checkbox custom-control-inline"
+                                                        style="margin-left: -1rem;">
+                                                        <input type="checkbox" id="personal_delete" name="personal_delete"
+                                                            class="custom-control-input" value="1">
+                                                        <label class="custom-control-label" for="personal_delete">حذف خدمت رسان</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group wd-xs-300">
+                                                    <div class="custom-control custom-checkbox custom-control-inline"
+                                                        style="margin-left: -1rem;">
+                                                        <input type="checkbox" id="personal_edit" name="personal_edit"
+                                                            class="custom-control-input" value="1">
+                                                        <label class="custom-control-label" for="personal_edit">ویرایش خدمت رسان</label>
+                                                    </div>
+                                                </div>
+            
+                                            </div>
+                                        </div>
+                                        <hr>
+                                        <p>گردش کار</p>
+                                        <div class="row ">
+                                            <div class="col-md-12 ">
+                                                <div class="form-group wd-xs-300">
+                                                    <div class="custom-control custom-checkbox custom-control-inline"
+                                                        style="margin-left: -1rem;">
+                                                        <input type="checkbox" id="orders_menu" name="orders_menu"
+                                                            class="custom-control-input" value="1">
+                                                        <label class="custom-control-label" for="orders_menu">منوی گردش کار</label>
+                                                    </div>
+            
+                                                </div>
+                                            </div>
+                                        </div>  
+                                        <div class="row orders--permisions" style="display:none;">
+                                                <div class="col-md-6">
+                                                    <div class="form-group wd-xs-300">
+                                                        <div class="custom-control custom-checkbox custom-control-inline"
+                                                            style="margin-left: -1rem;">
+                                                            <input type="checkbox" id="orders_insert" name="orders_insert"
+                                                                class="custom-control-input" value="1">
+                                                            <label class="custom-control-label" for="orders_insert">افزودن سفارش</label>
+                                                        </div>
+                                                    </div>
+                                                
+                                                    <div class="form-group wd-xs-300">
+                                                        <div class="custom-control custom-checkbox custom-control-inline"
+                                                            style="margin-left: -1rem;">
+                                                            <input type="checkbox" id="orders_delete" name="orders_delete"
+                                                                class="custom-control-input" value="1">
+                                                            <label class="custom-control-label" for="orders_delete">حذف سفارش</label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group wd-xs-300">
+                                                        <div class="custom-control custom-checkbox custom-control-inline"
+                                                            style="margin-left: -1rem;">
+                                                            <input type="checkbox" id="orders_detail" name="orders_detail"
+                                                                class="custom-control-input" value="1">
+                                                            <label class="custom-control-label" for="orders_detail">جزئیات سفارش</label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    
+                                                    <div class="form-group wd-xs-300">
+                                                        <div class="custom-control custom-checkbox custom-control-inline"
+                                                            style="margin-left: -1rem;">
+                                                            <input type="checkbox" id="orders_transactions" name="orders_transactions"
+                                                                class="custom-control-input" value="1">
+                                                            <label class="custom-control-label" for="orders_transactions">تراکنش های سفارش</label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group wd-xs-300">
+                                                        <div class="custom-control custom-checkbox custom-control-inline"
+                                                            style="margin-left: -1rem;">
+                                                            <input type="checkbox" id="orders_refferto" name="orders_refferto"
+                                                                class="custom-control-input" value="1">
+                                                            <label class="custom-control-label" for="orders_refferto">ارجاع سفارش</label>
+                                                        </div>
+                                                    </div>
+                
+                                                </div>
+                                            </div>
+                                          
+                                    <hr>  
+                                
                             <p>گزارش خدمت رسان های انلاین</p>
                             <div class="row">
                                 <div class="col-md-12">
@@ -432,8 +644,59 @@
                                 @case('customer_delete')
                                 <span> حذف مشتری</span>
                                 @break
-                                @case('customer_excel')
-                                <span> خروجی اکسل مشتری</span>
+                                @case('category_menu')
+                                <span> منوی دسته بندی</span>
+                                @break
+                                @case('category_insert')
+                                <span> افزودن دسته بندی</span>
+                                @break
+                                @case('category_delete')
+                                <span> حذف دسته بندی</span>
+                                @break
+                                @case('category_edit')
+                                <span> ویرایش دسته بندی</span>
+                                @break
+                                @case('service_menu')
+                                <span> منوی خدمت</span>
+                                @break
+                                @case('service_insert')
+                                <span> افزودن خدمت</span>
+                                @break
+                                @case('service_delete')
+                                <span> حذف خدمت</span>
+                                @break
+                                @case('service_edit')
+                                <span> ویرایش خدمت</span>
+                                @break
+                                @case('personal_menu')
+                                <span> منوی خدمت رسان</span>
+                                @break
+                                @case('personal_insert')
+                                <span> منوی خدمت رسان</span>
+                                @break
+                                @case('personal_delete')
+                                <span> منوی خدمت رسان</span>
+                                @break
+                                @case('personal_edit')
+                                <span> منوی خدمت رسان</span>
+                                @break
+                                @case('orders_menu')
+                                <span> منوی گردش کار</span>
+                                @break
+                                @case('orders_insert')
+                                <span> ثبت سفارش</span>
+                                @break
+                                @case('orders_delete')
+                                <span> حذف سفارش</span>
+                                @break
+                                @case('orders_refferto')
+                                <span> ارجاع سفارش</span>
+                                @break
+                                @case('orders_transactions')
+                                <span> تراکنش های سفارش</span>
+                                @break
+                                @case('orders_detail')
+                                <span> جزئیات سفارش</span>
                                 @break
                                 @default
                                 @endswitch
@@ -702,6 +965,36 @@ $('.bd-example-modal-lg-edit').on('shown.bs.modal', function (event) {
             $('.user--permisions').slideUp()      
          }
      })
+     $('#category_menu').click(function(){
+         if ($(this).is(':checked')) {
+             $('.category--permisions').slideDown()
+         }else{
+            $('.category--permisions').slideUp()      
+         }
+     })
+     $('#service_menu').click(function(){
+         if ($(this).is(':checked')) {
+             $('.service--permisions').slideDown()
+         }else{
+            $('.service--permisions').slideUp()      
+         }
+     })
+     $('#personal_menu').click(function(){
+         if ($(this).is(':checked')) {
+             $('.personal--permisions').slideDown()
+         }else{
+            $('.personal--permisions').slideUp()      
+         }
+     })
+
+     $('#orders_menu').click(function(){
+         if ($(this).is(':checked')) {
+             $('.orders--permisions').slideDown()
+         }else{
+            $('.orders--permisions').slideUp()      
+         }
+     })
+     
 })
 </script>
 @endsection

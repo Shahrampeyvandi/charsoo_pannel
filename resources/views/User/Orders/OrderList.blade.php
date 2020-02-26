@@ -270,20 +270,71 @@
     <div class="card">
         <div class="container_icon card-body ">
         <div class="row">
-          <div class="delete-edit col-md-9" > 
+          <div class="delete-edit col-md-9" style="display:none;"> 
+            @if (auth()->user()->can('orders_delete'))
+            <a href="#" title="حذف " data-toggle="modal" data-target="#exampleModal" class="order-delete   m-2">
+              <span class="__icon bg-danger">
+                  <i class="fa fa-trash"></i>
+              </span>
+             </a>
+            @endif
+            @if (auth()->user()->can('orders_detail'))
+             <a href="#" title="" data-toggle="modal" data-target=".bd-example-modal-lg-detail" class="order-detail  m-2" >
+              <span class=" bg-secondary" style="padding: 13px 10px 4px 10px;
+      border-radius: 4px;
+      box-shadow: 0 1px 6px 0 #6464a9;">
+                  جزییات سفارش 
+              </span>
+             </a>
+             @endif
+             @if (auth()->user()->can('orders_refferto'))
+             <a href="#" title="" data-toggle="modal" data-target=".bd-example-modal-lg-edit" class="order-refferto  m-2" >
+              <span class=" bg-info" style="padding: 13px 10px 4px 10px;
+      border-radius: 4px;
+      box-shadow: 0 1px 6px 0 #6464a9;">
+                  ارجاع دستی به خدمت رسان 
+              </span>
+             </a>
+         
+             <a href="#" title="" data-toggle="modal" data-target=".bd-example-modal-lg-chosen" class="order-refferto  m-2" >
+              <span class=" bg-success" style="padding: 13px 10px 4px 10px;
+      border-radius: 4px;
+      box-shadow: 0 1px 6px 0 #6464a9;">
+                  ارجاع دستی به خدمت رسان های منتخب 
+              </span>
+             </a>
+             @endif
+             @if (auth()->user()->can('orders_transactions'))
+             <a href="#" title="" data-toggle="modal" data-target=".bd-example-modal-lg-transactions" class="order-transactions  m-2" >
+              <span class=" bg-primary" style="padding: 13px 10px 4px 10px;
+      border-radius: 4px;
+      box-shadow: 0 1px 6px 0 #6464a9;">
+                  تراکنش های سفارش
+              </span>
+             </a>
+             @endif
+             <a href="#" title="" data-toggle="modal" data-target=".bd-example-modal-lg-edit" class="  m-2" >
+              <span class=" bg-dark" style="padding: 13px 10px 4px 10px;
+      border-radius: 4px;
+      box-shadow: 0 1px 6px 0 #6464a9;">
+                  مشاهده لیست پیشنهادات خدمت رسان ها
+              </span>
+             </a>
           </div>
           <div class="col-md-3">
-             <div class="text-left">
+             <div class="insert-filter text-right">
               <a href="#" class="mx-2 btn--filter"  title="فیلتر اطلاعات">
                 <span class="__icon bg-info">
                     <i class="fa fa-search"></i>
                 </span>
             </a>
-            <a href="#" data-toggle="modal" data-target=".bd-example-modal-lg" title="افزودن کاربر">
-                <span class="__icon bg-success">
-                    <i class="fa fa-plus"></i>
-                </span>
-            </a>
+           @if (auth()->user()->can('orders_insert'))
+           <a href="#" data-toggle="modal" data-target=".bd-example-modal-lg" title="افزودن کاربر">
+            <span class="__icon bg-success">
+                <i class="fa fa-plus"></i>
+            </span>
+           </a>
+           @endif
             <a href="{{route('Pannel.Customers.Orders')}}" title="تازه سازی" class="mx-2" >
                 <span class="__icon bg-primary">
                     <i class="fa fa-refresh"></i>
@@ -537,67 +588,30 @@
                 if (array.length !== 1) {
                     $('.container_icon').removeClass('justify-content-end')
                     $('.container_icon').addClass('justify-content-between')
-                    $('.delete-edit').html(`
-                    <a href="#" title="حذف " data-toggle="modal" data-target="#exampleModal" class=" mx-2">
-            <span class="__icon bg-danger">
-                <i class="fa fa-trash"></i>
-            </span>
-           </a>
-                    `)
+                    $('.delete-edit').fadeIn()
+                    $('.order-detail').fadeOut()
+                    $('.order-transactions').fadeOut()
+                    $('.order-refferto').fadeOut()
+                    $('.insert-filter').addClass('text-left')
+                    $('.insert-filter').removeClass('text-right')
+                    
                 }else{
-
                     $('.container_icon').removeClass('justify-content-end')
                     $('.container_icon').addClass('justify-content-between')
-                    $('.delete-edit').html(`
-                    <a href="#" title="حذف " data-toggle="modal" data-target="#exampleModal" class="   m-2">
-            <span class="__icon bg-danger">
-                <i class="fa fa-trash"></i>
-            </span>
-           </a>
-           <a href="#" title="" data-toggle="modal" data-target=".bd-example-modal-lg-detail" class="  m-2" >
-            <span class=" bg-secondary" style="padding: 13px 10px 4px 10px;
-    border-radius: 4px;
-    box-shadow: 0 1px 6px 0 #6464a9;">
-                جزییات سفارش 
-            </span>
-           </a>
-
-           <a href="#" title="" data-toggle="modal" data-target=".bd-example-modal-lg-edit" class="  m-2" >
-            <span class=" bg-info" style="padding: 13px 10px 4px 10px;
-    border-radius: 4px;
-    box-shadow: 0 1px 6px 0 #6464a9;">
-                ارجاع دستی به خدمت رسان 
-            </span>
-           </a>
-           <a href="#" title="" data-toggle="modal" data-target=".bd-example-modal-lg-chosen" class="  m-2" >
-            <span class=" bg-success" style="padding: 13px 10px 4px 10px;
-    border-radius: 4px;
-    box-shadow: 0 1px 6px 0 #6464a9;">
-                ارجاع دستی به خدمت رسان های منتخب 
-            </span>
-           </a>
-          </a>
-           <a href="#" title="" data-toggle="modal" data-target=".bd-example-modal-lg-transactions" class="  m-2" >
-            <span class=" bg-primary" style="padding: 13px 10px 4px 10px;
-    border-radius: 4px;
-    box-shadow: 0 1px 6px 0 #6464a9;">
-                تراکنش های سفارش
-            </span>
-           </a>
-           <a href="#" title="" data-toggle="modal" data-target=".bd-example-modal-lg-edit" class="  m-2" >
-            <span class=" bg-dark" style="padding: 13px 10px 4px 10px;
-    border-radius: 4px;
-    box-shadow: 0 1px 6px 0 #6464a9;">
-                مشاهده لیست پیشنهادات خدمت رسان ها
-            </span>
-           </a>
-                    `)
+                    $('.delete-edit').fadeIn()
+                    $('.order-detail').fadeIn()
+                    $('.order-transactions').fadeIn()
+                    $('.order-refferto').fadeIn()
+                    $('.insert-filter').addClass('text-left')
+                    $('.insert-filter').removeClass('text-right')
                 }
             }
             else{
                 $('.container_icon').removeClass('justify-content-between')
                 $('.container_icon').addClass('justify-content-end')
-                $('.delete-edit').html('')
+                $('.delete-edit').fadeOut()
+                $('.insert-filter').removeClass('text-left')
+                $('.insert-filter').addClass('text-right')
             }
         })
             

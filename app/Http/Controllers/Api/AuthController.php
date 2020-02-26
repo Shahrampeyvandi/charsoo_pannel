@@ -17,7 +17,6 @@ class AuthController extends Controller
         'customer_firstname' => $request->first_name,
         'customer_lastname' => $request->last_name,
         'customer_mobile' => $request->mobile,
-        'broker_id' => $request->broker_id,
         'customer_status' => $request->status,
       ]);
       

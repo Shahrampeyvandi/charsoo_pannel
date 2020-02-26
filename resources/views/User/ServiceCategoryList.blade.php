@@ -121,19 +121,25 @@
 <div class="container-fluid">
     <div class="card">
         <div class="container_icon card-body d-flex justify-content-end">
-          <div class="delete-edit" > 
-        </div>
+          @if (auth()->user()->can(['category_delete','category_edit']))
+          <div class="delete-edit">
+          </div>
+          @else
+          <div></div>
+          @endif
         <div>
           <a href="#" class="mx-2 btn--filter"  title="فیلتر اطلاعات">
             <span class="__icon bg-info">
                 <i class="fa fa-search"></i>
             </span>
         </a>
+            @if (auth()->user()->can('category_insert'))
             <a href="#" data-toggle="modal" data-target=".bd-example-modal-lg" title="افزودن کاربر">
-                <span class="__icon bg-success">
-                    <i class="fa fa-plus"></i>
-                </span>
-            </a>
+              <span class="__icon bg-success">
+                  <i class="fa fa-plus"></i>
+              </span>
+          </a>
+            @endif
             <a href="#" title="تازه سازی" class="mx-2" onclick="location.reload()">
                 <span class="__icon bg-primary">
                     <i class="fa fa-refresh"></i>

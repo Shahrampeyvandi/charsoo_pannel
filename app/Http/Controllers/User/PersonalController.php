@@ -6,14 +6,189 @@ use Illuminate\Http\Request;
 use App\Models\Personals\Personal;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Validator;
+use Spatie\Permission\Models\Role;
 
 class PersonalController extends Controller
 {
     public function PersonalsList()
-    {
-        $personals = Personal::latest()->get();
+    { 
+       
+        $personal_array =[];
+        $personals ='';
+        if (auth()->user()->hasRole('admin_panel')) {
+        $personal_get = Personal::latest()->get();
+        foreach ($personal_get as $key=>$personal){
+            $personals .= ' 
+            <tr>
+                <td>
+                    <div class="custom-control custom-checkbox custom-control-inline"
+                        style="margin-left: -1rem;">
+                        <input data-id="'.$personal->id.'" type="checkbox" id="'.$key.'"
+                            name="customCheckboxInline1" class="custom-control-input" value="1">
+                        <label class="custom-control-label" for="'.$key.'"></label>
+                    </div>
+                </td>
+                <td>'.($key+1).'</td>
+                <td>'.$personal->personal_firstname.'</td>
+                <td>'.$personal->personal_lastname.'</td>
+
+                <td>'
+                    .($personal->personal_mobile ?
+                    $personal->personal_mobile
+                    
+                    :
+                    'وارد نشده'
+                    ).
+                '</td>'
+                .($personal->personal_status == 1 ?
+                '<td class="text-success">
+                    <i class="fa fa-check"></i>
+                </td>'
+                :
+               
+                '<td class="text-danger">
+                    <i class="fa fa-close"></i>
+                </td>') .'
+                <td>مرد</td>
+                <td>'.$personal->personal_marriage.'</td>
+                <td>'.$personal->personal_last_diploma.'</td>
+                <td>
+                     '.($personal->personal_home_phone ?
+                    $personal->personal_home_phone
+                    :
+                    'وارد نشده'
+                     ).'
+                </td>
+                <td>'
+                     .($personal->personal_office_phone ?
+                    $personal->personal_office_phone :
+                    
+                    'وارد نشده'
+                     ).
+                '</td>
+            </tr>';
+        }  
+        }else{
+            foreach (auth()->user()->roles as $key => $role) {
+                if ($role->broker == 1) {
+                    foreach (auth()->user()->services as $key => $service) {
+                        foreach ($service->personal as $key=>$personal){
+                        $personals .= ' 
+                        <tr>
+                            <td>
+                                <div class="custom-control custom-checkbox custom-control-inline"
+                                    style="margin-left: -1rem;">
+                                    <input data-id="'.$personal->id.'" type="checkbox" id="'.$key.'"
+                                        name="customCheckboxInline1" class="custom-control-input" value="1">
+                                    <label class="custom-control-label" for="'.$key.'"></label>
+                                </div>
+                            </td>
+                            <td>'.($key+1).'</td>
+                            <td>'.$personal->personal_firstname.'</td>
+                            <td>'.$personal->personal_lastname.'</td>
+    
+                            <td>'
+                                .($personal->personal_mobile ?
+                                $personal->personal_mobile
+                                
+                                :
+                                'وارد نشده'
+                                ).
+                            '</td>'
+                            .($personal->personal_status == 1 ?
+                            '<td class="text-success">
+                                <i class="fa fa-check"></i>
+                            </td>'
+                            :
+                           
+                            '<td class="text-danger">
+                                <i class="fa fa-close"></i>
+                            </td>') .'
+                            <td>مرد</td>
+                            <td>'.$personal->personal_marriage.'</td>
+                            <td>'.$personal->personal_last_diploma.'</td>
+                            <td>
+                                 '.($personal->personal_home_phone ?
+                                $personal->personal_home_phone
+                                :
+                                'وارد نشده'
+                                 ).'
+                            </td>
+                            <td>'
+                                 .($personal->personal_office_phone ?
+                                $personal->personal_office_phone :
+                                
+                                'وارد نشده'
+                                 ).
+                            '</td>
+                        </tr>';
+                    }  
+                }
+            }else{
+               $role_name = Role::where('id',$role->sub_broker)->first()->name;
+              $user = User::whereHas('roles',function($q)use($role_name){
+                $q->where('name',$role_name);
+               })->first();
+              
+               foreach ($user->services as $key => $service) {
+                foreach ($service->personal as $key=>$personal){
+                $personals .= ' 
+                <tr>
+                    <td>
+                        <div class="custom-control custom-checkbox custom-control-inline"
+                            style="margin-left: -1rem;">
+                            <input data-id="'.$personal->id.'" type="checkbox" id="'.$key.'"
+                                name="customCheckboxInline1" class="custom-control-input" value="1">
+                            <label class="custom-control-label" for="'.$key.'"></label>
+                        </div>
+                    </td>
+                    <td>'.($key+1).'</td>
+                    <td>'.$personal->personal_firstname.'</td>
+                    <td>'.$personal->personal_lastname.'</td>
+    
+                    <td>'
+                        .($personal->personal_mobile ?
+                        $personal->personal_mobile
+                        
+                        :
+                        'وارد نشده'
+                        ).
+                    '</td>'
+                    .($personal->personal_status == 1 ?
+                    '<td class="text-success">
+                        <i class="fa fa-check"></i>
+                    </td>'
+                    :
+                   
+                    '<td class="text-danger">
+                        <i class="fa fa-close"></i>
+                    </td>') .'
+                    <td>مرد</td>
+                    <td>'.$personal->personal_marriage.'</td>
+                    <td>'.$personal->personal_last_diploma.'</td>
+                    <td>
+                         '.($personal->personal_home_phone ?
+                        $personal->personal_home_phone
+                        :
+                        'وارد نشده'
+                         ).'
+                    </td>
+                    <td>'
+                         .($personal->personal_office_phone ?
+                        $personal->personal_office_phone :
+                        
+                        'وارد نشده'
+                         ).
+                    '</td>
+                </tr>';
+            }  
+         }    
+        }
+       }
+        }
         return view('User.PersonalsList',compact('personals'));
     }
 
@@ -96,12 +271,29 @@ class PersonalController extends Controller
             'personal_work_experience_year' => $request->work_experience_year_num,
         ]);
 
-
         if($request->has('service')){
+            
             foreach ($request->service as $key => $service) {
-                $personal->services()->attach($service[1] , ['personal_chosen_status'=>$service[2],'personal_confirmed_services'=>$service[3]]);   
+                if(!array_key_exists(2,$service) AND !array_key_exists(3,$service)){
+                   
+                    $personal->services()->attach($service[1]);   
+                }
+                if(array_key_exists(2,$service) AND !array_key_exists(3,$service)){
+                    
+                    $personal->services()->attach($service[1] , ['personal_chosen_status'=>$service[2],'personal_confirmed_services'=>null]);   
+                }
+                if(!array_key_exists(2,$service) AND array_key_exists(3,$service)){
+                   
+                    $personal->services()->attach($service[1] , ['personal_chosen_status'=>null,'personal_confirmed_services'=>$service[3]]);   
+                }
+                if(array_key_exists(2,$service) AND array_key_exists(3,$service)){
+                   
+                    $personal->services()->attach($service[1] , ['personal_chosen_status'=>$service[2],'personal_confirmed_services'=>$service[3]]);   
+                }
+               
             }
         }
+       
 
             // Alert::success( 'اطلاعات با موفقیت ثبت شد','موفق')->persistent("باشه");
             alert()->success('خدمت رسان با موفقیت ثبت شد', 'عملیات موفق')->autoclose(2000);

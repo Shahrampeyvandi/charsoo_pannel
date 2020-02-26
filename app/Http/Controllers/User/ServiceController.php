@@ -17,7 +17,7 @@ class ServiceController extends Controller
         $brokers ='';
         foreach (User::all() as $key => $user) {
             if (count($user->roles->where('broker',1))) {
-                $brokers .= '<option value="{{$item->id}}">'.$user->user_username.'</option>';
+                $brokers .= '<option value="'.$user->id.'">'.$user->user_username.'</option>';
             }
         }
        $category_parent_list = ServiceCategory::where('category_parent',0)->get();
@@ -40,7 +40,7 @@ class ServiceController extends Controller
 
     public function SubmitService(Request $request)
     {
-        
+      
         if ($request->has('service_icon')) {
         
             $icon = $request->title . '.' . $request->service_icon->getClientOriginalExtension();
@@ -82,6 +82,7 @@ class ServiceController extends Controller
         ]);
 
         if ($request->has('service_role')) {
+            
             $service->user()->attach($request->service_role);
         }
 
@@ -103,7 +104,14 @@ class ServiceController extends Controller
     public function getData(Request $request)
     {
         
-         
+        $brokers ='';
+        foreach (User::whereHas('roles',function($q){
+            $q->where('broker',1);
+        })->get() as $key => $user) {
+            if (count($user->roles->where('broker',1))) {
+                $brokers .= '<option value="'.$user->id.'">'.$user->user_username.'</option>';
+            }
+        }
         
         $service = Service::where('id',$request->category_id)->first();
         $csrf = csrf_token();
@@ -234,13 +242,13 @@ $list = '<div class="modal-body">
                 </select>
             </div>
             <div class="row">
-                <div class="form-group col-md-6">
-                    <label>نقش </label>
-                    <input type="text" name="service_rol" class="form-control" placeholder="" >
-                    <div class="valid-feedback">
-                        صحیح است!
-                    </div>
-                </div><!-- form-group -->
+            <div class="form-group col-md-6">
+            <label for="recipient-name" class="col-form-label">نام کارگزاری: </label>
+            <select required name="service_role"   class="form-control" id="exampleFormControlSelect2">
+                '. $brokers .'
+                  
+            </select>
+            </div>
                 <div class="form-group col-md-6">
                     <label>تغییر ایکون </label>
                     <input type="file" id="service_icon" name="service_icon" class="form-control" placeholder="" >
@@ -362,7 +370,6 @@ return $list;
                 'service_alerts' => $request->service_alerts,
                 'service_city' => $request->service_city,
                 'service_type_send' => $request->type_send,
-                'service_rol' => $request->service_rol,
                 'price_type' => $request->price_type,
                 'service_offered_status' => $request->service_offered_status,
                 'service_special_category' => $request->service_special_category,
@@ -371,11 +378,10 @@ return $list;
                 'service_pic_second' => $pic2
                     ];
         
-        
-           
-        
-
         Service::where('id',$request->service_id)->update($array);
+        if ($request->has('service_role')) {
+            $service->user()->attach($request->service_role);
+        }
         alert()->success('دسته بندی با موفقیت ویرایش شد', 'عملیات موفق')->autoclose(2000);
         return back();
     }

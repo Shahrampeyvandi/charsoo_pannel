@@ -91,18 +91,20 @@
          
           <p>انتخاب نقش: </p>
           <div class="row">
-           @foreach ($roles as $key=> $role)
-           <div class="custom-control custom-radio custom-control-inline">
-            <input type="radio" id="{{$key+1}}" name="user_responsibility" class="custom-control-input"
-              value="{{$role->name}}">
-            <label class="custom-control-label" for="{{$key+1}}">{{$role->name}}</label>
-          </div>
-           @endforeach
-          </div>
+          @if (count($roles))
+          @foreach ($roles as $key=> $role)
+          <div class="custom-control custom-radio custom-control-inline">
+           <input type="radio" id="{{$key+1}}"  name="user_responsibility" class="custom-control-input"
+             value="{{$role->name}}">
+           <label class="custom-control-label" for="{{$key+1}}">{{$role->name}}</label>
+         </div>
+          @endforeach
+         @endif
+        </div>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">بستن</button>
-          <button type="submit" class="btn btn-primary">ذخیره</button>
+          <button type="submit" class="btn btn-primary btn--submit" disabled="true">ذخیره</button>
         </div>
       </form>
     </div>
@@ -568,6 +570,11 @@ success:function(data){
 
     })
 
+  $('input[name="user_responsibility"]').change(function(){
+      if ($(this).is(':checked')) {
+        $('.btn--submit').removeAttr('disabled')
+      }
+})
 })
 </script>
 @endsection

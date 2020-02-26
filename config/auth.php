@@ -46,6 +46,11 @@ return [
             'provider' => 'cunsomers',
             'hash' => True,
         ],
+        'personalapi' => [
+            'driver' => 'jwt',
+            'provider' => 'personals',
+            'hash' => True,
+        ]
     ],
 
     /*
@@ -75,10 +80,10 @@ return [
             'table' => 'cunsomers',
         ],
 
-        // 'cunsomers' => [
-        //     'driver' => 'database',
-        //     'table' => 'users',
-        // ],
+        'personals' => [
+            'driver' => 'database',
+            'table' => 'personals',
+        ],
     ],
 
     /*

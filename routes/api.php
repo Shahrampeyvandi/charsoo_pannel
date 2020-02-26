@@ -21,6 +21,6 @@ Route::post('register', 'Api\AuthController@register');
 Route::post('login', 'Api\AuthController@login');
 Route::get('logout', 'Api\AuthController@logout');
 Route::get('user', 'Api\AuthController@getAuthUser');
-
+Route::post('personal/register','Api\PersonalController@register');
 
 Route::get('sendcode','Api\SMSCodeController@sendcode');
