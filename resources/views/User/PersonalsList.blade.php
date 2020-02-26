@@ -291,25 +291,25 @@
                                 <div class="form-group col-md-4">
                                     <div class="custom-control custom-checkbox custom-control-inline"
                                         style="margin-left: -1rem;">
-                                        <input type="checkbox" id="service_1" name="service[service_{{$key+1}}][1]"
+                                        <input type="checkbox" id="service_{{$key}}_{{$key}}" name="service[service_{{$key+1}}][1]"
                                             class="custom-control-input" value="{{$service->id}}">
-                                        <label class="custom-control-label" for="service_1">{{$service->service_title}}</label>
+                                        <label class="custom-control-label" for="service_{{$key}}_{{$key}}">{{$service->service_title}}</label>
                                     </div>
                                 </div><!-- form-group -->
                                 <div class="form-group col-md-4">
                                     <div class="custom-control custom-checkbox custom-control-inline"
                                         style="margin-left: -1rem;">
-                                        <input type="checkbox" id="service_2" name="service[service_{{$key+1}}][2]"
+                                        <input type="checkbox" id="service_{{$key}}_{{$key+1}}" name="service[service_{{$key+1}}][2]"
                                             class="custom-control-input" value="1">
-                                        <label class="custom-control-label" for="service_2">خدمت رسان ارشد</label>
+                                        <label class="custom-control-label" for="service_{{$key}}_{{$key+1}}">خدمت رسان ارشد</label>
                                     </div>
                                 </div><!-- form-group -->
                                 <div class="form-group col-md-4">
                                     <div class="custom-control custom-checkbox custom-control-inline"
                                         style="margin-left: -1rem;">
-                                        <input type="checkbox" id="service_3" name="service[service_{{$key+1}}][3]"
+                                        <input type="checkbox" id="service_{{$key}}_{{$key+2}}" name="service[service_{{$key+1}}][3]"
                                             class="custom-control-input" value="1">
-                                        <label class="custom-control-label" for="service_3">مورد تایید است</label>
+                                        <label class="custom-control-label" for="service_{{$key}}_{{$key+2}}">مورد تایید است</label>
                                     </div>
                                 </div><!-- form-group -->
                             </div>
@@ -372,21 +372,25 @@
 <div class="container-fluid">
     <div class="card">
         <div class="container_icon card-body d-flex justify-content-end">
+            @if (auth()->user()->can(['personal_delete','personal_edit']))
             <div class="delete-edit">
-
             </div>
-            <div>
-                <a href="#" class="mx-2 btn--filter" title="فیلتر اطلاعات">
-                    <span class="__icon bg-info">
-                        <i class="fa fa-search"></i>
-                    </span>
-                </a>
-
-                <a href="#" data-toggle="modal" data-target=".bd-example-modal-lg" title="افزودن کاربر">
-                    <span class="__icon bg-success">
-                        <i class="fa fa-plus"></i>
-                    </span>
-                </a>
+            @else
+            <div></div>
+            @endif
+          <div>
+            <a href="#" class="mx-2 btn--filter"  title="فیلتر اطلاعات">
+              <span class="__icon bg-info">
+                  <i class="fa fa-search"></i>
+              </span>
+          </a>
+              @if (auth()->user()->can('personal_insert'))
+              <a href="#" data-toggle="modal" data-target=".bd-example-modal-lg" title="افزودن کاربر">
+                <span class="__icon bg-success">
+                    <i class="fa fa-plus"></i>
+                </span>
+            </a>
+              @endif
                 <a href="#" title="تازه سازی" class="mx-2" onclick="location.reload()">
                     <span class="__icon bg-primary">
                         <i class="fa fa-refresh"></i>
@@ -469,59 +473,7 @@
                         </tr>
                     </thead>
                     <tbody class="tbody">
-                        @foreach ($personals as $key=>$personal)
-                        <tr>
-                            <td>
-                                <div class="custom-control custom-checkbox custom-control-inline"
-                                    style="margin-left: -1rem;">
-                                    <input data-id=" {{$personal->id}} " type="checkbox" id="{{ $key}}"
-                                        name="customCheckboxInline1" class="custom-control-input" value="1">
-                                    <label class="custom-control-label" for="{{$key}}"></label>
-                                </div>
-                            </td>
-                            <td> {{$key+1}} </td>
-                            <td>{{$personal->personal_firstname}}</td>
-                            <td>{{$personal->personal_lastname}}</td>
-
-                            <td>
-                                @if ($personal->personal_mobile)
-                                {{$personal->personal_mobile}}
-                                @else
-                                وارد نشده
-                                @endif
-                            </td>
-                            @if ($personal->personal_status == 1)
-                            <td class="text-success">
-                                <i class="fa fa-check"></i>
-                            </td>
-                            @else
-                            <td class="text-danger">
-                                <i class="fa fa-close"></i>
-                            </td>
-                            @endif
-
-                            <td>مرد</td>
-                            <td>{{$personal->personal_marriage}}</td>
-                            <td>{{$personal->personal_last_diploma}}</td>
-                            <td>
-                                @if ($personal->personal_home_phone)
-                                {{$personal->personal_home_phone}}
-                                @else
-                                وارد نشده
-                                @endif
-                            </td>
-                            <td>
-                                @if ($personal->personal_office_phone)
-                                {{$personal->personal_office_phone}}
-                                @else
-                                وارد نشده
-                                @endif
-                            </td>
-                        </tr>
-                        @endforeach
-
-
-
+                      {!! $personals !!}
                     </tbody>
 
                 </table>

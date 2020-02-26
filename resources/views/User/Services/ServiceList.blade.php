@@ -200,7 +200,7 @@
 <div class="modal fade bd-example-modal-lg-edit" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">    <div class="modal-dialog modal-lg">
     <div class="modal-content edit-modal-content">
       
-      </div>
+    </div>
 </div>
 </div>
 
@@ -209,19 +209,25 @@
 <div class="container-fluid">
     <div class="card">
         <div class="container_icon card-body d-flex justify-content-end">
-          <div class="delete-edit" > 
-        </div>
+            @if (auth()->user()->can(['service_delete','service_edit']))
+            <div class="delete-edit">
+            </div>
+            @else
+            <div></div>
+            @endif
         <div>
             <a href="#" class="mx-2 btn--filter"  title="فیلتر اطلاعات">
                 <span class="__icon bg-info">
                     <i class="fa fa-search"></i>
                 </span>
             </a>
-            <a href="#" data-toggle="modal" data-target=".bd-example-modal-lg" title="افزودن کاربر">
-                <span class="__icon bg-success">
-                    <i class="fa fa-plus"></i>
-                </span>
+           @if (auth()->user()->can('service_insert'))
+           <a href="#" data-toggle="modal" data-target=".bd-example-modal-lg" title="افزودن کاربر">
+            <span class="__icon bg-success">
+                <i class="fa fa-plus"></i>
+            </span>
             </a>
+           @endif
             <a href=" {{route('Pannel.Services.Questions')}} " title="تازه سازی" class="mx-2" >
                 <span class="__icon bg-primary">
                     <i class="fa fa-refresh"></i>

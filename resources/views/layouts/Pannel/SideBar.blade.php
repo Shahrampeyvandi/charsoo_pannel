@@ -22,34 +22,39 @@
                     </ul>
              </li>
             @endif
-            
-            <li><a @if (Illuminate\Support\Facades\Route::currentRouteName() == 'Pannel.Services.Category')
-                class="active"
-            @endif href=" {{route('Pannel.Services.Category')}} "><i class="icon ti-list"></i> <span>دسته بندی خدمات</span> </a></li>
-            
-            
-            <li><a @if (Illuminate\Support\Facades\Route::currentRouteName() == 'Pannel.Services.Questions')
-                class="active"
-            @endif href=" {{route('Pannel.Services.Questions')}} "><i class="icon ti-tag"></i> <span> خدمات </span> </a></li>
-
-            <li><a @if (Illuminate\Support\Facades\Route::currentRouteName() == 'Pannel.Services.Personels')
-                class="active"
-            @endif href=" {{route('Pannel.Services.Personels')}} "><i class="icon ti-hummer"></i> <span> خدمت رسان ها </span> </a></li>
-
+            @if (auth()->user()->can('category_menu'))
+                <li><a @if (Illuminate\Support\Facades\Route::currentRouteName() == 'Pannel.Services.Category')
+                    class="active"
+                @endif href=" {{route('Pannel.Services.Category')}} "><i class="icon ti-list"></i> <span>دسته بندی خدمات</span> </a></li>
+            @endif
+            @if (auth()->user()->can('service_menu'))
+                <li><a @if (Illuminate\Support\Facades\Route::currentRouteName() == 'Pannel.Services.Questions')
+                    class="active"
+                @endif href=" {{route('Pannel.Services.Questions')}} "><i class="icon ti-tag"></i> <span> خدمات </span> </a></li>
+            @endif
+            @if (auth()->user()->can('personal_menu'))
+                <li><a @if (Illuminate\Support\Facades\Route::currentRouteName() == 'Pannel.Services.Personels')
+                    class="active"
+                @endif href=" {{route('Pannel.Services.Personels')}} "><i class="icon ti-hummer"></i> <span> خدمت رسان ها </span> </a></li>
+            @endif
 
             <li><a @if (Illuminate\Support\Facades\Route::currentRouteName() == 'Pannel.Cunsomers.List')
                 class="active"
             @endif href=" {{route('Pannel.Cunsomers.List')}} "><i class="icon ti-user"></i> <span> مشتریان </span> </a></li>
 
-            <li><a @if (Illuminate\Support\Facades\Route::currentRouteName() == 'Pannel.City.List')
-                class="active"
-            @endif href=" {{route('Pannel.City.List')}} "><i class="icon ti-layout-accordion-list"></i> <span> شهر </span> </a></li>
+            @if (auth()->user()->can('city_menu'))
+                <li><a @if (Illuminate\Support\Facades\Route::currentRouteName() == 'Pannel.City.List')
+                    class="active"
+                @endif href=" {{route('Pannel.City.List')}} "><i class="icon ti-layout-accordion-list"></i> <span> شهر </span> </a></li>
+           @endif
 
-             <li><a @if (Illuminate\Support\Facades\Route::currentRouteName() == 'Pannel.Customers.Orders')
-                class="active"
-            @endif href=" {{route('Pannel.Customers.Orders')}} "><i class="icon ti-money"></i> <span> گردش کار</span> </a></li>
+           @if(auth()->user()->can('orders_menu'))
+                <li><a @if (Illuminate\Support\Facades\Route::currentRouteName() == 'Pannel.Customers.Orders')
+                    class="active"
+                @endif href=" {{route('Pannel.Customers.Orders')}} "><i class="icon ti-money"></i> <span> گردش کار</span> </a></li>
+            @endif
 
-  <li><a href=""><i class="icon ti-money"></i>  <span> حسابداری </span></a>
+           <li><a href=""><i class="icon ti-money"></i><span> حسابداری</span></a>
                 <ul>
                     <li><a 
                         @if (Illuminate\Support\Facades\Route::currentRouteName() == 'Pannel.User.List')

@@ -15,9 +15,9 @@ class RoleController extends Controller
 }
     public function RolesList()
     {
-       $roles = Role::all();
+       $roles = Role::orderBy('name')->get();
        $brokers = Role::where('broker',1)->get();
-        return view('User.Roles.RolesList',compact(['roles','brokers']));
+       return view('User.Roles.RolesList',compact(['roles','brokers']));
     }
 
     public function InsertRole(Request $request)
@@ -35,11 +35,13 @@ class RoleController extends Controller
                 'broker' => 1,
                 ]);
          }
+
      }else{
         $role = Role::create([
             'name' => $request->role_name,
             ]);
      }
+     
        
 
             $role->givePermissionTo(array_keys($array));
@@ -196,12 +198,257 @@ class RoleController extends Controller
                         </div>
                     </div>
                     <hr>
-                    <p>گزارش خدمت رسان های انلاین</p>
+                   
+                    <p>دسته بندی خدمات</p>
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group wd-xs-300">
                                 <div class=""
                                     style="margin-left: -1rem;">
+                                    <input type="checkbox" id="category_menu" name="category_menu"
+                                         value="1"
+                                         '.(in_array('category_menu',$permissions) ? 'checked=""' : '').'
+                                         >
+                                    <label  for="category_menu">منوی دسته بندی</label>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>  
+                    <div class="row c" >
+                            <div class="col-md-4">
+                                <div class="form-group wd-xs-300">
+                                    <div class=""
+                                        style="margin-left: -1rem;">
+                                        <input type="checkbox" id="category_insert" name="category_insert"
+                                             value="1"
+                                             '.(in_array('category_insert',$permissions) ? 'checked=""' : '').'
+                                             >
+                                        <label  for="category_insert">افزودن دسته بندی</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group wd-xs-300">
+                                    <div class=""
+                                        style="margin-left: -1rem;">
+                                        <input type="checkbox" id="category_delete" name="category_delete"
+                                             value="1"
+                                             '.(in_array('category_delete',$permissions) ? 'checked=""' : '').'
+                                             >
+                                        <label  for="category_delete">حذف دسته بندی</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group wd-xs-300">
+                                    <div class=""
+                                        style="margin-left: -1rem;">
+                                        <input type="checkbox" id="category_edit" name="category_edit"
+                                             value="1"
+                                             '.(in_array('category_edit',$permissions) ? 'checked=""' : '').'
+                                             >
+                                        <label  for="category_edit">ویرایش دسته بندی</label>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                      
+                        <hr>
+                        <p>خدمات</p>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group wd-xs-300">
+                                    <div class=""
+                                        style="margin-left: -1rem;">
+                                        <input type="checkbox" id="service_menu" name="service_menu"
+                                             value="1"
+                                             '.(in_array('service_menu',$permissions) ? 'checked=""' : '').'
+                                             >
+                                        <label  for="service_menu">منوی خدمات</label>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>  
+                        <div class="row " >
+                                <div class="col-md-4">
+                                    <div class="form-group wd-xs-300">
+                                        <div class=""
+                                            style="margin-left: -1rem;">
+                                            <input type="checkbox" id="service_insert" name="service_insert"
+                                                 value="1"
+                                                 '.(in_array('service_insert',$permissions) ? 'checked=""' : '').'
+                                                 >
+                                            <label  for="service_insert">افزودن خدمت</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group wd-xs-300">
+                                        <div class=""
+                                            style="margin-left: -1rem;">
+                                            <input type="checkbox" id="service_delete" name="service_delete"
+                                                 value="1"
+                                                 '.(in_array('service_delete',$permissions) ? 'checked=""' : '').'
+                                                 >
+                                            <label  for="service_delete">حذف خدمت</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group wd-xs-300">
+                                        <div class=""
+                                            style="margin-left: -1rem;">
+                                            <input type="checkbox" id="service_edit" name="service_edit"
+                                                 value="1"
+                                                 '.(in_array('service_edit',$permissions) ? 'checked=""' : '').'
+                                                 >
+                                            <label  for="service_edit">ویرایش خدمت</label>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <hr>
+                                    <p>خدمت رسان ها</p>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group wd-xs-300">
+                                                <div 
+                                                    style="margin-left: -1rem;">
+                                                    <input type="checkbox" id="personal_menu" name="personal_menu"
+                                                         value="1"
+                                                          '.(in_array('personal_menu',$permissions) ? 'checked=""' : '').'
+                                                         >
+                                                    <label  for="personal_menu">منوی خدمت رسان ها</label>
+                                                </div>
+        
+                                            </div>
+                                        </div>
+                                    </div>  
+                                    <div class="row ">
+                                            <div class="col-md-4">
+                                                <div class="form-group wd-xs-300">
+                                                    <div 
+                                                        style="margin-left: -1rem;">
+                                                        <input type="checkbox" id="personal_insert" name="personal_insert"
+                                                             value="1"
+                                                              '.(in_array('personal_insert',$permissions) ? 'checked=""' : '').'
+                                                             >
+                                                        <label  for="personal_insert">افزودن خدمت رسان</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group wd-xs-300">
+                                                    <div 
+                                                        style="margin-left: -1rem;">
+                                                        <input type="checkbox" id="personal_delete" name="personal_delete"
+                                                             value="1"
+                                                              '.(in_array('personal_delete',$permissions) ? 'checked=""' : '').'
+                                                             >
+                                                        <label  for="personal_delete">حذف خدمت رسان</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group wd-xs-300">
+                                                    <div >
+                                                        
+                                                        <input type="checkbox" id="personal_edit" name="personal_edit"
+                                                             value="1"
+                                                              '.(in_array('personal_edit',$permissions) ? 'checked=""' : '').'
+                                                             >
+                                                        <label  for="personal_edit">ویرایش خدمت رسان</label>
+                                                    </div>
+                                                </div>
+            
+                                            </div>
+                                        </div>
+                                        <hr>
+                                        <p>گردش کار</p>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-group wd-xs-300">
+                                                    <div 
+                                                        style="margin-left: -1rem;">
+                                                        <input type="checkbox" id="orders_menu" name="orders_menu"
+                                                             value="1"
+                                                              '.(in_array('orders_menu',$permissions) ? 'checked=""' : '').'
+                                                             >
+                                                        <label  for="orders_menu">منوی گردش کار</label>
+                                                    </div>
+            
+                                                </div>
+                                            </div>
+                                        </div>  
+                                        <div class="row ">
+                                                <div class="col-md-6">
+                                                    <div class="form-group wd-xs-300">
+                                                        <div 
+                                                            style="margin-left: -1rem;">
+                                                            <input type="checkbox" id="orders_insert" name="orders_insert"
+                                                                 value="1"
+                                                                  '.(in_array('orders_insert',$permissions) ? 'checked=""' : '').'
+                                                                 >
+                                                            <label  for="orders_insert">افزودن سفارش</label>
+                                                        </div>
+                                                    </div>
+                                              
+                                                    <div class="form-group wd-xs-300">
+                                                        <div 
+                                                            style="margin-left: -1rem;">
+                                                            <input type="checkbox" id="orders_delete" name="orders_delete"
+                                                                 value="1"
+                                                                  '.(in_array('orders_delete',$permissions) ? 'checked=""' : '').'
+                                                                 >
+                                                            <label  for="orders_delete">حذف سفارش</label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group wd-xs-300">
+                                                        <div 
+                                                            style="margin-left: -1rem;">
+                                                            <input type="checkbox" id="orders_transactions" name="orders_transactions"
+                                                                 value="1"
+                                                                  '.(in_array('orders_transactions',$permissions) ? 'checked=""' : '').'
+                                                                 >
+                                                            <label  for="orders_transactions">تراکنش های سفارش</label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group wd-xs-300">
+                                                        <div >
+                                                            
+                                                            <input type="checkbox" id="orders_refferto" name="orders_refferto"
+                                                                 value="1"
+                                                                  '.(in_array('orders_refferto',$permissions) ? 'checked=""' : '').'
+                                                                 >
+                                                            <label  for="orders_refferto">ارجاع سفارش</label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group wd-xs-300">
+                                                        <div >
+                                                            
+                                                            <input type="checkbox" id="orders_detail" name="orders_detail"
+                                                                 value="1"
+                                                                  '.(in_array('orders_detail',$permissions) ? 'checked=""' : '').'
+                                                                 >
+                                                            <label  for="orders_detail">جزئیات سفارش</label>
+                                                        </div>
+                                                    </div>
+                
+                                                </div>
+                                            </div>
+                                            <hr>
+                    <p>گزارش خدمت رسان های انلاین</p>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group wd-xs-300">
+                                <div class="">
+                                    
                                     <input type="checkbox" id="personal_online_menu" name="personal_online_menu"
                                         class="" value="1"
                                         '.(in_array('personal_online_menu',$permissions) ? 'checked=""' : '').'
@@ -212,8 +459,8 @@ class RoleController extends Controller
 
                             </div>
                             <div class="form-group wd-xs-300">
-                                <div class=""
-                                    style="margin-left: -1rem;">
+                                <div class="">
+                                    
                                     <input type="checkbox" id="personal_online_list" name="personal_online_list"
                                         class="" value="1"
                                         '.(in_array('personal_online_list',$permissions) ? 'checked=""' : '').'
@@ -229,8 +476,8 @@ class RoleController extends Controller
                     <div class="row">
                         <div class="col-md-4">
                             <div class="form-group wd-xs-300">
-                                <div class=""
-                                    style="margin-left: -1rem;">
+                                <div class="" >
+                                    
                                     <input type="checkbox" id="city_insert" name="city_insert"
                                         class="" value="1"
                                         '.(in_array('city_insert',$permissions) ? 'checked=""' : '').'
@@ -240,8 +487,8 @@ class RoleController extends Controller
 
                             </div>
                             <div class="form-group wd-xs-300">
-                                <div class=""
-                                    style="margin-left: -1rem;">
+                                <div class="" >
+                                    
                                     <input type="checkbox" id="city_edit" name="city_edit"
                                         class="" value="1"
                                         '.(in_array('city_edit',$permissions) ? 'checked=""' : '').'
@@ -252,7 +499,7 @@ class RoleController extends Controller
                         </div>
                         <div class="col-md-4">
                             <div class="form-group wd-xs-300">
-                                <div class=""
+                                <div class="" 
                                     style="margin-left: -1rem;">
                                     <input type="checkbox" id="city_delete" name="city_delete"
                                         class="" value="1"
@@ -262,7 +509,7 @@ class RoleController extends Controller
                                 </div>
                             </div>
                             <div class="form-group wd-xs-300">
-                                <div class=""
+                                <div class="" 
                                     style="margin-left: -1rem;">
                                     <input type="checkbox" id="city_menu" name="city_menu"
                                         class="" value="1"
@@ -348,6 +595,7 @@ class RoleController extends Controller
 
     public function SubmitEditRole(Request $request)
     {
+       
         $all_permissions = [
             'user_transaction',
             'user_pass',
@@ -366,12 +614,33 @@ class RoleController extends Controller
             'customer_menu',
             'customer_list',
             'customer_delete',
-            'customer_excel'
+            'customer_excel',
+            'category_menu',
+            'category_insert',
+            'category_delete',
+            'category_edit',
+            'service_menu',
+            'service_insert',
+            'service_delete',
+            'service_edit',
+            'personal_menu',
+            'personal_insert',
+            'personal_delete',
+            'personal_edit',
+            'orders_menu',
+            'orders_insert',
+            'orders_delete',
+            'orders_refferto',
+            'orders_detail',
+            'orders_transactions',
         ];
+
     $role = Role::where('id',$request->role_id)->update([
             'name' => $request->role_name,
-            'broker' => $request->broker_status
+            'broker' => $request->broker_status,
+            'sub_broker' => $request->broker_id
             ]);
+
     $role_model = Role::find($request->role_id);
     $array = $request->except(['role_name','_token','broker_status','role_id']);
     $role_model->revokePermissionTo($all_permissions);
