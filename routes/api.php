@@ -13,3 +13,5 @@ Route::post('personal/offeringOrders','Api\OrdersController@offeringOrders');
 Route::post('personal/allRelatedOrders','Api\OrdersController@allRelatedOrders');
 
 Route::get('sendcode','Api\SMSCodeController@sendcode');
+Route::get('personal/dashboarddetail','Api\PersonalController@getPersonalDashboardDetail');
+
