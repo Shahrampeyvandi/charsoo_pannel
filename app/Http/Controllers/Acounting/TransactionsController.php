@@ -34,14 +34,14 @@ class TransactionsController extends Controller
 
         ]);
 
-        if ($validation->fails()) {
+        // if ($validation->fails()) {
 
-            //return response()->json(['messsage' => 'invalid'], 400);
-            alert()->error('باید تمامی فیلد های الزامل را پر کنید!', 'تراکنش صورت نپذیرفت')->autoclose(2000);
-            //return 'error';
-            return back();
+        //     //return response()->json(['messsage' => 'invalid'], 400);
+        //     alert()->error('باید تمامی فیلد های الزامل را پر کنید!', 'تراکنش صورت نپذیرفت')->autoclose(2000);
+        //     //return 'error';
+        //     return back();
 
-        }
+        // }
 
         $transaction = new Transations();
        
@@ -68,8 +68,18 @@ class TransactionsController extends Controller
         if($transaction->type == 'برداشت'){
             //dd($transaction);
 
+            if($acount->cash<$transaction->amount){
+
+                alert()->error('متاسفانه این حساب موجودی کافی ندارد!', 'تراکنش نا موفق')->autoclose(2000);
+
+        return back();
+            }
+
             $acount->cash=$acount->cash-$transaction->amount;
 
+           
+       
+       
         }else{
             $acount->cash=$acount->cash+$transaction->amount;
 
@@ -78,13 +88,13 @@ class TransactionsController extends Controller
 
        // dd($acount);
     
-        //$transaction->save();
+        $transaction->save();
 
-       // $acount->update();
+        $acount->update();
 
-        alert()->success('پرداخت با موفقیت انجام گردید!', 'پرداخت موفق')->autoclose(2000);
+        alert()->success('تراکنش با موفقیت انجام گردید!', 'تراکنش موفق')->autoclose(2000);
 
-        return back;
+        return back();
     }
 
 

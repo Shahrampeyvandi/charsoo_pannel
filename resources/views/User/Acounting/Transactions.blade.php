@@ -25,13 +25,13 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <form id="user--form" method="post" action=" {{route('Pannel.Acounting.Transactions.Submit')}} ">
+      <form id="tranaction--form" method="post" action=" {{route('Pannel.Acounting.Transactions.Submit')}} ">
         @csrf
         <div class="modal-body">
             <div class="row">
                 <div class="form-group col-md-12">
                   <label for="recipient-name" class="col-form-label"><span class="text-danger">*</span>حساب اعتبار:</label>
-                  <select required name="useracountid" id="service_name"  class="js-example-basic-single" dir="rtl">
+                  <select name="useracountid" id="service_name"  class="js-example-basic-single" dir="rtl">
                       <option value="">حساب اعتبار را انتخاب کنید</option>
                     
                   
@@ -64,7 +64,8 @@
             </div>
             <div class="form-group col-md-6">
               <label for="user_name" class="col-form-label"><span class="text-danger">*</span> بابت: </label>
-              <select required name="for"   class="form-control" id="exampleFormControlSelect2">
+              <select required name="for"   class="form-control" id="for">
+
                 <option value="پورسانت خدمت">پورسانت خدمت</option>
                   <option value="بازگشت وجه">بازگشت وجه</option>  
                   <option value="شارژ هدیه">شارژ هدیه</option>  
@@ -97,12 +98,12 @@
           <div class="row">
             <div class="form-group col-md-6">
               <label for="recipient-name" class="col-form-label">منتهی به: </label>
-              <input type="text" class="form-control" name="from_to" id="user_family">
+              <input type="text" class="form-control" name="from_to">
 
           </div>
             <div class="form-group col-md-6">
               <label for="user_address" class="col-form-label"> توضیحات: </label>
-              <textarea type="text" class="form-control" name="description" id="user_address">
+              <textarea type="text" class="form-control" name="description">
               </textarea>
             </div>
           </div>
@@ -375,7 +376,33 @@
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
-       
+        $.ajaxSetup({
+            headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+      $('#tranaction--form').validate({
+     
+        rules: {
+         useracountid: {
+            required: true,
+          },
+          amount:{
+            required: true,
+
+          },
+        },
+        messages: {
+         useracountid: {
+            //minlength: jQuery.format("Zip must be {0} digits in length"),
+            required: "لطفا حساب را انتخاب کنید."
+          },
+          amount: {
+            //minlength: jQuery.format("Zip must be {0} digits in length"),
+            required: "لطفا مبلغ تراکنش را وارد نمایید"
+          },
+        }
+      })
         $('.btn--filter').click(function(){
           $('.filtering').toggle(200)
         })
