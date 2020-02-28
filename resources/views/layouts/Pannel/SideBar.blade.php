@@ -13,13 +13,14 @@
                     @if (Illuminate\Support\Facades\Route::currentRouteName() == 'Pannel.User.List')
                     class="active"
                     @endif href="{{route('Pannel.User.List')}}">   <span> مدیریت کاربران </span> </a> </li>
-                   @endif
+                  
                    @if (auth()->user()->hasRole('admin_panel'))
                        <li><a 
                         @if (Illuminate\Support\Facades\Route::currentRouteName() == 'Pannel.Roles')
                         class="active"
                         @endif href="{{route('Pannel.Roles')}}">   <span> نقش ها </span> </a> </li>
-                    </ul>
+                   @endif   
+                </ul>
              </li>
             @endif
             @if (auth()->user()->can('category_menu'))

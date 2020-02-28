@@ -2,34 +2,64 @@
 
 namespace App\Http\Controllers\User;
 
+use App\Models\User;
 use App\Models\Orders\Order;
 use Illuminate\Http\Request;
 use Morilog\Jalali\Jalalian;
 use App\Models\Services\Service;
-use App\Http\Controllers\Controller;
 use App\Models\Cunsomers\Cunsomer;
-use App\Models\Services\ServiceCategory;
 use Illuminate\Support\Facades\DB;
+use Spatie\Permission\Models\Role;
+use App\Http\Controllers\Controller;
+use App\Models\Services\ServiceCategory;
 
 class OrderController extends Controller
 {
     public function OrderList()
     {
+
+      if (auth()->user()->hasRole('admin_panel')) {
         $orders = Order::latest()->get();
         $services = Service::all();
         $category_parent_list = ServiceCategory::where('category_parent',0)->get();
         $count = ServiceCategory::where('category_parent',0)->count();
          $list ='<option data-parent="0" value="0" class="level-1">بدون دسته بندی</option>';
         foreach ($category_parent_list as $key => $item) {
-            
             $list .= '<option data-id="'.$item->id.'" value="'.$item->id.'" class="level-1">'.$item->category_title.' 
              '.(count(ServiceCategory::where('category_parent',$item->id)->get()) ? '&#xf104;  ' : '' ).'
             </option>';
-           
             foreach (ServiceCategory::where('category_parent',$item->id)->get() as $key => $subitem) {
                 $list .= '<option data-parent="'.$item->id.'" value="'.$subitem->id.'" class="level-2">'.$subitem->category_title.'</option>';
             }
         }
+      }else{
+        $category_parent_list = ServiceCategory::where('category_parent',0)->get();
+        $count = ServiceCategory::where('category_parent',0)->count();
+         $list ='<option data-parent="0" value="0" class="level-1">بدون دسته بندی</option>';
+        foreach ($category_parent_list as $key => $item) {
+            $list .= '<option data-id="'.$item->id.'" value="'.$item->id.'" class="level-1">'.$item->category_title.' 
+             '.(count(ServiceCategory::where('category_parent',$item->id)->get()) ? '&#xf104;  ' : '' ).'
+            </option>';
+            foreach (ServiceCategory::where('category_parent',$item->id)->get() as $key => $subitem) {
+                $list .= '<option data-parent="'.$item->id.'" value="'.$subitem->id.'" class="level-2">'.$subitem->category_title.'</option>';
+            }
+        }
+        if (auth()->user()->roles->first()->broker !== null) {
+            $services = auth()->user()->services;
+            $service_array = auth()->user()->services->pluck('id')->toArray();
+            $orders = Order::whereIn('service_id',$service_array)->get();
+        }
+        if (auth()->user()->roles->first()->sub_broker !== null) {
+            $role_id = auth()->user()->roles->first()->sub_broker;
+            $user =  User::whereHas('roles', function ($q) use ($role_id) {
+                $q->where('id',$role_id);
+            })->first();
+            $services = $user->services;
+            $service_array = $user->services->pluck('id')->toArray();
+            $orders = Order::whereIn('service_id',$service_array)->get();
+        }
+
+      }
         return view('User.Orders.OrderList',compact(['orders','services','list','count']));
     }
 

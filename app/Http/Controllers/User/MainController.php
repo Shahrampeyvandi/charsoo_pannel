@@ -52,7 +52,12 @@ class MainController extends Controller
 
        $service_chart_json = json_encode($service_chart_array);
        $service_chart_ordercount_json = json_encode($service_chart_ordercount);
+      
+     if (count($service_chart_ordercount)) {
       $max_Y =  max($service_chart_ordercount);
+     }else{
+       $max_Y = '';
+     }
 
       } else {
         $broker_lists = '';
