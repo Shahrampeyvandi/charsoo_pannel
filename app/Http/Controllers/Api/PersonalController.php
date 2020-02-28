@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Models\Personals\Personal;
+use App\Models\Acounting\UserAcounts;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use App\Http\Controllers\Controller;
 use App\Models\City\City;
@@ -22,11 +23,13 @@ class PersonalController extends Controller
     if ($check_personal) {
       $token = JWTAuth::fromUser($personal);
       return response()->json([
-        'token' => $token,
+        'code' => $token,
+        'error' => '',
       ], 200);
     } else {
       return response()->json([
-        'token' => '',
+        'code' => '',
+        'error' => '',
       ], 200);
     }
   }
@@ -49,9 +52,59 @@ class PersonalController extends Controller
       'personal_city' => $request->p_city
     ]);
 
+    $acountencome = new UserAcounts();
+
+    $acountencome->user ='خدمت رسان' ;
+    $acountencome->type = 'درآمد';
+    $acountencome->cash = 0 ;
+    $acountencome->personal_id =$personal->id ;
+
+    $acountcharge = new UserAcounts();
+
+    $acountcharge->user ='خدمت رسان' ;
+    $acountcharge->type = 'شارژ';
+    $acountcharge->cash = 0 ;
+    $acountcharge->personal_id =$personal->id ;
+
+
+    $acountencome->save();
+    $acountcharge->save();
+
+    
+   
+
+
     $token = JWTAuth::fromUser($personal);
     return response()->json([
-      'token' => $token,
+      'code' => $token,
+      'error' => '',
+    ], 200);
+  }
+
+  public function getPersonalDashboardDetail(Request $request)
+  {
+
+    $payload = JWTAuth::parseToken($request->header('Authorization'))->getPayload();
+       $mobile = $payload->get('mobile');
+
+       $personal = Personal::where('personal_mobile',$mobile)->first();
+
+       $useracountincome= $personal->useracounts[0];
+       $useracountcharge= $personal->useracounts[1];
+
+
+
+
+
+
+
+    return response()->json([
+      'data' => [
+        'profilepic'=>'',
+        'incomecash'=>$useracountincome->cash,
+        'chargecash'=>$useracountcharge->cash
+
+      ],
     ], 200);
   }
 }
