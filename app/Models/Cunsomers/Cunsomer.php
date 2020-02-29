@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use App\Models\Acounting\UserAcounts;
-
+use App\Models\User;
 
 class Cunsomer extends  Authenticatable  implements JWTSubject
 {
@@ -23,5 +23,10 @@ class Cunsomer extends  Authenticatable  implements JWTSubject
     public function useracounts()
     {
         return $this->hasMany(UserAcounts::class);
+    }
+
+    public function broker()
+    {
+        return $this->belongsToMany(User::class);
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Cunsomers\Cunsomer;
 use App\Models\Services\Service;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -45,5 +46,10 @@ class User extends Authenticatable
     public function services()
     {
         return $this->belongsToMany(Service::class);
+    }
+
+    public function customers()
+    {
+        return $this->belongsToMany(Cunsomer::class);
     }
 }

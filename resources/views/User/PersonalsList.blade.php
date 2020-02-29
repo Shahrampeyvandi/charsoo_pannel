@@ -74,7 +74,9 @@
 
                                 <div class="form-group col-md-6">
                                     <label>کد ملی </label>
-                                    <input type="number" name="national_num" id="national_num" class="form-control"
+                                    <input type="number" 
+                                    onblur="checknationalcode(this.value)"
+                                    name="national_num" id="user_national_num" class="form-control"
                                         placeholder="">
                                     <div class="valid-feedback">
                                         صحیح است!
@@ -111,7 +113,7 @@
                                 <div class="form-group col-md-6" style="padding-top: 11px;">
                                     <label class="form-control-label"> <span class="text-danger">*</span> تلفن همراه
                                     </label>
-                                    <input id="email" class="form-control text-right" name="mobile" placeholder=""
+                                    <input  class="form-control text-right" id="p_mobile" name="mobile" placeholder=""
                                         type="text" dir="ltr">
                                     <div class="valid-feedback">
                                         صحیح است!
@@ -285,6 +287,7 @@
 
                         <h3>تخصص: </h3>
                         <section>
+                            @if (auth()->user()->hasRole('admin_panel'))
                             @foreach (\App\Models\Services\Service::all() as $key=>$service)
                             <div class="row">
 
@@ -314,6 +317,84 @@
                                 </div><!-- form-group -->
                             </div>
                             @endforeach
+
+                            @else
+                                @if (auth()->user()->roles->first()->broker !== null) 
+                                   @php
+                                    $services = auth()->user()->services;
+                                   @endphp
+                                   @foreach ($services as $key=>$service)
+                                   <div class="row">
+       
+                                       <div class="form-group col-md-4">
+                                           <div class="custom-control custom-checkbox custom-control-inline"
+                                               style="margin-left: -1rem;">
+                                               <input type="checkbox" id="service_{{$key}}_{{$key}}" name="service[service_{{$key+1}}][1]"
+                                                   class="custom-control-input" value="{{$service->id}}">
+                                               <label class="custom-control-label" for="service_{{$key}}_{{$key}}">{{$service->service_title}}</label>
+                                           </div>
+                                       </div><!-- form-group -->
+                                       <div class="form-group col-md-4">
+                                           <div class="custom-control custom-checkbox custom-control-inline"
+                                               style="margin-left: -1rem;">
+                                               <input type="checkbox" id="service_{{$key}}_{{$key+1}}" name="service[service_{{$key+1}}][2]"
+                                                   class="custom-control-input" value="1">
+                                               <label class="custom-control-label" for="service_{{$key}}_{{$key+1}}">خدمت رسان ارشد</label>
+                                           </div>
+                                       </div><!-- form-group -->
+                                       <div class="form-group col-md-4">
+                                           <div class="custom-control custom-checkbox custom-control-inline"
+                                               style="margin-left: -1rem;">
+                                               <input type="checkbox" id="service_{{$key}}_{{$key+2}}" name="service[service_{{$key+1}}][3]"
+                                                   class="custom-control-input" value="1">
+                                               <label class="custom-control-label" for="service_{{$key}}_{{$key+2}}">مورد تایید است</label>
+                                           </div>
+                                       </div><!-- form-group -->
+                                   </div>
+                                   @endforeach
+                                    
+                                @endif
+                                @if (auth()->user()->roles->first()->sub_broker !== null)
+                                    @php
+                                         $role_id = auth()->user()->roles->first()->sub_broker;
+                                        
+                                        $user =  User::whereHas('roles', function ($q) use ($role_id) {
+                                            $q->where('id',$role_id);
+                                        })->get();
+                                        $services = $user->services;
+                                    @endphp
+                                    @foreach ($services as $key=>$service)
+                                    <div class="row">
+        
+                                        <div class="form-group col-md-4">
+                                            <div class="custom-control custom-checkbox custom-control-inline"
+                                                style="margin-left: -1rem;">
+                                                <input type="checkbox" id="service_{{$key}}_{{$key}}" name="service[service_{{$key+1}}][1]"
+                                                    class="custom-control-input" value="{{$service->id}}">
+                                                <label class="custom-control-label" for="service_{{$key}}_{{$key}}">{{$service->service_title}}</label>
+                                            </div>
+                                        </div><!-- form-group -->
+                                        <div class="form-group col-md-4">
+                                            <div class="custom-control custom-checkbox custom-control-inline"
+                                                style="margin-left: -1rem;">
+                                                <input type="checkbox" id="service_{{$key}}_{{$key+1}}" name="service[service_{{$key+1}}][2]"
+                                                    class="custom-control-input" value="1">
+                                                <label class="custom-control-label" for="service_{{$key}}_{{$key+1}}">خدمت رسان ارشد</label>
+                                            </div>
+                                        </div><!-- form-group -->
+                                        <div class="form-group col-md-4">
+                                            <div class="custom-control custom-checkbox custom-control-inline"
+                                                style="margin-left: -1rem;">
+                                                <input type="checkbox" id="service_{{$key}}_{{$key+2}}" name="service[service_{{$key+1}}][3]"
+                                                    class="custom-control-input" value="1">
+                                                <label class="custom-control-label" for="service_{{$key}}_{{$key+2}}">مورد تایید است</label>
+                                            </div>
+                                        </div><!-- form-group -->
+                                    </div>
+                                    @endforeach
+                                @endif
+                            @endif
+                           
 
 
 
@@ -783,6 +864,23 @@ url:'{{route("Personal.OrderBy.Table")}}',
 data:{data:data},
 success:function(data){ 
    $('.tbody').html(data)
+   }
+ })
+})
+
+
+$('#p_mobile').blur(function(){
+var data = $(this).val();
+var thiss = $(this);
+ $.ajax({
+type:'post',
+url:'{{route("Personal.CheckMobile")}}',
+data:{data:data},
+success:function(data){ 
+    swal("خطا!", data.error, "error", {
+			button: "باشه"
+        });
+        thiss.val('')
    }
  })
 })

@@ -62,7 +62,10 @@ Route::group(['middleware' => ['checkAuth']], function () {
     Route::post('getPersonalData', 'User\PersonalController@getPersonalData')->name('Personal.Edit.getData');
 
     Route::post('Personal/Edit/Submit', 'User\PersonalController@SubmitPersonalEdit')->name('Personal.Edit.Submit');
+   
+    Route::post('Personal/CheckMobile', 'User\PersonalController@CheckMobile')->name('Personal.CheckMobile');
 
+    
     Route::post('Services/Personals/N', 'User\PersonalController@CheckNationalNum')->name('Personal.CheckNationalNum');
 
     Route::post('Services/Personals/OrderBy', 'User\PersonalController@PersonalOrderBy')->name('Personal.OrderBy.Table');
