@@ -25,12 +25,50 @@ class OrderController extends Controller
         $count = ServiceCategory::where('category_parent',0)->count();
          $list ='<option data-parent="0" value="0" class="level-1">بدون دسته بندی</option>';
         foreach ($category_parent_list as $key => $item) {
+            
             $list .= '<option data-id="'.$item->id.'" value="'.$item->id.'" class="level-1">'.$item->category_title.' 
              '.(count(ServiceCategory::where('category_parent',$item->id)->get()) ? '&#xf104;  ' : '' ).'
             </option>';
-            foreach (ServiceCategory::where('category_parent',$item->id)->get() as $key => $subitem) {
-                $list .= '<option data-parent="'.$item->id.'" value="'.$subitem->id.'" class="level-2">'.$subitem->category_title.'</option>';
-            }
+          if (ServiceCategory::where('category_parent',$item->id)->count()) {
+              $count += ServiceCategory::where('category_parent',$item->id)->count();
+             foreach (ServiceCategory::where('category_parent',$item->id)->get() as $key1 => $itemlevel1) {
+                 $list .= '<option data-parent="'.$item->id.'" value="'.$itemlevel1->id.'" class="level-2">'.$itemlevel1->category_title.'
+                 '.(count(ServiceCategory::where('category_parent',$itemlevel1->id)->get()) ? '&#xf104;  ' : '' ).'
+                 </option>';
+                 
+                 
+              if (ServiceCategory::where('category_parent',$itemlevel1->id)->count()) {
+                 $count += ServiceCategory::where('category_parent',$itemlevel1->id)->count();
+                 foreach (ServiceCategory::where('category_parent',$itemlevel1->id)->get() as $key2 => $itemlevel2) {
+                     $list .= '<option data-parent="'.$itemlevel1->id.'" value="'.$itemlevel2->id.'" class="level-3">'.$itemlevel2->category_title.'
+                     '.(count(ServiceCategory::where('category_parent',$itemlevel2->id)->get()) ? '&#xf104;  ' : '' ).'
+                     </option>';
+                    
+                    
+                    if (ServiceCategory::where('category_parent',$itemlevel2->id)->count()) {
+                     $count += ServiceCategory::where('category_parent',$itemlevel2->id)->count();
+                     foreach (ServiceCategory::where('category_parent',$itemlevel2->id)->get() as $key3 => $itemlevel3) {
+                         $list .= '<option data-parent="'.$itemlevel2->id.'" value="'.$itemlevel3->id.'" class="level-4">'.$itemlevel3->category_title.'
+                         '.(count(ServiceCategory::where('category_parent',$itemlevel3->id)->get()) ? '&#xf104;  ' : '' ).'
+                         </option>';
+                     
+                         if (ServiceCategory::where('category_parent',$itemlevel3->id)->count()) {
+                             $count += ServiceCategory::where('category_parent',$itemlevel3->id)->count();
+                             foreach (ServiceCategory::where('category_parent',$itemlevel3->id)->get() as $key4 => $itemlevel4) {
+                                 $list .= '<option data-parent="'.$itemlevel3->id.'" value="'.$itemlevel4->id.'" class="level-4">'.$itemlevel4->category_title.'
+                                 
+                                 </option>';
+                             
+                             }
+                            }
+                     
+                     }
+                    }
+                 }
+              }
+             
+              }
+          }
         }
       }else{
         $category_parent_list = ServiceCategory::where('category_parent',0)->get();
@@ -66,11 +104,8 @@ class OrderController extends Controller
     public function SubmitOrder(Request $request)
     {
 
-
-
-        $Code = $this->generateRandomString(15);
+        
         Order::create([
-            'order_unique_code' =>$Code,
             'service_id' => $request->service_name,
             'order_type' => 'معلق',
             'order_desc' => $request->user_desc,
@@ -84,9 +119,9 @@ class OrderController extends Controller
             'order_time_second' => $request->time_two,
             'order_date_first' => $this->convertDate($request->date_one),
             'order_date_second' => $this->convertDate($request->date_two),
-           
         ]);
 
+            $Code = $this->generateRandomString(15);
 
             $check_in_customers = Cunsomer::where('customer_mobile',$request->user_mobile)->get();
         if (count($check_in_customers) == 0) {
@@ -127,15 +162,17 @@ class OrderController extends Controller
     public function getPersonals(Request $request)
     {
         
+        
         $service = Service::where('id',$request->service_id)->first();
         $tr = '';
+        
         foreach ($service->personal as $key => $personal) {
             $tr .=  '
             <input type="hidden" value="'.$request->order_id.'" name="order_id"   />
             <tr>
             <td>
               <div class="custom-control custom-checkbox custom-control-inline" style="margin-left: -1rem;">
-              <input data-id="'.$personal->id.'" type="checkbox" id="'.$key.'" name="personal_id[]" class="custom-control-input" value="1">
+              <input data-id="'.$personal->id.'" type="checkbox" id="'.$key.'" name="personal_id[]" class="custom-control-input" value="'.$personal->id.'">
                 <label class="custom-control-label" for="'.$key.'"></label>
               </div>
             </td>
@@ -161,6 +198,7 @@ class OrderController extends Controller
 
     public function choisePersonal(Request $request)
     {
+  
        $order =  Order::where('id',$request->order_id)->first();
        foreach ($request->personal_id as $key => $personal_id) {
         if (DB::table('order_personal')->where([

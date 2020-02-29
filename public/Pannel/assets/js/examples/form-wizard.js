@@ -45,6 +45,7 @@ $(document).ready(function () {
             required:true,
             range:[0,12]
         }
+        
         },
         messages: {
           title: {

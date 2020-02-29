@@ -134,9 +134,35 @@ tr {
 margin-right: 10px;
 font-size: 17px;
 
+
 }
 option.level-1 {
     font-size: 17px;
     font-weight: 600;
     color: #6b5a5a;
+}
+
+.after::before{
+   content: "\f046";
+    font-family: FontAwesome;
+    font-style: normal;
+    font-weight: normal;
+    text-decoration: inherit;
+    /* margin-left: 3px; */
+    position: absolute;
+    color: #1ead5e;
+    font-size: 15px;
+    /* bottom: 0; */
+    /* padding-right: 0.5em; */
+    right: 139px;
+}
+option.level-3 {
+    margin-right: 20px;
+    font-size: 17px;
+    
+}
+option.level-4 {
+    margin-right: 30px;
+    font-size: 17px;
+    
 }

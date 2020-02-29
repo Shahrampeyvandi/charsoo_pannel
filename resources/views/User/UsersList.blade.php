@@ -85,7 +85,8 @@
             </div>
             <div class="form-group col-md-6">
               <label for="user_national_num" class="col-form-label">کد ملی:</label>
-              <input type="text" class="form-control" name="user_national_num" id="user_national_num">
+              <input type="text" class="form-control"
+               onblur="checknationalcode(this.value)" name="user_national_num" id="user_national_num">
             </div>
           </div>
          
@@ -295,6 +296,9 @@
 
 
 <script>
+ 
+
+
   $(document).ready(function(){
     $.ajaxSetup({
 

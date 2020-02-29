@@ -14,16 +14,49 @@ class ServiceCategoryController extends Controller
     {
        $category_parent_list = ServiceCategory::where('category_parent',0)->get();
        $count = ServiceCategory::where('category_parent',0)->count();
-        $list ='<option data-parent="0" value="0" class="level-1">بدون دسته بندی</option>';
+        $list ='<option data-parent="0" value="0" >بدون دسته بندی</option>';
        foreach ($category_parent_list as $key => $item) {
            
            $list .= '<option data-id="'.$item->id.'" value="'.$item->id.'" class="level-1">'.$item->category_title.' 
             '.(count(ServiceCategory::where('category_parent',$item->id)->get()) ? '&#xf104;  ' : '' ).'
            </option>';
-          
-           foreach (ServiceCategory::where('category_parent',$item->id)->get() as $key => $subitem) {
-               $list .= '<option data-parent="'.$item->id.'" value="'.$subitem->id.'" class="level-2">'.$subitem->category_title.'</option>';
-           }
+         if (ServiceCategory::where('category_parent',$item->id)->count()) {
+             $count += ServiceCategory::where('category_parent',$item->id)->count();
+            foreach (ServiceCategory::where('category_parent',$item->id)->get() as $key1 => $itemlevel1) {
+                $list .= '<option data-parent="'.$item->id.'" value="'.$itemlevel1->id.'" class="level-2">'.$itemlevel1->category_title.'
+                '.(count(ServiceCategory::where('category_parent',$itemlevel1->id)->get()) ? '&#xf104;  ' : '' ).'
+                </option>';
+                
+                
+             if (ServiceCategory::where('category_parent',$itemlevel1->id)->count()) {
+                $count += ServiceCategory::where('category_parent',$itemlevel1->id)->count();
+                foreach (ServiceCategory::where('category_parent',$itemlevel1->id)->get() as $key2 => $itemlevel2) {
+                    $list .= '<option data-parent="'.$itemlevel1->id.'" value="'.$itemlevel2->id.'" class="level-3">'.$itemlevel2->category_title.'
+                    '.(count(ServiceCategory::where('category_parent',$itemlevel2->id)->get()) ? '&#xf104;  ' : '' ).'
+                    </option>';
+                   
+                   
+                   if (ServiceCategory::where('category_parent',$itemlevel2->id)->count()) {
+                    $count += ServiceCategory::where('category_parent',$itemlevel2->id)->count();
+                    foreach (ServiceCategory::where('category_parent',$itemlevel2->id)->get() as $key3 => $itemlevel3) {
+                        $list .= '<option data-parent="'.$itemlevel2->id.'" value="'.$itemlevel3->id.'" class="level-4">'.$itemlevel3->category_title.'
+                        '.(count(ServiceCategory::where('category_parent',$itemlevel3->id)->get()) ? '&#xf104;  ' : '' ).'
+                        </option>';
+                    
+                        if (ServiceCategory::where('category_parent',$itemlevel3->id)->count()) {
+                            $count += ServiceCategory::where('category_parent',$itemlevel3->id)->count();
+                            foreach (ServiceCategory::where('category_parent',$itemlevel3->id)->get() as $key4 => $itemlevel4) {
+                                $list .= '<option data-parent="'.$itemlevel3->id.'" value="'.$itemlevel4->id.'" class="level-4">'.$itemlevel4->category_title.'
+                                
+                                </option>';
+                            }
+                        } 
+                     }
+                   }
+                }
+              }
+            }
+         }
        }
 
       $all_categories = ServiceCategory::latest()->get();
@@ -41,20 +74,65 @@ class ServiceCategoryController extends Controller
         $csrf = csrf_token();
         $category_parent_list = ServiceCategory::where('category_parent',0)->get();
         $count = ServiceCategory::where('category_parent',0)->count();
+        $options ='';
 
-
-        $option ='';
         foreach ($category_parent_list as $key => $item) {
-            $option .= '<option data-id="'.$item->id.'"
-            '.($category->category_parent == $item->id ? 'selected=""' : '' ).'
-            value="'.$item->id.'" class="level-1">'.$item->category_title.' 
+           
+            $options .= '<option data-id="'.$item->id.'" value="'.$item->id.'"
+            '.($category->category_parent == $item->id ? 'class="level-1 after"' : 'class="level-1"' ).'
+            >'.$item->category_title.' 
              '.(count(ServiceCategory::where('category_parent',$item->id)->get()) ? '&#xf104;  ' : '' ).'
             </option>';
-            foreach (ServiceCategory::where('category_parent',$item->id)->get() as $key => $subitem) {
-                $option .= '<option data-parent="'.$item->id.'"
-                '.($category->category_parent == $subitem->id ? 'selected=""' : '' ).'
-                value="'.$subitem->id.'" class="level-2">'.$subitem->category_title.'</option>';
-            }
+          if (ServiceCategory::where('category_parent',$item->id)->count()) {
+              $count += ServiceCategory::where('category_parent',$item->id)->count();
+             foreach (ServiceCategory::where('category_parent',$item->id)->get() as $key1 => $itemlevel1) {
+                 $options .= '<option data-parent="'.$item->id.'" 
+                 '.($category->category_parent == $itemlevel1->id ? 'class="level-2 after"' : 'class="level-2"' ).'
+                 value="'.$itemlevel1->id.'" 
+                 
+                 >'.$itemlevel1->category_title.'
+                 '.(count(ServiceCategory::where('category_parent',$itemlevel1->id)->get()) ? '&#xf104;  ' : '' ).'
+                 </option>';
+                 
+                 
+              if (ServiceCategory::where('category_parent',$itemlevel1->id)->count()) {
+                 $count += ServiceCategory::where('category_parent',$itemlevel1->id)->count();
+                 foreach (ServiceCategory::where('category_parent',$itemlevel1->id)->get() as $key2 => $itemlevel2) {
+                     $options .= '<option data-parent="'.$itemlevel1->id.'" 
+                     '.($category->category_parent == $itemlevel2->id ? 'class="level-3 after"' : 'class="level-3"' ).'
+                     value="'.$itemlevel2->id.'" >'.$itemlevel2->category_title.'
+                     '.(count(ServiceCategory::where('category_parent',$itemlevel2->id)->get()) ? '&#xf104;  ' : '' ).'
+                     </option>';
+                    
+                    
+                    if (ServiceCategory::where('category_parent',$itemlevel2->id)->count()) {
+                     $count += ServiceCategory::where('category_parent',$itemlevel2->id)->count();
+                     foreach (ServiceCategory::where('category_parent',$itemlevel2->id)->get() as $key3 => $itemlevel3) {
+                         $options .= '<option data-parent="'.$itemlevel2->id.'" 
+                         '.($category->category_parent == $itemlevel3->id ? 'class="level-4 after"' : 'class="level-4"' ).'
+                         value="'.$itemlevel3->id.'" >'.$itemlevel3->category_title.'
+                         '.(count(ServiceCategory::where('category_parent',$itemlevel3->id)->get()) ? '&#xf104;  ' : '' ).'
+                         </option>';
+                     
+                         if (ServiceCategory::where('category_parent',$itemlevel3->id)->count()) {
+                             $count += ServiceCategory::where('category_parent',$itemlevel3->id)->count();
+                             foreach (ServiceCategory::where('category_parent',$itemlevel3->id)->get() as $key4 => $itemlevel4) {
+                                 $options .= '<option data-parent="'.$itemlevel3->id.'" 
+                                 '.($category->category_parent == $itemlevel4->id ? 'class="level-5 after"' : 'class="level-5"' ).'
+                                 value="'.$itemlevel4->id.'" >'.$itemlevel4->category_title.'
+                                 
+                                 </option>';
+                             
+                             }
+                            }
+                     
+                     }
+                    }
+                 }
+              }
+             
+              }
+          }
         }
 
 
@@ -83,7 +161,7 @@ class ServiceCategoryController extends Controller
      <select '.( $count > 1 ?
          'size="'.$count.'"' :  'size="2"'
       ). ' class="form-control" name="category_level" id="category_level">
-          '.$option.'
+          '.$options.'
        </select>                      
         <div class="valid-feedback">
             صحیح است!

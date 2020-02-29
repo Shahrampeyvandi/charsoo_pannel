@@ -473,6 +473,55 @@
                                 </div>
 
                             </div>
+                            <hr>
+                            <p>حسابداری</p>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group wd-xs-300">
+                                        <div class="custom-control custom-checkbox custom-control-inline"
+                                            style="margin-left: -1rem;">
+                                            <input type="checkbox" id="accounting" name="accounting"
+                                                class="custom-control-input" value="1">
+                                            <label class="custom-control-label" for="accounting">منوی حسابداری</label>
+                                        </div>
+
+                                    </div>
+                                  
+                                </div>
+                            </div>
+                            <div class="row accounting--section" style=" display:none;">
+                                <div class="col-md-4">
+                                    <div class="form-group wd-xs-300">
+                                        <div class="custom-control custom-checkbox custom-control-inline"
+                                            style="margin-left: -1rem;">
+                                            <input type="checkbox" id="user_accounts" name="user_accounts"
+                                                class="custom-control-input" value="1">
+                                            <label class="custom-control-label" for="user_accounts">حساب کاربران</label>
+                                        </div>
+                                    </div>
+
+                                </div>   
+                                <div class="col-md-4">
+                                    <div class="form-group wd-xs-300">
+                                        <div class="custom-control custom-checkbox custom-control-inline"
+                                            style="margin-left: -1rem;">
+                                            <input type="checkbox" id="user_transactions" name="user_transactions"
+                                                class="custom-control-input" value="1">
+                                            <label class="custom-control-label" for="user_transactions">تراکنش های کاربران</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                    <div class="form-group wd-xs-300">
+                                        <div class="custom-control custom-checkbox custom-control-inline"
+                                            style="margin-left: -1rem;">
+                                            <input type="checkbox" id="checkout_personals" name="checkout_personals"
+                                                class="custom-control-input" value="1">
+                                            <label class="custom-control-label" for="checkout_personals">تسویه حساب خدمت رسان ها</label>
+                                        </div>
+                                    </div>
+                                
+
+                            </div>
 
 
                         </section>
@@ -697,6 +746,21 @@
                                 @break
                                 @case('orders_detail')
                                 <span> جزئیات سفارش</span>
+                                @break
+                                @case('user_accounts')
+                                <span> حساب کاربران</span>
+                                @break
+                                @case('user_transactions')
+                                <span> تراکنش های کاربران</span>
+                                @break
+                                @case('checkout_personals')
+                                <span> تسویه حساب خدمت رسان ها</span>
+                                @break
+                                @case('setting')
+                                <span> تنظیمات </span>
+                                @break
+                                @case('accounting')
+                                <span> حسابداری</span>
                                 @break
                                 @default
                                 @endswitch
@@ -994,6 +1058,16 @@ $('.bd-example-modal-lg-edit').on('shown.bs.modal', function (event) {
             $('.orders--permisions').slideUp()      
          }
      })
+     $('#accounting').click(function(){
+         if ($(this).is(':checked')) {
+             $('.accounting--section').slideDown()
+         }else{
+            $('.accounting--section').slideUp()      
+         }
+     })
+     
+
+   
      
 })
 </script>

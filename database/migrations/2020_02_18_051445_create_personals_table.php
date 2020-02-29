@@ -39,6 +39,7 @@ class CreatePersonalsTable extends Migration
             $table->integer('personal_work_experience_year')->nullable();
             $table->text('technical_credential')->nullable();
             $table->text('expert_credential')->nullable();
+            $table->integer('personal_status')->default(1);
             $table->timestamps();
         });
     }

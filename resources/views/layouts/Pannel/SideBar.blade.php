@@ -54,24 +54,32 @@
                     class="active"
                 @endif href=" {{route('Pannel.Customers.Orders')}} "><i class="icon ti-money"></i> <span> گردش کار</span> </a></li>
             @endif
-
+        @if(auth()->user()->can('accounting'))
            <li><a href=""><i class="icon ti-money"></i><span> حسابداری</span></a>
                 <ul>
-                    <li><a 
+                   @if (auth()->user()->can('user_accounts'))
+                        <li><a 
                         @if (Illuminate\Support\Facades\Route::currentRouteName() == 'Pannel.User.List')
                         class="active"
-                    @endif href="{{route('Pannel.Acounting.PersonalAcounts')}}">   <span> حساب های کاربران </span> </a> </li>
-                    <li><a 
-                        @if (Illuminate\Support\Facades\Route::currentRouteName() == 'Pannel.Roles')
-                        class="active"
-                    @endif href="{{route('Pannel.Acounting.Transactions')}}">   <span> گزارش تراکنش ها </span> </a> </li>
-                    <li><a 
-                        @if (Illuminate\Support\Facades\Route::currentRouteName() == 'Pannel.Roles')
-                        class="active"
-                    @endif href="{{route('Pannel.Acounting.CheckoutPersonals')}}">   <span> تسویه حساب خدمت رسان ها </span> </a> </li>
+                        @endif href="{{route('Pannel.Acounting.PersonalAcounts')}}">   <span> حساب های کاربران </span> </a> </li>
+                   @endif
+                   @if (auth()->user()->can('user_transactions'))
+                        <li><a 
+                            @if (Illuminate\Support\Facades\Route::currentRouteName() == 'Pannel.Roles')
+                            class="active"
+                        @endif href="{{route('Pannel.Acounting.Transactions')}}">   <span> گزارش تراکنش ها </span> </a> </li>
+                    @endif
+                    @if (auth()->user()->can('checkout_personals'))
+                        <li><a 
+                            @if (Illuminate\Support\Facades\Route::currentRouteName() == 'Pannel.Roles')
+                            class="active"
+                        @endif href="{{route('Pannel.Acounting.CheckoutPersonals')}}">   <span> تسویه حساب خدمت رسان ها </span> </a> </li>
+                    @endif    
                 </ul>
             </li>
-
+        @endif   
+        
+        @if (auth()->user()->can('personal_online_menu'))
             <li><a href=""><i class="icon ti-rss-alt"></i>  <span> رهگیری خدمت رسان ها </span></a>
                 <ul>
                     <li><a 
@@ -83,8 +91,8 @@
                         class="active"
                     @endif href="{{route('Pannel.Personals.Track')}}">   <span> مسیر حرکت خدمت رسان ها </span> </a> </li>
                   </ul>
-            </li>
-
+             </li>
+        @endif     
             {{-- <li><a @if (Illuminate\Support\Facades\Route::currentRouteName() == 'Pannel.Services.OnlinePersonals')
                 class="active"
             @endif href=" {{route('Pannel.Services.OnlinePersonals')}}"><i class="icon ti-rss-alt"></i> <span> خدمت رسان های انلاین </span> </a></li>
@@ -92,10 +100,11 @@
                 class="active"
             @endif href=" {{route('Pannel.Services.TrackPersonals')}} "><i class="icon ti-rss-alt"></i> <span> مسیر حرکت خدمت رسان ها </span> </a></li>
              --}}
-            <li><a @if (Illuminate\Support\Facades\Route::currentRouteName() == 'Pannel.Setting')
-                class="active"
-            @endif href=" {{route('Pannel.Setting')}}"><i class="icon ti-layout"></i> <span> تنظیمات </span> </a></li>
-            
+             @if (auth()->user()->hasRole('admin_panel'))
+                <li><a @if (Illuminate\Support\Facades\Route::currentRouteName() == 'Pannel.Setting')
+                    class="active"
+                @endif href=" {{route('Pannel.Setting')}}"><i class="icon ti-layout"></i> <span> تنظیمات </span> </a></li>
+            @endif
 
         </ul>
     </div>

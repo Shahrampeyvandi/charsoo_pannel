@@ -16,7 +16,7 @@ class CreateOrdersTable extends Migration
         Schema::create('orders', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->integer('service_id');
-            $table->string('order_unique_code');
+            $table->string('order_unique_code')->nullable();
             $table->string('order_type');
             $table->text('order_desc')->nullable();
             $table->string('order_show_mobile')->nullable();
@@ -29,6 +29,7 @@ class CreateOrdersTable extends Migration
             $table->string('order_date_first')->nullable();
             $table->string('order_date_second')->nullable();
             $table->string('order_reffered_to')->nullable();
+            $table->string('order_city')->nullable();
             $table->timestamps();
         });
     }

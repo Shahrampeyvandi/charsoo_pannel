@@ -139,9 +139,12 @@ class CreatePermissionTables extends Migration
                 'name' => 'orders_delete'],[
                 'name' => 'orders_refferto'],[
                 'name' => 'orders_transactions'],[
-                'name' => 'orders_detail'],
-
-            
+                'name' => 'orders_detail'],[
+                'name' => 'user_accounts'],[
+                'name' => 'user_transactions'],[
+                'name' => 'checkout_personals'],[
+                'name' => 'setting'],[
+                'name' => 'accounting']
         ]);
         $all_permissions = [
             'user_transaction',
@@ -161,7 +164,6 @@ class CreatePermissionTables extends Migration
             'customer_menu',
             'customer_list',
             'customer_delete',
-            
             'category_menu',
             'category_insert',
             'category_delete',
@@ -180,6 +182,11 @@ class CreatePermissionTables extends Migration
             'orders_refferto',
             'orders_detail',
             'orders_transactions',
+            'user_accounts',
+            'user_transactions',
+            'checkout_personals',
+            'setting',
+            'accounting'
         ];
         $role->givePermissionTo($all_permissions);
         $user->assignRole('admin_panel');

@@ -22,7 +22,6 @@ class OrdersController extends Controller
    }
 
    
-
    public function offeringOrders(Request $request)
    {
     $payload = JWTAuth::parseToken($request->header('Authorization'))->getPayload();
@@ -36,18 +35,17 @@ class OrdersController extends Controller
 
    public function allRelatedOrders(Request $request)
    {
+
     $payload = JWTAuth::parseToken($request->header('Authorization'))->getPayload();
     $mobile = $payload->get('mobile');
     $personal = Personal::where('personal_mobile',$mobile)->first();
-    $orders = $personal->order->where('order_type','قطعی')
+    $orders = $personal->order()->where('order_type','قطعی')
     ->orWhere('order_type','شروع به کار')
     ->orWhere('order_type','اعلام هزینه')
-    ->orWhere('order_type','اتمام کار');
+    ->orWhere('order_type','اتمام کار')->get();
     return response()->json([
      'data' => $orders,
    ], 200);
    }
-
-
 
 }

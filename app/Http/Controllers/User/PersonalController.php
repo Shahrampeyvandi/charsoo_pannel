@@ -244,7 +244,7 @@ class PersonalController extends Controller
         }
 
         $personal = Personal::create([
-            'personal_status'=> 0,
+            'personal_status'=> 1,
             'personal_firstname' => $request->firstname,
             'personal_lastname' => $request->lastname,
             'personal_birthday' => $request->birth_year,

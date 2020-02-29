@@ -46,7 +46,7 @@
                 <div class="form-group col-md-12">
                   <label for="recipient-name" class="col-form-label">دسته:</label>
                 <select  @if ($count > 1)
-                    size=" {{$count}} "   @else  size="2"
+                    size=" {{$count}} "   @elseif($count > 10)  size="10" @else size="2"
                  @endif  class="form-control" name="category_level" id="category_level">
                      {!! $list !!}
                   </select>
@@ -474,6 +474,17 @@ $("input[type='file']").on("change", function () {
             })
 
     })
+
+    // $(document).on('click','.level-1',function(){
+
+    //   $(this).nextAll('.level-2').slideDown(300)
+    // })
+    // $(document).on('click','.level-2',function(){
+    //   $(this).nextAll('.level-3').slideDown(300)
+    // })
+    // $(document).on('click','.level-3',function(){
+    //   $(this).nextAll('.level-4').slideDown(300)
+    // })
 
 })
 </script>

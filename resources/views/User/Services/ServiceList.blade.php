@@ -42,8 +42,8 @@
                                 <div class="form-group wd-xs-300">
                                     <label for="recipient-name" class="col-form-label">دسته:</label>
                                     <select  @if ($count > 1)
-                                        size=" {{$count + 1 }} "   @else  size="3"
-                                     @endif   class="form-control" name="service_category" id="service_category">
+                                        size=" {{$count +1}} "   @elseif($count > 10)  size="10" @else size="2"
+                                     @endif    class="form-control" name="service_category" id="service_category">
                                      {!! $list !!}
                                     </select>
                                                       
@@ -715,6 +715,17 @@ $("#service_icon").on("change", function () {
   }
   }
 });
+
+// $(document).on('click','.level-1',function(){
+//       $(this).nextAll('.level-2').slideDown(300)
+//     })
+//     $(document).on('click','.level-2',function(){
+//       $(this).nextAll('.level-3').slideDown(300)
+//     })
+//     $(document).on('click','.level-3',function(){
+//       $(this).nextAll('.level-4').slideDown(300)
+//     })
+
 
 })
 </script>

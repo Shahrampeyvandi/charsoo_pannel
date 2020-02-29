@@ -20,7 +20,6 @@ class CreateCunsomersTable extends Migration
             $table->string('customer_mobile')->nullable();
             $table->string('customer_national_code')->nullable();
             $table->integer('customer_status')->default(0);
-            $table->integer('broker_id');
             $table->timestamps();
         });
     }
