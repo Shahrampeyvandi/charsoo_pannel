@@ -17,7 +17,7 @@ class CreatePersonalsPositionsTable extends Migration
             $table->bigInteger('personal_id')->unsigned();
             $table->string('tool');
             $table->string('arz');
-            $table->dateTime('created_at');	
+            $table->timestamps();
             $table->foreign('personal_id')->references('id')->on('personals')->onDelete('cascade');
             $table->unique(['personal_id', 'created_at']);
 

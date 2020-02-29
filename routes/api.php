@@ -14,4 +14,5 @@ Route::post('personal/allRelatedOrders','Api\OrdersController@allRelatedOrders')
 
 Route::get('sendcode','Api\SMSCodeController@sendcode');
 Route::get('personal/dashboarddetail','Api\PersonalController@getPersonalDashboardDetail');
+Route::POST('personal/position','Api\TrackPersonalController@sendpositions');
 
