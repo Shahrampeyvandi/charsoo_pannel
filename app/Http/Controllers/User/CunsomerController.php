@@ -12,8 +12,6 @@ class CunsomerController extends Controller
 {
     public function CunsomerList()
     {
-
-    
         $customers = Cunsomer::latest()->get();
         return view('User.Cunsomers.CunsomerList',compact('customers'));
     }

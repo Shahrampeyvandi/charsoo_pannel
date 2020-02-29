@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Role;
 use App\Http\Controllers\Controller;
 use App\Models\Services\ServiceCategory;
+use Carbon\Carbon;
 
 class OrderController extends Controller
 {
@@ -103,9 +104,9 @@ class OrderController extends Controller
 
     public function SubmitOrder(Request $request)
     {
-
         
-        Order::create([
+        
+       $order = Order::create([
             'service_id' => $request->service_name,
             'order_type' => 'معلق',
             'order_desc' => $request->user_desc,
@@ -118,19 +119,40 @@ class OrderController extends Controller
             'order_time_first' => $request->time_one,
             'order_time_second' => $request->time_two,
             'order_date_first' => $this->convertDate($request->date_one),
-            'order_date_second' => $this->convertDate($request->date_two),
+            'order_date_second' => $request->date_two !== null ?  $this->convertDate($request->date_two) : '' ,
         ]);
 
-            $Code = $this->generateRandomString(15);
+            
 
             $check_in_customers = Cunsomer::where('customer_mobile',$request->user_mobile)->get();
         if (count($check_in_customers) == 0) {
-            Cunsomer::create([
+           $customer= Cunsomer::create([
                 'customer_firstname' => $request->user_name,
                 'customer_lastname' => $request->user_family,
                 'customer_mobile' => $request->user_mobile,
                 'customer_status' => 1
             ]);
+
+           $mobile = $request->user_mobile;
+           $date = Carbon::parse($order->order_date_first)->timestamp;
+           $Code = $this->generateRandomString(15,$mobile,$date);
+
+           $order->update([
+            'order_unique_code' => $Code
+           ]);
+
+
+           
+
+        }else{
+          $mobile = $request->user_mobile;
+          $mobile = $request->user_mobile;
+          $date = Carbon::parse($order->order_date_first)->timestamp;
+          $Code = $this->generateRandomString(15,$mobile,$date);
+
+          $order->update([
+           'order_unique_code' => $Code
+          ]);
         }
         alert()->success('سفارش با موفقیت ثبت شد', 'عملیات موفق')->autoclose(2000);
         return back();
@@ -140,7 +162,7 @@ class OrderController extends Controller
     public function getServices(Request $request)
     {
         
-        $options = '';
+        $options = '<option value="">باز کردن فهرست انتخاب</option>';
         $services = Service::where('service_category_id',$request->data)->get();
         foreach ($services as $key => $service) {
             $options .= '<option value="'.$service->id.'">'.$service->service_title.'</option>';
@@ -311,6 +333,8 @@ class OrderController extends Controller
     public function deleteOrder(Request $request)
     {
         foreach ($request->array as $order) {
+        
+            Order::find($order)->personals()->detach();
             Order::where('id',$order)->delete();
         }
         return response()->json(['success' => true]);

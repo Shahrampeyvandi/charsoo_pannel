@@ -311,6 +311,15 @@ class PersonalController extends Controller
 
     }
 
+    public function CheckMobile(Request $request)
+    {
+       
+      $personal =  Personal::where('personal_mobile',$request->data)->count();
+      if($personal){
+          return ['error' => 'کاربر با این شماره تلفن از قبل ثبت شده است'];
+      }
+    }
+
     public function getPersonalData(Request $request)
     {
         $personal = Personal::where('id',$request->personal_id)->first();
@@ -558,81 +567,246 @@ class PersonalController extends Controller
                 <h3>تخصص: </h3>
                 <section>';
 
+                   if (auth()->user()->hasRole('admin_panel')) {
                     foreach (\App\Models\Services\Service::all() as $key=>$service){
-                       $dd = DB::table('personal_service')
-                        ->where('personal_id', $request->personal_id)
-                        ->where('service_id',$service->id)
-                        ->first();
-                        
-                  
-                     if ($dd !== null) {
-                        $list .=' <div class="row">
-                        <div class="form-group col-md-4">
-                            <div 
-                                style="margin-left: -1rem;">
-                                <input type="checkbox" id="service_1" name="service[service_'.($key+1).'][1]"
-                                     value="'.$service->id.'"
-                                     '.($dd !== null ? 'checked=""' : '' ).'
-                                     >
-                                <label  for="service_1">'.$service->service_title.'</label>
-                            </div>
-                        </div><!-- form-group -->
-                        <div class="form-group col-md-4">
-                            <div 
-                                style="margin-left: -1rem;">
-                                <input type="checkbox" id="service_2" name="service[service_'.($key+1).'][2]"
-                                     value="1"
-                                     '.($dd->personal_chosen_status !== null  ? 'checked=""' : '' ).'
-                                     >
-                                <label  for="service_2">خدمت رسان ارشد</label>
-                            </div>
-                        </div><!-- form-group -->
-                        <div class="form-group col-md-4">
-                            <div 
-                                style="margin-left: -1rem;">
-                                <input type="checkbox" id="service_3" name="service[service_'.($key+1).'][3]"
-                                     value="1"
-                                     '.($dd->personal_confirmed_services !== null  ? 'checked=""' : '' ).'
-                                     >
-                                <label  for="service_3">مورد تایید است</label>
-                            </div>
-                        </div><!-- form-group -->
-                    </div>';
-                     }else{
-                        $list .=' <div class="row">
-                        <div class="form-group col-md-4">
-                            <div 
-                                style="margin-left: -1rem;">
-                                <input type="checkbox" id="service_1" name="service[service_'.($key+1).'][1]"
-                                     value="'.$service->id.'"
-                                   
-                                     >
-                                <label  for="service_1">'.$service->service_title.'</label>
-                            </div>
-                        </div><!-- form-group -->
-                        <div class="form-group col-md-4">
-                            <div 
-                                style="margin-left: -1rem;">
-                                <input type="checkbox" id="service_2" name="service[service_'.($key+1).'][2]"
-                                     value="1"
-                                     
-                                     >
-                                <label  for="service_2">خدمت رسان ارشد</label>
-                            </div>
-                        </div><!-- form-group -->
-                        <div class="form-group col-md-4">
-                            <div 
-                                style="margin-left: -1rem;">
-                                <input type="checkbox" id="service_3" name="service[service_'.($key+1).'][3]"
-                                     value="1"
-                                     
-                                     >
-                                <label  for="service_3">مورد تایید است</label>
-                            </div>
-                        </div><!-- form-group -->
-                    </div>';
+                        $dd = DB::table('personal_service')
+                         ->where('personal_id', $request->personal_id)
+                         ->where('service_id',$service->id)
+                         ->first();
+                         
+                   
+                      if ($dd !== null) {
+                         $list .=' <div class="row">
+                         <div class="form-group col-md-4">
+                             <div 
+                                 style="margin-left: -1rem;">
+                                 <input type="checkbox" id="service_1" name="service[service_'.($key+1).'][1]"
+                                      value="'.$service->id.'"
+                                      '.($dd !== null ? 'checked=""' : '' ).'
+                                      >
+                                 <label  for="service_1">'.$service->service_title.'</label>
+                             </div>
+                         </div><!-- form-group -->
+                         <div class="form-group col-md-4">
+                             <div 
+                                 style="margin-left: -1rem;">
+                                 <input type="checkbox" id="service_2" name="service[service_'.($key+1).'][2]"
+                                      value="1"
+                                      '.($dd->personal_chosen_status !== null  ? 'checked=""' : '' ).'
+                                      >
+                                 <label  for="service_2">خدمت رسان ارشد</label>
+                             </div>
+                         </div><!-- form-group -->
+                         <div class="form-group col-md-4">
+                             <div 
+                                 style="margin-left: -1rem;">
+                                 <input type="checkbox" id="service_3" name="service[service_'.($key+1).'][3]"
+                                      value="1"
+                                      '.($dd->personal_confirmed_services !== null  ? 'checked=""' : '' ).'
+                                      >
+                                 <label  for="service_3">مورد تایید است</label>
+                             </div>
+                         </div><!-- form-group -->
+                     </div>';
+                      }else{
+                         $list .=' <div class="row">
+                         <div class="form-group col-md-4">
+                             <div 
+                                 style="margin-left: -1rem;">
+                                 <input type="checkbox" id="service_1" name="service[service_'.($key+1).'][1]"
+                                      value="'.$service->id.'"
+                                    
+                                      >
+                                 <label  for="service_1">'.$service->service_title.'</label>
+                             </div>
+                         </div><!-- form-group -->
+                         <div class="form-group col-md-4">
+                             <div 
+                                 style="margin-left: -1rem;">
+                                 <input type="checkbox" id="service_2" name="service[service_'.($key+1).'][2]"
+                                      value="1"
+                                      
+                                      >
+                                 <label  for="service_2">خدمت رسان ارشد</label>
+                             </div>
+                         </div><!-- form-group -->
+                         <div class="form-group col-md-4">
+                             <div 
+                                 style="margin-left: -1rem;">
+                                 <input type="checkbox" id="service_3" name="service[service_'.($key+1).'][3]"
+                                      value="1"
+                                      
+                                      >
+                                 <label  for="service_3">مورد تایید است</label>
+                             </div>
+                         </div><!-- form-group -->
+                     </div>';
+                      }
                      }
-                    }
+                   }else{
+                       if (auth()->user()->roles->first()->sub_broker !== null) {
+                        $role_id = auth()->user()->roles->first()->sub_broker;
+                                        
+                        $user =  User::whereHas('roles', function ($q) use ($role_id) {
+                            $q->where('id',$role_id);
+                        })->get();
+                        $services = $user->services;
+                        foreach ($services as $key=>$service){
+                            $dd = DB::table('personal_service')
+                             ->where('personal_id', $request->personal_id)
+                             ->where('service_id',$service->id)
+                             ->first();
+                             
+                       
+                          if ($dd !== null) {
+                             $list .=' <div class="row">
+                             <div class="form-group col-md-4">
+                                 <div 
+                                     style="margin-left: -1rem;">
+                                     <input type="checkbox" id="service_1" name="service[service_'.($key+1).'][1]"
+                                          value="'.$service->id.'"
+                                          '.($dd !== null ? 'checked=""' : '' ).'
+                                          >
+                                     <label  for="service_1">'.$service->service_title.'</label>
+                                 </div>
+                             </div><!-- form-group -->
+                             <div class="form-group col-md-4">
+                                 <div 
+                                     style="margin-left: -1rem;">
+                                     <input type="checkbox" id="service_2" name="service[service_'.($key+1).'][2]"
+                                          value="1"
+                                          '.($dd->personal_chosen_status !== null  ? 'checked=""' : '' ).'
+                                          >
+                                     <label  for="service_2">خدمت رسان ارشد</label>
+                                 </div>
+                             </div><!-- form-group -->
+                             <div class="form-group col-md-4">
+                                 <div 
+                                     style="margin-left: -1rem;">
+                                     <input type="checkbox" id="service_3" name="service[service_'.($key+1).'][3]"
+                                          value="1"
+                                          '.($dd->personal_confirmed_services !== null  ? 'checked=""' : '' ).'
+                                          >
+                                     <label  for="service_3">مورد تایید است</label>
+                                 </div>
+                             </div><!-- form-group -->
+                         </div>';
+                          }else{
+                             $list .=' <div class="row">
+                             <div class="form-group col-md-4">
+                                 <div 
+                                     style="margin-left: -1rem;">
+                                     <input type="checkbox" id="service_1" name="service[service_'.($key+1).'][1]"
+                                          value="'.$service->id.'"
+                                        
+                                          >
+                                     <label  for="service_1">'.$service->service_title.'</label>
+                                 </div>
+                             </div><!-- form-group -->
+                             <div class="form-group col-md-4">
+                                 <div 
+                                     style="margin-left: -1rem;">
+                                     <input type="checkbox" id="service_2" name="service[service_'.($key+1).'][2]"
+                                          value="1"
+                                          
+                                          >
+                                     <label  for="service_2">خدمت رسان ارشد</label>
+                                 </div>
+                             </div><!-- form-group -->
+                             <div class="form-group col-md-4">
+                                 <div 
+                                     style="margin-left: -1rem;">
+                                     <input type="checkbox" id="service_3" name="service[service_'.($key+1).'][3]"
+                                          value="1"
+                                          
+                                          >
+                                     <label  for="service_3">مورد تایید است</label>
+                                 </div>
+                             </div><!-- form-group -->
+                         </div>';
+                          }
+                         }
+                       }
+
+                       if (auth()->user()->roles->first()->broker !== null) {
+                        $services = auth()->user()->services;
+                        foreach ($services as $key=>$service){
+                            $dd = DB::table('personal_service')
+                             ->where('personal_id', $request->personal_id)
+                             ->where('service_id',$service->id)
+                             ->first();
+                             
+                       
+                          if ($dd !== null) {
+                             $list .=' <div class="row">
+                             <div class="form-group col-md-4">
+                                 <div 
+                                     style="margin-left: -1rem;">
+                                     <input type="checkbox" id="service_1" name="service[service_'.($key+1).'][1]"
+                                          value="'.$service->id.'"
+                                          '.($dd !== null ? 'checked=""' : '' ).'
+                                          >
+                                     <label  for="service_1">'.$service->service_title.'</label>
+                                 </div>
+                             </div><!-- form-group -->
+                             <div class="form-group col-md-4">
+                                 <div 
+                                     style="margin-left: -1rem;">
+                                     <input type="checkbox" id="service_2" name="service[service_'.($key+1).'][2]"
+                                          value="1"
+                                          '.($dd->personal_chosen_status !== null  ? 'checked=""' : '' ).'
+                                          >
+                                     <label  for="service_2">خدمت رسان ارشد</label>
+                                 </div>
+                             </div><!-- form-group -->
+                             <div class="form-group col-md-4">
+                                 <div 
+                                     style="margin-left: -1rem;">
+                                     <input type="checkbox" id="service_3" name="service[service_'.($key+1).'][3]"
+                                          value="1"
+                                          '.($dd->personal_confirmed_services !== null  ? 'checked=""' : '' ).'
+                                          >
+                                     <label  for="service_3">مورد تایید است</label>
+                                 </div>
+                             </div><!-- form-group -->
+                         </div>';
+                          }else{
+                             $list .=' <div class="row">
+                             <div class="form-group col-md-4">
+                                 <div 
+                                     style="margin-left: -1rem;">
+                                     <input type="checkbox" id="service_1" name="service[service_'.($key+1).'][1]"
+                                          value="'.$service->id.'"
+                                        
+                                          >
+                                     <label  for="service_1">'.$service->service_title.'</label>
+                                 </div>
+                             </div><!-- form-group -->
+                             <div class="form-group col-md-4">
+                                 <div 
+                                     style="margin-left: -1rem;">
+                                     <input type="checkbox" id="service_2" name="service[service_'.($key+1).'][2]"
+                                          value="1"
+                                          
+                                          >
+                                     <label  for="service_2">خدمت رسان ارشد</label>
+                                 </div>
+                             </div><!-- form-group -->
+                             <div class="form-group col-md-4">
+                                 <div 
+                                     style="margin-left: -1rem;">
+                                     <input type="checkbox" id="service_3" name="service[service_'.($key+1).'][3]"
+                                          value="1"
+                                          
+                                          >
+                                     <label  for="service_3">مورد تایید است</label>
+                                 </div>
+                             </div><!-- form-group -->
+                         </div>';
+                          }
+                         }
+                       }
+                   }
               $list .='</section>
                 <h3>مدارک فنی: </h3>
                 <section>

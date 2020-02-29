@@ -6,18 +6,19 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Support\Facades\Hash;
 
 class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
-    public function generateRandomString($length = 10) {
-        $characters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ&%$#@(*';
-        $charactersLength = strlen($characters);
-        $randomString = '';
-        for ($i = 0; $i < $length; $i++) {
-            $randomString .= $characters[rand(0, $charactersLength - 1)];
-        }
+    public function generateRandomString($length = 10,$mobile,$date) {
+        
+        $charactersLength = strlen($date);
+        $mobile_str = substr($mobile,-4);
+        $hashed_date = substr(Hash::make($date),0,10);
+        $randomString = 'T-' . $mobile_str . ' R-' . $hashed_date;
+      
         return $randomString;
     }
     public function convertDate($date)

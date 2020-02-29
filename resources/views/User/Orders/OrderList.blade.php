@@ -35,7 +35,7 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <form id="user--form" method="post" action=" {{route('Order.Submit')}} " enctype="multipart/form-data">
+      <form id="order--form" method="post" action=" {{route('Order.Submit')}} " enctype="multipart/form-data">
         @csrf
         <div class="modal-body">
           
@@ -132,8 +132,8 @@
           </div>
           <div class="row">
             <div class="form-group col-md-12">
-              <label for="recipient-name" class="col-form-label">نام خدمت:</label>
-              <select name="service_name" id="service_name"  class="js-example-basic-single" dir="rtl">
+              <label for="service_name" class="col-form-label">نام خدمت:</label>
+              <select class="form-control" name="service_name" id="service_name"   dir="rtl">
                   <option value="">ابتدا دسته بندی را انتخاب نمایید</option>
                   {{-- @foreach ($services as $service)
                     <option value="{{$service->id}}">{{$service->service_title}}</option>         
@@ -279,7 +279,7 @@
              </a>
             @endif
             @if (auth()->user()->can('orders_detail'))
-             <a href="#" title="" data-toggle="modal" data-target=".bd-example-modal-lg-detail" class="order-detail  m-2" >
+             <a href="#" title="" data-toggle="modal" data-target=".bd-example-modal-lg-detail" class="  m-2" >
               <span class=" bg-secondary" style="padding: 13px 10px 4px 10px;
       border-radius: 4px;
       box-shadow: 0 1px 6px 0 #6464a9;">
@@ -552,6 +552,51 @@
         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
     });
+
+    var form = $("#order--form").show();
+    form.validate({
+        rules: {
+         
+        date_one: {
+            required:true
+        },
+        user_mobile: {
+          required:true
+        },
+        user_name: {
+          required:true
+        },
+        user_family: {
+          required:true
+        },
+        category: {
+          required:true
+        },
+        service_name: {
+          required:true
+        }
+        
+        },
+        messages: {
+         date_one: {
+            required:'تاریخ سفارش را انتخاب کنید',
+        } ,user_mobile: {
+          required:'شماره همراه سفارش دهنده را وارد کنید',
+        },
+        user_name: {
+          required:'نام سفارش دهنده را وارد کنید',
+        },
+        user_family: {
+          required:'نام خانوادگی سفارش دهنده را وارد کنید',
+        },
+        category: {
+          required:'دسته بندی را انتخاب کنید',
+        },
+        service_name: {
+          required:'خدمت را انتخاب کنید',
+        }
+        }
+      });
 
      $('#price_type').click(function(){
          if($(this).val() == 'رقمی'){
