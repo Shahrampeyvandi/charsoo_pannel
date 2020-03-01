@@ -12,22 +12,35 @@ class OrdersController extends Controller
 {
    public function referredOrders(Request $request)
    {
+
+    
+
        $payload = JWTAuth::parseToken($request->header('Authorization'))->getPayload();
        $mobile = $payload->get('mobile');
        $personal = Personal::where('personal_mobile',$mobile)->first();
+       //$orders = $personal->order->where('order_type','ارجاع داده شده');
        $orders = $personal->order->where('order_type','ارجاع داده شده');
+
+       $ords=[];
+       foreach($orders as $key=>$or){
+         $ords[] = $or;
+       }
        return response()->json([
-        'data' => $orders,
+        'data' => $ords,
       ], 200);
    }
 
    
    public function offeringOrders(Request $request)
    {
+
+
+
     $payload = JWTAuth::parseToken($request->header('Authorization'))->getPayload();
     $mobile = $payload->get('mobile');
     $personal = Personal::where('personal_mobile',$mobile)->first();
     $orders = $personal->order->where('order_type','پیشنهاد داده شده');
+
     return response()->json([
      'data' => $orders,
    ], 200);

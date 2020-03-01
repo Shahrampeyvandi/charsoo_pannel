@@ -7,7 +7,6 @@ use App\Models\Acounting\UserAcounts;
 use App\Models\City\City;
 use App\Models\Personals\Personal;
 use App\Models\User;
-use App\Models\City\City;
 use Illuminate\Http\Request;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use Illuminate\Support\Facades\File;
@@ -103,6 +102,7 @@ class PersonalController extends Controller
 
       ], 200);
     }
+
   public function getPersonal(Request $request)
   {
     
@@ -214,18 +214,6 @@ class PersonalController extends Controller
     ], 200);
   }
 
-  public function getPersonalDashboardDetail(Request $request)
-  {
+  
 
-    $payload = JWTAuth::parseToken($request->header('Authorization'))->getPayload();
-       $mobile = $payload->get('mobile');
-
-       $personal = Personal::where('personal_mobile',$mobile)->first();
-
-       $useracountincome= $personal->useracounts[0];
-       $useracountcharge= $personal->useracounts[1];
-
-    }
-
-}
 }
