@@ -114,7 +114,8 @@ class ServiceController extends Controller
             'service_special_category' => $request->service_special_category,
             'service_icon' => $icon,
             'service_pic_first' => $pic1,
-            'service_pic_second' => $pic2
+            'service_pic_second' => $pic2,
+            'sms_status' => $request->sms_status
         ]);
 
         if ($request->has('service_role')) {

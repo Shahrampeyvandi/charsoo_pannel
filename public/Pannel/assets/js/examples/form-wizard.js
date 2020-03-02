@@ -44,6 +44,9 @@ $(document).ready(function () {
         work_experience_month_num: {
             required:true,
             range:[0,12]
+        },
+        date_one: {
+            required:true
         }
         
         },
@@ -74,6 +77,8 @@ $(document).ready(function () {
             required:'فیلد اجباری است',
             range:'ماه باید در بازه 0 تا12 باشد',
            
+        },date_one: {
+            required:'تاریخ سفارش را انتخاب کنید',
         }
         }
       });

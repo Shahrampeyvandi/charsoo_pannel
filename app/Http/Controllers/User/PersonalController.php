@@ -24,7 +24,7 @@ class PersonalController extends Controller
             $personals .= ' 
             <tr>
                 <td>
-                    <div class="custom-control custom-checkbox custom-control-inline"
+                    <div class="checkpersonal custom-control custom-checkbox custom-control-inline"
                         style="margin-left: -1rem;">
                         <input data-id="'.$personal->id.'" type="checkbox" id="'.$key.'"
                             name="customCheckboxInline1" class="custom-control-input" value="1">
@@ -44,13 +44,24 @@ class PersonalController extends Controller
                     ).
                 '</td>'
                 .($personal->personal_status == 1 ?
-                '<td class="text-success">
-                    <i class="fa fa-check"></i>
+                '<td  class="status_show text-success">
+                
+                 <div class="form-group" style="display:inline-block;" >
+                                 <div class="custom-control custom-switch custom-checkbox-success">
+                                     <input data-id="'.$personal->id.'" type="checkbox" value="1" class="custom-control-input" id="status_'.$key.'" checked>
+                                     <label class="custom-control-label" for="status_'.$key.'"></label>
+                                 </div>
+                        </div>
                 </td>'
                 :
                
-                '<td class="text-danger">
-                    <i class="fa fa-close"></i>
+                '<td  class="status_show text-danger">
+                <div class="form-group" style="display:inline-block;" >
+                <div class="custom-control custom-switch custom-checkbox-success">
+                    <input type="checkbox" data-id="'.$personal->id.'" value="1" class="custom-control-input" id="status_'.$key.'" >
+                    <label class="custom-control-label" for="status_'.$key.'"></label>
+                </div>
+            </div>
                 </td>') .'
                 <td>مرد</td>
                 <td>'.$personal->personal_marriage.'</td>
@@ -99,12 +110,12 @@ class PersonalController extends Controller
                                 ).
                             '</td>'
                             .($personal->personal_status == 1 ?
-                            '<td class="text-success">
+                            '<td class="status_show text-success">
                                 <i class="fa fa-check"></i>
                             </td>'
                             :
                            
-                            '<td class="text-danger">
+                            '<td class="status_show text-danger">
                                 <i class="fa fa-close"></i>
                             </td>') .'
                             <td>مرد</td>
@@ -299,6 +310,23 @@ class PersonalController extends Controller
             alert()->success('خدمت رسان با موفقیت ثبت شد', 'عملیات موفق')->autoclose(2000);
             return back();
        
+    }
+    public function ChangeStatus(Request $request)
+    {
+
+        if ($request->value == '1') {
+            Personal::where('id',$request->id)->update([
+                'personal_status' => 1
+            ]);
+        }
+
+        if ($request->value == '0') {
+            Personal::where('id',$request->id)->update([
+                'personal_status' => 0
+            ]);
+        }
+        
+        return $request->value;
     }
 
     public function DeletePersonal(Request $request)

@@ -124,13 +124,22 @@
                                       
                                 </select>
                                 </div>
-                                <div class="form-group col-md-6">
-                                    <label>ایکون </label>
-                                    <input type="file" id="service_icon" name="service_icon" class="form-control" placeholder="" >
-                                    <div class="valid-feedback">
-                                        صحیح است!
+                                <div class="row">
+                                    <div class="form-group col-md-6">
+                                        <label>ایکون </label>
+                                        <input type="file" id="service_icon" name="service_icon" class="form-control" placeholder="" >
+                                        <div class="valid-feedback">
+                                            صحیح است!
+                                        </div>
+                                    </div><!-- form-group -->
+                                    <div class="form-group  col-md-6 pt-4">
+                                        <span>درخواست به صورت پیامکی به خدمت رسان</span>
+                                        <div class="custom-control custom-switch">
+                                            <input style="display:inline-block;" value="1" type="checkbox" class="custom-control-input" name="sms_status" id="sms_status" >
+                                            <label class="custom-control-label" for="sms_status"></label>
+                                        </div>
                                     </div>
-                                </div><!-- form-group -->
+                                </div>
                             
                     </section>
                     <h3> قیمت</h3>

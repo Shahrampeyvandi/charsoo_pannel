@@ -30,6 +30,7 @@ class CreateServicesTable extends Migration
             $table->string('service_pic_second')->nullable();
             $table->string('service_offered_status')->nullable();
             $table->string('service_special_category')->nullable();
+            $table->integer('sms_status')->default(0);
             $table->timestamps();
         });
     }

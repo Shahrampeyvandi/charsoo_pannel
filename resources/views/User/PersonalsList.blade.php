@@ -594,9 +594,9 @@
           $('.filtering').toggle(200)
         })
 
-           $('table input[type="checkbox"]').change(function(){
+           $('.checkpersonal input[type="checkbox"]').change(function(){
             array=[]
-            $('table input[type="checkbox"]').each(function(){
+            $('.checkpersonal input[type="checkbox"]').each(function(){
 
                 if($(this).is(':checked')){
                   array.push($(this).attr('data-id'))
@@ -630,7 +630,11 @@
                 <i class="fa fa-edit"></i>
             </span>
            </a>
+
+           
                     `)
+
+                   
                 }
             }
             else{
@@ -797,6 +801,42 @@ $('.bd-example-modal-lg-edit').on('shown.bs.modal', function (event) {
       });
     
     }); 
+
+// change status
+$(document).on('click','input[id^="status_"]',function(){
+  let  id =  $(this).data('id')
+  if($(this).is(':checked')){
+      var value = 1
+  }else{
+      var value = 0
+  }
+  $.ajax({
+type:'post',
+url:'{{route("Personal.ChangeStatus")}}',
+data:{id:id,value:value},
+success:function(data){
+    swal("", "تغییر وضعیت خدمت رسان با موفقیت انجام شد", "success", {
+			button: "باشه"
+		});
+    
+    // if (data == 0) {
+    //     $('td[data-id="' + id + '"').removeClass('text-success')
+    //     $('td[data-id="' + id + '"').addClass('text-danger')
+    //     $('td[data-id="' + id + '"').html(`  <i class="fa fa-close"></i>`)
+    
+    // }else{
+    //     $('td[data-id="' + id + '"').removeClass('text-danger')
+    //     $('td[data-id="' + id + '"').addClass('text-success')
+    //     $('td[data-id="' + id + '"').html(`<i class="fa fa-check"></i>`)
+        
+    // }
+        
+
+        
+
+}
+})
+})
 
 
 // Delete

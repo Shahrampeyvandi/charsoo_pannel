@@ -11,6 +11,7 @@ use App\Models\Cunsomers\Cunsomer;
 use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Role;
 use App\Http\Controllers\Controller;
+use App\Models\Personals\Personal;
 use App\Models\Services\ServiceCategory;
 use Carbon\Carbon;
 
@@ -220,6 +221,7 @@ class OrderController extends Controller
 
     public function choisePersonal(Request $request)
     {
+
   
        $order =  Order::where('id',$request->order_id)->first();
        foreach ($request->personal_id as $key => $personal_id) {
@@ -229,13 +231,40 @@ class OrderController extends Controller
         ])->count()) {
             continue;
         }else{
-            $order->personals()->attach($personal_id);
+           $order->personals()->attach($personal_id);
+           $mobile = Personal::where('id',$personal_id)->first()->personal_mobile;
+           $this->sendSMS($mobile);
         }
        
        }
        alert()->success('خدمت رسان(ها) با موفقیت انتخاب شد.', 'عملیات موفق')->autoclose(2000);
        return back();
         
+    }
+
+    public function sendSMS(Request $request)
+    {
+        $apikey = '5079544B44782F41475237506D6A4C46713837717571386D6D784636486C666D';
+
+        $receptor = $request->phone;
+        //$token = 'خدمات.محصلی.بضروری';
+        $token = $request->phone;
+        $template = 'referredorder';
+        $api = new \Kavenegar\KavenegarApi($apikey);
+
+        try {
+            $api->VerifyLookup($receptor, $token, null, null, $template);
+        } catch (\Kavenegar\Exceptions\ApiException $e) {
+
+            //return response()->json(['message' => 'مشکل پنل پیامکی پیش آمده است =>' . $e->errorMessage()], 400);
+            return response()->json(['code'=> $token ,'error' => 'مشکل پنل پیامکی پیش آمده است =>' . $e->errorMessage()
+            ],500);
+
+        } catch (\Kavenegar\Exceptions\HttpException $e) {
+
+            return response()->json(['code'=> $token,'error' => 'مشکل اتصال پیش امده است =>' . $e->errorMessage()],500);
+
+        }
     }
 
     public function choiseChosenPersonal(Request $request)

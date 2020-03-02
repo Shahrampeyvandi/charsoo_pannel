@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers\User;
 
-use App\Http\Controllers\Controller;
-use App\Models\Personals\Personal;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Morilog\Jalali\Jalalian;
+use App\Models\Personals\Personal;
+use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Controller;
+use App\Models\Services\ServiceCategory;
 
 class TrackPersonalController extends Controller
 {
@@ -47,7 +48,83 @@ class TrackPersonalController extends Controller
         }
         //dd($person);
 
-        return view('User.OnlinePersonals', compact('online','person'));
+        if (auth()->user()->hasRole('admin_panel')) {
+           
+            $category_parent_list = ServiceCategory::where('category_parent',0)->get();
+            $count = ServiceCategory::where('category_parent',0)->count();
+             $list ='<option data-parent="0" value="0" class="level-1">بدون دسته بندی</option>';
+            foreach ($category_parent_list as $key => $item) {
+                
+                $list .= '<option data-id="'.$item->id.'" value="'.$item->id.'" class="level-1">'.$item->category_title.' 
+                 '.(count(ServiceCategory::where('category_parent',$item->id)->get()) ? '&#xf104;  ' : '' ).'
+                </option>';
+              if (ServiceCategory::where('category_parent',$item->id)->count()) {
+                  $count += ServiceCategory::where('category_parent',$item->id)->count();
+                 foreach (ServiceCategory::where('category_parent',$item->id)->get() as $key1 => $itemlevel1) {
+                     $list .= '<option data-parent="'.$item->id.'" value="'.$itemlevel1->id.'" class="level-2">'.$itemlevel1->category_title.'
+                     '.(count(ServiceCategory::where('category_parent',$itemlevel1->id)->get()) ? '&#xf104;  ' : '' ).'
+                     </option>';
+                     
+                     
+                  if (ServiceCategory::where('category_parent',$itemlevel1->id)->count()) {
+                     $count += ServiceCategory::where('category_parent',$itemlevel1->id)->count();
+                     foreach (ServiceCategory::where('category_parent',$itemlevel1->id)->get() as $key2 => $itemlevel2) {
+                         $list .= '<option data-parent="'.$itemlevel1->id.'" value="'.$itemlevel2->id.'" class="level-3">'.$itemlevel2->category_title.'
+                         '.(count(ServiceCategory::where('category_parent',$itemlevel2->id)->get()) ? '&#xf104;  ' : '' ).'
+                         </option>';
+                        
+                        
+                        if (ServiceCategory::where('category_parent',$itemlevel2->id)->count()) {
+                         $count += ServiceCategory::where('category_parent',$itemlevel2->id)->count();
+                         foreach (ServiceCategory::where('category_parent',$itemlevel2->id)->get() as $key3 => $itemlevel3) {
+                             $list .= '<option data-parent="'.$itemlevel2->id.'" value="'.$itemlevel3->id.'" class="level-4">'.$itemlevel3->category_title.'
+                             '.(count(ServiceCategory::where('category_parent',$itemlevel3->id)->get()) ? '&#xf104;  ' : '' ).'
+                             </option>';
+                         
+                             if (ServiceCategory::where('category_parent',$itemlevel3->id)->count()) {
+                                 $count += ServiceCategory::where('category_parent',$itemlevel3->id)->count();
+                                 foreach (ServiceCategory::where('category_parent',$itemlevel3->id)->get() as $key4 => $itemlevel4) {
+                                     $list .= '<option data-parent="'.$itemlevel3->id.'" value="'.$itemlevel4->id.'" class="level-4">'.$itemlevel4->category_title.'
+                                     
+                                     </option>';
+                                 
+                                 }
+                                }
+                         
+                         }
+                        }
+                     }
+                  }
+                 
+                  }
+              }
+            }
+
+            $service_options = '';
+          }else{
+              $list ='';
+
+            if (auth()->user()->roles->first()->broker !== null) {
+                $services = auth()->user()->services;
+               
+            }
+            if (auth()->user()->roles->first()->sub_broker !== null) {
+                $role_id = auth()->user()->roles->first()->sub_broker;
+                $user =  User::whereHas('roles', function ($q) use ($role_id) {
+                    $q->where('id',$role_id);
+                })->first();
+                $services = $user->services;
+               
+            }
+           $service_options ='<option  value="" class="">باز کردن فهرست انتخاب</option>';
+           foreach ($services as $key => $service) {
+            $service_options .= '<option  value="'.$service->id.'" class="">'.$service->service_title.'</option>';
+           }
+         
+    
+          }
+
+        return view('User.OnlinePersonals', compact('online','person','list','service_options'));
     }
 
     public function TrackPersonals(Request $request)

@@ -65,6 +65,7 @@ Route::group(['middleware' => ['checkAuth']], function () {
    
     Route::post('Personal/CheckMobile', 'User\PersonalController@CheckMobile')->name('Personal.CheckMobile');
 
+    Route::post('ChangeStatus', 'User\PersonalController@ChangeStatus')->name('Personal.ChangeStatus');
     
     Route::post('Services/Personals/N', 'User\PersonalController@CheckNationalNum')->name('Personal.CheckNationalNum');
 
@@ -119,7 +120,7 @@ Route::group(['middleware' => ['checkAuth']], function () {
     Route::post('getChosenPersonal', 'User\OrderController@getChosenPersonal')->name('Order.getChosenPersonal');
 
     Route::post('getChosenPersonal', 'User\OrderController@getChosenPersonal')->name('Order.getChosenPersonal');
-
+    
     Route::post('choisePersonal', 'User\OrderController@choisePersonal')->name('Order.ChoicePersonal');
 
     Route::post('ChosenPersonal', 'User\OrderController@choiseChosenPersonal')->name('Order.Choise.ChosenPersonal');
