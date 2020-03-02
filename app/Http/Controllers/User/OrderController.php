@@ -231,27 +231,29 @@ class OrderController extends Controller
         ])->count()) {
             continue;
         }else{
-           $order->personals()->attach($personal_id);
-           $mobile = Personal::where('id',$personal_id)->first()->personal_mobile;
-           $this->sendSMS($mobile);
+            $order->personals()->attach($personal_id);
+            $sms_status = Service::where('id',$order->service_id)->first()->sms_status;
+            
+            if ($sms_status !== null) {
+                $mobile = Personal::where('id',$personal_id)->first()->personal_mobile;
+                $this->sendSMS($mobile);
+            }
         }
-       
        }
        alert()->success('خدمت رسان(ها) با موفقیت انتخاب شد.', 'عملیات موفق')->autoclose(2000);
        return back();
         
     }
 
-    public function sendSMS(Request $request)
+    public function sendSMS($mobile)
     {
-        $apikey = '5079544B44782F41475237506D6A4C46713837717571386D6D784636486C666D';
-
-        $receptor = $request->phone;
+        
+        $apikey = env('API_KEY');
+        $receptor = $mobile;
         //$token = 'خدمات.محصلی.بضروری';
-        $token = $request->phone;
+        $token = $mobile;
         $template = 'referredorder';
         $api = new \Kavenegar\KavenegarApi($apikey);
-
         try {
             $api->VerifyLookup($receptor, $token, null, null, $template);
         } catch (\Kavenegar\Exceptions\ApiException $e) {

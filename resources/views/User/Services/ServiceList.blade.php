@@ -316,7 +316,7 @@
                         <th>پیشنهاد ویژه در خدمات زیر</th>
                         <th>نوع خدمت</th>
                         <th>نوع ارجاع</th>
-
+                        <th>ارسال پیامک به خدمت رسان</th>
                         <th>عکس</th> 
                     </tr>
                     </thead>
@@ -357,6 +357,15 @@
                             </td>
                             <td>{{$service->price_type}}</td>
                             <td>{{$service->service_type_send}}</td>
+                            @if ($service->sms_status == 1)
+                                <td class="text-success">
+                                    <i class="fa fa-check"></i>
+                                </td>
+                                @else
+                                <td class="text-danger">
+                                    <i class="fa fa-close"></i>
+                                </td>
+                            @endif
                             <td> 
                             @if ($service->service_icon !== '')
                                 <img width="75px" class="img-fluid " src=" {{asset("uploads/service_icons/$service->service_title/$service->service_icon")}} " />
