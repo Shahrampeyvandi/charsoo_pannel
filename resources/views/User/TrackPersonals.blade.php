@@ -171,9 +171,9 @@
 
 
 
-     @foreach($khedmatResan as $position)
+     @foreach($khedmatResan as $key=>$position)
           L.marker([{{$position->tool}}, {{$position->arz}}],{icon: greenIcon}).addTo(map)
-        .bindPopup('موقعیت خدمت رسان در این زمان<br> <br> {{$position->created_at}}')
+        .bindPopup('{{$key+1}}<br>     موقعیت خدمت رسان در این زمان<br> <br> {{$position->created_at}}')
         .openPopup();
 
     latlngs.push([{{$position->tool}},{{$position->arz}}])

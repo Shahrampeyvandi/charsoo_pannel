@@ -143,7 +143,6 @@ class TrackPersonalController extends Controller
             $khedmatResan = DB::table('personals_positions')
                 ->where('personal_id', '=', $request->personal)
                 ->whereDate('created_at', '=', $this->convertDate($request->date), )
-                ->latest()
                 ->get();
 
         }
