@@ -29,9 +29,12 @@ class TrackPersonalController extends Controller
 
         $online = DB::table('personals_positions')
             ->whereDate('created_at', '=', $mydate)
-            ->whereTime('created_at', 'like', $datenow . '%')
-            ->orwhereTime('created_at', 'like', Jalalian::forge('now - 1 minutes')->format('H:i') . '%')
-            ->orwhereTime('created_at', 'like', Jalalian::forge('now - 2 minutes')->format('H:i') . '%')
+        
+            ->where(function ($query) {
+                $query->whereTime('created_at', 'like', Jalalian::forge('now')->format('H:i').'%')
+                ->orwhereTime('created_at', 'like', Jalalian::forge('now - 1 minutes')->format('H:i') . '%')
+                ->orwhereTime('created_at', 'like', Jalalian::forge('now - 2 minutes')->format('H:i') . '%');
+            })
         // ->orWhere(function($query) {
         //     $query->whereTime('created_at','like', Jalalian::forge('now - 1 minutes')->format('H:i').'%')
         //           ->whereTime('created_at','like', Jalalian::forge('now - 2 minutes')->format('H:i').'%');
@@ -40,6 +43,7 @@ class TrackPersonalController extends Controller
         // ->orwhereTime('created_at', 'like' , $date2.'%')
             ->get();
 
+            //dd($online);
         //dd($mydate,$datenow,$date1,$date2,$online);
         $person=array();
         foreach ($online as $key=>$personal) {

@@ -80,12 +80,13 @@ class PersonalController extends Controller
     public function getPersonalDashboardDetail(Request $request)
     {
 
+       
 
         $payload = JWTAuth::parseToken($request->header('Authorization'))->getPayload();
         $mobile = $payload->get('mobile');
 
      
-       
+      
         $personal = Personal::where('personal_mobile', $mobile)->first();
 
       
@@ -109,11 +110,10 @@ class PersonalController extends Controller
        $payload = JWTAuth::parseToken($request->header('Authorization'))->getPayload();
        $mobile = $payload->get('mobile');
        $personal = Personal::where('personal_mobile',$mobile)->first();
-       return response()->json([
-        'data' => [
-          'personal'=>$personal,
-        ],
-      ], 200);
+       return response()->json(
+        $personal
+        
+      , 200);
 
   }
 
@@ -213,7 +213,6 @@ class PersonalController extends Controller
       ],
     ], 200);
   }
-
   
 
 }
