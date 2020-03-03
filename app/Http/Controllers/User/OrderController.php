@@ -189,7 +189,7 @@ class OrderController extends Controller
         $service = Service::where('id',$request->service_id)->first();
         $tr = '';
         
-        foreach ($service->personal as $key => $personal) {
+        foreach ($service->personal->where('personal_status',1) as $key => $personal) {
             $tr .=  '
             <input type="hidden" value="'.$request->order_id.'" name="order_id"   />
             <tr>
@@ -331,7 +331,7 @@ class OrderController extends Controller
         $service = Service::where('id',$request->service_id)->first();
 
         $tr = '';
-        foreach ($service->personal()->where('personal_chosen_status',1)->get() as $key => $personal) {
+        foreach ($service->personal()->where('personal_chosen_status',1)->where('personal_status',1)->get() as $key => $personal) {
             $tr .=  '
             <input type="hidden" value="'.$request->order_id.'" name="order_id"   />
             <tr>

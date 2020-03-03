@@ -58,6 +58,8 @@ Route::group(['middleware' => ['checkAuth']], function () {
     Route::get('/Services/Personals', 'User\PersonalController@PersonalsList')->name('Pannel.Services.Personels');
 
     Route::post('Services/technician', 'User\PersonalController@technicianSubmit')->name('Service.technician.Submit');
+    
+    Route::post('Personal/FilterData', 'User\PersonalController@FilterData')->name('Personals.FilterData');
 
     Route::post('getPersonalData', 'User\PersonalController@getPersonalData')->name('Personal.Edit.getData');
 
@@ -76,6 +78,8 @@ Route::group(['middleware' => ['checkAuth']], function () {
     Route::get('/Cunsomers/List', 'User\CunsomerController@CunsomerList')->name('Pannel.Cunsomers.List');
 
     Route::post('/Cunsomers/Delete', 'User\CunsomerController@DeleteCustomers')->name('Customers.Delete');
+    
+    Route::post('/Cunsomers/ChangeStatus', 'User\CunsomerController@ChangeStatus')->name('Customer.ChangeStatus');
 
     Route::post('/Cunsomers/getData', 'User\CunsomerController@getData')->name('Customer.Edit.getData');
 

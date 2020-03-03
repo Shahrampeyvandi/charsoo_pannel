@@ -33,6 +33,7 @@ class CreatePersonalsTable extends Migration
             $table->string('personal_backgrounds_status')->nullable();
             $table->string('personal_national_card_front_pic')->nullable();
             $table->string('personal_national_card_back_pic')->nullable();
+            $table->string('personal_profile')->nullable();
             $table->string('personal_responsibility')->nullable();
             $table->text('personal_about_specialization')->nullable();
             $table->integer('personal_work_experience_month');

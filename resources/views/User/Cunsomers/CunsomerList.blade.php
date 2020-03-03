@@ -35,6 +35,8 @@
     </div>
   </div>
 </div>
+
+
 <div class="container-fluid">
   <div class="card">
     <div class="container_icon card-body d-flex justify-content-end">
@@ -126,7 +128,7 @@
             @foreach ($customers as $key=>$customer)
             <tr>
               <td>
-                <div class="custom-control custom-checkbox custom-control-inline" style="margin-left: -1rem;">
+                <div class="customer-list custom-control custom-checkbox custom-control-inline" style="margin-left: -1rem;">
                   <input data-id=" {{$customer->id}} " type="checkbox" id="{{ $key}}" name="customCheckboxInline1"
                     class="custom-control-input" value="1">
                   <label class="custom-control-label" for="{{$key}}"></label>
@@ -144,11 +146,21 @@
               </td>
               @if ($customer->customer_status == 1)
               <td class="text-success">
-                <i class="fa fa-check"></i>
+                <div class=" form-group" style="display:inline-block;" >
+                  <div class="custom-control custom-switch custom-checkbox-success">
+                      <input data-id="{{$customer->id}}" type="checkbox" value="1" class="custom-control-input" id="status_{{$key}}" checked>
+                      <label class="custom-control-label" for="status_{{$key}}"></label>
+                  </div>
+               </div>
               </td>
               @else
               <td class="text-danger">
-                <i class="fa fa-close"></i>
+                <div class=" form-group" style="display:inline-block;" >
+                  <div class="custom-control custom-switch custom-checkbox-success">
+                      <input data-id="{{$customer->id}}" type="checkbox" value="1" class="custom-control-input" id="status_{{$key}}" >
+                      <label class="custom-control-label" for="status_{{$key}}"></label>
+                  </div>
+               </div>
               </td>
               @endif
               <td>
@@ -188,14 +200,14 @@
           $('.filtering').toggle(200)
         })
 
-           $('input[type="checkbox"]').change(function(){
+           $('.customer-list input[type="checkbox"]').change(function(){
            if( $(this).is(':checked')){
             $(this).parents('tr').css('background-color','#41f5e07d');
             }else{
                 $(this).parents('tr').css('background-color','');
             }
             array=[]
-            $('input[type="checkbox"]').each(function(){
+            $('.customer-list input[type="checkbox"]').each(function(){
                 if($(this).is(':checked')){
                   array.push($(this).attr('data-id'))
                }
@@ -332,6 +344,27 @@ $('.bd-example-modal-lg-edit').on('shown.bs.modal', function (event) {
             });
         }
      }); 
+
+     // change status
+$(document).on('click','input[id^="status_"]',function(){
+  let  id =  $(this).data('id')
+  if($(this).is(':checked')){
+      var value = 1
+  }else{
+      var value = 0
+  }
+  $.ajax({
+type:'post',
+url:'{{route("Customer.ChangeStatus")}}',
+data:{id:id,value:value},
+success:function(data){
+    swal("", "تغییر وضعیت مشتری با موفقیت انجام شد", "success", {
+			button: "باشه"
+		});
+   
+}
+})
+})
 
 // order By
 var namefield = $('.name_field')

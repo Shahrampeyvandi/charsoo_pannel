@@ -44,8 +44,8 @@
 
                             <div class="custom-control custom-radio custom-control-inline">
                                 <input type="radio" id="broker_status" name="broker_status" class="custom-control-input"
-                                  value="1">
-                                <label class="custom-control-label" for="broker_status">به عنوان کارگزاری در نظر
+                                  value="1" checked>
+                                <label class="custom-control-label" for="broker_status" >به عنوان کارگزاری در نظر
                                     گرفته شود</label>
                               </div>
                               <div class="custom-control custom-radio custom-control-inline">
@@ -521,6 +521,22 @@
                                     </div>
                                 
 
+                            </div>
+                            <hr>
+                            <p>تنظیمات</p>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group wd-xs-300">
+                                        <div class="custom-control custom-checkbox custom-control-inline"
+                                            style="margin-left: -1rem;">
+                                            <input type="checkbox" id="setting" name="setting"
+                                                class="custom-control-input" value="1">
+                                            <label class="custom-control-label" for="setting">منوی تنظیمات</label>
+                                        </div>
+
+                                    </div>
+                                  
+                                </div>
                             </div>
 
 

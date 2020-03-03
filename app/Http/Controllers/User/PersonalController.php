@@ -34,18 +34,15 @@ class PersonalController extends Controller
                 <td>'.($key+1).'</td>
                 <td>'.$personal->personal_firstname.'</td>
                 <td>'.$personal->personal_lastname.'</td>
-
                 <td>'
                     .($personal->personal_mobile ?
                     $personal->personal_mobile
-                    
                     :
                     'وارد نشده'
                     ).
                 '</td>'
                 .($personal->personal_status == 1 ?
                 '<td  class="status_show text-success">
-                
                  <div class="form-group" style="display:inline-block;" >
                                  <div class="custom-control custom-switch custom-checkbox-success">
                                      <input data-id="'.$personal->id.'" type="checkbox" value="1" class="custom-control-input" id="status_'.$key.'" checked>
@@ -54,7 +51,6 @@ class PersonalController extends Controller
                         </div>
                 </td>'
                 :
-               
                 '<td  class="status_show text-danger">
                 <div class="form-group" style="display:inline-block;" >
                 <div class="custom-control custom-switch custom-checkbox-success">
@@ -79,6 +75,12 @@ class PersonalController extends Controller
                     
                     'وارد نشده'
                      ).
+                '</td>
+                <td>'
+                .($personal->personal_profile !== '' ? 
+                '<img style="width:80px;" src="'.route('BaseUrl').'/uploads/personals/'.$personal->personal_profile.'"  />'
+                :
+                '<img style="width:80px;" src="'.route('BaseUrl').'/Pannel/img/avatar.jpg" />').               
                 '</td>
             </tr>';
         }  
@@ -135,6 +137,12 @@ class PersonalController extends Controller
                                 'وارد نشده'
                                  ).
                             '</td>
+                            <td>'
+                            .($personal->personal_profile !== '' ? 
+                '<img style="width:80px;" src="'.route('BaseUrl').'/uploads/personals/'.$personal->personal_national_code.'/'.$personal->personal_profile.'"  />'
+                :
+                '<img style="width:80px;" src="'.route('BaseUrl').'/Pannel/img/avatar.jpg" />').
+                '</td>
                         </tr>';
                     }  
                 }
@@ -194,6 +202,13 @@ class PersonalController extends Controller
                         'وارد نشده'
                          ).
                     '</td>
+                    <td>'
+                    .($personal->personal_profile !== '' ? 
+                    '<img style="width:80px;" src="'.route('BaseUrl').'/uploads/personals/'.$personal->personal_national_code.'/'.$personal->personal_profile.'"  />'
+                    :
+                    '<img style="width:80px;" src="'.route('BaseUrl').'/Pannel/img/avatar.jpg" />').                
+                
+                '</td>
                 </tr>';
             }  
          }    
@@ -205,51 +220,70 @@ class PersonalController extends Controller
 
     public function technicianSubmit(Request $request)
     {
+
+        
+
+        if ($request->has('personal_profile')) {
+            $file = 'photo' . '.' . $request->personal_profile->getClientOriginalExtension();
+            $request->personal_profile->move(public_path('uploads/personals/'.$request->mobile), $file);
+            $personal_profile = $request->mobile . '/' . $file;
+        } else {
+            $personal_profile = '';
+        }
         if ($request->has('first_page_certificate')) {
-            $first_page_certificate = 'first_page' . '.' . $request->first_page_certificate->getClientOriginalExtension();
-            $request->first_page_certificate->move(public_path('uploads/personals/'.$request->national_num), $first_page_certificate);
+            $first_page = 'first_page' . '.' . $request->first_page_certificate->getClientOriginalExtension();
+            $request->first_page_certificate->move(public_path('uploads/personals/'.$request->mobile), $first_page);
+            $first_page_certificate = $request->mobile . '/' . $first_page;
         } else {
             $first_page_certificate = '';
         }
+
         if ($request->has('card_Service')) {
-            $card_Service = 'duty_status' . '.' . $request->card_Service->getClientOriginalExtension();
-            $request->card_Service->move(public_path('uploads/personals/'.$request->national_num), $card_Service);
+            $card = 'duty_status' . '.' . $request->card_Service->getClientOriginalExtension();
+            $request->card_Service->move(public_path('uploads/personals/'.$request->mobile), $card);
+            $card_Service = $request->mobile . '/' . $card;
         } else {
             $card_Service = '';
         }
         if ($request->has('backgrounds_status')) {
-            $antecedent_report_card = 'antecedent_report_card' . '.' . $request->antecedent_report_card->getClientOriginalExtension();
-            $request->antecedent_report_card->move(public_path('uploads/personals/'.$request->national_num), $antecedent_report_card);
+            $antecedent = 'antecedent_report_card' . '.' . $request->antecedent_report_card->getClientOriginalExtension();
+            $request->antecedent_report_card->move(public_path('uploads/personals/'.$request->mobile), $antecedent);
+            $antecedent_report_card = $request->mobile . '/' .$antecedent;
         } else {
             $antecedent_report_card = '';
         }
         if ($request->has('second_page_certificate')) {
-            $second_page_certificate = 'second_page' . '.' . $request->second_page_certificate->getClientOriginalExtension();
-            $request->second_page_certificate->move(public_path('uploads/personals/'.$request->national_num), $second_page_certificate);
+            $second_page = 'second_page' . '.' . $request->second_page_certificate->getClientOriginalExtension();
+            $request->second_page_certificate->move(public_path('uploads/personals/'.$request->mobile), $second_page);
+            $second_page_certificate = $request->mobile . '/' .$second_page;
         } else {
             $second_page_certificate = '';
         }
         if ($request->has('national_card_front_pic')) {
-            $national_card_front_pic = 'national_card_front_pic' . '.' . $request->national_card_front_pic->getClientOriginalExtension();
-            $request->national_card_front_pic->move(public_path('uploads/personals/'.$request->national_num), $national_card_front_pic);
+            $national_front_pic = 'national_card_front_pic' . '.' . $request->national_card_front_pic->getClientOriginalExtension();
+            $request->national_card_front_pic->move(public_path('uploads/personals/'.$request->mobile), $national_front_pic);
+            $national_card_front_pic = $request->mobile . '/' .$national_front_pic;
         } else {
             $national_card_front_pic = '';
         }
         if ($request->has('national_card_back_pic')) {
-            $national_card_back_pic = 'first_page' . '.' . $request->national_card_back_pic->getClientOriginalExtension();
-            $request->national_card_back_pic->move(public_path('uploads/personals/'.$request->national_num), $national_card_back_pic);
+            $national_back_pic = 'first_page' . '.' . $request->national_card_back_pic->getClientOriginalExtension();
+            $request->national_card_back_pic->move(public_path('uploads/personals/'.$request->mobile), $national_back_pic);
+            $national_card_back_pic = $request->mobile . '/' .$national_back_pic;
         } else {
             $national_card_back_pic = '';
         }
         if ($request->has('technical_credential')) {
-            $technical_credential = 'technical_credential' . '.' . $request->technical_credential->getClientOriginalExtension();
-            $request->technical_credential->move(public_path('uploads/personals/'.$request->national_num), $technical_credential);
+            $technical = 'technical_credential' . '.' . $request->technical_credential->getClientOriginalExtension();
+            $request->technical_credential->move(public_path('uploads/personals/'.$request->mobile), $technical);
+            $technical_credential = $request->mobile . '/' .$technical;
         } else {
             $technical_credential = '';
         }
         if ($request->has('expert_credential')) {
-            $expert_credential = 'expert_credential' . '.' . $request->expert_credential->getClientOriginalExtension();
-            $request->expert_credential->move(public_path('uploads/personals/'.$request->national_num), $expert_credential);
+            $expert = 'expert_credential' . '.' . $request->expert_credential->getClientOriginalExtension();
+            $request->expert_credential->move(public_path('uploads/personals/'.$request->mobile), $expert);
+            $expert_credential = $request->mobile . '/' .$expert;
         } else {
             $expert_credential = '';
         }
@@ -280,6 +314,7 @@ class PersonalController extends Controller
             'personal_about_specialization' => $request->about_specialization,
             'personal_work_experience_month' => $request->work_experience_month_num,
             'personal_work_experience_year' => $request->work_experience_year_num,
+            'personal_profile' => $personal_profile
         ]);
 
         if($request->has('service')){
@@ -339,6 +374,211 @@ class PersonalController extends Controller
 
     }
 
+    public function FilterData(Request $request)
+    {
+        
+        $personal_array =[];
+        $personals ='';
+        if (auth()->user()->hasRole('admin_panel')) {
+            if ($request->type_send == 'وضعیت') {
+                if ($request->word == 'فعال') {
+                    $personal_get =  Personal::where('personal_status', 1)
+                    ->get();
+                }
+                if ($request->word == 'غیر فعال') {
+                    $personal_get =  Personal::where('personal_status', 0)
+                    ->get();
+                }
+            
+            }
+        
+
+        foreach ($personal_get as $key=>$personal){
+            $personals .= ' 
+            <tr>
+                <td>
+                    <div class="checkpersonal custom-control custom-checkbox custom-control-inline"
+                        style="margin-left: -1rem;">
+                        <input data-id="'.$personal->id.'" type="checkbox" id="'.$key.'"
+                            name="customCheckboxInline1" class="custom-control-input" value="1">
+                        <label class="custom-control-label" for="'.$key.'"></label>
+                    </div>
+                </td>
+                <td>'.($key+1).'</td>
+                <td>'.$personal->personal_firstname.'</td>
+                <td>'.$personal->personal_lastname.'</td>
+
+                <td>'
+                    .($personal->personal_mobile ?
+                    $personal->personal_mobile
+                    
+                    :
+                    'وارد نشده'
+                    ).
+                '</td>'
+                .($personal->personal_status == 1 ?
+                '<td  class="status_show text-success">
+                
+                 <div class="form-group" style="display:inline-block;" >
+                                 <div class="custom-control custom-switch custom-checkbox-success">
+                                     <input data-id="'.$personal->id.'" type="checkbox" value="1" class="custom-control-input" id="status_'.$key.'" checked>
+                                     <label class="custom-control-label" for="status_'.$key.'"></label>
+                                 </div>
+                        </div>
+                </td>'
+                :
+               
+                '<td  class="status_show text-danger">
+                <div class="form-group" style="display:inline-block;" >
+                <div class="custom-control custom-switch custom-checkbox-success">
+                    <input type="checkbox" data-id="'.$personal->id.'" value="1" class="custom-control-input" id="status_'.$key.'" >
+                    <label class="custom-control-label" for="status_'.$key.'"></label>
+                </div>
+            </div>
+                </td>') .'
+                <td>مرد</td>
+                <td>'.$personal->personal_marriage.'</td>
+                <td>'.$personal->personal_last_diploma.'</td>
+                <td>
+                     '.($personal->personal_home_phone ?
+                    $personal->personal_home_phone
+                    :
+                    'وارد نشده'
+                     ).'
+                </td>
+                <td>'
+                     .($personal->personal_office_phone ?
+                    $personal->personal_office_phone :
+                    
+                    'وارد نشده'
+                     ).
+                '</td>
+            </tr>';
+        }  
+        }else{
+            foreach (auth()->user()->roles as $key => $role) {
+                if ($role->broker == 1) {
+                    foreach (auth()->user()->services as $key => $service) {
+                        foreach ($service->personal->where('personal_status',1) as $key=>$personal){
+                        $personals .= ' 
+                        <tr>
+                            <td>
+                                <div class="custom-control custom-checkbox custom-control-inline"
+                                    style="margin-left: -1rem;">
+                                    <input data-id="'.$personal->id.'" type="checkbox" id="'.$key.'"
+                                        name="customCheckboxInline1" class="custom-control-input" value="1">
+                                    <label class="custom-control-label" for="'.$key.'"></label>
+                                </div>
+                            </td>
+                            <td>'.($key+1).'</td>
+                            <td>'.$personal->personal_firstname.'</td>
+                            <td>'.$personal->personal_lastname.'</td>
+    
+                            <td>'
+                                .($personal->personal_mobile ?
+                                $personal->personal_mobile
+                                
+                                :
+                                'وارد نشده'
+                                ).
+                            '</td>'
+                            .($personal->personal_status == 1 ?
+                            '<td class="status_show text-success">
+                                <i class="fa fa-check"></i>
+                            </td>'
+                            :
+                           
+                            '<td class="status_show text-danger">
+                                <i class="fa fa-close"></i>
+                            </td>') .'
+                            <td>مرد</td>
+                            <td>'.$personal->personal_marriage.'</td>
+                            <td>'.$personal->personal_last_diploma.'</td>
+                            <td>
+                                 '.($personal->personal_home_phone ?
+                                $personal->personal_home_phone
+                                :
+                                'وارد نشده'
+                                 ).'
+                            </td>
+                            <td>'
+                                 .($personal->personal_office_phone ?
+                                $personal->personal_office_phone :
+                                
+                                'وارد نشده'
+                                 ).
+                            '</td>
+                        </tr>';
+                    }  
+                }
+            }else{
+               $role_name = Role::where('id',$role->sub_broker)->first()->name;
+              $user = User::whereHas('roles',function($q)use($role_name){
+                $q->where('name',$role_name);
+               })->first();
+              
+               foreach ($user->services as $key => $service) {
+                foreach ($service->personal->where('personal_status',1) as $key=>$personal){
+                $personals .= ' 
+                <tr>
+                    <td>
+                        <div class="custom-control custom-checkbox custom-control-inline"
+                            style="margin-left: -1rem;">
+                            <input data-id="'.$personal->id.'" type="checkbox" id="'.$key.'"
+                                name="customCheckboxInline1" class="custom-control-input" value="1">
+                            <label class="custom-control-label" for="'.$key.'"></label>
+                        </div>
+                    </td>
+                    <td>'.($key+1).'</td>
+                    <td>'.$personal->personal_firstname.'</td>
+                    <td>'.$personal->personal_lastname.'</td>
+    
+                    <td>'
+                        .($personal->personal_mobile ?
+                        $personal->personal_mobile
+                        
+                        :
+                        'وارد نشده'
+                        ).
+                    '</td>'
+                    .($personal->personal_status == 1 ?
+                    '<td class="text-success">
+                        <i class="fa fa-check"></i>
+                    </td>'
+                    :
+                   
+                    '<td class="text-danger">
+                        <i class="fa fa-close"></i>
+                    </td>') .'
+                    <td>مرد</td>
+                    <td>'.$personal->personal_marriage.'</td>
+                    <td>'.$personal->personal_last_diploma.'</td>
+                    <td>
+                         '.($personal->personal_home_phone ?
+                        $personal->personal_home_phone
+                        :
+                        'وارد نشده'
+                         ).'
+                    </td>
+                    <td>'
+                         .($personal->personal_office_phone ?
+                        $personal->personal_office_phone :
+                        
+                        'وارد نشده'
+                         ).
+                    '</td>
+                </tr>';
+            }  
+         }    
+        }
+       }
+        }
+        return view('User.PersonalsList',compact('personals'));
+
+
+     
+    }
+
     public function CheckMobile(Request $request)
     {
        
@@ -368,6 +608,25 @@ class PersonalController extends Controller
                 <input type="hidden" name="personal_id" value="'.$personal->id.'">
                 <h3>مشخصات فردی</h3>
                 <section>
+                <div class="row">
+                <div class="col-md-12" style="display: flex;align-items: center;justify-content: center;">
+                  <div class="profile-img">
+                      <div class="chose-img">
+                          <input type="file" class="btn-chose-img" name="personal_profile" title="نوع فایل میتواند png , jpg  باشد">
+                      </div>
+                      '.($personal->personal_profile !== '' ? 
+                      '<img style="border-radius: 50%;object-fit: contain; background: #fff; max-width: 100%; height: 100%; width: 100%;" src="'.route('BaseUrl').'/uploads/personals/'.$personal->personal_profile.'" alt="">
+                      <p class="text-chose-img" style="position: absolute;top: 82%;left: 14%;font-size: 13px;">تغییر
+                          پروفایل</p>
+                      ' : '<img style="border-radius: 50%;object-fit: contain; background: #fff; max-width: 100%; height: 100%; width: 100%;" src="'.route('BaseUrl').'/Pannel/img/temp_logo.jpg" alt="">
+                      <p class="text-chose-img" style="position: absolute;top: 44%;left: 14%;font-size: 13px;">ثبت
+                          پروفایل</p>
+                      '
+                      ).'
+                      
+                  </div>
+                  </div>
+              </div>
                     <div class="row">
                         <div class="form-group col-md-6">
                             <label>نام </label>
@@ -883,6 +1142,13 @@ class PersonalController extends Controller
             $request->first_page_certificate->move(public_path('uploads/personals/'.$request->national_num), $first_page_certificate);
         } else {
             $first_page_certificate = $personal->personal_identity_card_first_pic;
+        }
+        if ($request->has('personal_profile')) {
+            File::delete(public_path().'uploads/personals/'.$request->national_num .'/'. $personal->personal_profile);
+            $personal_profile = 'photo' . '.' . $request->personal_profile->getClientOriginalExtension();
+            $request->personal_profile->move(public_path('uploads/personals/'.$request->national_num), $personal_profile);
+        } else {
+            $personal_profile = $personal->personal_profile;
         }
         if ($request->has('card_Service')) {
             File::delete(public_path().'uploads/personals/'.$request->national_num .'/'. $personal->personal_status_duty);

@@ -126,6 +126,24 @@ class CunsomerController extends Controller
         return back();
     }
 
+    public function ChangeStatus(Request $request)
+    {
+      
+      if ($request->value == '1') {
+        Cunsomer::where('id',$request->id)->update([
+            'customer_status' => 1
+        ]);
+    }
+
+    if ($request->value == '0') {
+        Cunsomer::where('id',$request->id)->update([
+            'customer_status' => 0
+        ]);
+    }
+    
+    return $request->value;
+    }
+
     public function OrderBy(Request $request)
     {
       if ($request->data == 'name') {

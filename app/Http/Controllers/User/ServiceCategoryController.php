@@ -268,9 +268,10 @@ class ServiceCategoryController extends Controller
 
     public function DeleteCategory(Request $request)
     {
-        
-        foreach ($request->array as $user_id) {
-            ServiceCategory::where('id',$user_id)->delete();
+       
+        foreach ($request->array as $id) {
+            ServiceCategory::where('id',$id)->delete();
+            ServiceCategory::where('category_parent',$id)->delete();
         }
         return 'success';
     }

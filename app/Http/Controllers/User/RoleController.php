@@ -582,6 +582,81 @@ class RoleController extends Controller
                         </div>
 
                     </div>
+                    <hr>
+                    <p>حسابداری</p>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group wd-xs-300">
+                                <div 
+                                    style="margin-left: -1rem;">
+                                    <input type="checkbox" id="accounting" name="accounting"
+                                         value="1"
+                                        '.(in_array('accounting',$permissions) ? 'checked=""' : '').'
+                                        >
+                                    <label  for="accounting">منوی حسابداری</label>
+                                </div>
+
+                            </div>
+                          
+                        </div>
+                    </div>
+                    <div class="row accounting--section" >
+                        <div class="col-md-4">
+                            <div class="form-group wd-xs-300">
+                                <div 
+                                    style="margin-left: -1rem;">
+                                    <input type="checkbox" id="user_accounts" name="user_accounts"
+                                         value="1"
+                                        '.(in_array('user_accounts',$permissions) ? 'checked=""' : '').'
+                                        >
+                                    <label  for="user_accounts">حساب کاربران</label>
+                                </div>
+                            </div>
+
+                        </div>   
+                        <div class="col-md-4">
+                            <div class="form-group wd-xs-300">
+                                <div 
+                                    style="margin-left: -1rem;">
+                                    <input type="checkbox" id="user_transactions" name="user_transactions"
+                                         value="1"
+                                        '.(in_array('user_transactions',$permissions) ? 'checked=""' : '').'
+                                        >
+                                    <label  for="user_transactions">تراکنش های کاربران</label>
+                                </div>
+                            </div>
+                        </div>
+                            <div class="form-group wd-xs-300">
+                                <div 
+                                    style="margin-left: -1rem;">
+                                    <input type="checkbox" id="checkout_personals" name="checkout_personals"
+                                         value="1"
+                                        '.(in_array('checkout_personals',$permissions) ? 'checked=""' : '').'
+                                        >
+                                    <label  for="checkout_personals">تسویه حساب خدمت رسان ها</label>
+                                </div>
+                            </div>
+                        
+
+                    </div>
+                    <hr>
+                    <p>تنظیمات</p>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group wd-xs-300">
+                                <div 
+                                    style="margin-left: -1rem;">
+                                    <input type="checkbox" id="setting" name="setting"
+                                         value="1"
+                                        '.(in_array('setting',$permissions) ? 'checked=""' : '').'
+                                        >
+                                    <label  for="setting">منوی تنظیمات</label>
+                                </div>
+
+                            </div>
+                          
+                        </div>
+                    </div>
 
 
                 </section>
@@ -614,7 +689,6 @@ class RoleController extends Controller
             'customer_menu',
             'customer_list',
             'customer_delete',
-            'customer_excel',
             'category_menu',
             'category_insert',
             'category_delete',
@@ -633,6 +707,11 @@ class RoleController extends Controller
             'orders_refferto',
             'orders_detail',
             'orders_transactions',
+            'user_accounts',
+            'user_transactions',
+            'checkout_personals',
+            'setting',
+            'accounting'
         ];
 
     $role = Role::where('id',$request->role_id)->update([

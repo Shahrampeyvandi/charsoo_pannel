@@ -27,13 +27,39 @@ table thead{
         
         width: 50px;
         text-align: center;
-        
+        box-shadow: 0 0 7px 0 #1d1d1dd9;
         height: 40px;
         display: inline-block;
         padding-top: 10px;
         color: white;
         font-size: 22px;
         border-radius: 4px;
+}
+
+.profile-img {
+    width: 100px;
+    height: 100px;
+    position: relative;
+}
+
+.chose-img {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    z-index: 999;
+    display: flex;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.03);
+    border-radius: 50%;
+    overflow: hidden;
+}
+.chose-img input {
+    width: 100px;
+    height: 100px;
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    z-index: -1;
 }
 
 body.dark .form-control, body.dark .swal-modal input.swal-content__input, .swal-modal body.dark input.swal-content__input {

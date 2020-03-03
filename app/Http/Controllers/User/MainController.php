@@ -168,16 +168,17 @@ class MainController extends Controller
     public function FilterUsers(Request $request)
     {
       
-    $users =  User::where('user_firstname', 'like', '%' . $request->word. '%')
-      ->get();
-      return view('User.UsersList',compact('users'));
+      $users =  User::where('user_firstname', 'like', '%' . $request->word. '%')
+        ->get();
+        return view('User.UsersList',compact('users'));
 
  
     }
 
     public function SubmitUser(Request $request)
     {
-        
+      
+     
 
         if(User::where('user_national_code',$request->user_national_num)->first() !== null){
             alert()->error('کاربر دیگری با این کد ملی ثبت نام کرده است', 'عملیات ناموفق')->autoclose(3500);
@@ -188,11 +189,22 @@ class MainController extends Controller
             return back();
         }
 
+        $role = Role::where('name',$request->user_responsibility)->first();
+        if ($role->broker == 1) {
+         $role_name = $role->name;
+        }
+        if ($role->sub_broker !== null) {
+          $role_name = Role::where('id',$role->sub_broker)->first()->name;
+        }
+      
+
+        $URL = public_path('uploads/brokers');
         
         if ($request->has('user_profile')) {
-            $fileName = $request->user_national_num . '.' . $request->user_profile->getClientOriginalExtension();
-            $fileNameWithoutEx = pathinfo($fileName, PATHINFO_FILENAME);
-            $request->user_profile->move(public_path('uploads/users/profile_pic/'.$request->user_national_num), $fileName);
+            $file = $request->user_mobile . '.' . $request->user_profile->getClientOriginalExtension();
+         
+            $request->user_profile->move($URL.'/'.$role_name.'/'.$request->user_mobile, $file);
+            $fileName = $role_name.'/'.$request->user_mobile . '/' . $file;
         } else {
             $fileName = '';
         }
@@ -238,7 +250,7 @@ class MainController extends Controller
       
       <input type="hidden" name="_token" value="'.$csrf.'">
      
-      <input type="hidden" name="user_national_num" value="'.$user->id.'">
+      <input type="hidden" name="user_id" value="'.$user->id.'">
 
       <div class="modal-body">
           <div class="row">
@@ -248,7 +260,7 @@ class MainController extends Controller
                       <input type="file" class="btn-chose-img" name="user_profile" title="نوع فایل میتواند png , jpg  باشد">
                   </div>
                   '.($user->user_prfile_pic !== '' ? 
-                  '<img style="border-radius: 50%;object-fit: contain; background: #fff; max-width: 100%; height: 100%; width: 100%;" src="'.route('BaseUrl').'/uploads/users/profile_pic/'.$user->user_national_code.'/'.$user->user_prfile_pic.'" alt="">
+                  '<img style="border-radius: 50%;object-fit: contain; background: #fff; max-width: 100%; height: 100%; width: 100%;" src="'.route('BaseUrl').'/uploads/brokers/'.$user->user_prfile_pic.'" alt="">
                   <p class="text-chose-img" style="position: absolute;top: 82%;left: 14%;font-size: 13px;">تغییر
                       پروفایل</p>
                   ' : '<img style="border-radius: 50%;object-fit: contain; background: #fff; max-width: 100%; height: 100%; width: 100%;" src="'.route('BaseUrl').'/Pannel/img/temp_logo.jpg" alt="">
@@ -298,11 +310,13 @@ class MainController extends Controller
           <div class="row">
             <div class="form-group col-md-6">
               <label for="user_mobile" class="col-form-label"><span class="text-danger">*</span> موبایل:</label>
-              <input type="text" value="'.$user->user_mobile.'"  class="form-control" name="user_mobile" id="user_mobile">
-            </div>
+              <input type="text" disabled value="'.$user->user_mobile.'"  class="form-control"  id="user_mobile">
+              <input type="hidden"  value="'.$user->user_mobile.'"  class="form-control" name="user_mobile">
+
+              </div>
             <div class="form-group col-md-6">
               <label for="user_national_num" class="col-form-label">کد ملی:</label>
-              <input type="text" disabled value="'.$user->user_national_code.'"  class="form-control" name="user_national_num" id="user_national_num">
+              <input type="text"  value="'.$user->user_national_code.'"  class="form-control" name="user_national_num" id="user_national_num">
             </div>
           </div>
          
@@ -313,7 +327,7 @@ class MainController extends Controller
             <input type="radio" 
             
             id="customRadioInline4" name="user_responsibility" class=""
-              value="'.$role->id.'">
+              value="'.$role->name.'">
             <label class="" for="customRadioInline4">'.$role->name.'</label>
           </div>';
           }
@@ -334,14 +348,25 @@ class MainController extends Controller
 
     public function SubmitUserEdit(Request $request)
     {
-      
+      $URL = public_path('uploads/brokers');
+      $user = User::where('id',$request->user_id)->first();
+      $role = Role::where('name',$request->user_responsibility)->first();
+      if ($role->broker == 1) {
+       $role_name = $role->name;
+      }
+      if ($role->sub_broker !== null) {
+        $role_name = Role::where('id',$role->sub_broker)->first()->name;
+      }
+    
         if ($request->has('user_profile') && $request->user_pass !== null) {
             
-            File::deleteDirectory(public_path('uploads/users/profile_pic/'.$request->user_national_num));
+            File::delete($URL.$user->user_prfile_pic);
 
-            $fileName = $request->user_national_num . '.' . $request->user_profile->getClientOriginalExtension();
-            $fileNameWithoutEx = pathinfo($fileName, PATHINFO_FILENAME);
-            $request->user_profile->move(public_path('uploads/users/profile_pic/'.$request->user_national_num), $fileName);
+            $file = $request->user_mobile . '.' . $request->user_profile->getClientOriginalExtension();
+         
+            $request->user_profile->move($URL.'/'.$role_name.'/'.$request->user_mobile, $file);
+            $fileName = $role_name.'/'.$request->user_mobile . '/' . $file;
+           
             $array =[
                             'user_firstname' => $request->user_name,
                             'user_lastname' => $request->user_family,
@@ -357,11 +382,13 @@ class MainController extends Controller
 
         if ($request->has('user_profile') && $request->user_pass == null) {
             
-            File::deleteDirectory(public_path('uploads/users/profile_pic/'.$request->user_national_num));
+          File::delete($URL.$user->user_prfile_pic);
 
-            $fileName = $request->user_national_num . '.' . $request->user_profile->getClientOriginalExtension();
-            $fileNameWithoutEx = pathinfo($fileName, PATHINFO_FILENAME);
-            $request->user_profile->move(public_path('uploads/users/profile_pic/'.$request->user_national_num), $fileName);
+          $file = $request->user_mobile . '.' . $request->user_profile->getClientOriginalExtension();
+       
+          $request->user_profile->move($URL.'/'.$role_name.'/'.$request->user_mobile, $file);
+          $fileName = $role_name.'/'.$request->user_mobile . '/' . $file;
+         
             $array =[
                             'user_firstname' => $request->user_name,
                             'user_lastname' => $request->user_family,
@@ -400,8 +427,8 @@ class MainController extends Controller
         }
 
            
-           User::where('id',$request->user_national_num)->update($array);
-           $user = User::where('id',$request->user_national_num)->first();
+           User::where('id',$request->user_id)->update($array);
+           
         
 
 

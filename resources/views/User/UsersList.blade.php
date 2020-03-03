@@ -245,7 +245,8 @@
              <td>{{$user->user_mobile}}</td>
              <td>
                @if ($user->user_prfile_pic !== '')
-                   <img width="75px" class="img-fluid " src=" {{asset("uploads/users/profile_pic/$user->user_national_code/$user->user_prfile_pic")}} " />
+                   <img width="75px" class="img-fluid "
+                    src=" {{asset("uploads/brokers/$user->user_prfile_pic")}} " />
                @else
                <img width="75px" class="img-fluid " src=" {{asset("Pannel/img/avatar.jpg")}} " />
                @endif
@@ -263,31 +264,7 @@
 @endsection
 @section('css')
 <style>
-  .profile-img {
-    width: 100px;
-    height: 100px;
-    position: relative;
-}
-
-.chose-img {
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    z-index: 999;
-    display: flex;
-    justify-content: center;
-    background: rgba(0, 0, 0, 0.03);
-    border-radius: 50%;
-    overflow: hidden;
-}
-.chose-img input {
-    width: 100px;
-    height: 100px;
-    opacity: 0;
-    overflow: hidden;
-    position: absolute;
-    z-index: -1;
-}
+  
  
 </style>
 @endsection
@@ -573,6 +550,17 @@ success:function(data){
             })
 
     })
+
+    $(document).on('blur','#username',function(){
+     
+      var english = /^[A-Za-z0-9]*$/;
+      if (!english.test($(this).val())){
+        swal("", "نام کاربری نمیتواند شامل حروف فارسی باشد", "error", {
+			button: "باشه"
+		});
+      }
+    })
+  
 
   $('input[name="user_responsibility"]').change(function(){
       if ($(this).is(':checked')) {

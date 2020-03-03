@@ -38,7 +38,18 @@
                         @csrf
                         <h3>مشخصات فردی</h3>
                         <section>
-
+                            <div class="row">
+                                <div class="col-md-12" style="display: flex;align-items: center;justify-content: center;">
+                                  <div class="profile-img">
+                                      <div class="chose-img">
+                                          <input type="file" class="btn-chose-img" name="personal_profile" title="نوع فایل میتواند png , jpg  باشد">
+                                      </div>
+                                                          <img style="border-radius: 50%;object-fit: contain; background: #fff; max-width: 100%; height: 100%; width: 100%;" src="{{route('BaseUrl')}}/Pannel/img/temp_logo.jpg" alt="">
+                                      <p class="text-chose-img" style="position: absolute;top: 44%;left: 14%;font-size: 13px;">انتخاب
+                                          پروفایل</p>
+                                  </div>
+                              </div>
+                              </div>
                             <div class="row">
                                 <div class="form-group col-md-6">
                                     <label>نام </label>
@@ -487,22 +498,33 @@
     {{-- filtering --}}
     <div class="card filtering" style="display:none;">
         <div class="card-body">
+          <form action=" {{route('Personals.FilterData')}} " method="post">
+              @csrf
             <div class="row ">
 
                 <div class="form-group col-md-6">
                     <label for="recipient-name" class="col-form-label">فیلتر اطلاعات براساس: </label>
-                    <select required name="type_send" class="form-control" id="exampleFormControlSelect2">
+                    <select required name="type_send" class="form-control" id="personal-filter">
+                        
                         <option value="نام">نام</option>
                         <option value="نام خانوادگی">نام خانوادگی</option>
+                        <option value="وضعیت">وضعیت</option>
                         <option value="نام کاربری">نام کاربری</option>
                         <option value="کد ملی">کد ملی</option>
                         <option value="شماره موبایل">شماره موبایل</option>
 
                     </select>
                 </div>
-                <div class="form-group col-md-6">
+                <div class="word_field form-group col-md-6" style="display:block;">
                     <label for="recipient-name" class="col-form-label">عبارت مورد نظر: </label>
-                    <input type="text" class="form-control" id="recipient-name">
+                    <input type="text" name="word" class="form-control" id="word">
+                </div>
+                <div class="status_options form-group col-md-6" style="display:none;">
+                    <label for="recipient-name" class="col-form-label">وضعیت: </label>
+                    <select required name="word" class="form-control" id="word">
+                        <option value="فعال">فعال</option>
+                        <option value="غیر فعال">غیر فعال</option>
+                    </select>
                 </div>
             </div>
             <div class="row">
@@ -511,6 +533,7 @@
                     <button type="submit" class="btn btn-outline-primary">جست و جو</button>
                 </div>
             </div>
+          </form>
         </div>
     </div>
 
@@ -551,6 +574,8 @@
                             <th>اخرین مدرک تحصیلی</th>
                             <th>تلفن منزل</th>
                             <th>تلفن محل کار</th>
+                            <th>تصویر پروفایل</th>
+                            
                         </tr>
                     </thead>
                     <tbody class="tbody">
@@ -887,6 +912,16 @@ success:function(data){
 })
 
 
+})
+
+$('#personal-filter').click(function(){
+    if ($(this).val() == 'وضعیت') {
+        $('.word_field').hide()
+        $('.status_options').show()
+    }else{
+        $('.status_options').hide()
+        $('.word_field').show()
+    }
 })
 
 
