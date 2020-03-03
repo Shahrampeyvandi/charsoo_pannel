@@ -36,7 +36,7 @@ class CreatePersonalsTable extends Migration
             $table->string('personal_profile')->nullable();
             $table->string('personal_responsibility')->nullable();
             $table->text('personal_about_specialization')->nullable();
-            $table->integer('personal_work_experience_month');
+            $table->integer('personal_work_experience_month')->nullable();;
             $table->integer('personal_work_experience_year')->nullable();
             $table->text('technical_credential')->nullable();
             $table->text('expert_credential')->nullable();

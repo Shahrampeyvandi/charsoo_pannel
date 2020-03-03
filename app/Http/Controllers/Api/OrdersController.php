@@ -19,6 +19,12 @@ class OrdersController extends Controller
        $personal = Personal::where('personal_mobile',$mobile)->first();
        //$orders = $personal->order->where('order_type','ارجاع داده شده');
        $orders = $personal->order->where('order_type','ارجاع داده شده');
+
+       foreach ($orders as $key => $order) {
+        $service = Service::where('id',$order->service_id)->first()->service_title;
+        $order['service_name'] = $service;
+       }
+       
        $ords=[];
        foreach($orders as $key=>$or){
          $ords[] = $or;
