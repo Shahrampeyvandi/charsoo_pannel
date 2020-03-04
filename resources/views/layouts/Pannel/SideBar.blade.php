@@ -39,10 +39,12 @@
                 @endif href=" {{route('Pannel.Services.Personels')}} "><i class="icon ti-hummer"></i> <span> خدمت رسان ها </span> </a></li>
             @endif
 
-            <li><a @if (Illuminate\Support\Facades\Route::currentRouteName() == 'Pannel.Cunsomers.List')
-                class="active"
-            @endif href=" {{route('Pannel.Cunsomers.List')}} "><i class="icon ti-user"></i> <span> مشتریان </span> </a></li>
+            @if (auth()->user()->can('customer_menu'))
+                <li><a @if (Illuminate\Support\Facades\Route::currentRouteName() == 'Pannel.Cunsomers.List')
+                    class="active"
+                @endif href=" {{route('Pannel.Cunsomers.List')}} "><i class="icon ti-user"></i> <span> مشتریان </span> </a></li>
 
+            @endif
             @if (auth()->user()->can('city_menu'))
                 <li><a @if (Illuminate\Support\Facades\Route::currentRouteName() == 'Pannel.City.List')
                     class="active"

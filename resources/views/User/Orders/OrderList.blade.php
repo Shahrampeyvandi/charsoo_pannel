@@ -226,7 +226,7 @@
 <div class="modal fade bd-example-modal-lg-chosen" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">    <div class="modal-dialog modal-lg">
   <div class="modal-content edit-modal-content">
   <form action="{{route('Order.Choise.ChosenPersonal')}}" method="post">
-      @csrf
+     
       <div class="card">
         <div class="card-body" >
             <div class="card-title">
@@ -429,7 +429,7 @@
                         <tr>
                             <td>
                                 <div class="custom-control custom-checkbox custom-control-inline" style="margin-left: -1rem;">
-                                <input data-id=" {{$order->relatedService->id}}" 
+                                <input data-id="{{$order->relatedService->id}}" 
                                 data-order="{{$order->id}}"
                                 type="checkbox" id="{{ $key}}" name="customCheckboxInline1" class="custom-control-input" value="1">
                                   <label class="custom-control-label" for="{{$key}}"></label>
@@ -699,8 +699,8 @@ $('.bd-example-modal-lg-edit').on('shown.bs.modal', function (event) {
     }); 
 
     $('.bd-example-modal-lg-chosen').on('shown.bs.modal', function (event) {
-   service_id =  $('table input[type="checkbox"]:checked').attr('data-id')
-   order_id = $('table input[type="checkbox"]:checked').attr('data-order')
+   service_id =  $('.tbody input[type="checkbox"]:checked').attr('data-id')
+   order_id = $('.tbody input[type="checkbox"]:checked').attr('data-order')
     $.ajax({
     type:'post',
     url:'{{route("Order.getChosenPersonal")}}',
@@ -708,6 +708,7 @@ $('.bd-example-modal-lg-edit').on('shown.bs.modal', function (event) {
     async: true,
     data:{service_id:service_id,order_id:order_id},
     success:function(data){
+     
        $('.tbody--chosen').html(data)
      
          }

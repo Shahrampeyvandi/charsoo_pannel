@@ -19,7 +19,7 @@ class CunsomerController extends Controller
     public function DeleteCustomers(Request  $request)
     {
         foreach ($request->array as $customer_id) {
-           
+            Cunsomer::where('id',$customer_id)->first()->useracounts()->delete();
             Cunsomer::where('id',$customer_id)->delete();
         }
         return 'success';

@@ -47,6 +47,9 @@ $(document).ready(function () {
         },
         date_one: {
             required:true
+        },
+        birth_year: {
+            required:true
         }
         
         },
@@ -79,6 +82,9 @@ $(document).ready(function () {
            
         },date_one: {
             required:'تاریخ سفارش را انتخاب کنید',
+        },
+        birth_year: {
+            required:'تاریخ تولد را انتخاب کنید',
         }
         }
       });

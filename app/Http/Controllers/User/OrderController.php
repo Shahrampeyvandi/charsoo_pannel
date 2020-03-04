@@ -17,6 +17,8 @@ use Carbon\Carbon;
 
 class OrderController extends Controller
 {
+
+   
     public function OrderList()
     {
 
@@ -187,15 +189,21 @@ class OrderController extends Controller
         
         
         $service = Service::where('id',$request->service_id)->first();
+        
         $tr = '';
         
         foreach ($service->personal->where('personal_status',1) as $key => $personal) {
+            
             $tr .=  '
             <input type="hidden" value="'.$request->order_id.'" name="order_id"   />
+            <input type="hidden" value="'.csrf_token().'" name="_token"   />
             <tr>
             <td>
               <div class="custom-control custom-checkbox custom-control-inline" style="margin-left: -1rem;">
-              <input data-id="'.$personal->id.'" type="checkbox" id="'.$key.'" name="personal_id[]" class="custom-control-input" value="'.$personal->id.'">
+              <input data-id="'.$personal->id.'" type="checkbox" id="'.$key.'" name="personal_id[]" class="custom-control-input" 
+              value="'.$personal->id.'"
+              '.(count($personal->order->where('id',$request->order_id))  ? 'checked=""' : '').'
+              >
                 <label class="custom-control-label" for="'.$key.'"></label>
               </div>
             </td>
@@ -221,24 +229,27 @@ class OrderController extends Controller
 
     public function choisePersonal(Request $request)
     {
+        
 
   
        $order =  Order::where('id',$request->order_id)->first();
+       $order->personals()->detach();
        foreach ($request->personal_id as $key => $personal_id) {
-        if (DB::table('order_personal')->where([
-            'order_id' => $request->order_id,
-            'personal_id' => $request->personal_id
-        ])->count()) {
-            continue;
-        }else{
+      
             $order->personals()->attach($personal_id);
             $sms_status = Service::where('id',$order->service_id)->first()->sms_status;
             
             if ($sms_status !== null) {
                 $mobile = Personal::where('id',$personal_id)->first()->personal_mobile;
                 $this->sendSMS($mobile);
-            }
+            
         }
+
+        Order::where('id',$request->order_id)->update([
+            'order_type' => 'انجام نشده'
+        ]);
+
+       
        }
        alert()->success('خدمت رسان(ها) با موفقیت انتخاب شد.', 'عملیات موفق')->autoclose(2000);
        return back();
@@ -272,6 +283,7 @@ class OrderController extends Controller
     public function choiseChosenPersonal(Request $request)
     {
         $order =  Order::where('id',$request->order_id)->first();
+        $order->personals()->detach();
        foreach ($request->personal_id as $key => $personal_id) {
         if (DB::table('order_personal')->where([
             'order_id' => $request->order_id,
@@ -328,16 +340,21 @@ class OrderController extends Controller
 
     public function getChosenPersonal(Request $request)
     {
+     
         $service = Service::where('id',$request->service_id)->first();
+    
 
         $tr = '';
         foreach ($service->personal()->where('personal_chosen_status',1)->where('personal_status',1)->get() as $key => $personal) {
             $tr .=  '
             <input type="hidden" value="'.$request->order_id.'" name="order_id"   />
+            <input type="hidden" value="'.csrf_token().'" name="_token"   />
             <tr>
             <td>
               <div class="custom-control custom-checkbox custom-control-inline" style="margin-left: -1rem;">
-              <input data-id="'.$personal->id.'" type="checkbox" id="chosen_'.$key.'" name="personal_id[]" class="custom-control-input" value="1">
+              <input data-id="'.$personal->id.'" type="checkbox" id="chosen_'.$key.'"
+              '.(count($personal->order->where('id',$request->order_id))  ? 'checked=""' : '').'
+              name="personal_id[]" class="custom-control-input" value="'.$personal->id.'">
                 <label class="custom-control-label" for="chosen_'.$key.'"></label>
               </div>
             </td>

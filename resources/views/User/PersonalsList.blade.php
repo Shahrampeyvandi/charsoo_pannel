@@ -39,17 +39,21 @@
                         <h3>مشخصات فردی</h3>
                         <section>
                             <div class="row">
-                                <div class="col-md-12" style="display: flex;align-items: center;justify-content: center;">
-                                  <div class="profile-img">
-                                      <div class="chose-img">
-                                          <input type="file" class="btn-chose-img" name="personal_profile" title="نوع فایل میتواند png , jpg  باشد">
-                                      </div>
-                                                          <img style="border-radius: 50%;object-fit: contain; background: #fff; max-width: 100%; height: 100%; width: 100%;" src="{{route('BaseUrl')}}/Pannel/img/temp_logo.jpg" alt="">
-                                      <p class="text-chose-img" style="position: absolute;top: 44%;left: 14%;font-size: 13px;">انتخاب
-                                          پروفایل</p>
-                                  </div>
-                              </div>
-                              </div>
+                                <div class="col-md-12"
+                                    style="display: flex;align-items: center;justify-content: center;">
+                                    <div class="profile-img">
+                                        <div class="chose-img">
+                                            <input type="file" class="btn-chose-img" name="personal_profile"
+                                                title="نوع فایل میتواند png , jpg  باشد">
+                                        </div>
+                                        <img style="border-radius: 50%;object-fit: contain; background: #fff; max-width: 100%; height: 100%; width: 100%;"
+                                            src="{{route('BaseUrl')}}/Pannel/img/temp_logo.jpg" alt="">
+                                        <p class="text-chose-img"
+                                            style="position: absolute;top: 44%;left: 14%;font-size: 13px;">انتخاب
+                                            پروفایل</p>
+                                    </div>
+                                </div>
+                            </div>
                             <div class="row">
                                 <div class="form-group col-md-6">
                                     <label>نام </label>
@@ -59,7 +63,7 @@
                                         صحیح است!
                                     </div>
                                 </div><!-- form-group -->
-
+                              
                                 <div class="form-group col-md-6">
                                     <label>نام خانوادگی</label>
                                     <input type="text" id="lastname" name="lastname" class="form-control"
@@ -75,9 +79,10 @@
 
                                 <div class="form-group col-md-6">
                                     <label>تاریخ تولد </label>
-                                    <input type="text" name="birth_year" class="date-picker-shamsi-list form-control"
-                                        placeholder="">
-                                    <div class="valid-feedback">
+                                        <input type="text" class="form-control ltr"
+                                        name="birth_year"  id="birth_year" 
+                                        data-inputmask="'mask': '9999/99/99'" data-mask>    
+                                <div class="valid-feedback">
                                         صحیح است!
                                     </div>
                                 </div><!-- form-group -->
@@ -85,18 +90,14 @@
 
                                 <div class="form-group col-md-6">
                                     <label>کد ملی </label>
-                                    <input type="number" 
-                                    onblur="checknationalcode(this.value)"
-                                    name="national_num" id="user_national_num" class="form-control"
-                                        placeholder="">
+                                    <input type="number" onblur="checknationalcode(this.value)" name="national_num"
+                                        id="user_national_num" class="form-control" placeholder="">
                                     <div class="valid-feedback">
                                         صحیح است!
                                     </div>
                                 </div><!-- form-group -->
                             </div>
-
                             <div class="row">
-
                                 <div class="form-group col-md-6">
                                     <label for="recipient-name" class="col-form-label">وضعیت تاهل: </label>
                                     <select name="marriage_status" class="form-control" id="exampleFormControlSelect2">
@@ -118,13 +119,11 @@
                         </section>
                         <h3>اطلاعات تماس</h3>
                         <section>
-
-
                             <div class="row">
                                 <div class="form-group col-md-6" style="padding-top: 11px;">
                                     <label class="form-control-label"> <span class="text-danger">*</span> تلفن همراه
                                     </label>
-                                    <input  class="form-control text-right" id="p_mobile" name="mobile" placeholder=""
+                                    <input class="form-control text-right" id="p_mobile" name="mobile" placeholder=""
                                         type="text" dir="ltr">
                                     <div class="valid-feedback">
                                         صحیح است!
@@ -140,8 +139,6 @@
                                     </select>
                                 </div>
                             </div>
-
-
                             <div class="row">
                                 <div class="form-group col-md-6">
                                     <label class="form-control-label"> کد پستی: </label>
@@ -151,23 +148,18 @@
                                         صحیح است!
                                     </div>
                                 </div><!-- form-group -->
-
-
-
                             </div>
                             <div class="row">
                                 <div class="form-group col-md-12">
                                     <label class="form-control-label"> نشانی دقیق منزل: </label>
                                     <textarea id="address" class="form-control text-right" type="text" name="address"
-                                        dir="ltr">
+                                        dir="rtl">
                             </textarea>
                                     <div class="valid-feedback">
                                         صحیح است!
                                     </div>
                                 </div><!-- form-group -->
                             </div>
-
-
                             <div class="row">
                                 <div class="form-group col-md-6">
                                     <label class="form-control-label"> تلفن منزل: </label>
@@ -177,8 +169,6 @@
                                         صحیح است!
                                     </div>
                                 </div><!-- form-group -->
-
-
                                 <div class="form-group col-md-6">
                                     <label class="form-control-label"> تلفن محل کار: </label>
                                     <input id="tel_work" class="form-control text-right" type="num" name="tel_work"
@@ -187,13 +177,7 @@
                                         صحیح است!
                                     </div>
                                 </div><!-- form-group -->
-
                             </div>
-
-
-
-
-
                         </section>
                         <h3>مدارک اولیه: </h3>
                         <section>
@@ -206,7 +190,6 @@
                                         صحیح است!
                                     </div>
                                 </div><!-- form-group -->
-
                                 <div class="form-group col-md-6">
                                     <label class="form-control-label"> تصویر دو صفحه دوم شناسنامه: </label>
                                     <input id="first_page_certificate" class="form-control text-right" type="file"
@@ -216,7 +199,6 @@
                                     </div>
                                 </div><!-- form-group -->
                             </div>
-
                             <div class="row">
                                 <div class="form-group col-md-6">
                                     <label class="form-control-label"> تصویر کارت پایان خدمت: </label>
@@ -226,7 +208,6 @@
                                         صحیح است!
                                     </div>
                                 </div><!-- form-group -->
-
                                 <div class="form-group col-md-6">
                                     <label class="form-control-label"> تصویر برگه عدم سوء پیشینه: </label>
                                     <input id="antecedent_report_card" class="form-control text-right" type="file"
@@ -236,7 +217,6 @@
                                     </div>
                                 </div><!-- form-group -->
                             </div>
-
                             <div class="row">
                                 <div class="form-group col-md-6">
                                     <label class="form-control-label"> تصویر روی کارت ملی: </label>
@@ -246,7 +226,6 @@
                                         صحیح است!
                                     </div>
                                 </div><!-- form-group -->
-
                                 <div class="form-group col-md-6">
                                     <label class="form-control-label"> تصویر پشت کارت ملی: </label>
                                     <input id="national_card_back_pic" class="form-control text-right" type="file"
@@ -255,22 +234,14 @@
                                         صحیح است!
                                     </div>
                                 </div><!-- form-group -->
-
-
-
-
                             </div>
-
-
-
-
                         </section>
                         <h3>مشخصات حرفه ای: </h3>
                         <section>
                             <div class="row">
                                 <div class="form-group col-md-12">
                                     <label class="form-control-label"> درباره تخصص: </label>
-                                    <textarea id="about_specialization" class="form-control text-right" type="text"
+                                    <textarea  style="text-align:right;" id="about_specialization" class="form-control text-right" type="text"
                                         name="about_specialization" dir="rtl">
                         </textarea>
                                     <div class="valid-feedback">
@@ -294,8 +265,6 @@
                                 </div>
                             </div>
                         </section>
-
-
                         <h3>تخصص: </h3>
                         <section>
                             @if (auth()->user()->hasRole('admin_panel'))
@@ -305,113 +274,121 @@
                                 <div class="form-group col-md-4">
                                     <div class="custom-control custom-checkbox custom-control-inline"
                                         style="margin-left: -1rem;">
-                                        <input type="checkbox" id="service_{{$key}}_{{$key}}" name="service[service_{{$key+1}}][1]"
-                                            class="custom-control-input" value="{{$service->id}}">
-                                        <label class="custom-control-label" for="service_{{$key}}_{{$key}}">{{$service->service_title}}</label>
+                                        <input type="checkbox" id="service_{{$key}}_{{$key}}"
+                                            name="service[service_{{$key+1}}][1]" class="custom-control-input"
+                                            value="{{$service->id}}">
+                                        <label class="custom-control-label"
+                                            for="service_{{$key}}_{{$key}}">{{$service->service_title}}</label>
                                     </div>
                                 </div><!-- form-group -->
                                 <div class="form-group col-md-4">
                                     <div class="custom-control custom-checkbox custom-control-inline"
                                         style="margin-left: -1rem;">
-                                        <input type="checkbox" id="service_{{$key}}_{{$key+1}}" name="service[service_{{$key+1}}][2]"
-                                            class="custom-control-input" value="1">
-                                        <label class="custom-control-label" for="service_{{$key}}_{{$key+1}}">خدمت رسان ارشد</label>
+                                        <input type="checkbox" id="service_{{$key}}_{{$key+1}}"
+                                            name="service[service_{{$key+1}}][2]" class="custom-control-input"
+                                            value="1">
+                                        <label class="custom-control-label" for="service_{{$key}}_{{$key+1}}">خدمت رسان
+                                            ارشد</label>
                                     </div>
                                 </div><!-- form-group -->
                                 <div class="form-group col-md-4">
                                     <div class="custom-control custom-checkbox custom-control-inline"
                                         style="margin-left: -1rem;">
-                                        <input type="checkbox" id="service_{{$key}}_{{$key+2}}" name="service[service_{{$key+1}}][3]"
-                                            class="custom-control-input" value="1">
-                                        <label class="custom-control-label" for="service_{{$key}}_{{$key+2}}">مورد تایید است</label>
+                                        <input type="checkbox" id="service_{{$key}}_{{$key+2}}"
+                                            name="service[service_{{$key+1}}][3]" class="custom-control-input"
+                                            value="1">
+                                        <label class="custom-control-label" for="service_{{$key}}_{{$key+2}}">مورد تایید
+                                            است</label>
                                     </div>
                                 </div><!-- form-group -->
                             </div>
                             @endforeach
-
                             @else
-                                @if (auth()->user()->roles->first()->broker !== null) 
-                                   @php
-                                    $services = auth()->user()->services;
-                                   @endphp
-                                   @foreach ($services as $key=>$service)
-                                   <div class="row">
-       
-                                       <div class="form-group col-md-4">
-                                           <div class="custom-control custom-checkbox custom-control-inline"
-                                               style="margin-left: -1rem;">
-                                               <input type="checkbox" id="service_{{$key}}_{{$key}}" name="service[service_{{$key+1}}][1]"
-                                                   class="custom-control-input" value="{{$service->id}}">
-                                               <label class="custom-control-label" for="service_{{$key}}_{{$key}}">{{$service->service_title}}</label>
-                                           </div>
-                                       </div><!-- form-group -->
-                                       <div class="form-group col-md-4">
-                                           <div class="custom-control custom-checkbox custom-control-inline"
-                                               style="margin-left: -1rem;">
-                                               <input type="checkbox" id="service_{{$key}}_{{$key+1}}" name="service[service_{{$key+1}}][2]"
-                                                   class="custom-control-input" value="1">
-                                               <label class="custom-control-label" for="service_{{$key}}_{{$key+1}}">خدمت رسان ارشد</label>
-                                           </div>
-                                       </div><!-- form-group -->
-                                       <div class="form-group col-md-4">
-                                           <div class="custom-control custom-checkbox custom-control-inline"
-                                               style="margin-left: -1rem;">
-                                               <input type="checkbox" id="service_{{$key}}_{{$key+2}}" name="service[service_{{$key+1}}][3]"
-                                                   class="custom-control-input" value="1">
-                                               <label class="custom-control-label" for="service_{{$key}}_{{$key+2}}">مورد تایید است</label>
-                                           </div>
-                                       </div><!-- form-group -->
-                                   </div>
-                                   @endforeach
-                                    
-                                @endif
-                                @if (auth()->user()->roles->first()->sub_broker !== null)
-                                    @php
-                                         $role_id = auth()->user()->roles->first()->sub_broker;
-                                        
-                                        $user =  User::whereHas('roles', function ($q) use ($role_id) {
-                                            $q->where('id',$role_id);
-                                        })->get();
-                                        $services = $user->services;
-                                    @endphp
-                                    @foreach ($services as $key=>$service)
-                                    <div class="row">
-        
-                                        <div class="form-group col-md-4">
-                                            <div class="custom-control custom-checkbox custom-control-inline"
-                                                style="margin-left: -1rem;">
-                                                <input type="checkbox" id="service_{{$key}}_{{$key}}" name="service[service_{{$key+1}}][1]"
-                                                    class="custom-control-input" value="{{$service->id}}">
-                                                <label class="custom-control-label" for="service_{{$key}}_{{$key}}">{{$service->service_title}}</label>
-                                            </div>
-                                        </div><!-- form-group -->
-                                        <div class="form-group col-md-4">
-                                            <div class="custom-control custom-checkbox custom-control-inline"
-                                                style="margin-left: -1rem;">
-                                                <input type="checkbox" id="service_{{$key}}_{{$key+1}}" name="service[service_{{$key+1}}][2]"
-                                                    class="custom-control-input" value="1">
-                                                <label class="custom-control-label" for="service_{{$key}}_{{$key+1}}">خدمت رسان ارشد</label>
-                                            </div>
-                                        </div><!-- form-group -->
-                                        <div class="form-group col-md-4">
-                                            <div class="custom-control custom-checkbox custom-control-inline"
-                                                style="margin-left: -1rem;">
-                                                <input type="checkbox" id="service_{{$key}}_{{$key+2}}" name="service[service_{{$key+1}}][3]"
-                                                    class="custom-control-input" value="1">
-                                                <label class="custom-control-label" for="service_{{$key}}_{{$key+2}}">مورد تایید است</label>
-                                            </div>
-                                        </div><!-- form-group -->
+                            @if (auth()->user()->roles->first()->broker !== null)
+                            @php
+                            $services = auth()->user()->services;
+                            @endphp
+                            @foreach ($services as $key=>$service)
+                            <div class="row">
+                                <div class="form-group col-md-4">
+                                    <div class="custom-control custom-checkbox custom-control-inline"
+                                        style="margin-left: -1rem;">
+                                        <input type="checkbox" id="service_{{$key}}_{{$key}}"
+                                            name="service[service_{{$key+1}}][1]" class="custom-control-input"
+                                            value="{{$service->id}}">
+                                        <label class="custom-control-label"
+                                            for="service_{{$key}}_{{$key}}">{{$service->service_title}}</label>
                                     </div>
-                                    @endforeach
-                                @endif
+                                </div><!-- form-group -->
+                                <div class="form-group col-md-4">
+                                    <div class="custom-control custom-checkbox custom-control-inline"
+                                        style="margin-left: -1rem;">
+                                        <input type="checkbox" id="service_{{$key}}_{{$key+1}}"
+                                            name="service[service_{{$key+1}}][2]" class="custom-control-input"
+                                            value="1">
+                                        <label class="custom-control-label" for="service_{{$key}}_{{$key+1}}">خدمت رسان
+                                            ارشد</label>
+                                    </div>
+                                </div><!-- form-group -->
+                                <div class="form-group col-md-4">
+                                    <div class="custom-control custom-checkbox custom-control-inline"
+                                        style="margin-left: -1rem;">
+                                        <input type="checkbox" id="service_{{$key}}_{{$key+2}}"
+                                            name="service[service_{{$key+1}}][3]" class="custom-control-input"
+                                            value="1">
+                                        <label class="custom-control-label" for="service_{{$key}}_{{$key+2}}">مورد تایید
+                                            است</label>
+                                    </div>
+                                </div><!-- form-group -->
+                            </div>
+                            @endforeach
                             @endif
-                           
+                            @if (auth()->user()->roles->first()->sub_broker !== null)
+                            @php
+                            $role_id = auth()->user()->roles->first()->sub_broker;
 
-
-
-
+                            $user = User::whereHas('roles', function ($q) use ($role_id) {
+                            $q->where('id',$role_id);
+                            })->get();
+                            $services = $user->services;
+                            @endphp
+                            @foreach ($services as $key=>$service)
+                            <div class="row">
+                                <div class="form-group col-md-4">
+                                    <div class="custom-control custom-checkbox custom-control-inline"
+                                        style="margin-left: -1rem;">
+                                        <input type="checkbox" id="service_{{$key}}_{{$key}}"
+                                            name="service[service_{{$key+1}}][1]" class="custom-control-input"
+                                            value="{{$service->id}}">
+                                        <label class="custom-control-label"
+                                            for="service_{{$key}}_{{$key}}">{{$service->service_title}}</label>
+                                    </div>
+                                </div><!-- form-group -->
+                                <div class="form-group col-md-4">
+                                    <div class="custom-control custom-checkbox custom-control-inline"
+                                        style="margin-left: -1rem;">
+                                        <input type="checkbox" id="service_{{$key}}_{{$key+1}}"
+                                            name="service[service_{{$key+1}}][2]" class="custom-control-input"
+                                            value="1">
+                                        <label class="custom-control-label" for="service_{{$key}}_{{$key+1}}">خدمت رسان
+                                            ارشد</label>
+                                    </div>
+                                </div><!-- form-group -->
+                                <div class="form-group col-md-4">
+                                    <div class="custom-control custom-checkbox custom-control-inline"
+                                        style="margin-left: -1rem;">
+                                        <input type="checkbox" id="service_{{$key}}_{{$key+2}}"
+                                            name="service[service_{{$key+1}}][3]" class="custom-control-input"
+                                            value="1">
+                                        <label class="custom-control-label" for="service_{{$key}}_{{$key+2}}">مورد تایید
+                                            است</label>
+                                    </div>
+                                </div><!-- form-group -->
+                            </div>
+                            @endforeach
+                            @endif
+                            @endif
                         </section>
-
                         <h3>مدارک فنی: </h3>
                         <section>
                             <div class="row">
@@ -425,7 +402,6 @@
                                 </div><!-- form-group -->
                             </div>
                         </section>
-
                         <h3>مدارک تحصیلی: </h3>
                         <section>
                             <div class="row">
@@ -439,7 +415,6 @@
                                 </div><!-- form-group -->
                             </div>
                         </section>
-
                     </form>
                 </div>
             </div>
@@ -455,8 +430,8 @@
     aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content edit-modal-content">
-            
-            
+
+
         </div>
     </div>
 </div>
@@ -464,76 +439,85 @@
 <div class="container-fluid">
     <div class="card">
         <div class="container_icon card-body d-flex justify-content-end">
-            @if (auth()->user()->can(['personal_delete','personal_edit']))
-            <div class="delete-edit">
+           
+            <div class="delete-edit" style="display:none;"> 
+                @if (auth()->user()->hasRole('admin_panel'))
+                <a href="#" title="حذف " data-toggle="modal" data-target="#exampleModal" class="order-delete   m-2">
+                  <span class="__icon bg-danger">
+                      <i class="fa fa-trash"></i>
+                  </span>
+                 </a>
+                @endif
+                @if (auth()->user()->can('personal_edit'))
+                    
+           <a href="#" title="تازه سازی" data-toggle="modal" data-target=".bd-example-modal-lg-edit" class="mx-2" >
+            <span class="edit-personal __icon bg-info">
+                <i class="fa fa-edit"></i>
+            </span>
+           </a>
+                @endif
             </div>
-            @else
-            <div></div>
-            @endif
-          <div>
-            <a href="#" class="mx-2 btn--filter"  title="فیلتر اطلاعات">
-              <span class="__icon bg-info">
-                  <i class="fa fa-search"></i>
-              </span>
-          </a>
-              @if (auth()->user()->can('personal_insert'))
-              <a href="#" data-toggle="modal" data-target=".bd-example-modal-lg" title="افزودن کاربر">
-                <span class="__icon bg-success">
-                    <i class="fa fa-plus"></i>
-                </span>
-            </a>
-              @endif
+            <div>
+                <a href="#" class="mx-2 btn--filter" title="فیلتر اطلاعات">
+                    <span class="__icon bg-info">
+                        <i class="fa fa-search"></i>
+                    </span>
+                </a>
+                @if (auth()->user()->can('personal_insert'))
+                <a href="#" data-toggle="modal" data-target=".bd-example-modal-lg" title="افزودن کاربر">
+                    <span class="__icon bg-success">
+                        <i class="fa fa-plus"></i>
+                    </span>
+                </a>
+                @endif
                 <a href="#" title="تازه سازی" class="mx-2" onclick="location.reload()">
                     <span class="__icon bg-primary">
                         <i class="fa fa-refresh"></i>
                     </span>
                 </a>
             </div>
-
-
         </div>
     </div>
-
 
     {{-- filtering --}}
     <div class="card filtering" style="display:none;">
         <div class="card-body">
-          <form action=" {{route('Personals.FilterData')}} " method="post">
-              @csrf
-            <div class="row ">
+            <form action=" {{route('Personals.FilterData')}} " method="post">
+                @csrf
+                <div class="row ">
 
-                <div class="form-group col-md-6">
-                    <label for="recipient-name" class="col-form-label">فیلتر اطلاعات براساس: </label>
-                    <select required name="type_send" class="form-control" id="personal-filter">
-                        
-                        <option value="نام">نام</option>
-                        <option value="نام خانوادگی">نام خانوادگی</option>
-                        <option value="وضعیت">وضعیت</option>
-                        <option value="نام کاربری">نام کاربری</option>
-                        <option value="کد ملی">کد ملی</option>
-                        <option value="شماره موبایل">شماره موبایل</option>
+                    <div class="form-group col-md-6">
+                        <label for="recipient-name" class="col-form-label">فیلتر اطلاعات براساس: </label>
+                        <select required name="type_send" class="form-control" id="personal-filter">
 
-                    </select>
-                </div>
-                <div class="word_field form-group col-md-6" style="display:block;">
-                    <label for="recipient-name" class="col-form-label">عبارت مورد نظر: </label>
-                    <input type="text" name="word" class="form-control" id="word">
-                </div>
-                <div class="status_options form-group col-md-6" style="display:none;">
-                    <label for="recipient-name" class="col-form-label">وضعیت: </label>
-                    <select required name="word" class="form-control" id="word">
-                        <option value="فعال">فعال</option>
-                        <option value="غیر فعال">غیر فعال</option>
-                    </select>
-                </div>
-            </div>
-            <div class="row">
-                <div class="form-group col-md-6">
+                            <option value="نام">نام</option>
+                            <option value="نام خانوادگی">نام خانوادگی</option>
+                            <option value="وضعیت">وضعیت</option>
+                            <option value="نام کاربری">نام کاربری</option>
+                            <option value="کد ملی">کد ملی</option>
+                            <option value="شماره موبایل">شماره موبایل</option>
 
-                    <button type="submit" class="btn btn-outline-primary">جست و جو</button>
+                        </select>
+                    </div>
+                    <div class="word_field form-group col-md-6" style="display:block;">
+                        <label for="recipient-name" class="col-form-label">عبارت مورد نظر: </label>
+                        <input type="text" name="word" class="form-control" id="word">
+                    </div>
+                    <div class="status_options form-group col-md-6" style="display:none;">
+                        <label for="recipient-name" class="col-form-label">وضعیت: </label>
+                        <select required name="word" class="form-control" id="word">
+                            <option value="فعال">فعال</option>
+                            <option value="غیر فعال">غیر فعال</option>
+                        </select>
+                    </div>
                 </div>
-            </div>
-          </form>
+                <div class="row">
+                    <div class="form-group col-md-6">
+
+                        <button type="submit" class="btn btn-outline-primary">جست و جو</button>
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
 
@@ -544,21 +528,21 @@
                 <hr>
             </div>
             <div style="overflow-x: auto;">
-                <table  id="example1" class="table table-striped  table-bordered" >
+                <table id="example1" class="table table-striped  table-bordered">
                     <thead>
                         <tr>
                             <th></th>
                             <th>ردیف</th>
-                            <th> 
-                                <a  href="#" data-id="name" class="name_field text-white">
+                            <th>
+                                <a href="#" data-id="name" class="name_field text-white">
                                     نام
-                                    <i class="fa fa-angle-down"></i>  
+                                    <i class="fa fa-angle-down"></i>
                                 </a>
                             </th>
                             <th>
                                 <a href="#" data-id="family" class="name_field text-white">
                                     نام خانوادگی
-                                    <i class="fa fa-angle-down"></i>  
+                                    <i class="fa fa-angle-down"></i>
                                 </a>
                             </th>
                             <th>شماره همراه</th>
@@ -566,20 +550,20 @@
                             <th>
                                 <a href="#" data-id="gender" class="name_field text-white">
                                     جنسیت
-                                    <i class="fa fa-angle-down"></i>  
+                                    <i class="fa fa-angle-down"></i>
                                 </a>
-                                
+
                             </th>
                             <th>وضعیت تاهل</th>
                             <th>اخرین مدرک تحصیلی</th>
                             <th>تلفن منزل</th>
                             <th>تلفن محل کار</th>
                             <th>تصویر پروفایل</th>
-                            
+
                         </tr>
                     </thead>
                     <tbody class="tbody">
-                      {!! $personals !!}
+                        {!! $personals !!}
                     </tbody>
 
                 </table>
@@ -589,31 +573,49 @@
 </div>
 @endsection
 @section('css')
-
 <!-- begin::form wizard -->
 <link rel="stylesheet" href="{{route('BaseUrl')}}/Pannel/assets/vendors/form-wizard/jquery.steps.css" type="text/css">
 <!-- end::form wizard -->
-<style>
-    .date-picker-shamsi {
-        z-index: 1151 !important;
-    }
-</style>
 @endsection
-
 @section('js')
 <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script>
-
 <!-- begin::form wizard -->
 <script src="{{route('BaseUrl')}}/Pannel/assets/vendors/form-wizard/jquery.steps.min.js"></script>
 <script src="{{route('BaseUrl')}}/Pannel/assets/js/examples/form-wizard.js"></script>
 <!-- end::form wizard -->
+<script src="{{route('BaseUrl')}}/Pannel/assets/input-mask/jquery.inputmask.js"></script>
+<script src="{{route('BaseUrl')}}/Pannel/assets/input-mask/jquery.inputmask.date.extensions.js"></script>
+<script src="{{route('BaseUrl')}}/Pannel/assets/input-mask/jquery.inputmask.extensions.js"></script>
 <script>
-    $(document).ready(function(){
+     function isValidDate(dtValue2) {
+    // your desired pattern
+    
+    var pattern = /^(\d{4})\/(\d{2})\/(\d{2})$/
+    var m = dtValue2.match(pattern);
+    if (!m){
+        swal("", "تاریخ تولد صحیح نمیباشد", "error", {
+			button: "باشه"
+        });
+        document.getElementById('birth_year1').value = "";
+    }
+   
+
+}
+
+    $(function () {
         $.ajaxSetup({
             headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
+
+
+ //Datemask dd/mm/yyyy
+ $('#datemask').inputmask('dd/mm/yyyy', { 'placeholder': 'dd/mm/yyyy' })
+    //Datemask2 mm/dd/yyyy
+    $('#datemask2').inputmask('mm/dd/yyyy', { 'placeholder': 'mm/dd/yyyy' })
+    //Money Euro
+    $('[data-mask]').inputmask()
        
         $('.btn--filter').click(function(){
           $('.filtering').toggle(200)
@@ -628,44 +630,24 @@
                }
 
             if(array.length !== 0){
-
+                $('.delete-edit').show()
                 if (array.length !== 1) {
                     $('.container_icon').removeClass('justify-content-end')
                     $('.container_icon').addClass('justify-content-between')
-                    $('.delete-edit').html(`
-                    <a href="#" title="حذف " data-toggle="modal" data-target="#exampleModal" class="sweet-multiple mx-2">
-            <span class="__icon bg-danger">
-                <i class="fa fa-trash"></i>
-            </span>
-           </a>
-                    `)
+                    $('.edit-personal').hide()
                 }else{
 
                     $('.container_icon').removeClass('justify-content-end')
                     $('.container_icon').addClass('justify-content-between')
-                    $('.delete-edit').html(`
-                    <a href="#" title="حذف " data-toggle="modal" data-target="#exampleModal" class="sweet-multiple mx-2">
-            <span class="__icon bg-danger">
-                <i class="fa fa-trash"></i>
-            </span>
-           </a>
-
-           <a href="#" title="تازه سازی" data-toggle="modal" data-target=".bd-example-modal-lg-edit" class="mx-2" >
-            <span class="__icon bg-info">
-                <i class="fa fa-edit"></i>
-            </span>
-           </a>
-
-           
-                    `)
-
+                    $('.edit-personal').show()
+                    
                    
                 }
             }
             else{
                 $('.container_icon').removeClass('justify-content-between')
                 $('.container_icon').addClass('justify-content-end')
-                $('.delete-edit').html('')
+                $('.delete-edit').hide()
             }
         })
             
@@ -683,7 +665,7 @@ $(document).on('shown.bs.modal','.bd-example-modal-lg',function(){
     
 // Edit
 $('.bd-example-modal-lg-edit').on('shown.bs.modal', function (event) {
-   personal_id =  $('table input[type="checkbox"]:checked').attr('data-id')
+   personal_id =  $('table input[name="checkbox"]:checked').attr('data-id')
     $.ajax({
     type:'post',
     url:'{{route("Personal.Edit.getData")}}',
@@ -699,8 +681,6 @@ $('.bd-example-modal-lg-edit').on('shown.bs.modal', function (event) {
         var form = $("#example-advanced-form1").show();
     form.validate({
         rules: {
-         
-         
           service_percentage: {
             required: true,
             range:[0,100]
@@ -806,10 +786,6 @@ $('.bd-example-modal-lg-edit').on('shown.bs.modal', function (event) {
     },
     onFinished: function (event, currentIndex)
     {
-        // var file =$('#service_icon')
-        // var formData = new FormData($(this)[0]);
-        // formData.append('file',$('#service_icon'))
-        // console.log(formData)
         form.submit()
         
     }
@@ -821,11 +797,25 @@ $('.bd-example-modal-lg-edit').on('shown.bs.modal', function (event) {
         }
     }
 });
+ //Datemask dd/mm/yyyy
+ $('#datemask').inputmask('dd/mm/yyyy', { 'placeholder': 'dd/mm/yyyy' })
+    //Datemask2 mm/dd/yyyy
+    $('#datemask2').inputmask('mm/dd/yyyy', { 'placeholder': 'mm/dd/yyyy' })
+    //Money Euro
+    $('[data-mask]').inputmask()
+
          }
     
       });
     
     }); 
+
+
+
+
+   
+
+
 
 // change status
 $(document).on('click','input[id^="status_"]',function(){
@@ -843,22 +833,6 @@ success:function(data){
     swal("", "تغییر وضعیت خدمت رسان با موفقیت انجام شد", "success", {
 			button: "باشه"
 		});
-    
-    // if (data == 0) {
-    //     $('td[data-id="' + id + '"').removeClass('text-success')
-    //     $('td[data-id="' + id + '"').addClass('text-danger')
-    //     $('td[data-id="' + id + '"').html(`  <i class="fa fa-close"></i>`)
-    
-    // }else{
-    //     $('td[data-id="' + id + '"').removeClass('text-danger')
-    //     $('td[data-id="' + id + '"').addClass('text-success')
-    //     $('td[data-id="' + id + '"').html(`<i class="fa fa-check"></i>`)
-        
-    // }
-        
-
-        
-
 }
 })
 })
@@ -911,7 +885,6 @@ success:function(data){
 }
 })
 
-
 })
 
 $('#personal-filter').click(function(){
@@ -931,9 +904,7 @@ var namefield = $('.name_field')
 namefield.click(function(e){
   e.preventDefault();
  var data = $(this).attr('data-id');
-
  $.ajax({
-
 type:'post',
 url:'{{route("Personal.OrderBy.Table")}}',
 data:{data:data},
@@ -942,8 +913,6 @@ success:function(data){
    }
  })
 })
-
-
 $('#p_mobile').blur(function(){
 var data = $(this).val();
 var thiss = $(this);
@@ -956,10 +925,9 @@ success:function(data){
 			button: "باشه"
         });
         thiss.val('')
-   }
+    }
+  })
  })
 })
-
-    })
 </script>
 @endsection

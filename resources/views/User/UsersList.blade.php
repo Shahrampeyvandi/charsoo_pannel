@@ -244,7 +244,7 @@
              <td>{{$user->user_national_code}}</td>
              <td>{{$user->user_mobile}}</td>
              <td>
-               @if ($user->user_prfile_pic !== '')
+               @if ($user->user_prfile_pic !== '' && $user->user_prfile_pic !== null )
                    <img width="75px" class="img-fluid "
                     src=" {{asset("uploads/brokers/$user->user_prfile_pic")}} " />
                @else

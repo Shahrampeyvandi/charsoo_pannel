@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Validator;
+use Morilog\Jalali\Jalalian;
 use Spatie\Permission\Models\Role;
 
 class PersonalController extends Controller
@@ -27,7 +28,7 @@ class PersonalController extends Controller
                     <div class="checkpersonal custom-control custom-checkbox custom-control-inline"
                         style="margin-left: -1rem;">
                         <input data-id="'.$personal->id.'" type="checkbox" id="'.$key.'"
-                            name="customCheckboxInline1" class="custom-control-input" value="1">
+                            name="checkbox" class="custom-control-input" value="1">
                         <label class="custom-control-label" for="'.$key.'"></label>
                     </div>
                 </td>
@@ -77,7 +78,7 @@ class PersonalController extends Controller
                      ).
                 '</td>
                 <td>'
-                .($personal->personal_profile !== '' ? 
+                .($personal->personal_profile !== '' && $personal->personal_profile !== null ? 
                 '<img style="width:80px;" src="'.route('BaseUrl').'/uploads/personals/'.$personal->personal_profile.'"  />'
                 :
                 '<img style="width:80px;" src="'.route('BaseUrl').'/Pannel/img/avatar.jpg" />').               
@@ -171,7 +172,6 @@ class PersonalController extends Controller
                     <td>'
                         .($personal->personal_mobile ?
                         $personal->personal_mobile
-                        
                         :
                         'وارد نشده'
                         ).
@@ -181,7 +181,6 @@ class PersonalController extends Controller
                         <i class="fa fa-check"></i>
                     </td>'
                     :
-                   
                     '<td class="text-danger">
                         <i class="fa fa-close"></i>
                     </td>') .'
@@ -221,6 +220,7 @@ class PersonalController extends Controller
     public function technicianSubmit(Request $request)
     {
 
+        
         
 
         if ($request->has('personal_profile')) {
@@ -292,7 +292,7 @@ class PersonalController extends Controller
             'personal_status'=> 1,
             'personal_firstname' => $request->firstname,
             'personal_lastname' => $request->lastname,
-            'personal_birthday' => $request->birth_year,
+            'personal_birthday' => $this->convertDate($request->birth_year)->toDateString(),
             'personal_national_code' => $request->national_num,
             'personal_marriage' => $request->marriage_status,
             'personal_last_diploma' => $request->education_status,
@@ -366,8 +366,10 @@ class PersonalController extends Controller
 
     public function DeletePersonal(Request $request)
     {
+
         foreach ($request->array as $personal_id) {
             Personal::find($personal_id)->services()->detach();
+            Personal::find($personal_id)->useracounts()->delete();
             Personal::where('id',$personal_id)->delete();
         }
         return 'success';
@@ -590,6 +592,7 @@ class PersonalController extends Controller
 
     public function getPersonalData(Request $request)
     {
+        
         $personal = Personal::where('id',$request->personal_id)->first();
       
         $csrf = csrf_token();
@@ -651,11 +654,13 @@ class PersonalController extends Controller
                     </div>
                     <div class="row">
                         <div class="form-group col-md-6">
-                            <label>تاریخ تولد </label>
+                            <label>تاریخ تولد (فرمت صحیح: 1366/11/02)</label>
                             <input type="text" name="birth_year"
                              class="date-picker-shamsi-list form-control"
-                             value="'.$personal->personal_birthday.'"
-                                placeholder="">
+                             value="'.Jalalian::forge($personal->personal_birthday)->format('%Y/%m/%d').'"
+                             onblur="isValidDate(this.value)"
+                             id="birth_year1" 
+                             placeholder="">
                             <div class="valid-feedback">
                                 صحیح است!
                             </div>
@@ -1134,78 +1139,93 @@ class PersonalController extends Controller
     public function SubmitPersonalEdit(Request $request)
     {
 
+
+
+
         
         $personal = Personal::where('id',$request->personal_id)->first();
         if ($request->has('first_page_certificate')) {
-            File::delete(public_path().'uploads/personals/'.$request->national_num .'/'. $personal->personal_identity_card_first_pic);
-            $first_page_certificate = 'first_page' . '.' . $request->first_page_certificate->getClientOriginalExtension();
-            $request->first_page_certificate->move(public_path('uploads/personals/'.$request->national_num), $first_page_certificate);
+            File::delete(public_path().'/uploads/personals/'.$request->mobile .'/'. $personal->personal_identity_card_first_pic);
+            $first_page_certificate_img = 'first_page' . '.' . $request->first_page_certificate->getClientOriginalExtension();
+            $request->first_page_certificate->move(public_path('uploads/personals/'.$request->mobile), $first_page_certificate_img);
+           $first_page_certificate = $request->mobile .'/'. $first_page_certificate_img;
         } else {
             $first_page_certificate = $personal->personal_identity_card_first_pic;
         }
         if ($request->has('personal_profile')) {
-            File::delete(public_path().'uploads/personals/'.$request->national_num .'/'. $personal->personal_profile);
-            $personal_profile = 'photo' . '.' . $request->personal_profile->getClientOriginalExtension();
-            $request->personal_profile->move(public_path('uploads/personals/'.$request->national_num), $personal_profile);
+            File::delete(public_path().'/uploads/personals/'. $personal->personal_profile);
+           
+            $personal_img = 'photo' . '.' . $request->personal_profile->getClientOriginalExtension();
+            $request->personal_profile->move(public_path('uploads/personals/'.$request->mobile), $personal_img);
+            $personal_profile = $request->mobile .'/'.$personal_img;
         } else {
             $personal_profile = $personal->personal_profile;
         }
         if ($request->has('card_Service')) {
-            File::delete(public_path().'uploads/personals/'.$request->national_num .'/'. $personal->personal_status_duty);
-            $card_Service = 'duty_status' . '.' . $request->card_Service->getClientOriginalExtension();
-            $request->card_Service->move(public_path('uploads/personals/'.$request->national_num), $card_Service);
+            File::delete(public_path().'/uploads/personals/'.$request->mobile .'/'. $personal->personal_status_duty);
+            $card_Service_img = 'duty_status' . '.' . $request->card_Service->getClientOriginalExtension();
+            $request->card_Service->move(public_path('uploads/personals/'.$request->mobile), $card_Service_img);
+            $card_Service =  $request->mobile .'/'.$card_Service_img;
         } else {
             $card_Service = $personal->personal_status_duty;
         }
         if ($request->has('backgrounds_status')) {
-            File::delete(public_path().'uploads/personals/'.$request->national_num .'/'. $personal->personal_backgrounds_status);
-            $antecedent_report_card = 'antecedent_report_card' . '.' . $request->antecedent_report_card->getClientOriginalExtension();
-            $request->antecedent_report_card->move(public_path('uploads/personals/'.$request->national_num), $antecedent_report_card);
+            File::delete(public_path().'/uploads/personals/'.$request->mobile .'/'. $personal->personal_backgrounds_status);
+            $antecedent_report_card_img = 'antecedent_report_card' . '.' . $request->antecedent_report_card->getClientOriginalExtension();
+            $request->antecedent_report_card->move(public_path('uploads/personals/'.$request->mobile), $antecedent_report_card_img);
+            $antecedent_report_card = $request->mobile .'/'. $antecedent_report_card_img;
         } else {
             $antecedent_report_card = $personal->personal_backgrounds_status;
         }
+
         if ($request->has('second_page_certificate')) {
-            File::delete(public_path().'uploads/personals/'.$request->national_num .'/'. $personal->personal_identity_card_second_pic);
-            $second_page_certificate = 'second_page' . '.' . $request->second_page_certificate->getClientOriginalExtension();
-            $request->second_page_certificate->move(public_path('uploads/personals/'.$request->national_num), $second_page_certificate);
+            File::delete(public_path().'/uploads/personals/'.$request->mobile .'/'. $personal->personal_identity_card_second_pic);
+            $second_page_certificate_img = 'second_page' . '.' . $request->second_page_certificate->getClientOriginalExtension();
+            $request->second_page_certificate->move(public_path('uploads/personals/'.$request->mobile), $second_page_certificate_img);
+            $second_page_certificate= $request->mobile .'/'. $second_page_certificate_img;
+        
         } else {
             $second_page_certificate = $personal->personal_identity_card_second_pic;
         }
         if ($request->has('national_card_front_pic')) {
-            File::delete(public_path().'uploads/personals/'.$request->national_num .'/'. $personal->personal_national_card_front_pic);
-            $national_card_front_pic = 'national_card_front_pic' . '.' . $request->national_card_front_pic->getClientOriginalExtension();
-            $request->national_card_front_pic->move(public_path('uploads/personals/'.$request->national_num), $national_card_front_pic);
+            File::delete(public_path().'/uploads/personals/'.$request->mobile .'/'. $personal->personal_national_card_front_pic);
+            $national_card_front_pic_img = 'national_card_front_pic' . '.' . $request->national_card_front_pic->getClientOriginalExtension();
+            $request->national_card_front_pic->move(public_path('uploads/personals/'.$request->mobile), $national_card_front_pic_img);
+            $national_card_front_pic =$request->mobile .'/'. $national_card_front_pic_img;
         } else {
             $national_card_front_pic = $personal->personal_national_card_front_pic;
         }
         if ($request->has('national_card_back_pic')) {
-            File::delete(public_path().'uploads/personals/'.$request->national_num .'/'. $personal->personal_national_card_back_pic);
-            $national_card_back_pic = 'first_page' . '.' . $request->national_card_back_pic->getClientOriginalExtension();
-            $request->national_card_back_pic->move(public_path('uploads/personals/'.$request->national_num), $national_card_back_pic);
+            File::delete(public_path().'/uploads/personals/'.$request->mobile .'/'. $personal->personal_national_card_back_pic);
+            $national_card_back_pic_img = 'first_page' . '.' . $request->national_card_back_pic->getClientOriginalExtension();
+            $request->national_card_back_pic->move(public_path('uploads/personals/'.$request->mobile), $national_card_back_pic_img);
+            $national_card_back_pic = $request->mobile .'/'. $national_card_back_pic_img;
         } else {
             $national_card_back_pic = $personal->personal_national_card_back_pic;
         }
         if ($request->has('technical_credential')) {
-            File::delete(public_path().'uploads/personals/'.$request->national_num .'/'. $personal->technical_credential);
-            $technical_credential = 'technical_credential' . '.' . $request->technical_credential->getClientOriginalExtension();
-            $request->technical_credential->move(public_path('uploads/personals/'.$request->national_num), $technical_credential);
+            File::delete(public_path().'/uploads/personals/'.$request->mobile .'/'. $personal->technical_credential);
+            $technical_credential_img = 'technical_credential' . '.' . $request->technical_credential->getClientOriginalExtension();
+            $request->technical_credential->move(public_path('uploads/personals/'.$request->mobile), $technical_credential_img);
+            $technical_credential =$request->mobile .'/'. $technical_credential_img;
         } else {
             $technical_credential = $personal->technical_credential;
         }
         if ($request->has('expert_credential')) {
-            File::delete(public_path().'uploads/personals/'.$request->national_num .'/'. $personal->expert_credential);
-            $expert_credential = 'expert_credential' . '.' . $request->expert_credential->getClientOriginalExtension();
-            $request->expert_credential->move(public_path('uploads/personals/'.$request->national_num), $expert_credential);
+            File::delete(public_path().'/uploads/personals/'.$request->mobile .'/'. $personal->expert_credential);
+            $expert_credential_img = 'expert_credential' . '.' . $request->expert_credential->getClientOriginalExtension();
+            $request->expert_credential->move(public_path('uploads/personals/'.$request->mobile), $expert_credential_img);
+            $expert_credential = $request->mobile .'/'. $expert_credential_img;
         } else {
             $expert_credential = $personal->expert_credential;
         }
 
         Personal::where('id',$request->personal_id)
         ->update([
-            'personal_status'=> 0,
+            
             'personal_firstname' => $request->firstname,
             'personal_lastname' => $request->lastname,
-            'personal_birthday' => $request->birth_year,
+            'personal_birthday' => $this->convertDate($request->birth_year)->toDateString(),
             'personal_national_code' => $request->national_num,
             'personal_marriage' => $request->marriage_status,
             'personal_last_diploma' => $request->education_status,
@@ -1227,6 +1247,7 @@ class PersonalController extends Controller
             'personal_about_specialization' => $request->about_specialization,
             'personal_work_experience_month' => $request->work_experience_month_num,
             'personal_work_experience_year' => $request->work_experience_year_num,
+            'personal_profile' => $personal_profile
         ]);
 
 

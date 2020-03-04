@@ -40,8 +40,24 @@
 <div class="container-fluid">
   <div class="card">
     <div class="container_icon card-body d-flex justify-content-end">
-      <div class="delete-edit">
-      </div>
+     
+      <div class="delete-edit" style="display:none;"> 
+        @if (auth()->user()->can('customer_delete'))
+        <a href="#" title="حذف " data-toggle="modal" data-target="#exampleModal" class="   m-2">
+          <span class="__icon bg-danger">
+              <i class="fa fa-trash"></i>
+          </span>
+         </a>
+        @endif
+        @if (auth()->user()->can('customer_edit'))
+          <a href="#" title="ویرایش" data-toggle="modal" data-target=".bd-example-modal-lg-edit" class="mx-2" >
+            <span class="edit-customer __icon bg-info">
+                <i class="fa fa-edit"></i>
+            </span>
+          </a>
+        @endif
+    </div>
+
       <div>
         <a href="#" class="mx-2 btn--filter" title="فیلتر اطلاعات">
           <span class="__icon bg-info">
@@ -157,8 +173,10 @@
               <td class="text-danger">
                 <div class=" form-group" style="display:inline-block;" >
                   <div class="custom-control custom-switch custom-checkbox-success">
-                      <input data-id="{{$customer->id}}" type="checkbox" value="1" class="custom-control-input" id="status_{{$key}}" >
-                      <label class="custom-control-label" for="status_{{$key}}"></label>
+                      <input data-id="{{$customer->id}}" type="checkbox" value="1"
+                       class="custom-control-input" id="status_{{$key}}" >
+                      <label class="custom-control-label" 
+                      for="status_{{$key}}"></label>
                   </div>
                </div>
               </td>
@@ -175,11 +193,7 @@
 
             </tr>
             @endforeach
-
-
-
           </tbody>
-
         </table>
       </div>
     </div>
@@ -199,7 +213,6 @@
         $('.btn--filter').click(function(){
           $('.filtering').toggle(200)
         })
-
            $('.customer-list input[type="checkbox"]').change(function(){
            if( $(this).is(':checked')){
             $(this).parents('tr').css('background-color','#41f5e07d');
@@ -212,38 +225,21 @@
                   array.push($(this).attr('data-id'))
                }
             if(array.length !== 0){
+              $('.delete-edit').show();
                 if (array.length !== 1) {
                     $('.container_icon').removeClass('justify-content-end')
                     $('.container_icon').addClass('justify-content-between')
-                    $('.delete-edit').html(`
-                    <a href="#" title="حذف " data-toggle="modal" data-target="#exampleModal" class="sweet-multiple mx-2">
-            <span class="__icon bg-danger">
-                <i class="fa fa-trash"></i>
-            </span>
-           </a>
-                    `)
+                   $('.edit-customer').hide();
                 }else{
                     $('.container_icon').removeClass('justify-content-end')
                     $('.container_icon').addClass('justify-content-between')
-                    $('.delete-edit').html(`
-                    <a href="#" title="حذف " data-toggle="modal" data-target="#exampleModal" class="sweet-multiple mx-2">
-            <span class="__icon bg-danger">
-                <i class="fa fa-trash"></i>
-            </span>
-           </a>
-
-           <a href="#" title="تازه سازی" data-toggle="modal" data-target=".bd-example-modal-lg-edit" class="mx-2" >
-            <span class="__icon bg-info">
-                <i class="fa fa-edit"></i>
-            </span>
-           </a>
-                    `)
+                    $('.edit-customer').show();
                 }
             }
             else{
                 $('.container_icon').removeClass('justify-content-between')
                 $('.container_icon').addClass('justify-content-end')
-                $('.delete-edit').html('')
+                $('.delete-edit').hide();
             }
         })
             

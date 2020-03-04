@@ -83,7 +83,9 @@
 
 
     @yield('js')
+
     <script>
+
 function checknationalcode(meli_code) {
  if (meli_code.length == 10) {
      if (meli_code == '1111111111' || meli_code == '0000000000' || meli_code == '2222222222' || meli_code == '3333333333' || meli_code == '4444444444' || meli_code == '5555555555' || meli_code == '6666666666' || meli_code == '7777777777' || meli_code == '8888888888' || meli_code == '9999999999') {
