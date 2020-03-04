@@ -61,6 +61,7 @@ class OrdersController extends Controller
     $orders = $personal->order()->where('order_type','قطعی')
     ->orWhere('order_type','شروع به کار')
     ->orWhere('order_type','اعلام هزینه')
+    ->orWhere('order_type','دریافت هزینه')
     ->orWhere('order_type','اتمام کار')->get();
     foreach ($orders as $key => $order) {
      $service = Service::where('id',$order->service_id)->first()->service_title;

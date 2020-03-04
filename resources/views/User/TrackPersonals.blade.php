@@ -11,7 +11,12 @@
 
      {{-- filtering --}}
      <div class="card filtering container-fluid" >
+       
         <div class="card-body" style="height:300px">
+          <div class="card-title">
+            <h5 class="text-center">مسیر حرکت خدمت رسان ها</h5>
+            <hr>
+          </div>
           <div class="row " >
             <div class="form-group col-md-6">
                 <form method="GET">
@@ -30,7 +35,7 @@
                                               @endif
                                               @endif
 
-                                              > {{$khedmatresann->personal_lastname}}</option>
+                                              > {{$khedmatresann->personal_firstname}} {{$khedmatresann->personal_lastname}} - {{$khedmatresann->personal_mobile}}</option>
                                         @endforeach
             </select>
           </div>
@@ -173,7 +178,7 @@
 
      @foreach($khedmatResan as $key=>$position)
           L.marker([{{$position->tool}}, {{$position->arz}}],{icon: greenIcon}).addTo(map)
-        .bindPopup('{{$key+1}}<br>     موقعیت خدمت رسان در این زمان<br> <br> {{$position->created_at}}')
+        .bindPopup('<style>table, th, td {border: 1px solid black;  padding: 8px;}</style><table><tr><td>شمارش</td><td>{{$key+1}}</td></tr><tr><td>ساعت</td><td>{{\Morilog\Jalali\Jalalian::forge($position->created_at)->format('H:i:s')}}</td></tr><tr><td>تاریخ</td><td>{{\Morilog\Jalali\Jalalian::forge($position->created_at)->format('%Y-%m-%d')}}</td></tr></table>')
         .openPopup();
 
     latlngs.push([{{$position->tool}},{{$position->arz}}])

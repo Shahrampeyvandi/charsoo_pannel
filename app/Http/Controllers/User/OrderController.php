@@ -4,6 +4,7 @@ namespace App\Http\Controllers\User;
 
 use App\Models\User;
 use App\Models\Orders\Order;
+use App\Models\Acounting\UserAcounts;
 use Illuminate\Http\Request;
 use Morilog\Jalali\Jalalian;
 use App\Models\Services\Service;
@@ -134,6 +135,8 @@ class OrderController extends Controller
                 'customer_status' => 1
             ]);
 
+
+
            $mobile = $request->user_mobile;
            $date = Carbon::parse($order->order_date_first)->timestamp;
            $Code = $this->generateRandomString(15,$mobile,$date);
@@ -143,6 +146,13 @@ class OrderController extends Controller
            ]);
 
 
+           
+           $acountcharge = new UserAcounts();
+           $acountcharge->user = 'مشتری';
+           $acountcharge->type = 'شارژ';
+           $acountcharge->cash = 0;
+           $acountcharge->cunsomer_id = $customer->id;
+           $acountcharge->save();
            
 
         }else{

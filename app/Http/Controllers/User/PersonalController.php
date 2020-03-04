@@ -7,6 +7,7 @@ use App\Models\Personals\Personal;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Models\Acounting\UserAcounts;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Validator;
 use Spatie\Permission\Models\Role;
@@ -340,6 +341,23 @@ class PersonalController extends Controller
             }
         }
        
+
+        $acountencome = new UserAcounts();
+
+        $acountencome->user = 'خدمت رسان';
+        $acountencome->type = 'درآمد';
+        $acountencome->cash = 0;
+        $acountencome->personal_id = $personal->id;
+
+        $acountcharge = new UserAcounts();
+
+        $acountcharge->user = 'خدمت رسان';
+        $acountcharge->type = 'شارژ';
+        $acountcharge->cash = 0;
+        $acountcharge->personal_id = $personal->id;
+
+        $acountencome->save();
+        $acountcharge->save();
 
             // Alert::success( 'اطلاعات با موفقیت ثبت شد','موفق')->persistent("باشه");
             alert()->success('خدمت رسان با موفقیت ثبت شد', 'عملیات موفق')->autoclose(2000);

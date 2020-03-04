@@ -7,6 +7,10 @@
 <div class="container-fluid">
   <div class="card filtering">
     <div class="card-body">
+      <div class="card-title">
+        <h5 class="text-center">خدمت رسان های آنلاین</h5>
+        <hr>
+      </div>
       <div class="row ">
         @if (auth()->user()->hasRole('admin_panel'))
         <div class="form-group col-md-6">
@@ -110,7 +114,8 @@
 
        @foreach($online as $key=>$position)
             L.marker([{{$position->tool}}, {{$position->arz}}],{icon: greenIcon}).addTo(map)
-          .bindPopup('{{$person[$key]->personal_firstname}} {{$person[$key]->personal_lastname}}<br>{{$person[$key]->personal_mobile}}')
+          .bindPopup('<style>table, th, td {border: 1px solid black;  padding: 8px;}</style><table><tr><td>موبایل</td><td>{{$person[$key]->personal_mobile}}</td></tr><tr><td>نام</td><td>{{$person[$key]->personal_firstname}}</td></tr><tr><td>نام خانوادگی</td><td>{{$person[$key]->personal_lastname}}</td></tr></table>')
+
           .openPopup();
 
       latlngs.push([{{$position->tool}},{{$position->arz}}])
