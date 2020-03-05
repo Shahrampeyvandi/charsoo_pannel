@@ -25,4 +25,9 @@ class Order extends Model
     {
         return $this->hasMany(ImageOrders::class);
     }
+
+    public function orderDetail()
+    {
+        return $this->hasOne(OrderStatusDetail::class);
+    }
 }

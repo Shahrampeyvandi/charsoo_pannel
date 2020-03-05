@@ -16,6 +16,10 @@ Route::put('personal/updatedata','Api\PersonalController@updatePersonalData');
 Route::put('personal/updateprofile','Api\PersonalController@updateProfile');
 Route::get('sendcode','Api\SMSCodeController@sendcode');
 Route::get('personal/getorder','Api\OrdersController@getOrder');
+
+Route::post('personal/refferOrder','Api\OrdersController@refferOrderToPersonal');
+Route::post('personal/startOrder','Api\OrdersController@startOrder');
+
 Route::get('personal/dashboarddetail','Api\PersonalController@getPersonalDashboardDetail');
 Route::POST('personal/position','Api\TrackPersonalController@sendpositions');
 
