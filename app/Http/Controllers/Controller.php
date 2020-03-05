@@ -18,7 +18,6 @@ class Controller extends BaseController
         $mobile_str = substr($mobile,-4);
         $hashed_date = substr(Hash::make($date),0,10);
         $randomString = 'T-' . $mobile_str . ' R-' . $hashed_date;
-      
         return $randomString;
     }
     public function convertDate($date)
