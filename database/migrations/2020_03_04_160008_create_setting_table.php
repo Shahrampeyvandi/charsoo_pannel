@@ -15,17 +15,17 @@ class CreateSettingTable extends Migration
     {
         Schema::create('setting', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('zaribsetaremoshtari');
-            $table->integer('zaribtedadsarevaghtresidan');
-            $table->integer('zaribetedadedirresidan');
-            $table->integer('zaribetedadeghatehayecancelshode');
-            $table->integer('zaribetedadeshoroebkarcancellshode');
-            $table->integer('zaribetedadepishnaddarnmah');
-            $table->integer('zaribetedadkarsabtnamavalie');
-            $table->integer('emtiazkhedmatresanhad1');
-            $table->integer('emtiazkhedmatresanhad2');
-            $table->integer('emtiazkhedmatresanhad3');
-            $table->integer('tedadrooztaligh');
+            $table->float('zaribsetaremoshtari');
+            $table->float('zaribtedadsarevaghtresidan');
+            $table->float('zaribetedadedirresidan');
+            $table->float('zaribetedadeghatehayecancelshode');
+            $table->float('zaribetedadeshoroebkarcancellshode');
+            $table->float('zaribetedadepishnaddarnmah');
+            $table->float('zaribetedadkarsabtnamavalie');
+            $table->float('emtiazkhedmatresanhad1');
+            $table->float('emtiazkhedmatresanhad2');
+            $table->float('emtiazkhedmatresanhad3');
+            $table->float('tedadrooztaligh');
             $table->string('linkfaq');
             $table->string('linklaw');
             $table->string('linkappservicer');
@@ -33,6 +33,28 @@ class CreateSettingTable extends Migration
             $table->string('shomareposhtibani');
             $table->timestamps();
         });
+
+        DB::table('setting')->insert(
+            array(
+                'zaribsetaremoshtari' => '1',
+                'zaribtedadsarevaghtresidan' => '1',
+                'zaribetedadedirresidan' => '1',
+                'zaribetedadeghatehayecancelshode' => '1',
+                'zaribetedadeshoroebkarcancellshode' => '1',
+                'zaribetedadepishnaddarnmah' => '1',
+                'zaribetedadkarsabtnamavalie' => '1',
+                'emtiazkhedmatresanhad1' => '1',
+                'emtiazkhedmatresanhad2' => '1',
+                'emtiazkhedmatresanhad3' => '1',
+                'tedadrooztaligh' => '1',
+                'linkfaq' => 'http://panel.4sooapp.com',      
+                'linklaw' => 'http://panel.4sooapp.com',
+                'linkappservicer' => 'http://panel.4sooapp.com',
+                'shomareoperator' => 'http://panel.4sooapp.com',
+                'shomareposhtibani' => 'http://panel.4sooapp.com',
+
+            )
+        );
     }
 
     /**

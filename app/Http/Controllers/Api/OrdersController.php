@@ -74,9 +74,13 @@ class OrdersController extends Controller
     $Code = $request->order_code;
    $order = Order::where('order_unique_code',$Code)->first();
    if ($order !== null) {
-    return response()->json([
-      'data' => $order,
-    ], 200);
+
+      $service = Service::where('id', $order->service_id)->first()->service_title;
+      $order['service_name'] = $service;
+    
+    return response()->json(
+     $order
+    , 200);
    }
    else{
     return response()->json([

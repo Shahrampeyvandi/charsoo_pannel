@@ -150,7 +150,7 @@ Route::group(['middleware' => ['checkAuth']], function () {
 
     Route::get('Setting', 'User\SettingController@Setting')->name('Pannel.Setting');
 
-    Route::post('Setting', 'User\SettingController@SettingChange')->name('Pannel.Setting');
+    Route::post('Setting/Change', 'User\SettingController@SettingChange')->name('Pannel.Setting.Change');
 
     Route::get('/Acounting/CheckoutPersonals/Export','Acounting\CheckoutPersonalsController@export')->name('Pannel.Acounting.CheckoutPersonals.Export');
 }); /*    E N D - R O U T E - G R O U P    */
