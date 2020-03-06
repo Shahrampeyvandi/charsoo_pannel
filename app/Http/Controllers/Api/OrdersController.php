@@ -73,16 +73,22 @@ class OrdersController extends Controller
   public function getOrder(Request $request)
   {
     $Code = $request->order_code;
-    $order = Order::where('order_unique_code', $Code)->first();
-    if ($order !== null) {
-      return response()->json([
-        'data' => $order,
-      ], 200);
-    } else {
-      return response()->json([
-        'data' => 'سفارشی با این کد درج نشده است',
-      ], 404);
-    }
+   $order = Order::where('order_unique_code',$Code)->first();
+   if ($order !== null) {
+
+      $service = Service::where('id', $order->service_id)->first()->service_title;
+      $order['service_name'] = $service;
+    
+    return response()->json(
+     $order
+    , 200);
+   }
+   else{
+    return response()->json([
+      'data' =>'سفارشی با این کد درج نشده است',
+    ], 404);
+   }
+
   }
 
   public function refferOrderToPersonal(Request $request)
