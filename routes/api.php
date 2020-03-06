@@ -17,8 +17,15 @@ Route::put('personal/updateprofile','Api\PersonalController@updateProfile');
 Route::get('sendcode','Api\SMSCodeController@sendcode');
 Route::get('personal/getorder','Api\OrdersController@getOrder');
 
+
+// 15.12.1398
 Route::post('personal/refferOrder','Api\OrdersController@refferOrderToPersonal');
 Route::post('personal/startOrder','Api\OrdersController@startOrder');
+Route::post('personal/endOrder','Api\OrdersController@endOrder');
+Route::post('personal/reckoningorder','Api\OrdersController@reckoningorder'); //tasvie hesab
+
+
+
 
 Route::get('personal/dashboarddetail','Api\PersonalController@getPersonalDashboardDetail');
 Route::POST('personal/position','Api\TrackPersonalController@sendpositions');
