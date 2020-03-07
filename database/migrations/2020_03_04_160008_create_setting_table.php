@@ -53,7 +53,7 @@ class CreateSettingTable extends Migration
                 'linkappservicer' => 'http://panel.4sooapp.com',
                 'shomareoperator' => 'http://panel.4sooapp.com',
                 'shomareposhtibani' => 'http://panel.4sooapp.com',
-                'shomareposhtibani' => 'mmbhrzfr',
+                'telegramposhtibani' => 'mmbhrzfr',
 
             )
         );
