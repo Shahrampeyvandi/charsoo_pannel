@@ -24,6 +24,7 @@ class CreateOrderStatusDetailsTable extends Migration
             $table->string('order_end_time_positions')->nullable();
             $table->text('order_end_time_description')->nullable();
             $table->string('order_recived_price')->nullable();
+            $table->string('order_pieces_cast')->nullable();
             $table->timestamps();
         });
     }
