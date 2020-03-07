@@ -109,13 +109,18 @@ class OrderController extends Controller
     public function SubmitOrder(Request $request)
     {
        
+        $count = 0;
        
         if (strlen(implode($request->service_name)) == 0) {
             alert()->error('خدمت مورد نظر را انتخاب نمایید', 'خطا')->autoclose(2000);
         return back();
         }
    foreach ($request->category as $key => $item) {
- 
+    if ($request->service_name[$key] == null) {
+        continue;
+    }
+   else{
+       $count +=1;
     $order = Order::create([
         'service_id' => $request->service_name[$key],
         'order_type' => 'معلق',
@@ -129,7 +134,7 @@ class OrderController extends Controller
         'order_time_first' => $request->time_one[$key],
         'order_time_second' => $request->time_two[$key],
         'order_date_first' => $request->date_one[$key] !== null ? $this->convertDate($request->date_one[$key]): '' ,
-        'order_date_second' => $request->date_two[$key] !== null ?  $this->convertDate($request->date_two[$key]) : '' ,
+        'order_date_second' => $request->time_two[$key] !== null && $request->date_two[$key] !==null ?  $this->convertDate($request->date_two[$key]) : '' ,
     ]);
 
     $mobile = $request->user_mobile;
@@ -139,6 +144,7 @@ class OrderController extends Controller
            $order->update([
             'order_unique_code' => $Code
            ]);
+   }
    }
 
             
@@ -176,7 +182,7 @@ class OrderController extends Controller
            'order_unique_code' => $Code
           ]);
         }
-        alert()->success('سفارش با موفقیت ثبت شد', 'عملیات موفق')->autoclose(2000);
+        alert()->success($count .' سفارش با موفقیت ثبت شد ', 'عملیات موفق')->autoclose(3000);
         return back();
 
     }
@@ -267,7 +273,7 @@ class OrderController extends Controller
         }
 
         Order::where('id',$request->order_id)->update([
-            'order_type' => 'انجام نشده'
+            'order_type' => 'شروع نشده'
         ]);
 
 

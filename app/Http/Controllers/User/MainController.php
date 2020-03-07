@@ -455,4 +455,18 @@ class MainController extends Controller
         }
         return 'success';
     }
+
+    public function getTime()
+    {
+      $data = array('fulldate'=>date('d-m-Y H:i:s'),
+              'date'=>date('d'),
+              'month'=>date('m'),
+              'year'=>date('Y'),
+              'hour'=>date('H'),
+              'minute'=>date('i'),
+              'second'=>date('s')
+        );
+        return json_encode($data);
+        
+    }
 }
