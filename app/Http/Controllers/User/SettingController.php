@@ -40,6 +40,7 @@ class SettingController extends Controller
             'linkappservicer' => 'required',
             'shomareoperator' => 'required',
             'shomareposhtibani' => 'required',
+            'telegramposhtibani' => 'required',
 
 
         ]);
@@ -72,7 +73,8 @@ class SettingController extends Controller
             'linkappservicer' =>$request->linkappservicer,
             'shomareoperator' =>$request->shomareoperator,
             'shomareposhtibani' => $request->shomareposhtibani,
-            
+            'telegramposhtibani' => $request->telegramposhtibani,
+
             ]);
 
 

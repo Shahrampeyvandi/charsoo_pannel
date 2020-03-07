@@ -261,6 +261,8 @@ class OrderController extends Controller
             if ($sms_status !== null) {
                 $mobile = Personal::where('id',$personal_id)->first()->personal_mobile;
                 $this->sendSMS($mobile);
+        
+                
             
         }
 
@@ -268,8 +270,21 @@ class OrderController extends Controller
             'order_type' => 'انجام نشده'
         ]);
 
-       
+
+        $token = Personal::where('id',$personal_id)->first()->firebase_token;
+
+        //$token='fg6DjxT-QF2iqc46NeQEnJ:APA91bErRa0j3OeTu1l9oY4vxGHrQNIJFsqCCYFHyHbaT_PorNd7AelIWuasz0pLmT6Eonh9Y-6HD2aY56oj5uDu6mymekMKhoLfWg9onO7ij70RwXtjeVEJWlx4P01QrJuibyliF05w';
+
+        $this->notification($token, 'یک خدمت جدید برای انجام دارید!');
+
+        
        }
+
+       
+
+        
+       
+
        alert()->success('خدمت رسان(ها) با موفقیت انتخاب شد.', 'عملیات موفق')->autoclose(2000);
        return back();
         
@@ -314,6 +329,9 @@ class OrderController extends Controller
         }
        
        }
+
+     
+
        alert()->success('خدمت رسان(ها) با موفقیت انتخاب شد.', 'عملیات موفق')->autoclose(2000);
        return back();
     }
@@ -405,5 +423,49 @@ class OrderController extends Controller
             Order::where('id',$order)->delete();
         }
         return response()->json(['success' => true]);
+    }
+
+
+    public function notification($token, $title)
+    {
+        $fcmUrl = 'https://fcm.googleapis.com/fcm/send';
+        $token=$token;
+
+        $notification = [
+            'title' => $title,
+            'sound' => true,
+        ];
+        
+        $extraNotificationData = ["message" => $notification,"moredata" =>'وارد چهارسو شوید!'];
+
+        $fcmNotification = [
+            //'registration_ids' => $tokenList, //multple token array
+            'to'        => $token, //single token
+            'notification' => $notification,
+            'data' => $extraNotificationData
+        ];
+
+        $serverkey = env('FIREBASE_LEGACY_SERVER_KEY');
+
+
+        $headers = [
+            'Authorization: key='.$serverkey,
+            'Content-Type: application/json'
+        ];
+
+
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL,$fcmUrl);
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($fcmNotification));
+        $result = curl_exec($ch);
+        curl_close($ch);
+
+        //dd($ch);
+
+        return true;
     }
 }

@@ -217,12 +217,30 @@
 </div>
 
 
+  <!-- form-group -->
+  <div class="row">
+    <div class="form-group col-md-6">
+      <label>تلگرام پشتیبانی</label>
+        <input  name="telegramposhtibani" 
+        value="{{$setting->telegramposhtibani}}"
+        
+        id="service_percentage" class="form-control" placeholder="">
+        <div class="valid-feedback">
+            صحیح است!
+        </div>
+    </div><!-- form-group -->
+    <div class="form-group col-md-6">
+
+    </div><!-- form-group -->
+</div>
+
+
 
 <div class="row">
   <div class="form-group col-md-10">
 
   </div>
-  <div class="form-group col-md-2">
+  <div class="form-group col-md-2 pull-center">
 
     <button type="submit" class="btn btn-outline-primary">ذخیره سازی</button>
   </div>

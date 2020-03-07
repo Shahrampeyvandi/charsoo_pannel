@@ -8,6 +8,7 @@ use App\Models\City\City;
 use App\Models\Personals\Personal;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use Illuminate\Support\Facades\File;
 
@@ -22,6 +23,11 @@ class PersonalController extends Controller
             'personal_mobile' => $request->mobile,
         ])->count();
         if ($check_personal) {
+            Personal::where('personal_mobile',  $request->mobile)
+            ->update([
+                'firebase_token' => $request->fcmtoken,
+            ]);
+    
             $token = JWTAuth::fromUser($personal);
             return response()->json([
                 'code' => $token,
@@ -51,6 +57,7 @@ class PersonalController extends Controller
             'personal_lastname' => $request->p_lastname,
             'personal_mobile' => $request->p_mobile,
             'personal_city' => $request->p_city,
+            'firebase_token' => $request->fcmtoken,
         ]);
 
         $acountencome = new UserAcounts();
@@ -83,12 +90,20 @@ class PersonalController extends Controller
         $payload = JWTAuth::parseToken($request->header('Authorization'))->getPayload();
         $mobile = $payload->get('mobile');
         $personal = Personal::where('personal_mobile', $mobile)->first();
+      
+
+        $settings = DB::table('setting')->get();
+        $setting=$settings[0];
+
         return response()->json([
             'profilepic' => '',
             'namefname' => $personal->personal_firstname . ' ' . $personal->personal_lastname,
             'incomecash' => $personal->useracounts[0]->cash,
             'chargecash' => $personal->useracounts[1]->cash,
             'emtiaz' => '0',
+            'shomareposhtibani'=>$setting->shomareposhtibani,
+            'telegramposhtibani'=>$setting->telegramposhtibani,
+
         ], 200);
     }
 
@@ -157,4 +172,23 @@ class PersonalController extends Controller
     ], 200);
 
     }
+
+
+
+    // public function setFireBaseToken(Request $request)
+    // {
+
+    //     $payload = JWTAuth::parseToken($request->header('Authorization'))->getPayload();
+    //     $mobile = $payload->get('mobile');
+    //     //$personal = Personal::where('personal_mobile', $mobile)->first();
+      
+    //     Personal::where('personal_mobile', $mobile)
+    //     ->update([
+    //         'firebase_token' => $request->fcmtoken,
+    //     ]);
+
+       
+
+    //     return response()->json('ok', 200);
+    // }
 }
