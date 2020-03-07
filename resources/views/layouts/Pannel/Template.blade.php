@@ -32,7 +32,7 @@
 
 </head>
 
-<body class="layout-container dark icon-side-menu" onload=display_ct();>
+<body class="layout-container dark icon-side-menu" >
     @include('sweet::alert')
 
     <!-- begin::page loader-->
@@ -113,28 +113,73 @@ function checknationalcode(meli_code) {
  }
 }
 
-function display_c(){
-var refresh=1000; // Refresh rate in milli seconds
-mytime=setTimeout('display_ct()',refresh)
-}
 
-function display_ct() {
-var x = new Date();
-if (x.getHours() < 10 && x.getHours() > 0 ) {
-    var h = '0' + x.getHours();
-}else{
-    var h = x.getHours();
-}
-if (x.getMinutes() < 10 && x.getMinutes() > 0) {
-    var m = '0' + x.getMinutes();
-}else{
-    var m = x.getMinutes();
-}
+var _h = 0;
+var _m = 0;
+var _s = 0;
+$.ajax({ 
+    url: '{{route("getOnlineTime")}}',
+    type: 'GET',
+    dataType: 'JSON', 
+    cache:true,
+    success: function(res) {
+        var timer = setInterval(serverTime,1000);
+        function serverTime(){
+            h = parseInt(res.hour)+_h;
+            m = parseInt(res.minute)+_m;
+            s = parseInt(res.second)+_s;
+            if (s>59){                  
+                s=s-60;
+                _s=_s-60;                   
+            }
+            if(s==59){
+                _m++;   
+            }
+            if (m>59){
+                m=m-60;
+                _m=_m-60;                   
+            }
+            if(m==59&&s==59){
+                _h++;   
+            }   
+            _s++;
+            $('#server_time').html(append_zero(h)+':'+append_zero(m)+':'+append_zero(s));               }
+        function append_zero(n){
+            if(n<10){
+                return '0'+n;
+            }
+            else
+                return n;
+        }
+    }
+});
 
-x1 = h + ":" + m + ":" +  x.getSeconds();
-document.getElementById('ct').innerHTML = x1;
-display_c();
- }
+
+
+
+// function display_c(){
+// var refresh=1000; // Refresh rate in milli seconds
+// mytime=setTimeout('display_ct()',refresh)
+// }
+
+// function display_ct() {
+// var x = new Date();
+
+// if (x.getHours() < 10 && x.getHours() > 0 ) {
+//     var h = '0' + x.getHours();
+// }else{
+//     var h = x.getHours();
+// }
+// if (x.getMinutes() < 10 && x.getMinutes() > 0) {
+//     var m = '0' + x.getMinutes();
+// }else{
+//     var m = x.getMinutes();
+// }
+
+// x1 = h + ":" + m + ":" +  x.getSeconds();
+// document.getElementById('ct').innerHTML = x1;
+// display_c();
+//  }
  
     </script>
     

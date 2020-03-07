@@ -17,7 +17,7 @@
                         <i class="fa fa-search"></i>
                     </a>
                 </li> --}}
-                <li class="nav-item">
+                <li class="nav-item datetime" >
                     <a  href="#" class="nav-link" >
                         تاریخ
 
@@ -27,7 +27,7 @@
                         </span>
 
                         ساعت
-                        <span class="date" id='ct' style="width:75px;">
+                        <span class="date" id='server_time' style="width:75px;">
 
                         </span>
                     </a>

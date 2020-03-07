@@ -13,6 +13,8 @@ Route::get('/Logout', function () {
 Route::group(['middleware' => ['checkAuth']], function () {
 
     Route::get('/Dashboard', 'User\MainController@index')->name('Dashboard');
+    
+    Route::get('/getTime', 'User\MainController@getTime')->name('getOnlineTime');
 
     Route::group(['middleware' => ['permission:user_menu']], function () {
 
