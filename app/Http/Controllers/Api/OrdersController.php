@@ -110,9 +110,7 @@ class OrdersController extends Controller
     ]);
 
     $personal->order()->attach($orderdata->id);
-    $orderdata->orderDetail()->create([
-      'order_reffer_time' => Carbon::now()
-    ]);
+   
     return response()->json([
       'data' => $orderdata->fresh(),
     ], 200);
@@ -126,7 +124,7 @@ class OrdersController extends Controller
     $personal = Personal::where('personal_mobile', $mobile)->first();
     $orderdata = Order::where('order_unique_code', $Code)->first();
     if (Order::where('order_unique_code', $Code)
-      ->where('order_type', 'شروع به کار')
+      ->where('order_type', 'در حال انجام')
       ->whereHas('personals', function ($q) use ($personal) {
         $q->where('id', $personal->id);
       })
@@ -138,9 +136,9 @@ class OrdersController extends Controller
       ], 404);
     }
     $order = Order::where('order_unique_code', $Code)->update([
-      'order_type' => 'شروع به کار'
+      'order_type' => 'در حال انجام'
     ]);
-    $orderdata->orderDetail()->update([
+    $orderdata->orderDetail()->create([
       'order_start_time' => Carbon::now(),
       'order_start_description' => $request->description,
       'order_start_time_positions' => $request->positions

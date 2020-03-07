@@ -108,23 +108,38 @@ class OrderController extends Controller
 
     public function SubmitOrder(Request $request)
     {
-        
-        
-       $order = Order::create([
-            'service_id' => $request->service_name,
-            'order_type' => 'معلق',
-            'order_desc' => $request->user_desc,
-            'order_show_mobile' => $request->user_mobile,
-            'order_city' => $request->user_city,
-            'order_firstname_customer' => $request->user_name,
-            'order_lastname_customer' => $request->user_family,
-            'order_username_customer' => $request->user_mobile,
-            'order_broker_name' => 'zitco',
-            'order_time_first' => $request->time_one,
-            'order_time_second' => $request->time_two,
-            'order_date_first' => $this->convertDate($request->date_one),
-            'order_date_second' => $request->date_two !== null ?  $this->convertDate($request->date_two) : '' ,
-        ]);
+       
+       
+        if (strlen(implode($request->service_name)) == 0) {
+            alert()->error('خدمت مورد نظر را انتخاب نمایید', 'خطا')->autoclose(2000);
+        return back();
+        }
+   foreach ($request->category as $key => $item) {
+ 
+    $order = Order::create([
+        'service_id' => $request->service_name[$key],
+        'order_type' => 'معلق',
+        'order_desc' => $request->user_desc,
+        'order_show_mobile' => $request->user_mobile,
+        'order_city' => $request->user_city[$key],
+        'order_firstname_customer' => $request->user_name,
+        'order_lastname_customer' => $request->user_family,
+        'order_username_customer' => $request->user_mobile,
+        'order_broker_name' => 'zitco',
+        'order_time_first' => $request->time_one[$key],
+        'order_time_second' => $request->time_two[$key],
+        'order_date_first' => $request->date_one[$key] !== null ? $this->convertDate($request->date_one[$key]): '' ,
+        'order_date_second' => $request->date_two[$key] !== null ?  $this->convertDate($request->date_two[$key]) : '' ,
+    ]);
+
+    $mobile = $request->user_mobile;
+           $date = Carbon::parse($order->order_date_first)->timestamp;
+           $Code = $this->generateRandomString(15,$mobile,$date);
+
+           $order->update([
+            'order_unique_code' => $Code
+           ]);
+   }
 
             
 
@@ -139,13 +154,7 @@ class OrderController extends Controller
 
 
 
-           $mobile = $request->user_mobile;
-           $date = Carbon::parse($order->order_date_first)->timestamp;
-           $Code = $this->generateRandomString(15,$mobile,$date);
-
-           $order->update([
-            'order_unique_code' => $Code
-           ]);
+           
 
 
            
