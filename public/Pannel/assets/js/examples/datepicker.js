@@ -10,7 +10,7 @@ $(document).ready(function () {
 		dateFormat: "yy/mm/dd",
 		showOtherMonths: true,
 		selectOtherMonths: false
-	});
+	}).datepicker("setDate", new Date());
 	$('input[name="date-picker-shamsi-list"]').datepicker({
 		dateFormat: "yy/mm/dd",
 		showOtherMonths: true,
