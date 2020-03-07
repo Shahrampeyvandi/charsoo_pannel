@@ -31,6 +31,7 @@ class CreateSettingTable extends Migration
             $table->string('linkappservicer');
             $table->string('shomareoperator');
             $table->string('shomareposhtibani');
+            $table->string('telegramposhtibani');
             $table->timestamps();
         });
 
@@ -52,6 +53,7 @@ class CreateSettingTable extends Migration
                 'linkappservicer' => 'http://panel.4sooapp.com',
                 'shomareoperator' => 'http://panel.4sooapp.com',
                 'shomareposhtibani' => 'http://panel.4sooapp.com',
+                'shomareposhtibani' => 'mmbhrzfr',
 
             )
         );
