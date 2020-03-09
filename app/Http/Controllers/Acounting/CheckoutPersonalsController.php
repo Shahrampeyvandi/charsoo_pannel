@@ -66,14 +66,14 @@ class CheckoutPersonalsController extends Controller
             alert()->error('موجودی این خدمت گذار منفی شده!', 'تسویه ایجاد نشد')->autoclose(2000);
         }else{
         $checkout = new CheckoutPersonals();
-        $checkout->user_acounts_id = $personal->useracounts[0]->id;
+        $checkout->user_acounts_id = $personal->useracounts[1]->id;
         $checkout->payed = '0';
-        $checkout->amount = $personal->useracounts[0]->cash;
+        $checkout->amount = $personal->useracounts[1]->cash;
         $checkout->shaba = 'IR4354354354353';
 
         // dd($checkout);
 
-        $personal->useracounts[0]->checkoutpersonals()->save($checkout);
+        $personal->useracounts[1]->checkoutpersonals()->save($checkout);
         //}
         }
         return back();

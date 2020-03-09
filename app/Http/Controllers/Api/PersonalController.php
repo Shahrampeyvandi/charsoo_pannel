@@ -60,12 +60,7 @@ class PersonalController extends Controller
             'firebase_token' => $request->fcmtoken,
         ]);
 
-        $acountencome = new UserAcounts();
-
-        $acountencome->user = 'خدمت رسان';
-        $acountencome->type = 'درآمد';
-        $acountencome->cash = 0;
-        $acountencome->personal_id = $personal->id;
+      
 
         $acountcharge = new UserAcounts();
 
@@ -74,8 +69,15 @@ class PersonalController extends Controller
         $acountcharge->cash = 0;
         $acountcharge->personal_id = $personal->id;
 
-        $acountencome->save();
+        $acountencome = new UserAcounts();
+
+        $acountencome->user = 'خدمت رسان';
+        $acountencome->type = 'درآمد';
+        $acountencome->cash = 0;
+        $acountencome->personal_id = $personal->id;
+
         $acountcharge->save();
+        $acountencome->save();
 
         $token = JWTAuth::fromUser($personal);
         return response()->json([
@@ -98,8 +100,8 @@ class PersonalController extends Controller
         return response()->json([
             'profilepic' => $personal->personal_profile,
             'namefname' => $personal->personal_firstname . ' ' . $personal->personal_lastname,
-            'incomecash' => $personal->useracounts[0]->cash,
-            'chargecash' => $personal->useracounts[1]->cash,
+            'incomecash' => $personal->useracounts[1]->cash,
+            'chargecash' => $personal->useracounts[0]->cash,
             'emtiaz' => '0',
             'shomareposhtibani'=>$setting->shomareposhtibani,
             'telegramposhtibani'=>$setting->telegramposhtibani,

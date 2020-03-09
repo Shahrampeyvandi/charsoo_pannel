@@ -7,7 +7,10 @@ use Illuminate\Http\Request;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use App\Http\Controllers\Controller;
 use App\Models\Personals\Personal;
+use App\Models\Cunsomers\Cunsomer;
+use App\Models\Acounting\UserAcounts;
 use App\Models\Services\Service;
+use App\Models\Acounting\Transations;
 use Carbon\Carbon;
 
 class OrdersController extends Controller
@@ -85,6 +88,22 @@ class OrdersController extends Controller
         if($image->image_type == 'image2') $order['image2'] = $image->image_url;
         if($image->image_type == 'image3') $order['image3'] = $image->image_url;
 
+      }
+    }
+
+    if ($order->orderDetail) {
+        
+      $cost=$order->orderDetail->order_recived_price+$order->orderDetail->order_pieces_cast;
+      $order['cost'] = $cost;
+      $order['endtime'] = $order->orderDetail->order_end_time;
+
+      $cunsomeracount= Cunsomer::where('customer_mobile',$order->order_username_customer)->first()->useracounts[0]->cash;
+
+
+      if($cunsomeracount>=$cost){
+        $order['cunsomer_charge'] = $cost;
+      }else{
+        $order['cunsomer_charge'] = $cunsomeracount;
       }
     }
 
@@ -242,6 +261,8 @@ class OrdersController extends Controller
     $mobile = $payload->get('mobile');
     $personal = Personal::where('personal_mobile', $mobile)->first();
     $orderdata = Order::where('order_unique_code', $Code)->first();
+    $cunsomer=Cunsomer::where('customer_mobile',$orderdata->order_username_customer)->first();
+
     if (Order::where('order_unique_code', $Code)
       ->where('order_type', 'تسویه شده')
       ->whereHas('personals', function ($q) use ($personal) {
@@ -255,23 +276,116 @@ class OrdersController extends Controller
       ], 404);
     }
 
+
+
+  
+
+    $cost=$orderdata->orderDetail->order_recived_price+$orderdata->orderDetail->order_pieces_cast;
+   
+    $useracount_Worker=$personal->useracounts[1];
+    $useracount_Customer=$cunsomer->useracounts[0];
+
+    if($useracount_Customer->cash>=$cost){
+
+      $transactionbardasht = new Transations();
+      $transactionvariz = new Transations();
+
+
+      $transactionbardasht->user_acounts_id=$useracount_Customer->id;     
+
+      $transactionbardasht->type='برداشت';
+      $transactionbardasht->for='هزینه خدمت';
+      $transactionbardasht->order_id=$orderdata->id;
+      $transactionbardasht->amount=$cost;
+      $transactionbardasht->from_to='به حساب خدمت رسان با شناسه '.$useracount_Worker->id;
+
+       
+
+      $transactionvariz->user_acounts_id=$useracount_Worker->id;     
+
+      $transactionvariz->type='واریز';
+      $transactionvariz->for='دستمزد';
+      $transactionvariz->order_id=$orderdata->id;
+      $transactionvariz->amount=$cost;
+      $transactionvariz->from_to='از حساب مشتری با شناسه '.$useracount_Customer->id;
+
+
+      $useracount_Worker->cash=$useracount_Worker->cash+$cost;
+      $useracount_Customer->cash=$useracount_Customer->cash-$cost;
+
+
+      $transactionbardasht->save();
+      $transactionvariz->save();
+     
+      $useracount_Worker->update();
+      $useracount_Customer->update();
+
+
+
+
+
+    }else{
+      if($useracount_Customer->cash>0){
+
+        $transactionbardasht = new Transations();
+        $transactionvariz = new Transations();
+  
+  
+        $transactionbardasht->user_acounts_id=$useracount_Customer->id;     
+  
+        $transactionbardasht->type='برداشت';
+        $transactionbardasht->for='هزینه خدمت';
+        $transactionbardasht->order_id=$orderdata->id;
+        $transactionbardasht->amount=$useracount_Customer->cash;
+        $transactionbardasht->from_to='به حساب خدمت رسان با شناسه '.$useracount_Worker->id;
+  
+         
+  
+        $transactionvariz->user_acounts_id=$useracount_Worker->id;     
+  
+        $transactionvariz->type='واریز';
+        $transactionvariz->for='دستمزد';
+        $transactionvariz->order_id=$orderdata->id;
+        $transactionvariz->amount=$useracount_Customer->cash;
+        $transactionvariz->from_to='از حساب مشتری با شناسه '.$useracount_Customer->id;
+  
+  
+        $useracount_Worker->cash=$useracount_Worker->cash+$useracount_Customer->cash;
+        $useracount_Customer->cash=$useracount_Customer->cash-$useracount_Customer->cash;
+  
+  
+        $transactionbardasht->save();
+        $transactionvariz->save();
+       
+        $useracount_Worker->update();
+        $useracount_Customer->update();
+  
+
+
+
+      }else{
+
+
+
+
+
+      }
+    }
+
+
+
+   
+
+
+
+
+
+
     $order = Order::where('order_unique_code', $Code)->update([
       'order_type' => 'تسویه شده'
     ]);
 
-    if ($request->has('images')) {
 
-      foreach ($request->images as $key => $image) {
-        $file = 'photo-' . ($key + 1) . '.' . $request->personal_profile->getClientOriginalExtension();
-        $request->personal_profile->move(public_path('uploads/orders/tasvie/' . $orderdata->id), $file);
-        $personal_profile = $orderdata->id . '/' . $file;
-        $orderdata->orderImages()->create([
-          'image_type' => 'personal_images',
-          'image_url' => $personal_profile
-
-        ]);
-      }
-    }
     return response()->json([
       'data' => $orderdata->fresh(),
     ], 200);
