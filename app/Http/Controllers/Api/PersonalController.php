@@ -96,7 +96,7 @@ class PersonalController extends Controller
         $setting=$settings[0];
 
         return response()->json([
-            'profilepic' => '',
+            'profilepic' => $personal->personal_profile,
             'namefname' => $personal->personal_firstname . ' ' . $personal->personal_lastname,
             'incomecash' => $personal->useracounts[0]->cash,
             'chargecash' => $personal->useracounts[1]->cash,
@@ -126,17 +126,17 @@ class PersonalController extends Controller
         Personal::where('personal_mobile', $mobile)
             ->update([
                 'personal_status' => 0,
-                'personal_firstname' => $request->p_firstname,
-                'personal_lastname' => $request->p_lastname,
-                'personal_birthday' => $request->p_birth_year,
-                'personal_national_code' => $request->p_national_num,
-                'personal_marriage' => $request->p_marriage_status,
-                'personal_last_diploma' => $request->p_education_status,
-                'personal_home_phone' => $request->p_tel_home,
-                'personal_city' => $request->p_city,
-                'personal_postal_code' => $request->p_postal_code,
-                'personal_address' => $request->p_address,
-                'personal_office_phone' => $request->p_tel_work,
+                'personal_firstname' => $request->personal_firstname,
+                'personal_lastname' => $request->personal_lastname,
+                'personal_birthday' => $request->personal_birthday,
+                'personal_national_code' => $request->personal_national_code,
+                'personal_marriage' => $request->personal_marriage,
+                'personal_last_diploma' => $request->personal_last_diploma,
+                'personal_home_phone' => $request->personal_home_phone,
+                'personal_city' => $request->personal_city,
+                'personal_postal_code' => $request->personal_postal_code,
+                'personal_address' => $request->personal_address,
+                'personal_office_phone' => $request->personal_office_phone,
             ]);
             $personal = Personal::where('personal_mobile', $mobile)->first();
         return response()->json([
@@ -151,25 +151,35 @@ class PersonalController extends Controller
         $payload = JWTAuth::parseToken($request->header('Authorization'))->getPayload();
         $mobile = $payload->get('mobile');
         $personal = Personal::where('personal_mobile', $mobile)->first();
-        if ($request->has('p_profile')) {
-            File::delete(public_path().'/uploads/personals/'. $personal->personal_profile);
+        //if ($request->hasFile('personal_profile')) {
+            if($personal->personal_profile){
+            File::delete(public_path().'/uploads/'. $personal->personal_profile);
+            }
+
+
+            $personal_img = 'photo'.'.'.$request->personal_profile->getClientOriginalExtension();
+            $destinationPath = public_path('/uploads/personals/'.$personal->personal_mobile);
+
            
-            $personal_img = 'photo' . '.' . $request->personal_profile->getClientOriginalExtension();
-            $request->personal_profile->move(public_path('uploads/personals/'.$personal->mobile), $personal_img);
-            $personal_profile = $personal->mobile .'/'.$personal_img;
-        } else {
-            $personal_profile = $personal->personal_profile;
-        }
+        
+            $request->personal_profile->move($destinationPath, $personal_img);
+            $personal_profile = 'personals/'.$personal->personal_mobile .'/'.$personal_img;
+
+        //      } else {
+            //$personal_profile = $personal->personal_profile;
+
+            
+      //  }
         Personal::where('personal_mobile', $mobile)
         ->update([
             'personal_profile' => $personal_profile
         ]);
         
-    return response()->json([
-        'data' => [
-            'personal' => $personal->fresh(),
-        ],
-    ], 200);
+    return response()->json(
+      
+            $personal->fresh()
+        
+    , 200);
 
     }
 
