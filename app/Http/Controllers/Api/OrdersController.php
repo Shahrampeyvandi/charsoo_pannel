@@ -193,21 +193,23 @@ class OrdersController extends Controller
   {
 
     $image = $request->image;
-    $imageCode = $request->image_type_code;
-    $orderCode = $request->order_code;
+     $imageCode = $request->image_type_code;
+     $orderCode = $request->order_code;
+
+   
     $payload = JWTAuth::parseToken($request->header('Authorization'))->getPayload();
     $mobile = $payload->get('mobile');
     $personal = Personal::where('personal_mobile', $mobile)->first();
     $orderdata = Order::where('order_unique_code', $orderCode)->first();
 
-    if ($imageCode == 1) $name = 'faktor';
-    if ($imageCode == 2) $name = 'image1';
-    if ($imageCode == 3) $name = 'image2';
-    if ($imageCode == 4) $name = 'image3';
+    if ($imageCode == '4') $name = 'faktor';
+    if ($imageCode == '1') $name = 'image1';
+    if ($imageCode == '2') $name = 'image2';
+    if ($imageCode == '3') $name = 'image3';
 
     $file = $name . '.' . $request->image->getClientOriginalExtension();
-    $request->image->move(public_path('uploads/orders/endwork/' . $orderdata->id), $file);
-    $image_url = $orderdata->id . '/' . $file;
+    $request->image->move(public_path('/uploads/orders/' . $orderdata->id), $file);
+    $image_url = 'orders/'.$orderdata->id . '/' . $file;
     $orderdata->orderImages()->create([
       'image_type' => $name,
       'image_url' => $image_url,

@@ -125,7 +125,6 @@ class PersonalController extends Controller
         $mobile = $payload->get('mobile');
         Personal::where('personal_mobile', $mobile)
             ->update([
-                'personal_status' => 0,
                 'personal_firstname' => $request->personal_firstname,
                 'personal_lastname' => $request->personal_lastname,
                 'personal_birthday' => $request->personal_birthday,
