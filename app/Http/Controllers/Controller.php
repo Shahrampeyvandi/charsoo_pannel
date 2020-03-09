@@ -12,12 +12,12 @@ class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
-    public function generateRandomString($length = 10,$mobile,$date) {
+    public function generateRandomString($mobile,$date,$orderid) {
        
        
         $mobile_str = substr($mobile,-4);
       
-        $randomString = 'T-' . $mobile_str . ' R-' . $date;
+        $randomString = 'T-' . $mobile_str . ' I-' . $orderid . ' D-'. $date ;
         return $randomString;
     }
     public function convertDate($date)

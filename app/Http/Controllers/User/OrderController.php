@@ -137,9 +137,9 @@ class OrderController extends Controller
         'order_date_second' => $request->time_two[$key] !== null && $request->date_two[$key] !==null ?  $this->convertDate($request->date_two[$key]) : '' ,
     ]);
 
-    $mobile = $request->user_mobile;
+   
            $date = Carbon::parse($order->order_date_first)->timestamp;
-           $Code = $this->generateRandomString(15,$mobile,$date);
+           $Code = $this->generateRandomString($order->order_username_customer,$date,$order->id);
 
            $order->update([
             'order_unique_code' => $Code
@@ -175,12 +175,7 @@ class OrderController extends Controller
         }else{
           $mobile = $request->user_mobile;
           $mobile = $request->user_mobile;
-          $date = Carbon::parse($order->order_date_first)->timestamp;
-          $Code = $this->generateRandomString(15,$mobile,$date);
-
-          $order->update([
-           'order_unique_code' => $Code
-          ]);
+       
         }
         alert()->success($count .' سفارش با موفقیت ثبت شد ', 'عملیات موفق')->autoclose(3000);
         return back();

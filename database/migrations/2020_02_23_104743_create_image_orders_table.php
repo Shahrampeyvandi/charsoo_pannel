@@ -16,6 +16,7 @@ class CreateImageOrdersTable extends Migration
         Schema::create('image_orders', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('image_url');
+            $table->string('image_type');
             $table->integer('order_id');
             $table->timestamps();
         });
