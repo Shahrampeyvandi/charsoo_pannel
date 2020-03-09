@@ -28,20 +28,23 @@ class TrackPersonalController extends Controller
         //dd($mydate,$mytime);
 
         $online = DB::table('personals_positions')
+
             ->whereDate('created_at', '=', $mydate)
         
             ->where(function ($query) {
                 $query->whereTime('created_at', 'like', Jalalian::forge('now')->format('H:i').'%')
                 ->orwhereTime('created_at', 'like', Jalalian::forge('now - 1 minutes')->format('H:i') . '%')
-                ->orwhereTime('created_at', 'like', Jalalian::forge('now - 2 minutes')->format('H:i') . '%');
-            })
-        // ->orWhere(function($query) {
-        //     $query->whereTime('created_at','like', Jalalian::forge('now - 1 minutes')->format('H:i').'%')
-        //           ->whereTime('created_at','like', Jalalian::forge('now - 2 minutes')->format('H:i').'%');
-        // })
-        // ->orwhereTime('created_at', 'like' , $date1.'%')
-        // ->orwhereTime('created_at', 'like' , $date2.'%')
-            ->get();
+                ->orwhereTime('created_at', 'like', Jalalian::forge('now - 2 minutes')->format('H:i') . '%')
+                ->orwhereTime('created_at', 'like', Jalalian::forge('now - 3 minutes')->format('H:i') . '%')
+                ->orwhereTime('created_at', 'like', Jalalian::forge('now - 4 minutes')->format('H:i') . '%')
+                ->orwhereTime('created_at', 'like', Jalalian::forge('now - 5 minutes')->format('H:i') . '%');})
+                ->orderBy('created_at', 'asc')
+
+
+                ->get()
+                ->keyBy('personal_id');
+
+                //dd($online);
 
             //dd($online);
         //dd($mydate,$datenow,$date1,$date2,$online);

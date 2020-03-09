@@ -77,7 +77,7 @@ class OrdersController extends Controller
 
       $service = Service::where('id', $order->service_id)->first()->service_title;
       $order['service_name'] = $service;
-      
+            
       return response()->json(
         $order,
         200
