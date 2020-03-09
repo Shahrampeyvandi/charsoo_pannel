@@ -190,7 +190,7 @@ class OrdersController extends Controller
     ]);
     $orderdata->orderDetail()->update([
       'order_end_time' => Carbon::now(),
-      'order_end_description' => $request->description,
+      'order_end_time_description' => $request->description,
       'order_end_time_positions' => $request->positions,
       'order_recived_price' => $request->order_cast,
       'order_pieces_cast' => $request->pieces_cast
