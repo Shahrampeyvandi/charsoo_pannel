@@ -74,9 +74,20 @@ class OrdersController extends Controller
     $Code = $request->order_code;
     $order = Order::where('order_unique_code', $Code)->first();
     if ($order !== null) {
+     
 
       $service = Service::where('id', $order->service_id)->first()->service_title;
       $order['service_name'] = $service;
+    if (count($order->orderImages)) {
+      foreach ($order->orderImages as $key => $image) {
+        if($image->image_type == 'faktor') $order['faktor'] = $image->image_url;
+        if($image->image_type == 'image1') $order['image1'] = $image->image_url;
+        if($image->image_type == 'image2') $order['image2'] = $image->image_url;
+        if($image->image_type == 'image3') $order['image3'] = $image->image_url;
+
+      }
+    }
+
       
       return response()->json(
         $order,
@@ -185,6 +196,7 @@ class OrdersController extends Controller
 
     return response()->json([
       'data' => $orderdata->fresh(),
+      'order_details' => $orderdata->orderDetail,
     ], 200);
   }
 

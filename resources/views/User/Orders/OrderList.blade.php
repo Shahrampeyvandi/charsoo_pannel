@@ -400,7 +400,7 @@
         <hr>
       </div>
       <div style="overflow-x: auto;">
-        <table id="example1" class="table table-striped  table-bordered">
+        <table  class="table table-striped  table-bordered example1">
           <thead>
             <tr>
               <th></th>
