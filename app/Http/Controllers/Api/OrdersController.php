@@ -72,22 +72,21 @@ class OrdersController extends Controller
   public function getOrder(Request $request)
   {
     $Code = $request->order_code;
-   $order = Order::where('order_unique_code',$Code)->first();
-   if ($order !== null) {
+    $order = Order::where('order_unique_code', $Code)->first();
+    if ($order !== null) {
 
       $service = Service::where('id', $order->service_id)->first()->service_title;
       $order['service_name'] = $service;
-    
-    return response()->json(
-     $order
-    , 200);
-   }
-   else{
-    return response()->json([
-      'data' =>'سفارشی با این کد درج نشده است',
-    ], 404);
-   }
 
+      return response()->json(
+        $order,
+        200
+      );
+    } else {
+      return response()->json([
+        'data' => 'سفارشی با این کد درج نشده است',
+      ], 404);
+    }
   }
 
   public function refferOrderToPersonal(Request $request)
@@ -109,7 +108,7 @@ class OrdersController extends Controller
     ]);
 
     $personal->order()->attach($orderdata->id);
-   
+
     return response()->json([
       'data' => $orderdata->fresh(),
     ], 200);
@@ -143,20 +142,6 @@ class OrdersController extends Controller
       'order_start_time_positions' => $request->positions
     ]);
 
-    if ($request->has('images')) {
-      // save start images of personal
-      foreach ($request->images as $key => $image) {
-        $file = 'photo-' . ($key + 1) . '.' . $request->personal_profile->getClientOriginalExtension();
-        $request->personal_profile->move(public_path('uploads/orders/' . $orderdata->id), $file);
-        $personal_profile = $orderdata->id . '/' . $file;
-
-        $orderdata->orderImages()->create([
-          'image_type' => 'personal_images',
-          'image_url' => $personal_profile
-
-        ]);
-      }
-    }
 
     return response()->json([
       'data' => $orderdata->fresh(),
@@ -197,21 +182,39 @@ class OrdersController extends Controller
 
     ]);
 
-    if ($request->has('images')) {
-      // save start images of personal
-      foreach ($request->images as $key => $image) {
-        $file = 'photo-' . ($key + 1) . '.' . $request->personal_profile->getClientOriginalExtension();
-        $request->personal_profile->move(public_path('uploads/orders/endwork/' . $orderdata->id), $file);
-        $personal_profile = $orderdata->id . '/' . $file;
-        $orderdata->orderImages()->create([
-          'image_type' => 'personal_images',
-          'image_url' => $personal_profile
 
-        ]);
-      }
-    }
     return response()->json([
       'data' => $orderdata->fresh(),
+    ], 200);
+  }
+
+
+  public function uploadImages(Request $request)
+  {
+
+    $image = $request->image;
+    $imageCode = $request->image_type_code;
+    $orderCode = $request->order_code;
+    $payload = JWTAuth::parseToken($request->header('Authorization'))->getPayload();
+    $mobile = $payload->get('mobile');
+    $personal = Personal::where('personal_mobile', $mobile)->first();
+    $orderdata = Order::where('order_unique_code', $orderCode)->first();
+
+    if ($imageCode == 1) $name = 'faktor';
+    if ($imageCode == 2) $name = 'image1';
+    if ($imageCode == 3) $name = 'image2';
+    if ($imageCode == 4) $name = 'image3';
+
+    $file = $name . '.' . $request->image->getClientOriginalExtension();
+    $request->image->move(public_path('uploads/orders/endwork/' . $orderdata->id), $file);
+    $image_url = $orderdata->id . '/' . $file;
+    $orderdata->orderImages()->create([
+      'image_type' => $name,
+      'image_url' => $image_url,
+    ]);
+
+    return response()->json([
+      'data' => $image_url,
     ], 200);
   }
 
@@ -243,7 +246,7 @@ class OrdersController extends Controller
     ]);
 
     if ($request->has('images')) {
-      // save start images of personal
+
       foreach ($request->images as $key => $image) {
         $file = 'photo-' . ($key + 1) . '.' . $request->personal_profile->getClientOriginalExtension();
         $request->personal_profile->move(public_path('uploads/orders/tasvie/' . $orderdata->id), $file);

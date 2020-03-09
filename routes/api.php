@@ -24,6 +24,8 @@ Route::post('personal/startOrder','Api\OrdersController@startOrder');
 Route::post('personal/endOrder','Api\OrdersController@endOrder');
 Route::post('personal/reckoningorder','Api\OrdersController@reckoningorder'); //tasvie hesab
 
+Route::post('personal/uploadImages','Api\OrdersController@uploadImages'); //tasvie hesab
+
 
 
 
