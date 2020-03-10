@@ -709,6 +709,9 @@
                                 @case('customer_delete')
                                 <span> حذف مشتری</span>
                                 @break
+                                @case('customer_edit')
+                                <span> ویرایش مشتری</span>
+                                @break
                                 @case('category_menu')
                                 <span> منوی دسته بندی</span>
                                 @break
@@ -751,6 +754,7 @@
                                 @case('orders_insert')
                                 <span> ثبت سفارش</span>
                                 @break
+                                
                                 @case('orders_delete')
                                 <span> حذف سفارش</span>
                                 @break
