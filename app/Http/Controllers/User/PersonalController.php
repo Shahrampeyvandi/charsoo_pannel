@@ -382,7 +382,6 @@ class PersonalController extends Controller
 
     public function FilterData(Request $request)
     {
-
         $personal_array = [];
         $personals = '';
         if (auth()->user()->hasRole('admin_panel')) {

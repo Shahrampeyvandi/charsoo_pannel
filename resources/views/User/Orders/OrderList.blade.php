@@ -64,24 +64,37 @@
               </textarea>
             </div>
           </div>
-          <div class="wrapper-content">
+          
             <div class="row">
               <div class="form-group col-md-6">
                 <label for="recipient-name" class="col-form-label">شهر: </label>
-                <select required name="user_city[]" class="form-control" id="exampleFormControlSelect2">
+                <select required name="user_city" class="form-control" id="exampleFormControlSelect2">
                   @foreach (\App\Models\City\City::all() as $item)
                   <option value="{{$item->id}}">{{$item->city_name}}</option>
                   @endforeach
-
                 </select>
               </div>
               <div class="form-group col-md-6">
-                <label for="user_address" class="col-form-label"><span class="text-danger">*</span> ادرس دقیق: </label>
-                <textarea type="text" class="form-control" name="user_address[]" id="user_address">
-              </textarea>
+                <label for="user_address" class="col-form-label"><span class="text-danger">*</span> ادرس دقیق:
+                  <div class="custom-control custom-checkbox custom-control-inline" style="margin-left: -1rem;">
+                    <input data-id="" data-order="" type="checkbox" id="new-address" name="customCheckboxInline1"
+                      class="custom-control-input" value="1">
+                    <label class="mx-3 custom-control-label" for="new-address">ادرس جدید</label>
+                  </div>
+                </label>
+                <select  name="user_address" class="form-control" id="address-select">
+                    <option value="">یاز کردن فهرست انتخاب</option>
+                </select>
+
+
+                <textarea type="text" class="form-control mt-2" name="new_address" id="add-address"
+                  style="display:none;">
+                </textarea>
+
+
               </div>
             </div>
-
+            <div class="wrapper-content">
             <div class="row">
               <div class="form-group col-md-6">
                 <label for="time_one" class="col-form-label">انتخاب ساعت اول درخواستی:</label>
@@ -101,7 +114,7 @@
             <div class="row">
               <div class="form-group col-md-6">
                 <label for="time_two" class="col-form-label">انتخاب ساعت دوم درخواستی:</label>
-                <select  name="time_two[]" class="form-control" id="exampleFormControlSelect2">
+                <select name="time_two[]" class="form-control" id="exampleFormControlSelect2">
                   <option value="">انتخاب کنید</option>
                   <option value="8 تا 12">8 تا 12</option>
                   <option value="12 تا 16">12 تا 16</option>
@@ -145,7 +158,7 @@
 
           </div>
           <div class="clone-bottom">
-         
+
             <a href="#">
               سفارش جدید
               <i class="fa fa-plus-circle"></i>
@@ -400,7 +413,7 @@
         <hr>
       </div>
       <div style="overflow-x: auto;">
-        <table  class="table table-striped  table-bordered example1">
+        <table class="table table-striped  table-bordered example1">
           <thead>
             <tr>
               <th></th>
@@ -851,12 +864,21 @@ type:'post',
 url:'{{route("Order.CheckCustomer")}}',
 data:{data:data},
 success:function(data){ 
-
 $('#user_name').val(data.customer.customer_firstname)
 $('#user_family').val(data.customer.customer_lastname)
-
+$('#address-select').html(data.option_address)
    }
  })
+})
+
+$('#new-address').click(function(){
+  if($(this).is(':checked')){
+    $('#address-select').hide()
+  $('#add-address').show()
+  }else{
+    $('#address-select').show()
+    $('#add-address').hide()
+  }
 })
 
 $('.clone-bottom').click(function(e){
