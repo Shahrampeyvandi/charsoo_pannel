@@ -62,7 +62,7 @@ class CheckoutPersonalsController extends Controller
         //     'shaba'=>'IR565645435435435'
         // ]};
 
-        if(0>=$personal->useracounts[0]->cash){
+        if(0>=$personal->useracounts[1]->cash){
             alert()->error('موجودی این خدمت گذار منفی شده!', 'تسویه ایجاد نشد')->autoclose(2000);
         }else{
         $checkout = new CheckoutPersonals();

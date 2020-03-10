@@ -85,7 +85,7 @@
           <div class="row">
             <div class="form-group col-md-6">
               <label for="user_family" class="col-form-label"> شناسه سفارش:</label>
-              <input type="text" class="form-control" name="order_id" id="user_family">
+              <input type="text" class="form-control" name="order_unique_code" id="user_family">
             </div>
             <div class="form-group col-md-6">
               <label for="user_desc" class="col-form-label"><span class="text-danger">*</span> 
@@ -266,7 +266,7 @@
                             <td>{{$transaction->for}}</td>
 
 
-                            <td>{{$transaction->order_id}}</td>
+                            <td>{{$transaction->order_unique_code}}</td>
 
                             <td>{{$transaction->from_to}}</td>
 
@@ -323,7 +323,7 @@
                             <td>{{$transaction->for}}</td>
 
 
-                            <td>{{$transaction->order_id}}</td>
+                            <td>{{$transaction->order_unique_code}}</td>
 
                             <td>{{$transaction->from_to}}</td>
 

@@ -115,6 +115,15 @@ class PersonalController extends Controller
         $payload = JWTAuth::parseToken($request->header('Authorization'))->getPayload();
         $mobile = $payload->get('mobile');
         $personal = Personal::where('personal_mobile', $mobile)->first();
+
+
+        $settings = DB::table('setting')->get();
+        $setting=$settings[0];
+
+        $personal->shomareposhtibani=$setting->shomareposhtibani;
+        $personal->aboutlink=$setting->linkfaq;
+
+
         return response()->json(
             $personal,
             200
