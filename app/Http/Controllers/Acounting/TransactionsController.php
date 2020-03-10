@@ -50,8 +50,8 @@ class TransactionsController extends Controller
 
         $transaction->type=$request->type;
         $transaction->for=$request->for;
-        if($request->order_id){
-        $transaction->order_id=$request->order_id;
+        if($request->order_unique_code){
+        $transaction->order_unique_code=$request->order_unique_code;
         }
         $transaction->amount=$request->amount;
         if($request->from_to){
