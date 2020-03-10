@@ -649,20 +649,20 @@
                 if (array.length !== 1) {
                     $('.container_icon').removeClass('justify-content-end')
                     $('.container_icon').addClass('justify-content-between')
-                    $('.delete-edit').fadeIn()
-                    $('.order-detail').fadeOut()
-                    $('.order-transactions').fadeOut()
-                    $('.order-refferto').fadeOut()
+                    $('.delete-edit').show()
+                    $('.order-detail').hide()
+                    $('.order-transactions').hide()
+                    $('.order-refferto').hide()
                     $('.insert-filter').addClass('text-left')
                     $('.insert-filter').removeClass('text-right')
                     
                 }else{
                     $('.container_icon').removeClass('justify-content-end')
                     $('.container_icon').addClass('justify-content-between')
-                    $('.delete-edit').fadeIn()
-                    $('.order-detail').fadeIn()
-                    $('.order-transactions').fadeIn()
-                    $('.order-refferto').fadeIn()
+                    $('.delete-edit').show()
+                    $('.order-detail').show()
+                    $('.order-transactions').show()
+                    $('.order-refferto').show()
                     $('.insert-filter').addClass('text-left')
                     $('.insert-filter').removeClass('text-right')
                 }
@@ -670,7 +670,7 @@
             else{
                 $('.container_icon').removeClass('justify-content-between')
                 $('.container_icon').addClass('justify-content-end')
-                $('.delete-edit').fadeOut()
+                $('.delete-edit').hide()
                 $('.insert-filter').removeClass('text-left')
                 $('.insert-filter').addClass('text-right')
             }

@@ -5,7 +5,7 @@
            
             <li><a @if (Illuminate\Support\Facades\Route::currentRouteName() == 'Dashboard')
                 class="active"
-            @endif href="Dashboard"><i class="icon ti-home"></i> <span>داشبورد</span> </a></li>
+            @endif href="{{route('Dashboard')}}"><i class="icon ti-home"></i> <span>داشبورد</span> </a></li>
             @if (auth()->user()->can('user_menu'))
              <li><a href=""><i class="icon ti-user"></i>  <span> کاربران </span></a>
                 <ul>
