@@ -18,7 +18,6 @@ class MainController extends Controller
   {
     if (auth()->user()->hasRole('admin_panel')) {
 
-
       $broker_name = 'ادمین سایت';
       $broker_lists = '';
       $count = 1;
@@ -55,10 +54,6 @@ class MainController extends Controller
           return Service::all();
         });
       }
-
-
-
-
       foreach ($users as $key => $broker) {
         if (count($broker->roles->where('broker', 1))) {
 
@@ -69,7 +64,7 @@ class MainController extends Controller
           $broker_performed_orders = Order::whereIn('service_id', $broker_services_array)->where('order_type', 'انجام شده')->count();
           $broker_lists .= ' <tr>
               <td>' . $count . '</td>
-              <td>' . $broker->roles->first()->name . '</td>
+              <td>' . ($broker->roles->first()->name == 'admin_panel' ? 'ادمین' : $broker->roles->first()->name ). '</td>
               <td>' . $broker_pending_orders . '</td>
               <td>' . $broker_doing_orders . '</td>
               <td>' . $broker_reffered_orders . '</td>

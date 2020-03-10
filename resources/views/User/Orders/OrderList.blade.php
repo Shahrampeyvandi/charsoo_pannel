@@ -304,7 +304,8 @@
           </a>
           @endif
           @if (auth()->user()->can('orders_detail'))
-          <a href="#" title="" data-toggle="modal" data-target=".bd-example-modal-lg-detail" class="  m-2">
+          <a href="#" title="" data-toggle="modal" data-target=".bd-example-modal-lg-detail"
+           class="order-detail  m-2">
             <span class=" bg-secondary" style="padding: 13px 10px 4px 10px;
       border-radius: 4px;
       box-shadow: 0 1px 6px 0 #6464a9;">

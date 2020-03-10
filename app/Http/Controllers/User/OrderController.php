@@ -200,15 +200,14 @@ class OrderController extends Controller
 
     public function getServices(Request $request)
     {
-
         $options = '<option value="">باز کردن فهرست انتخاب</option>';
         $services = Service::where('service_category_id', $request->data)->get();
         foreach ($services as $key => $service) {
             $options .= '<option value="' . $service->id . '">' . $service->service_title . '</option>';
         }
-
         return response($options, 200);
     }
+    
 
     public function checkCustomer(Request $request)
     {

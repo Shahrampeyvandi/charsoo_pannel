@@ -121,7 +121,8 @@ class CreatePermissionTables extends Migration
                 'name' =>  'city_edit'],[
                 'name' => 'customer_menu'],[
                 'name' => 'customer_list'],[
-                'name' => 'customer_delete'],[
+                'name' => 'customer_delete'],
+                 ['name' => 'customer_edit'],[
                 'name' => 'category_menu'],[
                 'name' => 'category_insert'],[
                 'name' => 'category_delete'],[
@@ -164,6 +165,7 @@ class CreatePermissionTables extends Migration
             'customer_menu',
             'customer_list',
             'customer_delete',
+            'customer_edit',
             'category_menu',
             'category_insert',
             'category_delete',

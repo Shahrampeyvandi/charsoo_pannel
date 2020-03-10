@@ -146,6 +146,8 @@ class CunsomerController extends Controller
 
     public function OrderBy(Request $request)
     {
+
+      
       if ($request->data == 'name') {
         $customers = Cunsomer::OrderBy('customer_firstname','ASC')->get();
       }
@@ -176,7 +178,9 @@ class CunsomerController extends Controller
         <i class="fa fa-close"></i>
         </td>').'
         
-        <td>'.$customer->customer_national_code . '</td>
+        <td>'.($customer->customer_national_code !== null && $customer->customer_national_code !== '' ? 
+        $customer->customer_national_code : 'وارد نشده'
+        ) . '</td>
         <td>'.(\Morilog\Jalali\Jalalian::forge($customer->created_at)->format('%d/ %m /%Y')). '</td>
         <td>'.(\Morilog\Jalali\Jalalian::forge($customer->update_at)->format('%d/ %m /%Y')). '</td>
       </tr>

@@ -462,14 +462,14 @@
                                             <label class="custom-control-label" for="customer_delete">حذف مشتری</label>
                                         </div>
                                     </div>
-                                    {{-- <div class="form-group wd-xs-300">
+                                     <div class="form-group wd-xs-300">
                                         <div class="custom-control custom-checkbox custom-control-inline"
                                             style="margin-left: -1rem;">
-                                            <input type="checkbox" id="customer_excel" name="customer_excel"
+                                            <input type="checkbox" id="customer_edit" name="customer_edit"
                                                 class="custom-control-input" value="1">
-                                            <label class="custom-control-label" for="customer_excel">خروجی اکسل</label>
+                                            <label class="custom-control-label" for="customer_edit">ویرایش مشتری</label>
                                         </div>
-                                    </div> --}}
+                                    </div> 
                                 </div>
 
                             </div>

@@ -23,11 +23,11 @@
 
     /*------------- page loader -------------*/
     wind_.on('load', function () {
-        $('.page-loader').fadeOut(700, function () {
+        $('.page-loader').fadeOut(200, function () {
 
             setTimeout(function () {
                 toastr.options = {
-                    timeOut: 3000,
+                    timeOut: 2000,
                     progressBar: true,
                     showMethod: "slideDown",
                     hideMethod: "slideUp",

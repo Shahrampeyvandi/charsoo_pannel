@@ -572,14 +572,15 @@ class RoleController extends Controller
                             <div class="form-group wd-xs-300">
                                 <div class=""
                                     style="margin-left: -1rem;">
-                                    <input type="checkbox" id="customer_excel" name="customer_excel"
+                                    <input type="checkbox" id="customer_edit" name="customer_edit"
                                         class="" value="1"
-                                         '.(in_array('customer_excel',$permissions) ? 'checked=""' : '').'
+                                         '.(in_array('customer_edit',$permissions) ? 'checked=""' : '').'
                                         >
-                                    <label class="" for="customer_excel">خروجی اکسل</label>
+                                    <label class="" for="customer_edit">ویرایش مشتری</label>
                                 </div>
                             </div>
                         </div>
+
 
                     </div>
                     <hr>
@@ -689,6 +690,7 @@ class RoleController extends Controller
             'customer_menu',
             'customer_list',
             'customer_delete',
+            'customer_edit',
             'category_menu',
             'category_insert',
             'category_delete',
