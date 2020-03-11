@@ -120,6 +120,10 @@ class OrderController extends Controller
             if ($request->service_name[$key] == null) {
                 continue;
             } else {
+                if($request->new_address !== null) {$address= $request->new_address;}
+                else{$address = $request->user_address; }
+               
+
                 $count += 1;
                 $order = Order::create([
                     'service_id' => $request->service_name[$key],
@@ -135,7 +139,8 @@ class OrderController extends Controller
                     'order_time_second' => $request->time_two[$key],
                     'order_date_first' => $request->date_one[$key] !== null ? $this->convertDate($request->date_one[$key]) : '',
                     'order_date_second' => $request->time_two[$key] !== null && $request->date_two[$key] !== null ?  $this->convertDate($request->date_two[$key]) : '',
-                ]);
+                    'order_address' => $address
+                    ]);
 
 
                 $date = Carbon::parse($order->order_date_first)->timestamp;

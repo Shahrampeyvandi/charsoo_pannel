@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Orders\Order;
 use App\Models\Services\Service;
 use App\Models\User;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
@@ -16,6 +17,7 @@ class MainController extends Controller
 {
   public function index()
   {
+    
     if (auth()->user()->hasRole('admin_panel')) {
 
       $broker_name = 'ادمین سایت';

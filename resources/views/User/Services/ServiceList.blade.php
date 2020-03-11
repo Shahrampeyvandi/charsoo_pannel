@@ -84,28 +84,16 @@
                             </div><!-- form-group -->
 
                             <p>شهر  </p>
-                            <div class="form-group wd-xs-300">
-                                
-                                <div class="custom-control custom-radio custom-control-inline">
-                                    <input required type="radio" id="customRadioInline1" name="service_city"
-                                     class="custom-control-input checkbox__" value="مشهد" checked>
-                                    <label class="custom-control-label " for="customRadioInline1">مشهد</label>
-                                </div>
-                                <div class="custom-control custom-radio custom-control-inline">
-                                    <input required type="radio" id="customRadioInline2" name="service_city"
-                                     class="custom-control-input checkbox__" value="نیشابور">
-                                    <label class="custom-control-label" for="customRadioInline2">نیشابور</label>
-                                </div>
-                                <div class="custom-control custom-radio custom-control-inline">
-                                    <input required type="radio" id="customRadioInline3" name="service_city"
-                                     class="custom-control-input checkbox__" value="سبزوار">
-                                    <label class="custom-control-label" for="customRadioInline3">سبزوار</label>
-                                </div>
-                                <div class="custom-control custom-radio custom-control-inline">
-                                    <input required type="radio" id="customRadioInline4" name="service_city"
-                                     class="custom-control-input checkbox__" value="فریمان">
-                                    <label class="custom-control-label" for="customRadioInline4">فریمان</label>
-                                </div>
+                            <div class="form-group ">
+                                @foreach (\App\Models\City\City::all(); as $key=>$item)
+                                <div class="custom-control custom-checkbox custom-control-inline">
+                                    <input  type="checkbox" class="custom-control-input checkbox__"
+                                    value="{{$item->city_name}}"
+                                    name="service_city[]" id="item_{{$key+1}}" >
+                                    <label class="custom-control-label" for="item_{{$key+1}}">{{$item->city_name}}</label>
+                                </div> 
+                                @endforeach
+         
                             </div> 
                             <div class="form-group wd-xs-300">
                                 <label for="recipient-name" class="col-form-label">نوع ارجاع:</label>
@@ -406,7 +394,7 @@
 @endsection
 
 @section('js')
-<script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script>
+
 
 <!-- begin::form wizard -->
 <script src="{{route('BaseUrl')}}/Pannel/assets/vendors/form-wizard/jquery.steps.min.js"></script>

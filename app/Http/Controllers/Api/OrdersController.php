@@ -15,28 +15,28 @@ use Carbon\Carbon;
 
 class OrdersController extends Controller
 {
-  // public function referredOrders(Request $request)
-  // {
+  public function referredOrders(Request $request)
+  {
 
-  //   $payload = JWTAuth::parseToken($request->header('Authorization'))->getPayload();
-  //   $mobile = $payload->get('mobile');
-  //   $personal = Personal::where('personal_mobile', $mobile)->first();
-  //   //$orders = $personal->order->where('order_type','ارجاع داده شده');
-  //   $orders = $personal->order->where('order_type', 'ارجاع داده شده');
+    $payload = JWTAuth::parseToken($request->header('Authorization'))->getPayload();
+    $mobile = $payload->get('mobile');
+    $personal = Personal::where('personal_mobile', $mobile)->first();
+    //$orders = $personal->order->where('order_type','ارجاع داده شده');
+    $orders = $personal->order->where('order_type', 'شروع نشده');
 
-  //   foreach ($orders as $key => $order) {
-  //     $service = Service::where('id', $order->service_id)->first()->service_title;
-  //     $order['service_name'] = $service;
-  //   }
+    foreach ($orders as $key => $order) {
+      $service = Service::where('id', $order->service_id)->first()->service_title;
+      $order['service_name'] = $service;
+    }
 
-  //   $ords = [];
-  //   foreach ($orders as $key => $or) {
-  //     $ords[] = $or;
-  //   }
-  //   return response()->json([
-  //     'data' => $ords,
-  //   ], 200);
-  // }
+    $ords = [];
+    foreach ($orders as $key => $or) {
+      $ords[] = $or;
+    }
+    return response()->json([
+      'data' => $ords,
+    ], 200);
+  }
 
 
   public function offeringOrders(Request $request)
@@ -66,6 +66,31 @@ class OrdersController extends Controller
     foreach ($orders as $key => $order) {
       $service = Service::where('id', $order->service_id)->first()->service_title;
       $order['service_name'] = $service;
+      if (count($order->orderImages)) {
+        foreach ($order->orderImages as $key => $image) {
+          if($image->image_type == 'faktor') $order['faktor'] = $image->image_url;
+          if($image->image_type == 'image1') $order['image1'] = $image->image_url;
+          if($image->image_type == 'image2') $order['image2'] = $image->image_url;
+          if($image->image_type == 'image3') $order['image3'] = $image->image_url;
+  
+        }
+      }
+
+      if ($order->orderDetail) {
+        
+        $cost=$order->orderDetail->order_recived_price+$order->orderDetail->order_pieces_cast;
+        $order['cost'] = $cost;
+        $order['endtime'] = $order->orderDetail->order_end_time;
+  
+        $cunsomeracount= Cunsomer::where('customer_mobile',$order->order_username_customer)->first()->useracounts[0]->cash;
+  
+  
+        if($cunsomeracount>=$cost){
+          $order['cunsomer_charge'] = $cost;
+        }else{
+          $order['cunsomer_charge'] = $cunsomeracount;
+        }
+      }
     }
     return response()->json([
       'data' => $orders,
@@ -150,7 +175,6 @@ class OrdersController extends Controller
     $payload = JWTAuth::parseToken($request->header('Authorization'))->getPayload();
     $mobile = $payload->get('mobile');
     $personal = Personal::where('personal_mobile', $mobile)->first();
-    $orderdata = Order::where('order_unique_code', $Code)->first();
     if (Order::where('order_unique_code', $Code)
       ->where('order_type', 'در حال انجام')
       ->whereHas('personals', function ($q) use ($personal) {
@@ -163,18 +187,36 @@ class OrdersController extends Controller
         'error' => 'درخواست شروع به کار توسط شما ثبت شده است',
       ], 404);
     }
-    $order = Order::where('order_unique_code', $Code)->update([
+    Order::where('order_unique_code', $Code)->update([
       'order_type' => 'در حال انجام'
     ]);
-    $orderdata->orderDetail()->create([
+    $order = Order::where('order_unique_code', $Code)->first();
+
+    $order->orderDetail()->create([
       'order_start_time' => Carbon::now(),
       'order_start_description' => $request->description,
       'order_start_time_positions' => $request->positions
     ]);
 
+     if ($order->orderDetail) {
+        
+        $cost=$order->orderDetail->order_recived_price+$order->orderDetail->order_pieces_cast;
+        $order['cost'] = $cost;
+        $order['endtime'] = $order->orderDetail->order_end_time;
+  
+        $cunsomeracount= Cunsomer::where('customer_mobile',$order->order_username_customer)->first()->useracounts[0]->cash;
+  
+  
+        if($cunsomeracount>=$cost){
+          $order['cunsomer_charge'] = $cost;
+        }else{
+          $order['cunsomer_charge'] = $cunsomeracount;
+        }
+      }
+
 
     return response()->json([
-      'data' => $orderdata->fresh(),
+      'data' => $order,
     ], 200);
   }
 
@@ -186,7 +228,7 @@ class OrdersController extends Controller
     $payload = JWTAuth::parseToken($request->header('Authorization'))->getPayload();
     $mobile = $payload->get('mobile');
     $personal = Personal::where('personal_mobile', $mobile)->first();
-    $orderdata = Order::where('order_unique_code', $Code)->first();
+    
     if (Order::where('order_unique_code', $Code)
       ->where('order_type', 'انجام شده')
       ->whereHas('personals', function ($q) use ($personal) {
@@ -200,10 +242,11 @@ class OrdersController extends Controller
       ], 404);
     }
 
-    $order = Order::where('order_unique_code', $Code)->update([
+     Order::where('order_unique_code', $Code)->update([
       'order_type' => 'انجام شده'
     ]);
-    $orderdata->orderDetail()->update([
+    $order = Order::where('order_unique_code', $Code)->first();
+    $order->orderDetail()->update([
       'order_end_time' => Carbon::now(),
       'order_end_time_description' => $request->description,
       'order_end_time_positions' => $request->positions,
@@ -211,11 +254,27 @@ class OrdersController extends Controller
       'order_pieces_cast' => $request->pieces_cast
 
     ]);
+    
+    if ($order->orderDetail) {
+        
+      $cost=$order->orderDetail->order_recived_price+$order->orderDetail->order_pieces_cast;
+      $order['cost'] = $cost;
+      $order['endtime'] = $order->orderDetail->order_end_time;
+
+      $cunsomeracount= Cunsomer::where('customer_mobile',$order->order_username_customer)->first()->useracounts[0]->cash;
+
+
+      if($cunsomeracount>=$cost){
+        $order['cunsomer_charge'] = $cost;
+      }else{
+        $order['cunsomer_charge'] = $cunsomeracount;
+      }
+    }
 
 
     return response()->json([
-      'data' => $orderdata->fresh(),
-      'order_details' => $orderdata->orderDetail,
+      'data' => $order,
+    
     ], 200);
   }
 

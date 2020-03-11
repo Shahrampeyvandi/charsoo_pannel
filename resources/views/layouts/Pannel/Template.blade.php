@@ -78,8 +78,8 @@
     <script src="{{route('BaseUrl')}}/Pannel/assets/vendors/dataTable/dataTables.bootstrap4.min.js"></script>
     <script src="{{route('BaseUrl')}}/Pannel/assets/vendors/dataTable/dataTables.responsive.min.js"></script>
     <script src="{{route('BaseUrl')}}/Pannel/assets/js/examples/datatable.js"></script>
-    <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script>
 
+    <script src="{{route('BaseUrl')}}/Pannel/assets/js/jquery.validate.min.js"></script>
 
 
     @yield('js')

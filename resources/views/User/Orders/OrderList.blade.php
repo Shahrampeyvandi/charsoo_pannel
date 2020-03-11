@@ -64,37 +64,36 @@
               </textarea>
             </div>
           </div>
-          
-            <div class="row">
-              <div class="form-group col-md-6">
-                <label for="recipient-name" class="col-form-label">شهر: </label>
-                <select required name="user_city" class="form-control" id="exampleFormControlSelect2">
-                  @foreach (\App\Models\City\City::all() as $item)
-                  <option value="{{$item->id}}">{{$item->city_name}}</option>
-                  @endforeach
-                </select>
-              </div>
-              <div class="form-group col-md-6">
-                <label for="user_address" class="col-form-label"><span class="text-danger">*</span> ادرس دقیق:
-                  <div class="custom-control custom-checkbox custom-control-inline" style="margin-left: -1rem;">
-                    <input data-id="" data-order="" type="checkbox" id="new-address" name="customCheckboxInline1"
-                      class="custom-control-input" value="1">
-                    <label class="mx-3 custom-control-label" for="new-address">ادرس جدید</label>
-                  </div>
-                </label>
-                <select  name="user_address" class="form-control" id="address-select">
-                    <option value="">یاز کردن فهرست انتخاب</option>
-                </select>
+
+          <div class="row">
+            <div class="form-group col-md-6">
+              <label for="recipient-name" class="col-form-label">شهر: </label>
+              <select required name="user_city" class="form-control" id="exampleFormControlSelect2">
+                @foreach (\App\Models\City\City::all() as $item)
+                <option value="{{$item->id}}">{{$item->city_name}}</option>
+                @endforeach
+              </select>
+            </div>
+            <div class="form-group col-md-6">
+              <label for="user_address" class="col-form-label"><span class="text-danger">*</span> ادرس دقیق:
+                <div class="custom-control custom-checkbox custom-control-inline" style="margin-left: -1rem;">
+                  <input data-id="" data-order="" type="checkbox" id="new-address" name="customCheckboxInline1"
+                    class="custom-control-input" value="1">
+                  <label class="mx-3 custom-control-label" for="new-address">ادرس جدید</label>
+                </div>
+              </label>
+              <select name="user_address" class="form-control" id="address-select">
+                <option value="">یاز کردن فهرست انتخاب</option>
+              </select>
 
 
-                <textarea type="text" class="form-control mt-2" name="new_address" id="add-address"
-                  style="display:none;">
+              <textarea type="text" class="form-control mt-2" name="new_address" id="add-address" style="display:none;">
                 </textarea>
 
 
-              </div>
             </div>
-            <div class="wrapper-content">
+          </div>
+          <div class="wrapper-content">
             <div class="row">
               <div class="form-group col-md-6">
                 <label for="time_one" class="col-form-label">انتخاب ساعت اول درخواستی:</label>
@@ -304,8 +303,7 @@
           </a>
           @endif
           @if (auth()->user()->can('orders_detail'))
-          <a href="#" title="" data-toggle="modal" data-target=".bd-example-modal-lg-detail"
-           class="order-detail  m-2">
+          <a href="#" title="" data-toggle="modal" data-target=".bd-example-modal-lg-detail" class="order-detail  m-2">
             <span class=" bg-secondary" style="padding: 13px 10px 4px 10px;
       border-radius: 4px;
       box-shadow: 0 1px 6px 0 #6464a9;">
@@ -568,7 +566,6 @@
 @endsection
 
 @section('js')
-<script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script>
 
 <!-- begin::form wizard -->
 <script src="{{route('BaseUrl')}}/Pannel/assets/vendors/form-wizard/jquery.steps.min.js"></script>
@@ -587,9 +584,7 @@
     form.validate({
         rules: {
          
-        date_one: {
-            required:true
-        },
+      
         user_mobile: {
           required:true
         },
@@ -881,12 +876,26 @@ $('#new-address').click(function(){
     $('#add-address').hide()
   }
 })
-
-$('.clone-bottom').click(function(e){
+$(document).on('click','.clone-bottom',function(e){
   e.preventDefault()
+
+ 
   let cloned = $(this).siblings('.wrapper-content').clone()
+
   $('.cloned').append(cloned)
   $('.cloned').append('<hr>')
+  cloned.find('.date-picker-shamsi').each(function(){
+    $(this).removeClass('hasDatepicker')
+  .removeData('datepicker')
+  .attr('id', 'dd_date' + Math.random()) //newly added line
+  .unbind()
+  .datepicker({ dateFormat: "yy/mm/dd",
+		showOtherMonths: true,
+		selectOtherMonths: false });
+  })
+  
+  
+
 })
 
 })

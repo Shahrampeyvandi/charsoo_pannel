@@ -76,7 +76,11 @@ class ServiceController extends Controller
 
     public function SubmitService(Request $request)
     {
-      
+        
+        if (strlen(implode($request->service_city)) == 0) {
+            alert()->error('لطفا شهر را انتخاب کنید', 'خطا')->autoclose(2000);
+            return back();
+        }
         if ($request->has('service_icon')) {
         
             $icon = $request->title . '.' . $request->service_icon->getClientOriginalExtension();
@@ -115,7 +119,7 @@ class ServiceController extends Controller
             'service_icon' => $icon,
             'service_pic_first' => $pic1,
             'service_pic_second' => $pic2,
-            'sms_status' => $request->sms_status
+            'sms_status' => $request->sms_status == null ? 0 : $request->sms_status
         ]);
 
         if ($request->has('service_role')) {

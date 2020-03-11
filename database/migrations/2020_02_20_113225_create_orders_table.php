@@ -30,6 +30,7 @@ class CreateOrdersTable extends Migration
             $table->string('order_date_second')->nullable();
             $table->string('order_reffered_to')->nullable();
             $table->string('order_city')->nullable();
+            $table->text('order_address');
             $table->timestamps();
         });
     }

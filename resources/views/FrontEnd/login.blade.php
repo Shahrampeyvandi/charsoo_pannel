@@ -42,7 +42,6 @@
                 @include('Errors.ValidationErrors')
             </div>
             <div class="d-flex align-items-center m-b-20">
-                <img src="{{route('BaseUrl')}}/Pannel/assets/media/image/dark-logo.png" class="m-l-15" width="40" alt="">
                 <h3 class="m-0">پنل خدمات چهارسو</h3>
             </div>
             <p>برای ادامه وارد شوید.</p>
