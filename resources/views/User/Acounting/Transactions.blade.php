@@ -71,10 +71,10 @@
                   <option value="شارژ هدیه">شارژ هدیه</option>  
                   <option value="انتقال به شارژ">انتقال به شارژ</option>  
                   <option value="ارسال پیشنهاد">ارسال پیشنهاد</option>  
-                  <option value="هزینه خدمت">هزینه خدمت</option>  
+                  <option value="هزینه سفارش">هزینه سفارش</option>  
                   <option value="تسویه">تسویه</option>  
                   <option value="شارژ">شارژ</option>  
-                  <option value="دستمزد">دستمزد</option>  
+                  <option value="انجام سفارش">انجام سفارش</option>  
 
               </select>
 

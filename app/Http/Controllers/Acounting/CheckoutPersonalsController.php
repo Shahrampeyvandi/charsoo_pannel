@@ -34,6 +34,7 @@ class CheckoutPersonalsController extends Controller
 
         ]);
 
+
         if ($validation->fails()) {
 
             //return response()->json(['messsage' => 'invalid'], 400);
@@ -43,8 +44,41 @@ class CheckoutPersonalsController extends Controller
 
         }
 
-
         $personals = Personal::all();
+
+
+        if($request->personals = 'all'){
+
+            //dd($personals[1]->useracounts[0]);
+
+            foreach($personals as $person){
+
+
+                if(0>=$person->useracounts[1]->cash){
+                    //alert()->error('موجودی این خدمت گذار منفی شده!', 'تسویه ایجاد نشد')->autoclose(2000);
+                }else{
+                $checkout = new CheckoutPersonals();
+                $checkout->user_acounts_id = $person->useracounts[1]->id;
+                $checkout->payed = '0';
+                $checkout->amount = $person->useracounts[1]->cash;
+                $checkout->shaba = 'IR4354354354353';
+        
+                // dd($checkout);
+        
+                $person->useracounts[1]->checkoutpersonals()->save($checkout);
+                //}
+                }
+        
+
+
+            }
+
+
+        }else{
+
+        
+
+
 
         //foreach ($request->personals as $person){
 
@@ -76,6 +110,8 @@ class CheckoutPersonalsController extends Controller
         $personal->useracounts[1]->checkoutpersonals()->save($checkout);
         //}
         }
+
+    }
         return back();
         //return sala;
     }
@@ -103,7 +139,7 @@ class CheckoutPersonalsController extends Controller
             if(0> $useracount->cash){
                 alert()->error('موجودی این خدمت گذار منفی شده!', 'پرداخت نا موفق')->autoclose(2000);
              return 'error';
-            }
+            }else{
 
             //$tranatioin=$useracount->tranations;
             $tranatioin = new Transations();
@@ -133,7 +169,7 @@ class CheckoutPersonalsController extends Controller
 
             
              $useracount->update();
-
+            }
             }
          }
         
@@ -143,6 +179,26 @@ class CheckoutPersonalsController extends Controller
         return 'success';
     }
 
+    public function delete(Request $request)
+    {
+        
+        foreach ($request->array as $checkoutid) {
+            //$checkout = CheckoutPersonals::find($checkoutid);
+        
+            $checkout = CheckoutPersonals::find($checkoutid);
+
+            $checkout->delete();
+
+          
+
+            
+         }
+        
+        //return 'error';
+        //return back;
+        alert()->success('با موفقیت حذف گردید', 'حذف موفق')->autoclose(2000);
+        return 'success';
+    }
 
     public function export()
     {

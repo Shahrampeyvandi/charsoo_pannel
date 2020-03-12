@@ -335,15 +335,15 @@
             if(array.length !== 0){
 
                 if (array.length !== 1) {
-                    $('.container_icon').removeClass('justify-content-end')
-                    $('.container_icon').addClass('justify-content-between')
-                    $('.delete-edit').html(`
-                    <a href="#" title="حذف " data-toggle="modal" data-target="#exampleModal" class="sweet-multiple mx-2">
-            <span class="__icon bg-danger">
-                <i class="fa fa-trash"></i>
-            </span>
-           </a>
-                    `)
+        //             $('.container_icon').removeClass('justify-content-end')
+        //             $('.container_icon').addClass('justify-content-between')
+        //             $('.delete-edit').html(`
+        //             <a href="#" title="حذف " data-toggle="modal" data-target="#exampleModal" class="sweet-multiple mx-2">
+        //     <span class="__icon bg-danger">
+        //         <i class="fa fa-trash"></i>
+        //     </span>
+        //    </a>
+        //             `)
                 }else{
 
                     $('.container_icon').removeClass('justify-content-end')
@@ -531,6 +531,37 @@ $('.bd-example-modal-lg-edit').on('shown.bs.modal', function (event) {
 
 // Delete
    
+$('.delete1').click(function(e){
+                e.preventDefault()
+                console.log(array)
+
+                // ajax request
+ $.ajax({
+
+                type:'post',
+                url:'{{route("Pannel.Acounting.CheckoutPersonals.Delete")}}',
+                 data:{array:array},
+                // ,success:function(data){
+                //   swal("پرداخت با موفقیت انجام شد", {
+                //     icon: "success",
+				// 	          button: "تایید"
+                //        });
+
+                      
+                 
+                 success:function(data){
+                //   swal("پرداخت تکراری نکن ملعون", {
+                //     icon: "success",
+				// 	          button: "باشه"
+                //        });
+
+                       setTimeout(()=>{
+                        location.reload()
+                       },1000)
+               
+                }
+        })
+    })
 
     $('.delete').click(function(e){
                 e.preventDefault()

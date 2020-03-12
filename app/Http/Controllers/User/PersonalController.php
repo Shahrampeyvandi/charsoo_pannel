@@ -330,13 +330,6 @@ class PersonalController extends Controller
         }
 
 
-        $acountencome = new UserAcounts();
-
-        $acountencome->user = 'خدمت رسان';
-        $acountencome->type = 'درآمد';
-        $acountencome->cash = 0;
-        $acountencome->personal_id = $personal->id;
-
         $acountcharge = new UserAcounts();
 
         $acountcharge->user = 'خدمت رسان';
@@ -344,8 +337,17 @@ class PersonalController extends Controller
         $acountcharge->cash = 0;
         $acountcharge->personal_id = $personal->id;
 
-        $acountencome->save();
+
+        $acountencome = new UserAcounts();
+
+        $acountencome->user = 'خدمت رسان';
+        $acountencome->type = 'درآمد';
+        $acountencome->cash = 0;
+        $acountencome->personal_id = $personal->id;
+
+     
         $acountcharge->save();
+        $acountencome->save();
 
         // Alert::success( 'اطلاعات با موفقیت ثبت شد','موفق')->persistent("باشه");
         alert()->success('خدمت رسان با موفقیت ثبت شد', 'عملیات موفق')->autoclose(2000);

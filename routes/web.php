@@ -148,6 +148,7 @@ Route::group(['middleware' => ['checkAuth']], function () {
 
     Route::get('/Acounting/CheckoutPersonals', 'Acounting\CheckoutPersonalsController@index')->name('Pannel.Acounting.CheckoutPersonals');
     Route::POST('/Acounting/CheckoutPersonals/Submit', 'Acounting\CheckoutPersonalsController@submit')->name('Pannel.Acounting.CheckoutPersonals.Submit');
+    Route::POST('/Acounting/CheckoutPersonals/Delete', 'Acounting\CheckoutPersonalsController@delete')->name('Pannel.Acounting.CheckoutPersonals.Delete');
     Route::POST('/Acounting/CheckoutPersonals/Pay', 'Acounting\CheckoutPersonalsController@pay')->name('Pannel.Acounting.CheckoutPersonals.Pay');
 
     Route::get('Setting', 'User\SettingController@Setting')->name('Pannel.Setting');
