@@ -23,7 +23,7 @@
 
     /*------------- page loader -------------*/
     wind_.on('load', function () {
-        $('.page-loader').fadeOut(200, function () {
+        $('.page-').delay(800).fadeOut(400, function () {
 
             setTimeout(function () {
                 toastr.options = {

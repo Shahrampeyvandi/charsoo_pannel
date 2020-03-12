@@ -4,6 +4,7 @@ namespace App\Http\Controllers\User;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Services\Service;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 
@@ -72,8 +73,9 @@ class RoleController extends Controller
     public function DeleteRole(Request $request)
     {
         foreach ($request->array as $role_id) {
-           
-            Role::where('id',$role_id)->delete();
+           $role_name = Role::where('id',$role_id)->first()->name;
+           Service::where('service_role',$role_name)->delete();
+           Role::where('id',$role_id)->delete();
         }
         return 'success';
     }

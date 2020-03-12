@@ -60,9 +60,16 @@ class OrdersController extends Controller
     $payload = JWTAuth::parseToken($request->header('Authorization'))->getPayload();
     $mobile = $payload->get('mobile');
     $personal = Personal::where('personal_mobile', $mobile)->first();
-    $orders = $personal->order->where('order_type','!=','تسویه شده');
-   
-    foreach ($orders as $key => $order) {
+    $orders = $personal->order;
+    $order_array =[];
+   foreach ($orders as $key => $item) {
+    if($item->order_type == 'تسویه شده'){
+      continue;
+    }
+    array_push($order_array,$item);
+   }
+    foreach ($order_array as $key => $order) {
+    
       $service = Service::where('id', $order->service_id)->first()->service_title;
       $order['service_name'] = $service;
       if (count($order->orderImages)) {
@@ -92,7 +99,7 @@ class OrdersController extends Controller
       }
     }
     return response()->json([
-      'data' => $orders,
+      'data' => $order_array,
     ], 200);
   }
 

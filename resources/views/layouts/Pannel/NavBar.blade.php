@@ -1,6 +1,5 @@
 <nav class="navbar">
     <div class="container-fluid">
-
         <div class="header-logo">
             <a href="#">
                 <img src="{{route('BaseUrl')}}/Pannel/img/c.jpg" alt="...">
@@ -9,8 +8,6 @@
         </div>
 
         <div class="header-body">
-           
-            
             <ul class="navbar-nav">
                 {{-- <li class="nav-item">
                     <a href="#" class="d-lg-none d-sm-block nav-link search-panel-open">
@@ -45,8 +42,9 @@
                         </figure>
                     </a>
                     <div class="dropdown-menu dropdown-menu-right">
-                        <a href="profile.html" class="dropdown-item">پروفایل</a>
-                        <a href="#" data-sidebar-target="#settings" class="sidebar-open dropdown-item">تنظیمات</a>
+                        <a href="profile.html" class="dropdown-item"
+                        data-toggle="modal" data-target=".modal-profile"
+                        >پروفایل</a>
                         <div class="dropdown-divider"></div>
                         <a href="{{route('User.Logout')}}" class="text-danger dropdown-item">خروج</a>
                     </div>
@@ -62,3 +60,12 @@
 
     </div>
 </nav>
+
+<div class="modal fade modal-profile" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content content-profile">
+
+    </div>
+  </div>
+</div>

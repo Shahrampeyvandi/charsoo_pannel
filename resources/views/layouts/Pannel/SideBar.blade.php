@@ -22,22 +22,28 @@
                    @endif   
                 </ul>
              </li>
-            @endif
-            @if (auth()->user()->can('category_menu'))
+             <li><a href=""><i class="icon ti-hummer"></i>  <span> بخش خدمات </span></a>
+               <ul>
+                @if (auth()->user()->can('category_menu'))
                 <li><a @if (Illuminate\Support\Facades\Route::currentRouteName() == 'Pannel.Services.Category')
                     class="active"
                 @endif href=" {{route('Pannel.Services.Category')}} "><i class="icon ti-list"></i> <span>دسته بندی خدمات</span> </a></li>
-            @endif
-            @if (auth()->user()->can('service_menu'))
-                <li><a @if (Illuminate\Support\Facades\Route::currentRouteName() == 'Pannel.Services.Questions')
-                    class="active"
-                @endif href=" {{route('Pannel.Services.Questions')}} "><i class="icon ti-tag"></i> <span> خدمات </span> </a></li>
-            @endif
-            @if (auth()->user()->can('personal_menu'))
+                @endif
+                @if (auth()->user()->can('service_menu'))
+                    <li><a @if (Illuminate\Support\Facades\Route::currentRouteName() == 'Pannel.Services.Questions')
+                        class="active"
+                    @endif href=" {{route('Pannel.Services.Questions')}} "><i class="icon ti-tag"></i> <span> خدمات </span> </a></li>
+                @endif
+                @if (auth()->user()->can('personal_menu'))
                 <li><a @if (Illuminate\Support\Facades\Route::currentRouteName() == 'Pannel.Services.Personels')
                     class="active"
                 @endif href=" {{route('Pannel.Services.Personels')}} "><i class="icon ti-hummer"></i> <span> خدمت رسان ها </span> </a></li>
             @endif
+               </ul>
+            
+            </li>
+            @endif
+         
 
             @if (auth()->user()->can('customer_menu'))
                 <li><a @if (Illuminate\Support\Facades\Route::currentRouteName() == 'Pannel.Cunsomers.List')

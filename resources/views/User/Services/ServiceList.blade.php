@@ -88,7 +88,7 @@
                                 @foreach (\App\Models\City\City::all(); as $key=>$item)
                                 <div class="custom-control custom-checkbox custom-control-inline">
                                     <input  type="checkbox" class="custom-control-input checkbox__"
-                                    value="{{$item->city_name}}"
+                                    value="{{$item->id}}"
                                     name="service_city[]" id="item_{{$key+1}}" >
                                     <label class="custom-control-label" for="item_{{$key+1}}">{{$item->city_name}}</label>
                                 </div> 
@@ -319,7 +319,7 @@
                             </td>
                             <td> {{$key+1}} </td>
                             <td>{{$service->service_title}}</td>
-                            <td>{{$service->service_broker_name}}</td>
+                            <td>{{$service->service_role}}</td>
                             <td>
                                 @if ($service->service_desc !== null)
                                 {{$service->service_desc}}

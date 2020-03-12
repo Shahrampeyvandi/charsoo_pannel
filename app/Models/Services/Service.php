@@ -2,6 +2,7 @@
 
 namespace App\Models\Services;
 
+use App\Models\City\City;
 use App\Models\Personals\Personal;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
@@ -30,5 +31,9 @@ class Service extends Model
     public function user()
     {
         return $this->belongsToMany(User::class);
+    }
+    public function cities()
+    {
+        return $this->belongsToMany(City::class);
     }
 }

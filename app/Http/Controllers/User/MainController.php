@@ -17,13 +17,24 @@ class MainController extends Controller
 {
   public function index()
   {
-    
+    if (count(auth()->user()->roles) == 0) {
+      session()->flash('Error', 'دسترسی برای نقش شما محدود شده است');
+      return back();
+    }
     if (auth()->user()->hasRole('admin_panel')) {
 
       $broker_name = 'ادمین سایت';
       $broker_lists = '';
       $count = 1;
 
+      if (Cache::has('pending_orders')) {
+
+        $pending_orders = Cache::get('pending_orders');
+      } else {
+        $pending_orders = Cache::remember('pending_orders', 60, function () {
+          return Order::where('order_type', 'معلق')->count();
+        });
+      }
 
       if (Cache::has('doing_orders')) {
         $doing_orders = Cache::get('doing_orders');
@@ -328,7 +339,7 @@ class MainController extends Controller
                       <input type="file" class="btn-chose-img" name="user_profile" title="نوع فایل میتواند png , jpg  باشد">
                   </div>
                   ' . ($user->user_prfile_pic !== '' ?
-      '<img style="border-radius: 50%;object-fit: contain; background: #fff; max-width: 100%; height: 100%; width: 100%;" src="' . route('BaseUrl') . '/uploads/brokers/' . $user->user_prfile_pic . '" alt="">
+                '<img style="border-radius: 50%;object-fit: contain; background: #fff; max-width: 100%; height: 100%; width: 100%;" src="' . route('BaseUrl') . '/uploads/brokers/' . $user->user_prfile_pic . '" alt="">
                   <p class="text-chose-img" style="position: absolute;top: 82%;left: 14%;font-size: 13px;">تغییر
                       پروفایل</p>
                   ' : '<img style="border-radius: 50%;object-fit: contain; background: #fff; max-width: 100%; height: 100%; width: 100%;" src="' . route('BaseUrl') . '/Pannel/img/temp_logo.jpg" alt="">

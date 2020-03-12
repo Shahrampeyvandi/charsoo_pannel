@@ -368,9 +368,12 @@ class OrderController extends Controller
           }
    
 
-        $list = '<span>نام: </span>
+        $list = '
+        
+        <h6>وضعیت سفارش: '.$order->order_type.'</h6>
+        <span>نام مشتری:  </span>
         <span>' . $order->order_firstname_customer . '</span>
-        <br><span>نام خانوادگی: </span>
+        <br><span>نام خانوادگی مشتری: </span>
         <span>' . $order->order_lastname_customer . '</span>
         <br><span>شماره همراه مشتری: </span>
         <span>' . $order->order_username_customer . '</span>
@@ -382,11 +385,6 @@ class OrderController extends Controller
         <span>' . \Morilog\Jalali\Jalalian::forge($order->order_date_first)->format('%d %B %Y') . ' ساعت ' . $order->order_time_first . '</span>
         <br><span>تاریخ و زمان دوم درخواستی: </span>
         <span>' . \Morilog\Jalali\Jalalian::forge($order->order_date_second)->format('%d %B %Y') . ' ساعت ' . $order->order_time_second . '</span>
-        <br><span>قیمت قطعه: </span>
-        <span>ناتمام</span>
-        <br><span>قیمت خدمت: </span>
-        <span>' . ($order->relatedService->service_price !== null ? $order->relatedService->service_price : 'وارد نشده') . '</span>
-        
         ';
 
         if ($order->orderDetail) {

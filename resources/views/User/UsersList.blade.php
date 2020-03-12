@@ -39,7 +39,7 @@
             <div class="col-md-12" style="display: flex;align-items: center;justify-content: center;">
               <div class="profile-img">
                 <div class="chose-img">
-                  <input type="file" class="btn-chose-img" name="user_profile" title="نوع فایل میتواند png , jpg  باشد">
+                  <input type="file" class="btn-chose-img" id="user_profile" name="user_profile" title="نوع فایل میتواند png , jpg  باشد">
                 </div>
                 <img
                   style="border-radius: 50%;object-fit: contain; background: #fff; max-width: 100%; height: 100%; width: 100%;"
@@ -101,7 +101,7 @@
             <div class="custom-control custom-radio custom-control-inline">
               <input type="radio" id="{{$key+1}}" name="user_responsibility" class="custom-control-input"
                 value="{{$role->name}}">
-              <label class="custom-control-label" for="{{$key+1}}">{{$role->name}}</label>
+              <label class="custom-control-label text-primary" for="{{$key+1}}">{{$role->name}}</label>
             </div>
             @if (count($roles->where('sub_broker',$role->id)))
             <span>زیر مجموعه ها : </span>
@@ -113,7 +113,7 @@
             <div class="custom-control custom-radio custom-control-inline">
               <input type="radio" id="{{$rand}}" name="user_responsibility" class="custom-control-input"
                 value="{{$item->name}}">
-              <label class="custom-control-label" for="{{$rand}}">{{$item->name}}</label>
+              <label class="custom-control-label text-secondary" for="{{$rand}}">{{$item->name}}</label>
             </div>
             @endforeach
             @endif
@@ -316,9 +316,39 @@ success:function(data){
    }
  })
 })
-      // form validation 
-      var form = $("#user--form");
+
+$("#user_profile").on("change", function () {
     
+    var fileInput = $("#user_profile")[0],
+    file = fileInput.files && fileInput.files[0];
+    if( file ) {
+    var img = new Image();
+    img.src = window.URL.createObjectURL( file );
+    img.onload = function() {
+    var width = img.naturalWidth,
+        height = img.naturalHeight;
+    window.URL.revokeObjectURL( img.src );
+    if(width <= 400 && height <= 400 ) {}else{
+      swal("اخطار!", "فایل تصویر حداکثر باید در ابعاد 400X400 باشد", "warning", {
+			button: "باشه"
+    });
+    $("#user_profile").val('')
+    }
+  }
+  }
+});
+
+
+
+
+
+
+
+
+
+
+    // form validation 
+    var form = $("#user--form");
     form.validate({
         rules: {
           user_name: {
@@ -570,11 +600,18 @@ success:function(data){
 
     $(document).on('blur','#username',function(){
      
+      if($(this).val().length > 15){
+        swal("", "نام کاربری حداکثر میتواند 15 کاراکتر باشد", "error", {
+			button: "باشه"
+    });
+    $(this).val('') 
+        }
       var english = /^[A-Za-z0-9]*$/;
       if (!english.test($(this).val())){
         swal("", "نام کاربری نمیتواند شامل حروف فارسی باشد", "error", {
 			button: "باشه"
-		});
+    });
+    $(this).val('')
       }
     })
   

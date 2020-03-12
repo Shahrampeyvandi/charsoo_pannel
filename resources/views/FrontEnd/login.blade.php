@@ -26,9 +26,9 @@
 <body class="bg-white h-100-vh p-t-0">
 
 <!-- begin::page loader-->
-<div class="page-loader">
-    <div class="spinner-border"></div>
-    <span>در حال بارگذاری ...</span>
+<div class="page-">
+    <div class="spinner-"></div>
+ 
 </div>
 <!-- end::page loader -->
 

@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\File;
 use App\Models\Services\ServiceCategory;
 use App\Models\User;
+use Spatie\Permission\Models\Role;
 
 class ServiceController extends Controller
 {
@@ -15,11 +16,10 @@ class ServiceController extends Controller
     {
         
         $brokers ='';
-        foreach (User::all() as $key => $user) {
-            if (count($user->roles->where('broker',1))) {
-                $brokers .= '<option value="'.$user->id.'">'.$user->user_username.'</option>';
-            }
-        }
+        foreach (Role::where('broker',1)->get() as $key => $role) {
+            $brokers .= '<option value="'.$role->name.'">'.$role->name.'</option>';
+         }
+
         $category_parent_list = ServiceCategory::where('category_parent',0)->get();
         $count = ServiceCategory::where('category_parent',0)->count();
          $list ='';
@@ -28,7 +28,7 @@ class ServiceController extends Controller
             $list .= '<option data-id="'.$item->id.'" value="'.$item->id.'" class="level-1">'.$item->category_title.' 
              '.(count(ServiceCategory::where('category_parent',$item->id)->get()) ? '&#xf104;  ' : '' ).'
             </option>';
-          if (ServiceCategory::where('category_parent',$item->id)->count()) {
+            if (ServiceCategory::where('category_parent',$item->id)->count()) {
               $count += ServiceCategory::where('category_parent',$item->id)->count();
              foreach (ServiceCategory::where('category_parent',$item->id)->get() as $key1 => $itemlevel1) {
                  $list .= '<option data-parent="'.$item->id.'" value="'.$itemlevel1->id.'" class="level-2">'.$itemlevel1->category_title.'
@@ -70,13 +70,26 @@ class ServiceController extends Controller
           }
         }
 
-      $services = Service::latest()->get();
-        return view('User.Services.ServiceList',compact(['list','count','services','brokers']));
+      if(auth()->user()->hasRole('admin_panel')){        $services = Service::latest()->get();
+      }else{
+          if(auth()->user()->roles->first()->broker == 1){
+           $role_name = auth()->user()->roles->first()->name;
+           $services = Service::where('service_role',$role_name)->latest()->get();
+          }
+
+          if(auth()->user()->roles->first()->sub_broker !== null){
+             $role_name = Role::where('id',auth()->user()->roles->first()->sub_broker)->first()->name;
+             $services = Service::where('service_role',$role_name)->latest()->get();
+
+            }
+      }
+       
+      return view('User.Services.ServiceList',compact(['list','count','services','brokers']));
     }
 
     public function SubmitService(Request $request)
     {
-        
+      
         if (strlen(implode($request->service_city)) == 0) {
             alert()->error('لطفا شهر را انتخاب کنید', 'خطا')->autoclose(2000);
             return back();
@@ -106,12 +119,12 @@ class ServiceController extends Controller
        $service = Service::create([
             'service_title' => $request->title,
             'service_category_id' => $request->service_category !== null ? $request->service_category : 0,
+            'service_role' => $request->service_role,
             'service_percentage' => $request->service_percentage,
             'service_offered_price' => $request->service_offered_price,
             'service_desc' => $request->service_desc,
             'service_price' => $request->service_price,
             'service_alerts' => $request->service_alerts,
-            'service_city' => $request->service_city,
             'service_type_send' => $request->type_send,
             'price_type' => $request->price_type,
             'service_offered_status' => $request->service_offered_status,
@@ -122,12 +135,8 @@ class ServiceController extends Controller
             'sms_status' => $request->sms_status == null ? 0 : $request->sms_status
         ]);
 
-        if ($request->has('service_role')) {
-            
-            $service->user()->attach($request->service_role);
-        }
+            $service->cities()->attach($request->service_city);
 
-        
 
         alert()->success(' خدمت با موفقیت ثبت شد', 'عملیات موفق')->autoclose(2000);
         return back();
@@ -146,12 +155,10 @@ class ServiceController extends Controller
     {
         
         $brokers ='';
-        foreach (User::whereHas('roles',function($q){
-            $q->where('broker',1);
-        })->get() as $key => $user) {
-            if (count($user->roles->where('broker',1))) {
-                $brokers .= '<option value="'.$user->id.'">'.$user->user_username.'</option>';
-            }
+        foreach (Role::where('broker',1)->get() as $key => $role) {
+         
+                $brokers .= '<option value="'.$role->name.'">'.$role->name.'</option>';
+            
         }
         
         $service = Service::where('id',$request->category_id)->first();
@@ -165,7 +172,7 @@ class ServiceController extends Controller
         foreach ($category_parent_list as $key => $item) {
            
             $options .= '<option data-id="'.$item->id.'" value="'.$item->id.'"
-            '.($service->service_category_id == $item->id ? 'class="level-1 after"' : 'class="level-1"' ).'
+            '.($service->service_category_id == $item->id ? 'class="level-1 after" selected' : 'class="level-1"' ).'
             >'.$item->category_title.' 
              '.(count(ServiceCategory::where('category_parent',$item->id)->get()) ? '&#xf104;  ' : '' ).'
             </option>';
@@ -173,7 +180,7 @@ class ServiceController extends Controller
               $count += ServiceCategory::where('category_parent',$item->id)->count();
              foreach (ServiceCategory::where('category_parent',$item->id)->get() as $key1 => $itemlevel1) {
                  $options .= '<option data-parent="'.$item->id.'" 
-                 '.($service->service_category_id == $itemlevel1->id ? 'class="level-2 after"' : 'class="level-2"' ).'
+                 '.($service->service_category_id == $itemlevel1->id ? 'class="level-2 after" selected' : 'class="level-2"' ).'
                  value="'.$itemlevel1->id.'" 
                  
                  >'.$itemlevel1->category_title.'
@@ -185,7 +192,7 @@ class ServiceController extends Controller
                  $count += ServiceCategory::where('category_parent',$itemlevel1->id)->count();
                  foreach (ServiceCategory::where('category_parent',$itemlevel1->id)->get() as $key2 => $itemlevel2) {
                      $options .= '<option data-parent="'.$itemlevel1->id.'" 
-                     '.($service->service_category_id == $itemlevel2->id ? 'class="level-3 after"' : 'class="level-3"' ).'
+                     '.($service->service_category_id == $itemlevel2->id ? 'class="level-3 after" selected' : 'class="level-3"' ).'
                      value="'.$itemlevel2->id.'" >'.$itemlevel2->category_title.'
                      '.(count(ServiceCategory::where('category_parent',$itemlevel2->id)->get()) ? '&#xf104;  ' : '' ).'
                      </option>';
@@ -195,7 +202,7 @@ class ServiceController extends Controller
                      $count += ServiceCategory::where('category_parent',$itemlevel2->id)->count();
                      foreach (ServiceCategory::where('category_parent',$itemlevel2->id)->get() as $key3 => $itemlevel3) {
                          $options .= '<option data-parent="'.$itemlevel2->id.'" 
-                         '.($service->service_category_id == $itemlevel3->id ? 'class="level-4 after"' : 'class="level-4"' ).'
+                         '.($service->service_category_id == $itemlevel3->id ? 'class="level-4 after" selected' : 'class="level-4"' ).'
                          value="'.$itemlevel3->id.'" >'.$itemlevel3->category_title.'
                          '.(count(ServiceCategory::where('category_parent',$itemlevel3->id)->get()) ? '&#xf104;  ' : '' ).'
                          </option>';
@@ -204,7 +211,7 @@ class ServiceController extends Controller
                              $count += ServiceCategory::where('category_parent',$itemlevel3->id)->count();
                              foreach (ServiceCategory::where('category_parent',$itemlevel3->id)->get() as $key4 => $itemlevel4) {
                                  $options .= '<option data-parent="'.$itemlevel3->id.'" 
-                                 '.($service->service_category_id == $itemlevel4->id ? 'class="level-5 after"' : 'class="level-5"' ).'
+                                 '.($service->service_category_id == $itemlevel4->id ? 'class="level-5 after" selected' : 'class="level-5"' ).'
                                  value="'.$itemlevel4->id.'" >'.$itemlevel4->category_title.'
                                  
                                  </option>';
@@ -288,39 +295,21 @@ $list = '<div class="modal-body">
             </div><!-- form-group -->
 
             <p>شهر  </p>
-            <div class="form-group wd-xs-300">
-                
-                <div class="custom-control custom-radio custom-control-inline">
-                    <input required type="radio" id="customRadioInline1" name="service_city"
-                     class="custom-control-input checkbox__" value="مشهد" 
-                     '.($service->service_city == 'مشهد' ? 'checked=""' : '').'
-                     >
-                    <label class="custom-control-label " for="customRadioInline1">مشهد</label>
-                </div>
-                <div class="custom-control custom-radio custom-control-inline">
-                    <input required type="radio" id="customRadioInline2" name="service_city"
-                     class="custom-control-input checkbox__" value="نیشابور"
-                     '.($service->service_city == 'نیشابور' ? 'checked=""' : '').'
-
-                     >
-                    <label class="custom-control-label" for="customRadioInline2">نیشابور</label>
-                </div>
-                <div class="custom-control custom-radio custom-control-inline">
-                    <input required type="radio" id="customRadioInline3" name="service_city"
-                     class="custom-control-input checkbox__" value="سبزوار"
-                     '.($service->service_city == 'سبزوار' ? 'checked=""' : '').'
-                     >
-                    <label class="custom-control-label" for="customRadioInline3">سبزوار</label>
-                </div>
-                <div class="custom-control custom-radio custom-control-inline">
-                    <input required type="radio" id="customRadioInline4" name="service_city"
-                     class="custom-control-input checkbox__" value="فریمان"
-                     '.($service->service_city == 'فریمان' ? 'checked=""' : '').'
-                     >
-                    <label class="custom-control-label" for="customRadioInline4">فریمان</label>
-                </div>
-            </div> 
-            <div class="form-group wd-xs-300">
+            <div class="form-group wd-xs-300">';
+           $cities = $service->cities->pluck('id')->toArray();
+            foreach(\App\Models\City\City::all() as $key=>$item){
+                $list .= ' <div class="">
+                <input  type="checkbox" class=" checkbox__"
+                value="'.$item->id.'"
+                '.(in_array($item->id,$cities) ? 'checked' : '').'
+                name="service_city[]" id="item_'.($key+1).'" >
+                <label class="" for="item_'.($key+1).'">'.$item->city_name.'</label>
+            </div> ';
+               
+            }
+        
+        
+           $list .= '<div class="form-group wd-xs-300">
                 <label for="recipient-name" class="col-form-label">نوع ارجاع:</label>
                 <select required name="type_send"   class="form-control" id="exampleFormControlSelect2">
                     <option '.($service->service_type_send == 'ارجاع اتوماتیک' ? 'selected=""' : '').' value="ارجاع اتوماتیک">ارجاع اتوماتیک</option>
@@ -414,6 +403,8 @@ return $list;
 
     public function SubmitServiceEdit(Request $request)
     {
+
+ 
       
        $service = Service::where('id',$request->service_id)->first();
         if ($request->has('service_icon')) {
@@ -444,19 +435,15 @@ return $list;
         }else{
             $pic2 = $service->service_pic_second;
         }
-
-
-           
-           
             $array =[
                 'service_title' => $request->title,
                 'service_category_id' => $request->service_category,
+                'service_role' => $request->service_role,
                 'service_percentage' => $request->service_percentage,
                 'service_offered_price' => $request->service_offered_price,
                 'service_desc' => $request->service_desc,
                 'service_price' => $request->service_price,
                 'service_alerts' => $request->service_alerts,
-                'service_city' => $request->service_city,
                 'service_type_send' => $request->type_send,
                 'price_type' => $request->price_type,
                 'service_offered_status' => $request->service_offered_status,
@@ -467,10 +454,12 @@ return $list;
                     ];
         
         Service::where('id',$request->service_id)->update($array);
-        if ($request->has('service_role')) {
-            $service->user()->attach($request->service_role);
-        }
-        alert()->success('دسته بندی با موفقیت ویرایش شد', 'عملیات موفق')->autoclose(2000);
+        // if ($request->has('service_role')) {
+        //     $service->user()->attach($request->service_role);
+        // }
+        $service->cities()->detach();
+        $service->cities()->attach($request->service_city);
+        alert()->success(' خدمت با موفقیت ویرایش شد', 'عملیات موفق')->autoclose(2000);
         return back();
     }
 
