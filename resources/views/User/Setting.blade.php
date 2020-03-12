@@ -153,7 +153,7 @@
             </div>
         </div><!-- form-group -->
         <div class="form-group col-md-6">
-            <label>لینک سوالات متداول</label>
+            <label>لینک سوالات متداول/درباره ما</label>
             <input name="linkfaq" 
             value="{{$setting->linkfaq}}"
             

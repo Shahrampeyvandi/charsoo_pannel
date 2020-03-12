@@ -394,7 +394,7 @@ class OrdersController extends Controller
   
         $transactionbardasht->user_acounts_id=$useracount_Customer->id;     
         $transactionbardasht->type='برداشت';
-        $transactionbardasht->for='هزینه خدمت';
+        $transactionbardasht->for='هزینه سفارش';
         $transactionbardasht->order_unique_code=$orderdata->order_unique_code;
         $transactionbardasht->amount=$useracount_Customer->cash;
         $transactionbardasht->from_to='به حساب خدمت رسان با شناسه '.$useracount_Worker->id;
@@ -403,7 +403,7 @@ class OrdersController extends Controller
   
         $transactionvariz->user_acounts_id=$useracount_Worker->id;     
         $transactionvariz->type='واریز';
-        $transactionvariz->for='دستمزد';
+        $transactionvariz->for='انجام سفارش';
         $transactionvariz->order_unique_code=$orderdata->order_unique_code;
         $transactionvariz->amount=$useracount_Customer->cash;
         $transactionvariz->from_to='از حساب مشتری با شناسه '.$useracount_Customer->id;
@@ -416,7 +416,7 @@ class OrdersController extends Controller
 
         $transactionbardashtnaghd->user_acounts_id=$useracount_Customer->id;     
         $transactionbardashtnaghd->type='برداشت';
-        $transactionbardashtnaghd->for='هزینه خدمت';
+        $transactionbardashtnaghd->for='هزینه سفارش';
         $transactionbardashtnaghd->order_unique_code=$orderdata->order_unique_code;
         $transactionbardashtnaghd->amount=$naghd;
         $transactionbardashtnaghd->from_to='به صورت نقدی به حساب خدمت رسان با شناسه '.$useracount_Worker->id;
@@ -425,7 +425,7 @@ class OrdersController extends Controller
         
         $transactionvariznaghd->user_acounts_id=$useracount_Worker->id;     
         $transactionvariznaghd->type='واریز';
-        $transactionvariznaghd->for='دستمزد';
+        $transactionvariznaghd->for='انجام سفارش';
         $transactionvariznaghd->order_unique_code=$orderdata->order_unique_code;
         $transactionvariznaghd->amount=$naghd;
         $transactionvariznaghd->from_to='به صورت نقد از حساب مشتری با شناسه'.$useracount_Customer->id;
@@ -462,7 +462,7 @@ class OrdersController extends Controller
 
          $transactionbardashtnaghd->user_acounts_id=$useracount_Customer->id;     
          $transactionbardashtnaghd->type='برداشت';
-         $transactionbardashtnaghd->for='هزینه خدمت';
+         $transactionbardashtnaghd->for='هزینه سفارش';
          $transactionbardashtnaghd->order_unique_code=$orderdata->order_unique_code;
          $transactionbardashtnaghd->amount=$cost;
          $transactionbardashtnaghd->from_to='به صورت نقدی به حساب خدمت رسان با شناسه '.$useracount_Worker->id;
@@ -471,7 +471,7 @@ class OrdersController extends Controller
          
          $transactionvariznaghd->user_acounts_id=$useracount_Worker->id;     
          $transactionvariznaghd->type='واریز';
-         $transactionvariznaghd->for='دستمزد';
+         $transactionvariznaghd->for='انجام سفارش';
          $transactionvariznaghd->order_unique_code=$orderdata->order_unique_code;
          $transactionvariznaghd->amount=$cost;
          $transactionvariznaghd->from_to='به صورت نقد از حساب مشتری با شناسه'.$useracount_Customer->id;
