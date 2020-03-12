@@ -233,7 +233,7 @@
           <h5 class="text-center">جزییات سفارش</h5>
 
         </div>
-        <div class="card-body order-detail">
+        <div class="card-body order--detail">
 
 
 
@@ -715,7 +715,7 @@ $('.bd-example-modal-lg-edit').on('shown.bs.modal', function (event) {
     async: true,
     data:{service_id:service_id,order_id:order_id},
     success:function(data){
-       $('.order-detail').html(data)
+       $('.order--detail').html(data)
      
          }
     

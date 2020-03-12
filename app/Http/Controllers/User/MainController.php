@@ -24,14 +24,6 @@ class MainController extends Controller
       $broker_lists = '';
       $count = 1;
 
-      if (Cache::has('pending_orders')) {
-
-        $pending_orders = Cache::get('pending_orders');
-      } else {
-        $pending_orders = Cache::remember('pending_orders', 60, function () {
-          return Order::where('order_type', 'معلق')->count();
-        });
-      }
 
       if (Cache::has('doing_orders')) {
         $doing_orders = Cache::get('doing_orders');
@@ -522,7 +514,8 @@ class MainController extends Controller
 
 
     foreach ($request->array as $user_id) {
-      User::where('id', $user_id)->delete();
+      User::where('id',$user_id)->first()->roles()->detach();
+      User::where('id',$user_id)->delete();
     }
     return 'success';
   }

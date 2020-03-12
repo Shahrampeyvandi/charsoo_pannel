@@ -16,6 +16,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Personals\Personal;
 use App\Models\Services\ServiceCategory;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Cache;
 
 class OrderController extends Controller
 {
@@ -105,9 +106,9 @@ class OrderController extends Controller
 
     public function SubmitOrder(Request $request)
     {
-       
-       
-        if ($request->new_address == null AND $request->user_address == null) {
+
+
+        if ($request->new_address == null and $request->user_address == null) {
             alert()->error('ادرس وارد نشده است', 'خطا')->autoclose(2000);
             return back();
         }
@@ -120,9 +121,12 @@ class OrderController extends Controller
             if ($request->service_name[$key] == null) {
                 continue;
             } else {
-                if($request->new_address !== null) {$address= $request->new_address;}
-                else{$address = $request->user_address; }
-               
+                if ($request->new_address !== null) {
+                    $address = $request->new_address;
+                } else {
+                    $address = $request->user_address;
+                }
+
 
                 $count += 1;
                 $order = Order::create([
@@ -140,7 +144,7 @@ class OrderController extends Controller
                     'order_date_first' => $request->date_one[$key] !== null ? $this->convertDate($request->date_one[$key]) : '',
                     'order_date_second' => $request->time_two[$key] !== null && $request->date_two[$key] !== null ?  $this->convertDate($request->date_two[$key]) : '',
                     'order_address' => $address
-                    ]);
+                ]);
 
 
                 $date = Carbon::parse($order->order_date_first)->timestamp;
@@ -163,7 +167,7 @@ class OrderController extends Controller
                 $q->where('id', $role_id);
             })->first()->id;
         }
-        
+
         $check_in_customers = Cunsomer::where('customer_mobile', $request->user_mobile)->get();
         if (count($check_in_customers) == 0) {
             $customer = Cunsomer::create([
@@ -185,9 +189,8 @@ class OrderController extends Controller
                     'customer_id' => $customer->id,
                     'broker_id' => $broker_id
                 ]);
-              }
-        
-        }else{
+            }
+        } else {
 
 
             if ($request->new_address !== null) {
@@ -196,9 +199,9 @@ class OrderController extends Controller
                     'customer_id' => $check_in_customers[0]->id,
                     'broker_id' => $broker_id
                 ]);
-              }
+            }
         }
-      
+
         alert()->success($count . ' سفارش با موفقیت ثبت شد ', 'عملیات موفق')->autoclose(3000);
         return back();
     }
@@ -212,18 +215,18 @@ class OrderController extends Controller
         }
         return response($options, 200);
     }
-    
+
 
     public function checkCustomer(Request $request)
     {
         $customer = Cunsomer::where('customer_mobile', $request->data)->first();
         if ($customer !== null) {
-           $addresses =  CustomerAddress::where('customer_id',$customer->id)->get();
-           $option_address = '<option value="">باز کردن فهرست انتخاب</option>';
-           foreach ($addresses as $key => $address) {
-               $option_address .= '<option value="'.$address->id.'">'.$address->address.'</option>';
-           }
-            return response()->json(['customer' => $customer,'option_address' => $option_address], 200);
+            $addresses =  CustomerAddress::where('customer_id', $customer->id)->get();
+            $option_address = '<option value="">باز کردن فهرست انتخاب</option>';
+            foreach ($addresses as $key => $address) {
+                $option_address .= '<option value="' . $address->address . '">' . $address->address . '</option>';
+            }
+            return response()->json(['customer' => $customer, 'option_address' => $option_address], 200);
         }
         return 'false';
     }
@@ -355,7 +358,15 @@ class OrderController extends Controller
     {
 
 
-        $order = Order::where('id', $request->order_id)->first();
+        if (Cache::has('order')) {
+
+            $order = Cache::get('order');
+          } else {
+            $order = Cache::remember('order', 60, function () use($request) {
+              return  Order::where('id', $request->order_id)->first();
+            });
+          }
+   
 
         $list = '<span>نام: </span>
         <span>' . $order->order_firstname_customer . '</span>
@@ -375,36 +386,71 @@ class OrderController extends Controller
         <span>ناتمام</span>
         <br><span>قیمت خدمت: </span>
         <span>' . ($order->relatedService->service_price !== null ? $order->relatedService->service_price : 'وارد نشده') . '</span>
-        <br><span>تصاویر: </span>
-        <br>
-        <div class="row">';
-        foreach ($order->orderImages as $key => $image) {
+        
+        ';
 
-            if ($image->image_type == 'faktor')  $title = 'فاکتور';
-            if ($image->image_type == 'image1')  $title = 'عکس اول';
-            if ($image->image_type == 'image2')  $title = 'عکس دوم';
-            if ($image->image_type == 'image3')  $title = 'عکس سوم';
+        if ($order->orderDetail) {
+            $detail = $order->orderDetail;
+            $list .= '<br><br><span>جزئیات انجام: </span>
+            ';
 
-            $list .= '<div class="col-md-6 my-md-2 twxt-center">
+              if($detail->order_reffer_time){
+                $list .=' <br><span>زمان ارجاع:  </span>
+                <span>' .\Morilog\Jalali\Jalalian::forge($detail->order_reffer_time)->format('%d %B %Y'). '</span>';
+              }
+               if($detail->order_start_time){
+                $list .=' <br><span>زمان شروع:  </span>
+                <span>' .\Morilog\Jalali\Jalalian::forge($detail->order_start_time)->format('%d %B %Y') . '</span>';
+               }
+                if($detail->order_start_description){
+                    $list .=' <br><span>توضیحات شروع کار: </span>
+                <span>' .$detail->order_start_description. '</span>';
+                }
+
+               if($detail->order_end_time){
+                $list .=' <br><span>زمان پایان کار:  </span>
+                <span>' .\Morilog\Jalali\Jalalian::forge($detail->order_end_time)->format('%d %B %Y') . '</span>';
+               }
+
+                if($detail->order_recived_price){
+                    $list .=' <br><span>هزینه دریافتی:  </span>
+                    <span>' .$detail->order_recived_price. '</span>';
+                }
+
+               if($detail->order_pieces_cast){
+                $list .=' <br><span>هزینه قطعات مصرفی:  </span>
+                <span>' .$detail->order_pieces_cast. '</span>';
+               }
+
+            
+           
+        
+            }
+        if (count($order->orderImages)) {
+            $list .= '<br><br><span>تصاویر: </span>
+            <div class="row">';
+            foreach ($order->orderImages as $key => $image) {
+
+                if ($image->image_type == 'faktor')  $title = 'فاکتور';
+                if ($image->image_type == 'image1')  $title = 'عکس اول';
+                if ($image->image_type == 'image2')  $title = 'عکس دوم';
+                if ($image->image_type == 'image3')  $title = 'عکس سوم';
+
+                $list .= '<div class="col-md-6 my-md-2 twxt-center">
            <span> ' . $title . '</span>
            <span> تاریخ :  ' . \Morilog\Jalali\Jalalian::forge($image->created_at)->format('%d %B %Y') . '</span>
 
-            <img class="img-fluid" src="' . asset('Pannel/img/profile.png') . '" />
+            <img class="img-fluid" src="' . asset("uploads/$image->image_url") . '" />
             </div>';
+            }
+            $list .= '</div>';
         }
-
-
-        $list .= '</div>
-        ';
         return $list;
     }
 
     public function getChosenPersonal(Request $request)
     {
-
         $service = Service::where('id', $request->service_id)->first();
-
-
         $tr = '';
         foreach ($service->personal()->where('personal_chosen_status', 1)->where('personal_status', 1)->get() as $key => $personal) {
             $tr .=  '

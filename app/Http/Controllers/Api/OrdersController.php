@@ -60,9 +60,8 @@ class OrdersController extends Controller
     $payload = JWTAuth::parseToken($request->header('Authorization'))->getPayload();
     $mobile = $payload->get('mobile');
     $personal = Personal::where('personal_mobile', $mobile)->first();
-    $orders = $personal->order()->where('order_type', 'شروع نشده')
-      ->orWhere('order_type', 'در حال انجام')
-      ->orWhere('order_type', 'انجام شده')->get();
+    $orders = $personal->order->where('order_type','!=','تسویه شده');
+   
     foreach ($orders as $key => $order) {
       $service = Service::where('id', $order->service_id)->first()->service_title;
       $order['service_name'] = $service;

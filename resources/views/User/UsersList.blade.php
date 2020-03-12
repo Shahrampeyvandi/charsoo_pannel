@@ -38,14 +38,16 @@
           <div class="row">
             <div class="col-md-12" style="display: flex;align-items: center;justify-content: center;">
               <div class="profile-img">
-                  <div class="chose-img">
-                      <input type="file" class="btn-chose-img" name="user_profile" title="نوع فایل میتواند png , jpg  باشد">
-                  </div>
-                                      <img style="border-radius: 50%;object-fit: contain; background: #fff; max-width: 100%; height: 100%; width: 100%;" src="{{route('BaseUrl')}}/Pannel/img/temp_logo.jpg" alt="">
-                  <p class="text-chose-img" style="position: absolute;top: 44%;left: 14%;font-size: 13px;">انتخاب
-                      پروفایل</p>
+                <div class="chose-img">
+                  <input type="file" class="btn-chose-img" name="user_profile" title="نوع فایل میتواند png , jpg  باشد">
+                </div>
+                <img
+                  style="border-radius: 50%;object-fit: contain; background: #fff; max-width: 100%; height: 100%; width: 100%;"
+                  src="{{route('BaseUrl')}}/Pannel/img/temp_logo.jpg" alt="">
+                <p class="text-chose-img" style="position: absolute;top: 44%;left: 14%;font-size: 13px;">انتخاب
+                  پروفایل</p>
               </div>
-          </div>
+            </div>
           </div>
           <div class="row">
             <div class="form-group col-md-6">
@@ -85,23 +87,41 @@
             </div>
             <div class="form-group col-md-6">
               <label for="user_national_num" class="col-form-label">کد ملی:</label>
-              <input type="text" class="form-control"
-               onblur="checknationalcode(this.value)" name="user_national_num" id="user_national_num">
+              <input type="text" class="form-control" onblur="checknationalcode(this.value)" name="user_national_num"
+                id="user_national_num">
             </div>
           </div>
-         
+
           <p>انتخاب نقش: </p>
           <div class="row">
-          @if (count($roles))
-          @foreach ($roles as $key=> $role)
-          <div class="custom-control custom-radio custom-control-inline">
-           <input type="radio" id="{{$key+1}}"  name="user_responsibility" class="custom-control-input"
-             value="{{$role->name}}">
-           <label class="custom-control-label" for="{{$key+1}}">{{$role->name}}</label>
-         </div>
-          @endforeach
-         @endif
-        </div>
+            @if (count($roles))
+            @foreach ($roles->where('broker',1) as $key=> $role)
+
+          <div class="col-md-12">
+            <div class="custom-control custom-radio custom-control-inline">
+              <input type="radio" id="{{$key+1}}" name="user_responsibility" class="custom-control-input"
+                value="{{$role->name}}">
+              <label class="custom-control-label" for="{{$key+1}}">{{$role->name}}</label>
+            </div>
+            @if (count($roles->where('sub_broker',$role->id)))
+            <span>زیر مجموعه ها : </span>
+            &nbsp;
+            @foreach ($roles->where('sub_broker',$role->id) as $item)
+            @php
+            $rand = rand();
+            @endphp
+            <div class="custom-control custom-radio custom-control-inline">
+              <input type="radio" id="{{$rand}}" name="user_responsibility" class="custom-control-input"
+                value="{{$item->name}}">
+              <label class="custom-control-label" for="{{$rand}}">{{$item->name}}</label>
+            </div>
+            @endforeach
+            @endif
+          </div>
+         
+            @endforeach
+            @endif
+          </div>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">بستن</button>
@@ -120,7 +140,7 @@
   aria-hidden="true">
   <div class="modal-dialog modal-lg">
     <div class="modal-content edit__modal">
-      
+
     </div>
   </div>
 </div>
@@ -140,14 +160,14 @@
             <i class="fa fa-search"></i>
           </span>
         </a>
-       @if (auth()->user()->can('insert_user'))
-       <a href="#" data-toggle="modal" data-target=".bd-example-modal-lg" title="افزودن کاربر">
-        <span class="__icon bg-success">
-          <i class="fa fa-plus"></i>
-        </span>
-      </a>
-       @endif
-        <a href=" {{route('Pannel.User.List')}} " title="تازه سازی" class="mx-2" >
+        @if (auth()->user()->can('insert_user'))
+        <a href="#" data-toggle="modal" data-target=".bd-example-modal-lg" title="افزودن کاربر">
+          <span class="__icon bg-success">
+            <i class="fa fa-plus"></i>
+          </span>
+        </a>
+        @endif
+        <a href=" {{route('Pannel.User.List')}} " title="تازه سازی" class="mx-2">
           <span class="__icon bg-primary">
             <i class="fa fa-refresh"></i>
           </span>
@@ -160,32 +180,32 @@
   {{-- filtering --}}
   <div class="card filtering" style="display:none;">
     <div class="card-body">
-     <form action=" {{route('Users.FilterData')}} " method="post">
-      @csrf
-      <div class="row ">
-        <div class="form-group col-md-6">
-          <label for="recipient-name" class="col-form-label">فیلتر اطلاعات براساس: </label>
-          <select required name="filter_type" class="form-control" id="exampleFormControlSelect2">
-            <option value="نام">نام</option>
-            <option value="نام خانوادگی">نام خانوادگی</option>
-            <option value="نام کاربری">نام کاربری</option>
-            <option value="کد ملی">کد ملی</option>
-            <option value="شماره موبایل">شماره موبایل</option>
+      <form action=" {{route('Users.FilterData')}} " method="post">
+        @csrf
+        <div class="row ">
+          <div class="form-group col-md-6">
+            <label for="recipient-name" class="col-form-label">فیلتر اطلاعات براساس: </label>
+            <select required name="filter_type" class="form-control" id="exampleFormControlSelect2">
+              <option value="نام">نام</option>
+              <option value="نام خانوادگی">نام خانوادگی</option>
+              <option value="نام کاربری">نام کاربری</option>
+              <option value="کد ملی">کد ملی</option>
+              <option value="شماره موبایل">شماره موبایل</option>
 
-          </select>
+            </select>
+          </div>
+          <div class="form-group col-md-6">
+            <label for="recipient-name" class="col-form-label">عبارت مورد نظر: </label>
+            <input type="text" class="form-control" name="word" id="recipient-name">
+          </div>
         </div>
-        <div class="form-group col-md-6">
-          <label for="recipient-name" class="col-form-label">عبارت مورد نظر: </label>
-          <input type="text" class="form-control" name="word" id="recipient-name">
-        </div>
-      </div>
-      <div class="row">
-        <div class="form-group col-md-6">
+        <div class="row">
+          <div class="form-group col-md-6">
 
-          <button type="submit" class="btn btn-outline-primary">جست و جو</button>
+            <button type="submit" class="btn btn-outline-primary">جست و جو</button>
+          </div>
         </div>
-      </div>
-     </form>
+      </form>
     </div>
   </div>
 
@@ -196,27 +216,27 @@
         <hr>
       </div>
       <div style="overflow-x: auto;">
-        <table  id="example1" class="table table-striped  table-bordered" >
+        <table id="example1" class="table table-striped  table-bordered">
           <thead>
             <tr>
               <th></th>
               <th>ردیف</th>
               <th>
-              <a href="#" data-id="name" class="name_field text-white">
-                نام
-                <i class="fa fa-angle-down"></i>  
-              </a>
+                <a href="#" data-id="name" class="name_field text-white">
+                  نام
+                  <i class="fa fa-angle-down"></i>
+                </a>
               </th>
               <th>
                 <a href="#" data-id="lastname" class="name_field text-white">
                   نام خانوادگی
-                  <i class="fa fa-angle-down"></i>  
+                  <i class="fa fa-angle-down"></i>
                 </a>
               </th>
               <th>
                 <a href="#" data-id="username" class="name_field text-white">
                   نام کاربری
-                  <i class="fa fa-angle-down"></i>  
+                  <i class="fa fa-angle-down"></i>
                 </a>
               </th>
               <th>نقش</th>
@@ -227,45 +247,45 @@
             </tr>
           </thead>
           <tbody class="tbody">
-          
-           @foreach ($users as $key=>$user)
-           <tr>
-             <td>
-               <div class="custom-control custom-checkbox custom-control-inline" style="margin-left: -1rem;">
-               <input data-id="{{$user->id}}" type="checkbox" id="user_{{ $key}}" name="customCheckboxInline1" class="custom-control-input" value="1">
-                 <label class="custom-control-label" for="user_{{$key}}"></label>
-               </div>
-             </td>
-             <td> {{$key+1}} </td>
-             <td>{{$user->user_firstname}}</td>
-             <td>{{$user->user_lastname}}</td>
-             <td>{{$user->user_username}}</td>
-             <td>{{$user->user_responsibility}}</td>
-             <td>{{$user->user_national_code}}</td>
-             <td>{{$user->user_mobile}}</td>
-             <td>
-               @if ($user->user_prfile_pic !== '' && $user->user_prfile_pic !== null )
-                   <img width="75px" class="img-fluid "
-                    src=" {{asset("uploads/brokers/$user->user_prfile_pic")}} " />
-               @else
-               <img width="75px" class="img-fluid " src=" {{asset("Pannel/img/avatar.jpg")}} " />
-               @endif
-             </td>
-           </tr>
-           @endforeach
-           
+
+            @foreach ($users as $key=>$user)
+            <tr>
+              <td>
+                <div class="custom-control custom-checkbox custom-control-inline" style="margin-left: -1rem;">
+                  <input data-id="{{$user->id}}" type="checkbox" id="user_{{ $key}}" name="customCheckboxInline1"
+                    class="custom-control-input" value="1">
+                  <label class="custom-control-label" for="user_{{$key}}"></label>
+                </div>
+              </td>
+              <td> {{$key+1}} </td>
+              <td>{{$user->user_firstname}}</td>
+              <td>{{$user->user_lastname}}</td>
+              <td>{{$user->user_username}}</td>
+              <td>{{$user->user_responsibility}}</td>
+              <td>{{$user->user_national_code}}</td>
+              <td>{{$user->user_mobile}}</td>
+              <td>
+                @if ($user->user_prfile_pic !== '' && $user->user_prfile_pic !== null )
+                <img width="75px" class="img-fluid " src=" {{asset("uploads/brokers/$user->user_prfile_pic")}} " />
+                @else
+                <img width="75px" class="img-fluid " src=" {{asset("Pannel/img/avatar.jpg")}} " />
+                @endif
+              </td>
+            </tr>
+            @endforeach
+
           </tbody>
         </table>
-      </div>
       </div>
     </div>
   </div>
 </div>
+</div>
 @endsection
 @section('css')
 <style>
-  
- 
+
+
 </style>
 @endsection
 
@@ -273,9 +293,6 @@
 
 
 <script>
- 
-
-
   $(document).ready(function(){
     $.ajaxSetup({
 
