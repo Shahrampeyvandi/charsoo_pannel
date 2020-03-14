@@ -41,6 +41,7 @@ class CreatePersonalsTable extends Migration
             $table->text('technical_credential')->nullable();
             $table->text('expert_credential')->nullable();
             $table->integer('personal_status')->default(1);
+            $table->integer('shop_keeper')->nullable();
             $table->string('firebase_token')->nullable();
             $table->timestamps();
         });

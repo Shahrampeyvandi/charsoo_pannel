@@ -145,8 +145,7 @@ class OrderController extends Controller
                     'order_date_second' => $request->time_two[$key] !== null && $request->date_two[$key] !== null ?  $this->convertDate($request->date_two[$key]) : '',
                     'order_address' => $address
                 ]);
-
-
+                
                 $date = Carbon::parse($order->order_date_first)->timestamp;
                 $Code = $this->generateRandomString($order->order_username_customer, $date, $order->id);
 

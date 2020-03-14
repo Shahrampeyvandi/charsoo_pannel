@@ -9,8 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 class Order extends Model
 {
     protected $guarded =[];
-   
-
+    
     public function relatedService()
     {
         return $this->hasOne(Service::class,'id','service_id');

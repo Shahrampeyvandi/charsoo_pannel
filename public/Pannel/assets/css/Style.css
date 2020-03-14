@@ -232,3 +232,17 @@ option.level-4 {
     background-repeat: no-repeat;
     z-index: 9999999999999;
 }
+
+.product-detail , .sundry-product-detail{
+    box-shadow:0 0 9px 0px #c5c1c1;
+}
+.product-detail> a ,.sundry-product-detail > a{
+    position: absolute;
+    left: 6px;
+    top: 3px;
+    color: red;
+    cursor: pointer;
+    padding: 4px;
+    z-index: 2;
+}
+

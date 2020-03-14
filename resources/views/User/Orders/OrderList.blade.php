@@ -85,12 +85,8 @@
               <select name="user_address" class="form-control" id="address-select">
                 <option value="">یاز کردن فهرست انتخاب</option>
               </select>
-
-
               <textarea type="text" class="form-control mt-2" name="new_address" id="add-address" style="display:none;">
-                </textarea>
-
-
+              </textarea>
             </div>
           </div>
           <div class="wrapper-content">

@@ -31,6 +31,8 @@ Route::group(['middleware' => ['checkAuth']], function () {
         Route::post('UserDelete', 'User\MainController@DeleteUser')->name('Users.Delete');
 
         Route::post('getUserData', 'User\MainController@getUserData')->name('User.Edit.getData');
+        Route::put('getUserData', 'User\MainController@getUserData')->name('User.getProfile');
+
     });
 
     Route::get('/Services/Categories', 'User\ServiceCategoryController@CategoryList')->name('Pannel.Services.Category');
@@ -135,9 +137,6 @@ Route::group(['middleware' => ['checkAuth']], function () {
 
     Route::post('deleteOrder', 'User\OrderController@deleteOrder')->name('Order.Delete');
 
-
-
-
     Route::get('/Personals/Online', 'User\TrackPersonalController@OnlinePersonals')->name('Pannel.Personals.Online');
 
     Route::get('/Personals/Track', 'User\TrackPersonalController@TrackPersonals')->name('Pannel.Personals.Track');
@@ -156,4 +155,21 @@ Route::group(['middleware' => ['checkAuth']], function () {
     Route::post('Setting/Change', 'User\SettingController@SettingChange')->name('Pannel.Setting.Change');
 
     Route::get('/Acounting/CheckoutPersonals/Export','Acounting\CheckoutPersonalsController@export')->name('Pannel.Acounting.CheckoutPersonals.Export');
+
+    Route::get('/Services/Stores', 'User\StoreController@index')->name('Pannel.Services.Stores');
+    Route::post('/Services/Stores/Insert', 'User\StoreController@submitStore')->name('Pannel.Services.submitStore');
+    
+    Route::post('/getRegions', 'User\StoreController@getCityRegions')->name('Store.getCityRegions');
+
+
+
+
+
+
+
+
+
+
+
+
 }); /*    E N D - R O U T E - G R O U P    */

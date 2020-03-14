@@ -50,7 +50,23 @@ $(document).ready(function () {
         },
         birth_year: {
             required:true
+        },
+        tel_work: {
+            required:true
+        },
+        store_name: {
+            required:true
+        },
+        store_city : {
+            required:true
+        },
+        store_main_street:{
+            required:true
+        },
+        store_pluck_num:{
+            required:true
         }
+
         
         },
         messages: {
@@ -85,6 +101,20 @@ $(document).ready(function () {
         },
         birth_year: {
             required:'تاریخ تولد را انتخاب کنید',
+        } , tel_work: {
+            required:'شماره محل کار را وارد نمایید'
+        },
+        store_name: {
+            required:' نام فروشگاه را وارد نمایید'
+        },
+        store_city: {
+            required:' نام شهر را وارد نمایید'
+        },
+        store_main_street:{
+            required: 'نام خیابان اصلی را وارد نمایید'
+        },
+        store_pluck_num:{
+            required: 'شماره پلاک را وارد نماید'
         }
         }
       });

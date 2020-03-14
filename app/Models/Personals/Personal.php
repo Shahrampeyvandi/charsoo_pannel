@@ -6,6 +6,7 @@ use App\Models\Orders\Order;
 use App\Models\Services\Service;
 use App\Models\Personals\Position;
 use App\Models\Acounting\UserAcounts;
+use App\Models\Store\Store;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
@@ -45,5 +46,10 @@ class Personal  extends  Authenticatable  implements JWTSubject
     public function useracounts()
     {
         return $this->hasMany(UserAcounts::class);
+    }
+
+    public function store()
+    {
+        return $this->hasOne(Store::class,'owner_id');
     }
 }

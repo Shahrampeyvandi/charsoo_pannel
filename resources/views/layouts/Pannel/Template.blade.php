@@ -160,6 +160,90 @@ $.ajax({
 
 
 
+$('.modal-profile').on('shown.bs.modal', function (event) {
+       
+       $.ajax({
+       type:'put',
+       url:'{{route("User.getProfile")}}',
+       cache: false,
+        async: true,
+       
+       success:function(data){
+          $('.content-profile').html(data)
+          editform= $('#edit--form')
+          editform.validate({
+               rules: {
+                 user_name: {
+                   required: true,
+                   // digits: true,
+                   // minlength: 5,
+                   maxlength: 20
+                 },
+                 user_family:{
+                   required:true,
+                   maxlength: 20
+                 },
+                 
+               confirm_user_pass:{
+                           
+                           equalTo : "#user_passa"
+                         },
+               username:{
+                           required:true
+                         },
+               user_mobile:{
+                           required:true,
+                           digits: true,
+                           minlength: 11,
+                           maxlength:11
+                 },
+               },
+               messages: {
+                 user_name: {
+                   //minlength: jQuery.format("Zip must be {0} digits in length"),
+                   maxlength:'نام حداکثر 20 کاراکتر میتواند داشته باشد',
+                   required: "لطفا نام را وارد نمایید"
+                 },
+                 user_family: {
+                   //minlength: jQuery.format("Zip must be {0} digits in length"),
+                   //maxlength: jQuery.format("Please use a {0} digit zip code"),
+                   required: "لطفا نام خانوادگی را وارد نمایید",
+                   maxlength:'نام خانوادگی حداکثر 20 کاراکتر میتواند داشته باشد',
+       
+                 },
+                 user_pass: {
+                   //minlength: jQuery.format("Zip must be {0} digits in length"),
+                   //maxlength: jQuery.format("Please use a {0} digit zip code"),
+                   required: "لطفا پسورد را وارد نمایید"
+                 },
+                 username: {
+                   //minlength: jQuery.format("Zip must be {0} digits in length"),
+                   //maxlength: jQuery.format("Please use a {0} digit zip code"),
+                   required: "لطفا نام کاربری را وارد نمایید"
+                 },
+                 confirm_user_pass: {
+                   //minlength: jQuery.format("Zip must be {0} digits in length"),
+                   //maxlength: jQuery.format("Please use a {0} digit zip code"),
+                   required: "رمز عبور را تکرار کنید",
+                   equalTo : "تکرار رمز عبور صحیح نمیباشد"
+                 },
+                 user_mobile: {
+                   //minlength: jQuery.format("Zip must be {0} digits in length"),
+                   //maxlength: jQuery.format("Please use a {0} digit zip code"),
+                   required: "لطفا شماره موبایل را وارد نمایید",
+                   digits: 'شماره موبایل بایستی به صورت عددی وارد شود',
+                   minlength: 'شماره موبایل بایستی 11 رقم باشد',
+                   maxlength: 'شماره موبایل بایستی 11 رقم باشد',
+                 }
+               }
+             })
+           }
+         })
+        })  
+
+
+
+
 // function display_c(){
 // var refresh=1000; // Refresh rate in milli seconds
 // mytime=setTimeout('display_ct()',refresh)

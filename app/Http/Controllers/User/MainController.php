@@ -313,9 +313,17 @@ class MainController extends Controller
 
   public function getUserData(Request $request)
   {
+    
+    if (request()->method() == "POST") {
+      $user = User::where('id', $request->user_id)->first();
 
+    }
+    if (request()->method() == "PUT") {
+      $user = auth()->user()->first();
 
-    $user = User::where('id', $request->user_id)->first();
+    }
+    
+
 
     $csrf = csrf_token();
     $list = '
@@ -338,7 +346,7 @@ class MainController extends Controller
                   <div class="chose-img">
                       <input type="file" class="btn-chose-img" name="user_profile" title="نوع فایل میتواند png , jpg  باشد">
                   </div>
-                  ' . ($user->user_prfile_pic !== '' ?
+                  ' . ($user->user_prfile_pic !== '' && $user->user_prfile_pic !== null ?
                 '<img style="border-radius: 50%;object-fit: contain; background: #fff; max-width: 100%; height: 100%; width: 100%;" src="' . route('BaseUrl') . '/uploads/brokers/' . $user->user_prfile_pic . '" alt="">
                   <p class="text-chose-img" style="position: absolute;top: 82%;left: 14%;font-size: 13px;">تغییر
                       پروفایل</p>
@@ -544,4 +552,5 @@ class MainController extends Controller
     );
     return json_encode($data);
   }
+
 }
