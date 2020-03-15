@@ -111,9 +111,9 @@
     integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="
     crossorigin=""></script>
 
-    <script src="{{route('BaseUrl')}}/Pannel/assets/js/jquery/jquery.js"></script>
+  {{-- <script src="{{route('BaseUrl')}}/Pannel/assets/js/jquery/jquery.js"></script>
     <script src="{{route('BaseUrl')}}/Pannel/assets/js/persian-date.min.js"></script>
-    <script src="{{route('BaseUrl')}}/Pannel/assets/js/persian-datepicker.min.js"></script>
+    <script src="{{route('BaseUrl')}}/Pannel/assets/js/persian-datepicker.min.js"></script> --}}
 
 
 <script type="text/javascript">
@@ -161,27 +161,87 @@
       var layer = new L.TileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png');
      // var layer = new L.TileLayer('http://{s}.tile.openstreetmap.de/tiles/osmde/{z}/{x}/{y}.png');
 
-     var latlngs = [];
 
      var greenIcon = L.icon({
     iconUrl: '{{route('BaseUrl')}}/mapmarker/marker-icon.png',
 
-    iconSize:     [25, 45], // size of the icon
-    iconAnchor:   [10, 40], // point of the icon which will correspond to marker's location
-    popupAnchor:  [0, -50] // point from which the popup should open relative to the iconAnchor
+    iconSize:     [15, 25], // size of the icon
+    iconAnchor:   [7, 20], // point of the icon which will correspond to marker's location
+    popupAnchor:  [0, -20] // point from which the popup should open relative to the iconAnchor
     });
 
 
 
 
+    var latlngs1 = [];
+    var latlngs2 = [];
+    var latlngs3 = [];
+    var latlngs4 = [];
+    var latlngs5 = [];
 
 
+var number = 1;
      @foreach($khedmatResan as $key=>$position)
           L.marker([{{$position->tool}}, {{$position->arz}}],{icon: greenIcon}).addTo(map)
         .bindPopup('<style>table, th, td {border: 1px solid black;  padding: 8px;}</style><table><tr><td>شمارش</td><td>{{$key+1}}</td></tr><tr><td>ساعت</td><td>{{\Morilog\Jalali\Jalalian::forge($position->created_at)->format('H:i:s')}}</td></tr><tr><td>تاریخ</td><td>{{\Morilog\Jalali\Jalalian::forge($position->created_at)->format('%Y-%m-%d')}}</td></tr></table>')
         .openPopup();
 
-    latlngs.push([{{$position->tool}},{{$position->arz}}])
+     @php
+$kes=$key-1;
+     @endphp
+
+@if($kes>0)
+ var hour ={{\Morilog\Jalali\Jalalian::forge($position->created_at)->format('H')}}-{{\Morilog\Jalali\Jalalian::forge($khedmatResan[$kes]->created_at)->format('H')}};
+         var min ={{\Morilog\Jalali\Jalalian::forge($position->created_at)->format('i')}}-{{\Morilog\Jalali\Jalalian::forge($khedmatResan[$kes]->created_at)->format('i')}};
+
+       if(hour>0){
+        number++;
+       }else{
+
+if(min>25){
+  number++;
+}
+
+       }
+ 
+@endif
+
+
+
+
+
+
+
+
+
+        // if((time)>=1){
+        //   number++;
+        // }
+
+if(number === 1){
+
+  latlngs1.push([{{$position->tool}},{{$position->arz}}])
+
+}else if(number === 2){
+
+  latlngs2.push([{{$position->tool}},{{$position->arz}}])
+
+}else if(number ===3){
+  latlngs3.push([{{$position->tool}},{{$position->arz}}])
+
+}else if(number == 4){
+  latlngs4.push([{{$position->tool}},{{$position->arz}}])
+
+}else if (number === 5){
+  latlngs5.push([{{$position->tool}},{{$position->arz}}])
+
+}else if (number === 6){
+  latlngs6.push([{{$position->tool}},{{$position->arz}}])
+
+}else if (number === 7){
+  latlngs7.push([{{$position->tool}},{{$position->arz}}])
+
+}
 
 
       @endforeach
@@ -191,7 +251,13 @@
       // Adding layer to the map
       map.addLayer(layer);
 
-      var polyline = L.polyline(latlngs, {color: 'blue', weight: 10 , opacity: 0.6}).addTo(map);
+      var polyline = L.polyline(latlngs1, {color: 'blue', weight: 10 , opacity: 0.6}).addTo(map);
+      var polyline = L.polyline(latlngs2, {color: 'green', weight: 10 , opacity: 0.6}).addTo(map);
+      var polyline = L.polyline(latlngs3, {color: 'yellow', weight: 10 , opacity: 0.6}).addTo(map);
+      var polyline = L.polyline(latlngs4, {color: 'purple', weight: 10 , opacity: 0.6}).addTo(map);
+      var polyline = L.polyline(latlngs5, {color: 'red', weight: 10 , opacity: 0.6}).addTo(map);
+      var polyline = L.polyline(latlngs6, {color: 'blue', weight: 10 , opacity: 0.6}).addTo(map);
+      var polyline = L.polyline(latlngs7, {color: 'blue', weight: 10 , opacity: 0.6}).addTo(map);
 
 
     </script>

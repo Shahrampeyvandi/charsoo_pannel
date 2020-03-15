@@ -359,7 +359,7 @@ class OrdersController extends Controller
       $transactionbardasht->user_acounts_id=$useracount_Customer->id;     
 
       $transactionbardasht->type='برداشت';
-      $transactionbardasht->for='هزینه خدمت';
+      $transactionbardasht->for='هزینه سفارش';
       $transactionbardasht->order_unique_code=$orderdata->order_unique_code;
       $transactionbardasht->amount=$cost;
       $transactionbardasht->from_to='به حساب خدمت رسان با شناسه '.$useracount_Worker->id;
@@ -369,7 +369,7 @@ class OrdersController extends Controller
       $transactionvariz->user_acounts_id=$useracount_Worker->id;     
 
       $transactionvariz->type='واریز';
-      $transactionvariz->for='دستمزد';
+      $transactionvariz->for='انجام سفارش';
       $transactionvariz->order_unique_code=$orderdata->order_unique_code;
       $transactionvariz->amount=$cost;
       $transactionvariz->from_to='از حساب مشتری با شناسه '.$useracount_Customer->id;
