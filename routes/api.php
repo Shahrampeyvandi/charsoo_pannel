@@ -32,3 +32,9 @@ Route::post('personal/uploadImages','Api\OrdersController@uploadImages'); //tasv
 Route::get('personal/dashboarddetail','Api\PersonalController@getPersonalDashboardDetail');
 Route::POST('personal/position','Api\TrackPersonalController@sendpositions');
 
+
+
+
+// اطلاعات مربوط به مشتری
+Route::post('customer/verify','Api\CustomerController@verify');
+Route::post('customer/register','Api\CustomerController@register');
