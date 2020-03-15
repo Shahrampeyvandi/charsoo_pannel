@@ -12,7 +12,7 @@
      {{-- filtering --}}
      <div class="card filtering container-fluid" >
        
-        <div class="card-body" style="height:300px">
+        <div class="card-body" style="height:350px">
           <div class="card-title">
             <h5 class="text-center">مسیر حرکت خدمت رسان ها</h5>
             <hr>
@@ -74,9 +74,13 @@
 
               <button type="submit" class="btn btn-outline-primary">نمایش</button>
               {{-- {{$khedmatResans}} --}}
+
+            
             </form>
+        
             </div>
           </div>
+        
         </div>
       </div>
   {{-- end filtering --}}
@@ -111,35 +115,15 @@
     integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="
     crossorigin=""></script>
 
+    <script src="{{route('BaseUrl')}}/mapmarker/leaflet.polylineDecorator.js"></script>
+
+
   {{-- <script src="{{route('BaseUrl')}}/Pannel/assets/js/jquery/jquery.js"></script>
     <script src="{{route('BaseUrl')}}/Pannel/assets/js/persian-date.min.js"></script>
     <script src="{{route('BaseUrl')}}/Pannel/assets/js/persian-datepicker.min.js"></script> --}}
 
 
-<script type="text/javascript">
-    $(document).ready(function() {
-        $(".date").pDatepicker({
-            format: 'YYYY-MM-DD',
-            "autoClose": true,
-            "calendarType": "gregorian",
 
-
-            "calendar": {
-    "persian": {
-      "locale": "fa",
-      "showHint": true,
-      "leapYearMode": "algorithmic"
-    },
-    "gregorian": {
-      "locale": "en",
-      "showHint": true
-    }
-  },
-
-
-        });
-    });
-</script>
 
 
 
@@ -178,6 +162,8 @@
     var latlngs3 = [];
     var latlngs4 = [];
     var latlngs5 = [];
+    var latlngs6 = [];
+    var latlngs7 = [];
 
 
 var number = 1;
@@ -194,8 +180,19 @@ $kes=$key-1;
  var hour ={{\Morilog\Jalali\Jalalian::forge($position->created_at)->format('H')}}-{{\Morilog\Jalali\Jalalian::forge($khedmatResan[$kes]->created_at)->format('H')}};
          var min ={{\Morilog\Jalali\Jalalian::forge($position->created_at)->format('i')}}-{{\Morilog\Jalali\Jalalian::forge($khedmatResan[$kes]->created_at)->format('i')}};
 
-       if(hour>0){
+       if(hour>1){
+
         number++;
+
+
+       }else if(hour>0){
+
+        if(min>-35){
+          number++;
+        }
+        //debugger;
+
+
        }else{
 
 if(min>25){
@@ -251,13 +248,62 @@ if(number === 1){
       // Adding layer to the map
       map.addLayer(layer);
 
-      var polyline = L.polyline(latlngs1, {color: 'blue', weight: 10 , opacity: 0.6}).addTo(map);
-      var polyline = L.polyline(latlngs2, {color: 'green', weight: 10 , opacity: 0.6}).addTo(map);
-      var polyline = L.polyline(latlngs3, {color: 'yellow', weight: 10 , opacity: 0.6}).addTo(map);
-      var polyline = L.polyline(latlngs4, {color: 'purple', weight: 10 , opacity: 0.6}).addTo(map);
-      var polyline = L.polyline(latlngs5, {color: 'red', weight: 10 , opacity: 0.6}).addTo(map);
-      var polyline = L.polyline(latlngs6, {color: 'blue', weight: 10 , opacity: 0.6}).addTo(map);
-      var polyline = L.polyline(latlngs7, {color: 'blue', weight: 10 , opacity: 0.6}).addTo(map);
+      var polyline1 = L.polyline(latlngs1, {color: 'blue', weight: 10 , opacity: 0.6}).addTo(map);
+     var polyline2 = L.polyline(latlngs2, {color: 'green', weight: 10 , opacity: 0.6}).addTo(map);
+     var polyline3 = L.polyline(latlngs3, {color: 'yellow', weight: 10 , opacity: 0.6}).addTo(map);
+    var polyline4 = L.polyline(latlngs4, {color: 'purple', weight: 10 , opacity: 0.6}).addTo(map);
+      var polyline5 = L.polyline(latlngs5, {color: 'red', weight: 10 , opacity: 0.6}).addTo(map);
+     var polyline6 = L.polyline(latlngs6, {color: 'blue', weight: 10 , opacity: 0.6}).addTo(map);
+     var polyline7 = L.polyline(latlngs7, {color: 'blue', weight: 10 , opacity: 0.6}).addTo(map);
+
+
+     var markerPatterns1 = L.polylineDecorator(polyline1, {
+        patterns: [
+            { offset: '5%', repeat: '10%', symbol:L.Symbol.arrowHead({pixelSize: 8, polygon: false, pathOptions: {color: '#f00',stroke: true}})}
+        ]
+    }).addTo(map);
+
+    var markerPatterns2 = L.polylineDecorator(polyline2, {
+        patterns: [
+          { offset: '5%', repeat: '10%', symbol:L.Symbol.arrowHead({pixelSize: 8, polygon: false, pathOptions: {color: '#f00',stroke: true}})}
+        ]
+    }).addTo(map);
+
+
+    var markerPatterns3 = L.polylineDecorator(polyline3, {
+        patterns: [
+          { offset: '5%', repeat: '10%', symbol:L.Symbol.arrowHead({pixelSize: 8, polygon: false, pathOptions: {color: '#f00',stroke: true}})}
+        ]
+    }).addTo(map);
+
+
+    var markerPatterns4 = L.polylineDecorator(polyline4, {
+        patterns: [
+          { offset: '5%', repeat: '10%', symbol:L.Symbol.arrowHead({pixelSize: 8, polygon: false, pathOptions: {color: '#f00',stroke: true}})}
+        ]
+    }).addTo(map);
+
+
+    var markerPatterns5 = L.polylineDecorator(polyline5, {
+        patterns: [
+          { offset: '5%', repeat: '10%', symbol:L.Symbol.arrowHead({pixelSize: 8, polygon: false, pathOptions: {color: '#f00',stroke: true}})}
+        ]
+    }).addTo(map);
+
+
+    var markerPatterns6 = L.polylineDecorator(polyline6, {
+        patterns: [
+          { offset: '5%', repeat: '10%', symbol:L.Symbol.arrowHead({pixelSize: 8, polygon: false, pathOptions: {color: '#f00',stroke: true}})}
+        ]
+    }).addTo(map);
+
+
+    var markerPatterns7 = L.polylineDecorator(polyline7, {
+        patterns: [
+          { offset: '5%', repeat: '10%', symbol:L.Symbol.arrowHead({pixelSize: 8, polygon: false, pathOptions: {color: '#f00',stroke: true}})}
+        ]
+    }).addTo(map);
+
 
 
     </script>
