@@ -154,6 +154,10 @@ Route::group(['middleware' => ['checkAuth']], function () {
 
     Route::post('Setting/Change', 'User\SettingController@SettingChange')->name('Pannel.Setting.Change');
 
+    Route::get('App/Appmenu', 'App\AppMenuController@index')->name('Pannel.AppManage.Menu');
+    Route::post('App/Appmenu/Submit', 'App\AppMenuController@submit')->name('Pannel.AppManage.Menu.Submit');
+
+
     Route::get('/Acounting/CheckoutPersonals/Export','Acounting\CheckoutPersonalsController@export')->name('Pannel.Acounting.CheckoutPersonals.Export');
 
     Route::get('/Services/Stores', 'User\StoreController@index')->name('Pannel.Services.Stores');
