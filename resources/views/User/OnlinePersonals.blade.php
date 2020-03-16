@@ -130,23 +130,15 @@
 
 
       $(document).ready(function(){
-        $.ajaxSetup({
-          headers: {
-          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-          }
-          });
+       
+        var timer = setInterval(updatemap,30000);
+        function updatemap(){
+                      
+          location.reload();
 
-        $('#personals_type1').click(function(){
-          var data = $(this).val();
-          $.ajax({
-          type:'post',
-          url:'{{route("Order.Category.getService")}}',
-          data:{data:data},
-          success:function(data){ 
-          $('#service_name').html(data)
-            }
-          })
-        });
+                
+                }
+
       });
 </script>
 

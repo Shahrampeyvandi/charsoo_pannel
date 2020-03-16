@@ -106,6 +106,19 @@
                     class="active" @endif href=" {{route('Pannel.Services.TrackPersonals')}} "><i
                         class="icon ti-rss-alt"></i> <span> مسیر حرکت خدمت رسان ها </span> </a></li>
             --}}
+            
+            {{-- @if(auth()->user()->can('accounting')) --}}
+            <li><a href=""><i class="icon ti-money"></i><span> مدیریت اپلیکیشن</span></a>
+                <ul>
+                    {{-- @if (auth()->user()->can('user_accounts')) --}}
+                    <li><a @if (Illuminate\Support\Facades\Route::currentRouteName()=='Pannel.User.List' )
+                            class="active" @endif href="{{route('Pannel.AppManage.Menu')}}"> <span> منوی اپ مشتری </span> </a> </li>
+                    {{-- @endif --}}
+                
+                </ul>
+            </li>
+            {{-- @endif --}}
+            
             @if (auth()->user()->hasRole('admin_panel'))
             <li><a @if (Illuminate\Support\Facades\Route::currentRouteName()=='Pannel.Setting' ) class="active" @endif
                     href=" {{route('Pannel.Setting')}}"><i class="icon ti-layout"></i> <span> تنظیمات </span> </a></li>
