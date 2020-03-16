@@ -24,6 +24,7 @@ class CreateStoresTable extends Migration
             $table->string('store_city')->nullable();
             $table->string('store_main_street')->nullable();
             $table->string('store_secondary_street')->nullable();
+            $table->integer('store_pelak')->nullable();
             $table->text('store_neighborhoods')->nullable();
             $table->integer('products_quantity')->nullable();
             $table->integer('owner_id');

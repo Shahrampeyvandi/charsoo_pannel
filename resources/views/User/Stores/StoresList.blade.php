@@ -2,6 +2,43 @@
 
 @section('content')
 
+<div class="modal fade" id="showStore" tabindex="-1" role="dialog" aria-labelledby="showStoreLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel"></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <img src="" alt="" class="w-100 img-fluid">
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
+
+<div class="modal fade" id="locationModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">مناطق تحت پوشش</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body locations">
+
+            </div>
+
+        </div>
+    </div>
+</div>
 {{-- modal for delete --}}
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
     aria-hidden="true">
@@ -49,11 +86,18 @@
                                             src="{{route('BaseUrl')}}/Pannel/img/temp_logo.jpg" alt="">
                                         <p class="text-chose-img"
                                             style="position: absolute;top: 44%;left: 14%;font-size: 13px;">انتخاب
-                                             پروفایل</p>
+                                            پروفایل</p>
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
+                                <div class="form-group col-md-6" style="padding-top: 11px;">
+                                    <label class="form-control-label"> <span class="text-danger">*</span> تلفن همراه
+                                    </label>
+                                    <input class="form-control text-right" id="p_mobile" name="mobile" placeholder=""
+                                        type="number" dir="ltr">
+
+                                </div><!-- form-group -->
                                 <div class="form-group col-md-6">
                                     <label>نام </label>
                                     <input type="text" id="firstname" name="firstname" class="form-control"
@@ -62,6 +106,11 @@
                                         صحیح است!
                                     </div>
                                 </div><!-- form-group -->
+                            </div>
+                            <div class="row">
+
+
+
 
                                 <div class="form-group col-md-6">
                                     <label>نام خانوادگی</label>
@@ -71,11 +120,6 @@
                                         صحیح است!
                                     </div>
                                 </div><!-- form-group -->
-                            </div>
-
-
-                            <div class="row">
-
                                 <div class="form-group col-md-6">
                                     <label>تاریخ تولد </label>
                                     <input type="text" class="form-control ltr" name="birth_year" id="birth_year"
@@ -84,8 +128,8 @@
                                         صحیح است!
                                     </div>
                                 </div><!-- form-group -->
-
-
+                            </div>
+                            <div class="row">
                                 <div class="form-group col-md-6">
                                     <label>کد ملی </label>
                                     <input type="number" onblur="checknationalcode(this.value)" name="national_num"
@@ -94,8 +138,6 @@
                                         صحیح است!
                                     </div>
                                 </div><!-- form-group -->
-                            </div>
-                            <div class="row">
                                 <div class="form-group col-md-6">
                                     <label for="recipient-name" class="col-form-label">جنسیت: </label>
                                     <select name="gender" class="form-control" id="exampleFormControlSelect2">
@@ -103,44 +145,30 @@
                                         <option value="زن">زن</option>
                                     </select>
                                 </div>
-
                             </div>
+
+
+
+
                         </section>
                         <h3>اطلاعات تماس</h3>
                         <section>
                             <div class="row">
                                 <div class="form-group col-md-6">
                                     <label class="form-control-label"> تلفن منزل: </label>
-                                    <input id="tel_home" class="form-control text-right" type="num" name="tel_home"
-                                        placeholder="" type="number" dir="ltr">
-                                   
+                                    <input id="tel_home" class="form-control text-right" name="tel_home"
+                                        onblur="validatePhone(event,this.value)" placeholder="" type="number" dir="ltr">
+
                                 </div><!-- form-group -->
                                 <div class="form-group col-md-6">
-                                    <label class="form-control-label"><span class="text-danger">*</span> تلفن محل کار</label>
-                                    <input id="tel_work" class="form-control text-right" type="num" name="tel_work"
-                                        placeholder="" type="number" dir="ltr">
-                                
+                                    <label class="form-control-label"><span class="text-danger">*</span> تلفن محل
+                                        کار</label>
+                                    <input id="tel_work" class="form-control text-right" name="tel_work"
+                                        onblur="validatePhone(event,this.value)" placeholder="" type="number" dir="ltr">
+
                                 </div><!-- form-group -->
                             </div>
-                            <div class="row">
-                                <div class="form-group col-md-6" style="padding-top: 11px;">
-                                    <label class="form-control-label"> <span class="text-danger">*</span> تلفن همراه
-                                    </label>
-                                    <input class="form-control text-right" id="p_mobile" name="mobile" placeholder=""
-                                        type="number" dir="ltr">
-                                  
-                                </div><!-- form-group -->
-                                <div class="form-group col-md-6">
-                                    <label for="recipient-name" class="col-form-label">نام شهر: </label>
-                                    <select name="city" class="form-control" id="exampleFormControlSelect2">
-                                        
-                                        <option value="مشهد">مشهد</option>
-                                        <option value="نیشابور">نیشابور</option>
-                                        <option value="فریمان">فریمان</option>
-                                        <option value="سبزوار">سبزوار</option>
-                                    </select>
-                                </div>
-                            </div>
+
 
 
 
@@ -149,27 +177,59 @@
                         <section>
                             <div class="row">
                                 <div class="form-group col-md-12">
-                                    <label class="form-control-label"><span class="text-danger">*</span> نام فروشگاه: </label>
-                                    <input id="store_name" class="form-control text-right"  name="store_name"
+                                    <label class="form-control-label"><span class="text-danger">*</span> نام فروشگاه:
+                                    </label>
+                                    <input id="store_name" class="form-control text-right" name="store_name"
                                         placeholder="" type="text" dir="ltr">
                                 </div><!-- form-group -->
                                 <div class="form-group col-md-12">
                                     <label class="form-control-label">حوزه فعالیت</label>
-                                    <input id="store_type" class="form-control text-right"  name="store_type"
+                                    <input id="store_type" class="form-control text-right" name="store_type"
                                         placeholder="" type="text" dir="ltr">
                                 </div><!-- form-group -->
 
                                 <div class="form-group col-md-12">
-                                    <label for="recipient-name" class="col-form-label">توضیحات تکمیلی:  </label>
-                                    <textarea id="store_descripton" class="form-control text-right" 
-                                    name="store_descripton"
-                                        type="text" dir="rtl"></textarea>
+                                    <label for="recipient-name" class="col-form-label">توضیحات تکمیلی: </label>
+                                    <textarea id="store_descripton" class="form-control text-right"
+                                        name="store_descripton" type="text" dir="rtl"></textarea>
                                 </div>
                                 <div class="form-group col-md-12">
                                     <label class="form-control-label">تصویر فروشگاه:</label>
-                                    <input id="store_picture" class="form-control text-right"  name="store_picture"
+                                    <input id="store_picture" class="form-control text-right" name="store_picture"
                                         placeholder="" type="file" dir="rtl">
                                 </div><!-- form-group -->
+                                <div class="form-group col-md-6">
+                                    <label for="recipient-name" class="col-form-label">نام شهر: </label>
+                                    <select name="city" class="form-control" id="exampleFormControlSelect2">
+
+                                        <option value="مشهد">مشهد</option>
+                                        <option value="نیشابور">نیشابور</option>
+                                        <option value="فریمان">فریمان</option>
+                                        <option value="سبزوار">سبزوار</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group col-md-12">
+                                    <label for="recipient-name" class="col-form-label">نام خیابان اصلی: </label>
+                                    <input id="store_main_street" class="form-control text-right"
+                                        name="store_main_street" type="text" dir="rtl">
+                                </div>
+
+
+
+                                <div class="form-group col-md-12">
+                                    <label for="recipient-name" class="col-form-label">نام خیابان فرعی: </label>
+                                    <input id="store_secondary_street" class="form-control text-right"
+                                        name="store_secondary_street" type="text" dir="rtl">
+                                </div>
+
+
+                                <div class="form-group col-md-6">
+                                    <label for="recipient-name" class="col-form-label">شماره پلاک </label>
+                                    <input id="store_pluck_num" class="form-control text-right" type="number"
+                                        name="store_pluck_num" dir="rtl">
+                                </div>
+
                             </div>
                         </section>
                         <h3>ادرس فروشگاه </h3>
@@ -190,31 +250,10 @@
                             </div>
                             <div class="row">
                                 <div class="form-group col-md-12 regions">
-                                   
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="form-group col-md-12">
-                                    <label for="recipient-name" class="col-form-label">نام خیابان اصلی: </label>
-                                    <input id="store_main_street" class="form-control text-right" 
-                                        name="store_main_street" type="text" dir="rtl">
+
                                 </div>
                             </div>
 
-                            <div class="row">
-                                <div class="form-group col-md-12">
-                                    <label for="recipient-name" class="col-form-label">نام خیابان فرعی: </label>
-                                    <input id="store_secondary_street" class="form-control text-right" 
-                                        name="store_secondary_street" type="text" dir="rtl">
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="form-group col-md-6">
-                                    <label for="recipient-name" class="col-form-label">شماره پلاک </label>
-                                    <input id="store_pluck_num" class="form-control text-right" type="number"
-                                        name="store_pluck_num"  dir="rtl">
-                                </div>
-                            </div>
 
                         </section>
                         <h3>محصولات</h3>
@@ -233,23 +272,21 @@
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label for="recipient-name" class="col-form-label">تصویر محصول</label>
-                                    <input id="product_picture" class="form-control text-right" 
-                                    name="product_picture[]"
+                                    <input id="product_picture" class="form-control text-right" name="product_picture[]"
                                         type="file" dir="rtl">
                                 </div>
                                 <div class="form-group  col-md-6 pt-4">
                                     <span>وضعیت محصول</span>
                                     <div class="">
                                         <label class="" for="product_status">فعال</label>
-                                        <input style="display:inline-block;" value="1" type="checkbox"
-                                            class="" name="product_status[]" id="product_status">
+                                        <input style="display:inline-block;" value="1" type="checkbox" class=""
+                                            name="product_status[]" id="product_status">
                                     </div>
                                 </div>
                                 <div class="form-group col-md-12">
                                     <label for="recipient-name" class="col-form-label">توضیح محصول: </label>
-                                    <textarea id="product_description" class="form-control text-right" 
-                                    name="product_description[]"
-                                        type="text" dir="rtl"></textarea>
+                                    <textarea id="product_description" class="form-control text-right"
+                                        name="product_description[]" type="text" dir="rtl"></textarea>
                                 </div>
                             </div>
                             <div class="clone"></div>
@@ -260,19 +297,18 @@
                             <div class="row sundry-product-detail mb-2" style="position: relative;">
                                 <div class="form-group col-md-6">
                                     <label for="recipient-name" class="col-form-label">نام محصول</label>
-                                    <input id="sundry_product_name" class="form-control text-right" name="sundry_product_name[]"
-                                        type="text" dir="rtl">
+                                    <input id="sundry_product_name" class="form-control text-right"
+                                        name="sundry_product_name[]" type="text" dir="rtl">
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label for="recipient-name" class="col-form-label">قیمت محصول</label>
-                                    <input id="sundry_product_price" class="form-control text-right" name="sundry_product_price[]"
-                                        type="number" dir="rtl">
+                                    <input id="sundry_product_price" class="form-control text-right"
+                                        name="sundry_product_price[]" type="number" dir="rtl">
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label for="recipient-name" class="col-form-label">تصویر محصول</label>
-                                    <input id="sundry_product_picture" class="form-control text-right" 
-                                    name="sundry_product_picture[]"
-                                        type="file" dir="rtl">
+                                    <input id="sundry_product_picture" class="form-control text-right"
+                                        name="sundry_product_picture[]" type="file" dir="rtl">
                                 </div>
                             </div>
                             <div class="clone"></div>
@@ -287,7 +323,7 @@
 </div>
 
 {{-- modal for edit --}}
- 
+
 <div class="modal fade bd-example-modal-lg-edit" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
     aria-hidden="true">
     <div class="modal-dialog modal-lg">
@@ -394,38 +430,89 @@
                             <th>ردیف</th>
                             <th>
                                 <a href="#" data-id="name" class="name_field text-white">
-                                    نام
+                                    نام فروشگاه
                                     <i class="fa fa-angle-down"></i>
                                 </a>
                             </th>
                             <th>
                                 <a href="#" data-id="family" class="name_field text-white">
-                                    نام خانوادگی
+                                    ادرس فروشگاه
                                     <i class="fa fa-angle-down"></i>
                                 </a>
                             </th>
-                            <th>شماره همراه</th>
-                            <th>فعال</th>
+                            <th>درباره فروشگاه</th>
+                            <th>نوع فروشگاه</th>
                             <th>
-                                <a href="#" data-id="gender" class="name_field text-white">
-                                    جنسیت
-                                    <i class="fa fa-angle-down"></i>
-                                </a>
-
+                                نام شهر
                             </th>
-                            <th>وضعیت تاهل</th>
-                            <th>اخرین مدرک تحصیلی</th>
-                            <th>تلفن منزل</th>
-                            <th>تلفن محل کار</th>
-                            <th>تاریخ عضویت</th>
-                            <th>تصویر پروفایل</th>
+                            <th>تعداد محصولات</th>
+                            <th>مناطق تحت پوشش</th>
+                            <th>مالک فروشگاه</th>
+                            <th>عکس فروشگاه</th>
 
                         </tr>
                     </thead>
                     <tbody class="tbody">
+                        @foreach ($stores as $key=>$store)
+                        <tr>
+                            <td>
+                                <div class="checkpersonal custom-control custom-checkbox custom-control-inline"
+                                    style="margin-left: -1rem;">
+                                    <input data-id="{{$store->id}}" type="checkbox" id="{{ $key}}"
+                                        name="checkbox" class="custom-control-input" value="1">
+                                    <label class="custom-control-label" for="{{$key}}"></label>
+                                </div>
+                            </td>
+                            <td> {{$key+1}} </td>
+                            <td>{{$store->store_name}}</td>
+                            <td>{{$store->store_city . ' - '.$store->store_main_street . ' - '.$store->store_secondary_street .' - '.$store->store_pelak}}
+                            </td>
+                            <td>
+                                @if ($store->store_description !== null)
+                                {{$store->store_description}}
+                                @else
+                                --
+                                @endif
 
+                            </td>
+                            <td>
+                                @if ($store->store_type !== null)
+                                {{$store->store_type}}
+                                @else
+                                ندارد
+                                @endif
+                            </td>
+                            <td>{{$store->store_city}}</td>
+                            <td>
+                                {{$store->products->count() }}
+                            </td>
+                            <td>
+                                <a href="#" title="مشاهده مناطق " data-id="{{$store->id}}" data-toggle="modal"
+                                    data-target="#locationModal">
+                                    <i class="fa fa-map-marker fa-2x"></i>
+                                </a>
+                            </td>
+                            <td>
+                                @php
+                                $personal = \App\Models\personals\personal::where('id',$store->owner_id)->first();
+                                @endphp
+                                @if (!is_null($personal))
+                                {{$personal->personal_firstname .' '.$personal->personal_lastname}}
+                                @endif
+                            </td>
+                            <td>
+                                @if ($store->store_picture !== '' && $store->store_picture !== null)
+                                <a href="#" title="مشاهده تصویر" data-toggle="modal" data-target="#showStore">
+                                    <img width="75px" class="img-fluid "
+                                        src="{{asset("uploads/stores/$store->store_picture")}} " />
+                                </a>
+                                @else
+                                --
+                                @endif
+                            </td>
+                        </tr>
+                        @endforeach
                     </tbody>
-
                 </table>
             </div>
         </div>
@@ -483,11 +570,9 @@
            $('.checkpersonal input[type="checkbox"]').change(function(){
             array=[]
             $('.checkpersonal input[type="checkbox"]').each(function(){
-
                 if($(this).is(':checked')){
                   array.push($(this).attr('data-id'))
                }
-
             if(array.length !== 0){
                 $('.delete-edit').show()
                 if (array.length !== 1) {
@@ -498,9 +583,7 @@
 
                     $('.container_icon').removeClass('justify-content-end')
                     $('.container_icon').addClass('justify-content-between')
-                    $('.edit-personal').show()
-                    
-                   
+                    $('.edit-personal').show() 
                 }
             }
             else{
@@ -515,7 +598,7 @@
 
 $(document).on('click','.clone-bottom',function(e){
   e.preventDefault()
-  let cloned = $(this).siblings('.row').clone()
+  let cloned = $(this).siblings('.product-detail').clone()
   cloned.prepend(`<a class="remove-product" href="#" >
                                     <i class="fa fa-close"></i>
                                 </a>`)
@@ -559,21 +642,34 @@ $(document).on('shown.bs.modal','.bd-example-modal-lg',function(){
 		showButtonPanel: true
 	});
 })
+$('#locationModal').on('shown.bs.modal', function (event) {
     
-// Edit
-$('.bd-example-modal-lg-edit').on('shown.bs.modal', function (event) {
-   personal_id =  $('table input[name="checkbox"]:checked').attr('data-id')
+  let store_id = $(event.relatedTarget).data('id')
     $.ajax({
     type:'post',
-    url:'{{route("Personal.Edit.getData")}}',
+    url:'{{route("Store.getLocations")}}',
     cache: false,
     async: true,
-    data:{personal_id:personal_id},
+    data:{store_id:store_id},
+    success:function(data){
+       $('.locations').html(data)
+    }
+})
+})
+// Edit
+$('.bd-example-modal-lg-edit').on('shown.bs.modal', function (event) {
+   store_id =  $('tbody input[name="checkbox"]:checked').attr('data-id')
+    $.ajax({
+    type:'post',
+    url:'{{route("Store.Edit.getData")}}',
+    cache: false,
+    async: true,
+    data:{store_id:store_id},
     success:function(data){
        $('.edit-modal-content').html(data)
-       $('.js-example-basic-single').select2({
-         placeholder: 'انتخاب کنید'
-        });
+    //    $('.js-example-basic-single').select2({
+    //      placeholder: 'انتخاب کنید'
+    //     });
         editform= $('#edit--form')
         var form = $("#example-advanced-form1").show();
     form.validate({
@@ -714,26 +810,6 @@ $('.bd-example-modal-lg-edit').on('shown.bs.modal', function (event) {
 
 
 
-// change status
-// $(document).on('click','input[id^="status_"]',function(){
-//   let  id =  $(this).data('id')
-//   if($(this).is(':checked')){
-//       var value = 1
-//   }else{
-//       var value = 0
-//   }
-//   $.ajax({
-// type:'post',
-// url:'{{route("Personal.ChangeStatus")}}',
-// data:{id:id,value:value},
-// success:function(data){
-//     swal("", "تغییر وضعیت خدمت رسان با موفقیت انجام شد", "success", {
-// 			button: "باشه"
-// 		});
-// }
-// })
-// })
-
 
 // Delete
    
@@ -743,8 +819,7 @@ $('.bd-example-modal-lg-edit').on('shown.bs.modal', function (event) {
                 console.log(array)
 
                 // ajax request
- $.ajax({
-
+      $.ajax({
                 type:'post',
                 url:'{{route("Personal.Delete")}}',
                 data:{array:array},
@@ -753,11 +828,9 @@ $('.bd-example-modal-lg-edit').on('shown.bs.modal', function (event) {
                     icon: "success",
 					          button: "تایید"
                        });
-
                        setTimeout(()=>{
                         location.reload()
                        },2000)
-               
                 }
         })
     })
@@ -781,7 +854,6 @@ success:function(data){
     }
 }
 })
-
 })
 
 $('#personal-filter').click(function(){
@@ -794,9 +866,7 @@ $('#personal-filter').click(function(){
     }
 })
 
-
 // OrderBy Personals
-
 var namefield = $('.name_field')
 namefield.click(function(e){
   e.preventDefault();
@@ -811,22 +881,39 @@ success:function(data){
  })
 })
 $('#p_mobile').blur(function(){
-var data = $(this).val();
+var mobile = $(this).val();
 var thiss = $(this);
- $.ajax({
+if(mobile !== ''){
+    $.ajax({
 type:'post',
-url:'{{route("Personal.CheckMobile")}}',
-data:{data:data},
-success:function(data){ 
-    swal("خطا!", data.error, "error", {
-			button: "باشه"
-        });
-        thiss.val('')
-    }
-  })
- })
+url:'{{route("Store.getOwnerData")}}',
+data:{mobile:mobile},
+success:function(data){
+    $('#firstname').val(data.personal_firstname)
+    $('#lastname').val(data.personal_lastname)
+    $('#user_national_num').val(data.personal_national_code)
+}
+})
+}
+})
 
-$('#store_city').change(function(){
+$(document).on('change','#store_city_edit',function(){
+
+
+let city_name = $(this).val();
+let store_id = $(this).data('id')
+$.ajax({
+type:'post',
+url:'{{route("Store.Edit.getCityRegions")}}',
+data:{city_name:city_name,store_id:store_id},
+success:function(data){ 
+    $('.regions').html(data)
+}
+})
+})
+$(document).on('change','#store_city',function(){
+
+
     let city_name = $(this).val();
     $.ajax({
     type:'post',
@@ -837,18 +924,12 @@ $('#store_city').change(function(){
     }
   })
 })
-
-
-
-
-
-
-
-
-
-
-
-
+$('#showStore').on('shown.bs.modal', function (event) {
+        var button = $(event.relatedTarget) // Button that triggered the modal
+  var recipient = button.find('img').attr('src') // Extract info from data-* attributes
+  var modal = $(this)
+  modal.find('img').attr('src',recipient)
+})
 })
 </script>
 @endsection

@@ -158,13 +158,18 @@ Route::group(['middleware' => ['checkAuth']], function () {
 
     Route::get('/Services/Stores', 'User\StoreController@index')->name('Pannel.Services.Stores');
     Route::post('/Services/Stores/Insert', 'User\StoreController@submitStore')->name('Pannel.Services.submitStore');
-    
+    Route::put('/Services/Stores/Insert', 'User\StoreController@submitEditStore')->name('Pannel.Services.submitStore');
     Route::post('/getRegions', 'User\StoreController@getCityRegions')->name('Store.getCityRegions');
+    Route::post('/getEditRegions', 'User\StoreController@getEditCityRegions')->name('Store.Edit.getCityRegions');
 
+    Route::post('/getLocations', 'User\StoreController@getLocations')->name('Store.getLocations');
+    
+    Route::post('/getOwnerData', 'User\StoreController@getOwnerData')->name('Store.getOwnerData');
 
+    Route::post('/getStoreData', 'User\StoreController@getStoreData')->name('Store.Edit.getData');
 
-
-
+    
+    
 
 
 

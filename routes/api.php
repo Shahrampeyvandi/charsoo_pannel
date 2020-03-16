@@ -23,18 +23,14 @@ Route::post('personal/refferOrder','Api\OrdersController@refferOrderToPersonal')
 Route::post('personal/startOrder','Api\OrdersController@startOrder');
 Route::post('personal/endOrder','Api\OrdersController@endOrder');
 Route::post('personal/reckoningorder','Api\OrdersController@reckoningorder'); //tasvie hesab
-
-Route::post('personal/uploadImages','Api\OrdersController@uploadImages'); //tasvie hesab
-
-
-
-
+Route::post('personal/uploadImages','Api\OrdersController@uploadImages'); 
 Route::get('personal/dashboarddetail','Api\PersonalController@getPersonalDashboardDetail');
 Route::POST('personal/position','Api\TrackPersonalController@sendpositions');
-
-
-
 
 // اطلاعات مربوط به مشتری
 Route::post('customer/verify','Api\CustomerController@verify');
 Route::post('customer/register','Api\CustomerController@register');
+Route::get('customer/getData','Api\CustomerController@getCustomer');
+Route::post('customer/updatedata','Api\CustomerController@updateCustomerData');
+Route::post('customer/updateprofile','Api\CustomerController@updateProfile');
+

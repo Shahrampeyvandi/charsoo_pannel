@@ -252,4 +252,17 @@ option.level-4 {
         height: 150px;
         position: relative;
  }
+ .product-img{
+  
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
 
+.product-img > .chose-img{
+    border-radius: 0;
+}
+.chose-img > input{
+    width: 100%;
+    height:100%;
+}

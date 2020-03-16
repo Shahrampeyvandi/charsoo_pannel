@@ -85,7 +85,16 @@
     @yield('js')
 
     <script>
-
+// function validatePhone(event,inputtxt) {
+//     var phoneno = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
+//     if(!phoneno.test(inputtxt)){
+//       swal("", "شماره تماس وارد شده معتبر نمیباشد", "error", {
+// 			button: "باشه"
+//     });
+//    event.target.value = ''
+    
+//     }
+// }
 function checknationalcode(meli_code) {
   if(meli_code.length == 0){
       return 
