@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers\User;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\Models\Services\Service;
+use Spatie\Permission\Models\Role;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Cache;
 use App\Models\Services\ServiceCategory;
-use App\Models\User;
-use Spatie\Permission\Models\Role;
 
 class ServiceController extends Controller
 {
@@ -162,6 +163,18 @@ class ServiceController extends Controller
         }
         
         $service = Service::where('id',$request->category_id)->first();
+        if ($service->service_pic_first	!== null && $service->service_pic_first	!== '') {
+
+            $image1Url = '/uploads/service_pics/'.$service->service_title.'/pic1/'.$service->service_pic_first;
+        }else{
+            $image1Url = '/Pannel/img/temp_logo.jpg';
+        }
+        if ($service->service_pic_second !== null && $service->service_pic_second !== '') {
+
+            $image2Url = '/uploads/service_pics/'.$service->service_title.'/pic2/'.$service->service_pic_second;
+        }else{
+            $image2Url = '/Pannel/img/temp_logo.jpg';
+        }
         $csrf = csrf_token();
         $category = ServiceCategory::where('id',$request->category_id)->first();
         $csrf = csrf_token();
@@ -356,20 +369,39 @@ $list = '<div class="modal-body">
                 صحیح است!
             </div>
         </div><!-- form-group -->
-            <div class="form-group wd-xs-300">
-                <label class="form-control-label"> تصویر 1: </label>
-                <input id="email" class="form-control text-right" name="pic_1"  type="file"  dir="rtl">
-                <div class="valid-feedback">
-                    صحیح است!
+        <div class="row">
+        <div class="form-group col-md-6">
+            <div class="service-img">
+                <div class="chose-img">
+                  <input type="file" class="btn-chose-img" id="" name="pic_1" title="نوع فایل میتواند png , jpg  باشد">
                 </div>
-            </div><!-- form-group -->
-            <div class="form-group wd-xs-300">
-                <label class="form-control-label"> تصویر 2: </label>
-                <input id="email" class="form-control text-right" name="pic_2"  type="file"  dir="rtl">
-                <div class="valid-feedback">
-                    صحیح است!
+                <img
+                  style="background: #fff;
+max-width: 100%;
+height: 100%;
+width: 100%;"
+                  src="'.route('BaseUrl').$image1Url.'" alt="">
+                <p class="text-chose-img" style="position: absolute;top: 44%;left: 33%;font-size: 13px;">انتخاب
+                  تصویر</p>
+              </div>
+        
+        </div><!-- form-group -->
+        <div class="form-group col-md-6">
+            <div class="service-img">
+                <div class="chose-img">
+                  <input type="file" class="btn-chose-img" id="" name="pic_2" title="نوع فایل میتواند png , jpg  باشد">
                 </div>
-            </div><!-- form-group -->
+                <img
+                  style="background: #fff;
+max-width: 100%;
+height: 100%;
+width: 100%;"
+                  src="'.route('BaseUrl').$image2Url.'" alt="">
+                <p class="text-chose-img" style="position: absolute;top: 44%;left: 33%;font-size: 13px;">انتخاب
+                  تصویر</p>
+              </div>
+        </div><!-- form-group -->    
+    </div> 
     </section>
     <h3>انتخاب سوالات از بانک</h3>
     <section>
@@ -385,12 +417,20 @@ $list = '<div class="modal-body">
         </div>   
         <div class="form-group wd-xs-300">
             <label for="recipient-name" class="col-form-label">این سرویس در چه خدماتی به عنوان ویژه در نظر گرفته شود: </label>
-            <select  name="service_special_category"   class="form-control" id="exampleFormControlSelect2">
-                <option value="ارجاع اتوماتیک">ارجاع اتوماتیک</option>
-                <option value="ارجاع دستی">ارجاع دستی</option>  
-                <option value="ارجاع منتخب">ارجاع منتخب</option>  
-                <option value="ارجاع به کمترین فاصله">ارجاع به کمترین فاصله</option>  
-            </select>
+            <select  name="service_special_category"   class="form-control" id="exampleFormControlSelect2">';
+            if (Cache::has('services')) {
+
+                $services = Cache::get('services');
+              } else {
+                $services = Cache::remember('services', 60 * 5, function () {
+                  return \App\Models\Services\Service::latest()->get();
+                });
+              }
+           
+            foreach ($services as $service){
+            $list.='<option value="'.$service->service_id.'">'.$service->service_title.'</option>';
+            } 
+           $list.=' </select>
         </div> 
     </section>
     </form>

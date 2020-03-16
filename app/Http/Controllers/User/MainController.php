@@ -177,7 +177,6 @@ class MainController extends Controller
   public function UserList()
   {
 
-
     if (auth()->user()->hasRole('admin_panel')) {
       $roles = Role::all();
       $users = \App\Models\User::latest()->get();
@@ -188,6 +187,7 @@ class MainController extends Controller
         $users =  User::whereHas('roles', function ($q) use ($role_id) {
           $q->where('id', $role_id)->orWhere('sub_broker', $role_id);
         })->get();
+        
       }
 
       if (auth()->user()->roles->first()->sub_broker !== null) {
@@ -261,10 +261,12 @@ class MainController extends Controller
 
 
 
-    if (User::where('user_national_code', $request->user_national_num)->first() !== null) {
-      alert()->error('کاربر دیگری با این کد ملی ثبت نام کرده است', 'عملیات ناموفق')->autoclose(3500);
-      return back();
-    }
+    
+      if ($request->user_national_num !== null && User::where('user_national_code', $request->user_national_num)->first() !== null) {
+        alert()->error('کاربر دیگری با این کد ملی ثبت نام کرده است', 'عملیات ناموفق')->autoclose(3500);
+        return back();
+      }
+    
     if (User::where('user_mobile', $request->user_mobile)->first() !== null) {
       alert()->error('کاربر دیگری با این شماره همراه ثبت نام کرده است', 'عملیات ناموفق')->autoclose(3500);
       return back();

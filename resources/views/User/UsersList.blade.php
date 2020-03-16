@@ -148,12 +148,26 @@
 <div class="container-fluid">
   <div class="card">
     <div class="container_icon card-body d-flex justify-content-end">
-      @if (auth()->user()->can(['user_delete','user_edit']))
-      <div class="delete-edit">
-      </div>
-      @else
-      <div></div>
-      @endif
+
+      
+      <div class="delete-edit" style="display:none;"> 
+        @if (auth()->user()->can('user_delete'))
+        <a href="#" title="حذف " data-toggle="modal" data-target="#exampleModal" class="order-delete   m-2">
+          <span class="__icon bg-danger">
+              <i class="fa fa-trash"></i>
+          </span>
+         </a>
+        @endif
+        @if (auth()->user()->can('user_edit'))
+            
+   <a href="#" title="ویرایش" data-toggle="modal" data-target=".bd-example-modal-lg-edit" class="mx-2" >
+    <span class="edit-personal __icon bg-info">
+        <i class="fa fa-edit"></i>
+    </span>
+   </a>
+        @endif
+    </div>
+    
       <div>
         <a href="#" class="mx-2 btn--filter" title="فیلتر اطلاعات">
           <span class="__icon bg-info">
@@ -433,89 +447,7 @@ $("#user_profile").on("change", function () {
 
       // edit 
 
-$('.bd-example-modal-lg-edit').on('shown.bs.modal', function (event) {
-       
-user_id =  $('table input[type="checkbox"]:checked').attr('data-id')
 
-$.ajax({
-type:'post',
-url:'{{route("User.Edit.getData")}}',
-cache: false,
-            async: true,
-data:{user_id:user_id},
-success:function(data){
-   
-   $('.edit__modal').html(data)
-   editform= $('#edit--form')
-   editform.validate({
-        rules: {
-          user_name: {
-            required: true,
-            // digits: true,
-            // minlength: 5,
-            maxlength: 20
-          },
-          user_family:{
-            required:true,
-            maxlength: 20
-          },
-          
-        confirm_user_pass:{
-                    
-                    equalTo : "#user_passa"
-                  },
-        username:{
-                    required:true
-                  },
-        user_mobile:{
-                    required:true,
-                    digits: true,
-                    minlength: 11,
-                    maxlength:11
-          },
-        },
-        messages: {
-          user_name: {
-            //minlength: jQuery.format("Zip must be {0} digits in length"),
-            maxlength:'نام حداکثر 20 کاراکتر میتواند داشته باشد',
-            required: "لطفا نام را وارد نمایید"
-          },
-          user_family: {
-            //minlength: jQuery.format("Zip must be {0} digits in length"),
-            //maxlength: jQuery.format("Please use a {0} digit zip code"),
-            required: "لطفا نام خانوادگی را وارد نمایید",
-            maxlength:'نام خانوادگی حداکثر 20 کاراکتر میتواند داشته باشد',
-
-          },
-          user_pass: {
-            //minlength: jQuery.format("Zip must be {0} digits in length"),
-            //maxlength: jQuery.format("Please use a {0} digit zip code"),
-            required: "لطفا پسورد را وارد نمایید"
-          },
-          username: {
-            //minlength: jQuery.format("Zip must be {0} digits in length"),
-            //maxlength: jQuery.format("Please use a {0} digit zip code"),
-            required: "لطفا نام کاربری را وارد نمایید"
-          },
-          confirm_user_pass: {
-            //minlength: jQuery.format("Zip must be {0} digits in length"),
-            //maxlength: jQuery.format("Please use a {0} digit zip code"),
-            required: "رمز عبور را تکرار کنید",
-            equalTo : "تکرار رمز عبور صحیح نمیباشد"
-          },
-          user_mobile: {
-            //minlength: jQuery.format("Zip must be {0} digits in length"),
-            //maxlength: jQuery.format("Please use a {0} digit zip code"),
-            required: "لطفا شماره موبایل را وارد نمایید",
-            digits: 'شماره موبایل بایستی به صورت عددی وارد شود',
-            minlength: 'شماره موبایل بایستی 11 رقم باشد',
-            maxlength: 'شماره موبایل بایستی 11 رقم باشد',
-          }
-        }
-      })
-    }
-  })
- })  
 
         
         $('.btn--filter').click(function(){
@@ -535,41 +467,25 @@ success:function(data){
                 array.push($(this).attr('data-id'))
 
                }
-            if(array.length !== 0){
-
+               if(array.length !== 0){
+                $('.delete-edit').show()
                 if (array.length !== 1) {
                     $('.container_icon').removeClass('justify-content-end')
                     $('.container_icon').addClass('justify-content-between')
-                    $('.delete-edit').html(`
-                    <a href="#" title="حذف " data-toggle="modal" data-target="#exampleModal" class="sweet-multiple mx-2">
-            <span class="__icon bg-danger">
-                <i class="fa fa-trash"></i>
-            </span>
-           </a>
-                    `)
+                    $('.edit-personal').hide()
                 }else{
 
                     $('.container_icon').removeClass('justify-content-end')
                     $('.container_icon').addClass('justify-content-between')
-                    $('.delete-edit').html(`
-                    <a href="#" title="حذف " data-toggle="modal" data-target="#exampleModal" class="sweet-multiple mx-2">
-            <span class="__icon bg-danger">
-                <i class="fa fa-trash"></i>
-            </span>
-           </a>
-
-           <a href="#" title="تازه سازی" data-toggle="modal" data-target=".bd-example-modal-lg-edit" class="mx-2" >
-            <span class="__icon bg-info">
-                <i class="fa fa-edit"></i>
-            </span>
-           </a>
-                    `)
+                    $('.edit-personal').show()
+                    
+                   
                 }
             }
             else{
                 $('.container_icon').removeClass('justify-content-between')
                 $('.container_icon').addClass('justify-content-end')
-                $('.delete-edit').html('')
+                $('.delete-edit').hide()
             }
         })
             

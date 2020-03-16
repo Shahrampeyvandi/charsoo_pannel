@@ -148,20 +148,26 @@
                                 صحیح است!
                             </div>
                         </div><!-- form-group -->
+
+                       
                             <div class="form-group wd-xs-300">
+                            
                                 <label class="form-control-label"> تصویر 1: </label>
-                                <input id="email" class="form-control text-right" name="pic_1"  type="file"  dir="rtl">
+                                <input id="" class="form-control text-right" name="pic_1"  type="file"  dir="rtl">
                                 <div class="valid-feedback">
                                     صحیح است!
                                 </div>
                             </div><!-- form-group -->
                             <div class="form-group wd-xs-300">
                                 <label class="form-control-label"> تصویر 2: </label>
-                                <input id="email" class="form-control text-right" name="pic_2"  type="file"  dir="rtl">
+                                <input id="" class="form-control text-right" name="pic_2"  type="file"  dir="rtl">
                                 <div class="valid-feedback">
                                     صحیح است!
                                 </div>
-                            </div><!-- form-group -->     
+                            </div><!-- form-group -->  
+                        
+                        
+                        
                     </section>
                     <h3>انتخاب سوالات از بانک</h3>
                     <section>
@@ -206,12 +212,25 @@
 <div class="container-fluid">
     <div class="card">
         <div class="container_icon card-body d-flex justify-content-end">
-            @if (auth()->user()->can(['service_delete','service_edit']))
-            <div class="delete-edit">
+
+            <div class="delete-edit" style="display:none;"> 
+                @if (auth()->user()->can('service_delete'))
+                <a href="#" title="حذف " data-toggle="modal" data-target="#exampleModal" class="order-delete   m-2">
+                  <span class="__icon bg-danger">
+                      <i class="fa fa-trash"></i>
+                  </span>
+                 </a>
+                @endif
+                @if (auth()->user()->can('service_edit'))
+                    
+           <a href="#" title="ویرایش" data-toggle="modal" data-target=".bd-example-modal-lg-edit" class="mx-2" >
+            <span class="edit-personal __icon bg-info">
+                <i class="fa fa-edit"></i>
+            </span>
+           </a>
+                @endif
             </div>
-            @else
-            <div></div>
-            @endif
+
         <div>
             <a href="#" class="mx-2 btn--filter"  title="فیلتر اطلاعات">
                 <span class="__icon bg-info">
@@ -439,41 +458,25 @@
                     array.push($(this).attr('data-id'))
 
                }
-            if(array.length !== 0){
-
+               if(array.length !== 0){
+                $('.delete-edit').show()
                 if (array.length !== 1) {
                     $('.container_icon').removeClass('justify-content-end')
                     $('.container_icon').addClass('justify-content-between')
-                    $('.delete-edit').html(`
-                    <a href="#" title="حذف " data-toggle="modal" data-target="#exampleModal" class=" mx-2">
-            <span class="__icon bg-danger">
-                <i class="fa fa-trash"></i>
-            </span>
-           </a>
-                    `)
+                    $('.edit-personal').hide()
                 }else{
 
                     $('.container_icon').removeClass('justify-content-end')
                     $('.container_icon').addClass('justify-content-between')
-                    $('.delete-edit').html(`
-                    <a href="#" title="حذف " data-toggle="modal" data-target="#exampleModal" class=" mx-2">
-            <span class="__icon bg-danger">
-                <i class="fa fa-trash"></i>
-            </span>
-           </a>
-
-           <a href="#" title="تازه سازی" data-toggle="modal" data-target=".bd-example-modal-lg-edit" class="mx-2" >
-            <span class="__icon bg-info">
-                <i class="fa fa-edit"></i>
-            </span>
-           </a>
-                    `)
+                    $('.edit-personal').show()
+                    
+                   
                 }
             }
             else{
                 $('.container_icon').removeClass('justify-content-between')
                 $('.container_icon').addClass('justify-content-end')
-                $('.delete-edit').html('')
+                $('.delete-edit').hide()
             }
         })
             
