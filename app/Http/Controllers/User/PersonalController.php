@@ -78,7 +78,7 @@ class PersonalController extends Controller
                 <td>' . Jalalian::forge($personal->created_at)->format('%Y/%m/%d') . '</td>
                 <td>'
                     . ($personal->personal_profile !== '' && $personal->personal_profile !== null ?
-                        '<img style="width:80px;" src="' . route('BaseUrl') . '/uploads/' . $personal->personal_profile . '"  />'
+                        '<a href="#" data-toggle="modal" data-target="#showProfile" class="show-profile-btn"><img style="width:80px;" src="' . route('BaseUrl') . '/uploads/' . $personal->personal_profile . '"  /></a>'
                         :
                         '<img style="width:80px;" src="' . route('BaseUrl') . '/Pannel/img/avatar.jpg" />') .
                     '</td>
@@ -136,8 +136,8 @@ class PersonalController extends Controller
                                 '</td>
                             <td>'
                                 . ($personal->personal_profile !== '' ?
-                                    '<img style="width:80px;" src="' . route('BaseUrl') . '/uploads/' . $personal->personal_national_code . '/' . $personal->personal_profile . '"  />'
-                                    :
+                                '<a href="#" data-toggle="modal" data-target="#showProfile" class="show-profile-btn"><img style="width:80px;" src="' . route('BaseUrl') . '/uploads/' . $personal->personal_profile . '"  /></a>'
+                                :
                                     '<img style="width:80px;" src="' . route('BaseUrl') . '/Pannel/img/avatar.jpg" />') .
                                 '</td>
                         </tr>';
@@ -196,8 +196,8 @@ class PersonalController extends Controller
                                 '</td>
                     <td>'
                                 . ($personal->personal_profile !== '' ?
-                                    '<img style="width:80px;" src="' . route('BaseUrl') . '/uploads/' . $personal->personal_national_code . '/' . $personal->personal_profile . '"  />'
-                                    :
+                                '<a href="#" data-toggle="modal" data-target="#showProfile" class="show-profile-btn"><img style="width:80px;" src="' . route('BaseUrl') . '/uploads/' . $personal->personal_profile . '"  /></a>'
+                                :
                                     '<img style="width:80px;" src="' . route('BaseUrl') . '/Pannel/img/avatar.jpg" />') .
 
                                 '</td>

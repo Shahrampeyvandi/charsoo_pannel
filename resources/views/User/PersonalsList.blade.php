@@ -1,6 +1,23 @@
 @extends('Layouts.Pannel.Template')
 
 @section('content')
+<div class="modal fade" id="showProfile" tabindex="-1" role="dialog" aria-labelledby="showProfileLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel"></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+               <img src="" alt="" class="w-100 img-fluid">
+            </div>
+            
+        </div>
+    </div>
+</div>
 
 {{-- modal for delete --}}
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
@@ -812,7 +829,12 @@ $('.bd-example-modal-lg-edit').on('shown.bs.modal', function (event) {
 
 
 
-
+    $('#showProfile').on('shown.bs.modal', function (event) {
+        var button = $(event.relatedTarget) // Button that triggered the modal
+  var recipient = button.find('img').attr('src') // Extract info from data-* attributes
+  var modal = $(this)
+  modal.find('img').attr('src',recipient)
+})
    
 
 

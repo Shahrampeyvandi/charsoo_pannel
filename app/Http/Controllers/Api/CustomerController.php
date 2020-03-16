@@ -17,10 +17,16 @@ class CustomerController extends Controller
 {
     public function getCustomer(Request $request)
     {
-        
+        $payload = JWTAuth::parseToken($request->header('Authorization'))->getPayload();
+        $mobile = $payload->get('mobile');
+        $customer = Cunsomer::where('customer_mobile', $mobile)->first();
+        return response()->json(
+            $customer,
+            200
+        );
     }
 
-    public $loginAfterSignUp = true;
+
     public function verify(Request $request)
     {
 
@@ -30,10 +36,10 @@ class CustomerController extends Controller
         ])->count();
         if ($check_cunsomer) {
             Cunsomer::where('customer_mobile',  $request->mobile)
-            ->update([
-                'firebase_token' => $request->fcmtoken,
-            ]);
-    
+                ->update([
+                    'firebase_token' => $request->fcmtoken,
+                ]);
+
             $token = JWTAuth::fromUser($cunsomer);
             return response()->json([
                 'code' => $token,
@@ -52,23 +58,20 @@ class CustomerController extends Controller
     {
 
         $cunsomer = Cunsomer::create([
-            'customer_firstname' => $request->p_firstname,
-            'customer_lastname' => $request->p_lastname,
-            'customer_mobile' => $request->p_mobile,
+            'customer_firstname' => $request->c_firstname,
+            'customer_lastname' => $request->c_lastname,
+            'customer_mobile' => $request->c_mobile,
             'firebase_token' => $request->fcmtoken,
+            'customer_city' => $request->c_city
+
         ]);
 
-      
-
         $acountcharge = new UserAcounts();
-
         $acountcharge->user = 'مشتری';
         $acountcharge->type = 'شارژ';
         $acountcharge->cash = 0;
         $acountcharge->cunsomer_id = $cunsomer->id;
-    
         $acountcharge->save();
-
 
         $token = JWTAuth::fromUser($cunsomer);
         return response()->json([
@@ -77,4 +80,52 @@ class CustomerController extends Controller
         ], 200);
     }
 
+
+    public function updateProfile(Request $request)
+    {
+
+        $payload = JWTAuth::parseToken($request->header('Authorization'))->getPayload();
+        $mobile = $payload->get('mobile');
+        $customer = Cunsomer::where('customer_mobile', $mobile)->first();
+        //if ($request->hasFile('customer_profile')) {
+        if ($customer->customer_profile) {
+            File::delete(public_path() . '/uploads/customers/' . $customer->customer_mobile . '/' . $customer->customer_profile);
+        }
+
+        $customer_img = 'photo' . time() . '.' . $request->customer_profile->getClientOriginalExtension();
+        $destinationPath = public_path('/uploads/customers/' . $customer->customer_mobile);
+        $request->customer_profile->move($destinationPath, $customer_img);
+        $customer_profile = $customer->customer_mobile . '/' . $customer_img;
+
+        Cunsomer::where('customer_mobile', $mobile)
+            ->update([
+                'customer_profile' => $customer_profile
+            ]);
+
+        return response()->json(
+            $customer->fresh(),
+            200
+        );
+    }
+
+
+    public function updateCustomerData(Request $request)
+    {
+        $payload = JWTAuth::parseToken($request->header('Authorization'))->getPayload();
+        $mobile = $payload->get('mobile');
+
+        Cunsomer::where('customer_mobile', $mobile)
+            ->update([
+                'customer_firstname' => $request->c_firstname,
+                'customer_lastname' => $request->c_lastname,
+                'customer_city' => $request->c_city,
+                'customer_national_code' => $request->c_national_code,
+            ]);
+        $customer = Cunsomer::where('customer_mobile', $mobile)->first();
+        return response()->json([
+            'data' => [
+                'customer' => $customer,
+            ],
+        ], 200);
+    }
 }

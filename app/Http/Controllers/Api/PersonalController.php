@@ -166,29 +166,17 @@ class PersonalController extends Controller
             File::delete(public_path().'/uploads/'. $personal->personal_profile);
             }
 
-
-            $personal_img = 'photo'.'.'.$request->personal_profile->getClientOriginalExtension();
+            $personal_img = 'photo'.time().'.'.$request->personal_profile->getClientOriginalExtension();
             $destinationPath = public_path('/uploads/personals/'.$personal->personal_mobile);
-
-           
-        
             $request->personal_profile->move($destinationPath, $personal_img);
             $personal_profile = 'personals/'.$personal->personal_mobile .'/'.$personal_img;
 
-        //      } else {
-            //$personal_profile = $personal->personal_profile;
-
-            
-      //  }
         Personal::where('personal_mobile', $mobile)
         ->update([
             'personal_profile' => $personal_profile
         ]);
-        
     return response()->json(
-      
             $personal->fresh()
-        
     , 200);
 
     }

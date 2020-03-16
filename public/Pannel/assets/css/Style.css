@@ -246,3 +246,10 @@ option.level-4 {
     z-index: 2;
 }
 
+.service-img{
+  
+        width: 250px;
+        height: 150px;
+        position: relative;
+ }
+

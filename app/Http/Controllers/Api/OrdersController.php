@@ -303,7 +303,7 @@ class OrdersController extends Controller
     if ($imageCode == '2') $name = 'image2';
     if ($imageCode == '3') $name = 'image3';
 
-    $file = $name . '.' . $request->image->getClientOriginalExtension();
+    $file = $name .'_' .time(). '.' . $request->image->getClientOriginalExtension();
     $request->image->move(public_path('/uploads/orders/' . $orderdata->id), $file);
     $image_url = 'orders/'.$orderdata->id . '/' . $file;
     $orderdata->orderImages()->create([
