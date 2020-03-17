@@ -42,7 +42,7 @@ class StoreController extends Controller
 
   public function submitStore(Request $request)
   {
-  
+
 
     if ($request->has('owner_profile')) {
       $file = 'photo' . '.' . $request->owner_profile->getClientOriginalExtension();
@@ -92,33 +92,33 @@ class StoreController extends Controller
       alert()->success('فروشگاه ثبت شد اما محصولی وارد نشده است', 'خطا')->persistent('بستن');
       return back();
     } else {
-      $count =0;
+      $count = 0;
       foreach ($request->product_name as $key => $item) {
-       if (!is_null($item)) {
-        if (array_key_exists($key, $request->product_picture)) {
-          $file = 'photo' . '.' . $request->product_picture[$key]->getClientOriginalExtension();
-          $request->product_picture[$key]->move(public_path('uploads/products/' . $item), $file);
-          $product_picture = 'products/' . $item . '/' . $file;
-        } else {
-          $product_picture = '';
+        if (!is_null($item)) {
+          if (array_key_exists($key, $request->product_picture)) {
+            $file = 'photo' . '.' . $request->product_picture[$key]->getClientOriginalExtension();
+            $request->product_picture[$key]->move(public_path('uploads/products/' . $item), $file);
+            $product_picture = 'products/' . $item . '/' . $file;
+          } else {
+            $product_picture = '';
+          }
+          $store->products()->create([
+            'product_name' => $item,
+            'product_price' => $request->product_price[$key],
+            'product_picture' => $product_picture,
+            'product_description' => $request->product_description[$key],
+            'product_status' => 1,
+          ]);
+          $count++;
         }
-        $store->products()->create([
-          'product_name' => $item,
-          'product_price' => $request->product_price[$key],
-          'product_picture' => $product_picture,
-          'product_description' => $request->product_description[$key],
-          'product_status' => 1,
-        ]);
-        $count ++;
       }
-       }
     }
 
 
 
 
 
-    alert()->success('فروشگاه با موفقیت افزوده شد و '.$count.' محصول هم ثبت شد ', 'عملیات موفق')->persistent('بستن');
+    alert()->success('فروشگاه با موفقیت افزوده شد و ' . $count . ' محصول هم ثبت شد ', 'عملیات موفق')->persistent('بستن');
     return back();
   }
 
@@ -287,9 +287,9 @@ class StoreController extends Controller
                 </div>
                 <img
                   style="background: #fff;
-max-width: 100%;
-height: 100%;
-width: 100%;"
+        max-width: 100%;
+        height: 100%;
+        width: 100%;"
                   src="' . route('BaseUrl') . '/uploads/stores/' . $store->store_picture . '" alt="">
                 <p class="text-chose-img" style="position: absolute;top: 44%;left: 40%;font-size: 13px;">تغییر 
                   تصویر</p>
@@ -380,8 +380,8 @@ width: 100%;"
         <textarea id="product_description" class="form-control text-right"
             name="product_description[]" type="text" dir="rtl"></textarea>
     </div>
-</div>
-';
+  </div>
+  ';
     } else {
       foreach ($store->products as $key => $product) {
         $list .= '<div class="row ' . ($key == 0 ? 'product-detail' : '') . '  my-2" style="position: relative;">
@@ -406,29 +406,29 @@ width: 100%;"
           </div>
           <img
             style="background: #fff;
-max-width: 100%;
-height: 100%;
-width: 100%;"
+    max-width: 100%;
+    height: 100%;
+    width: 100%;"
             src="' . route('BaseUrl') . '/uploads/' . $product->product_picture . '" alt="">
           <p class="text-chose-img" style="position: absolute;top: 44%;left: 40%;font-size: 13px;">تغییر 
             تصویر</p>
         </div>
   </div><!-- form-group --> 
      
-      <div class="form-group  col-md-6 pt-4">
+      <div class="form-group statuses  col-md-6 pt-4">
           <span>وضعیت محصول</span>
           <div class="">
               <label class="" for="product_status">موجود</label>
               <input style="display:inline-block;" value="1" type="checkbox" class=""
               ' . ($product->product_status == 1 ? 'checked=""' : '') . '
-                  name="product_status['.$key.']" id="product_status">
+                  name="product_status[' . $key . ']" id="product_status">
           </div>
-          <div class="delete_status">
+          <div class="">
           <span>این محصول حذف شود</span>
       <label class="" for="product_status"></label>
       <input style="display:inline-block;" value="1" type="checkbox" class=""
       
-          name="product_delete[]" id="">
+          name="product_delete[' . $key . ']" id="">
  
 
       </div>
@@ -472,7 +472,7 @@ width: 100%;"
         <div class="clone"></div>
         <a href="#" class="sundry-clone-bottom">افزودن محصول</a>
     </section>
-</form>';
+    </form>';
 
     return $list;
   }
@@ -1452,7 +1452,6 @@ width: 100%;"
   {
 
     
-
     $store = store::where('id', $request->store_id)->first();
     $personal = Personal::where('personal_mobile', $request->mobile)->first();
     if (is_null($personal)) {
@@ -1507,13 +1506,13 @@ width: 100%;"
     } else {
       $update = 0;
       $create = 0;
-      $delete=0;
+      $delete = 0;
       foreach ($request->product_id as $key => $product_id) {
 
         if ($product_id !== null) {
           if ($request->has('product_delete') && array_key_exists($key, $request->product_delete)) {
-            Product::where('id',$product_id)->delete();
-            $delete ++;
+            Product::where('id', $product_id)->delete();
+            $delete++;
           } else {
             if ($request->product_name[$key] !== null) {
               $product = Product::where('id', $product_id)->first();
@@ -1526,9 +1525,9 @@ width: 100%;"
 
                 $product_picture = $product->product_picture;
               }
-              if($request->has('product_status') && array_key_exists($key, $request->product_status)){
+              if ($request->has('product_status') && array_key_exists($key, $request->product_status)) {
                 $status = $request->product_status[$key];
-              }else{
+              } else {
                 $status = 0;
               }
 
