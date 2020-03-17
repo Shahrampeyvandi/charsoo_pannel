@@ -95,6 +95,21 @@
     
 //     }
 // }
+
+function isValidDate(event,dtValue2) {
+    // your desired pattern
+    
+    var pattern = /^(\d{4})\/(\d{2})\/(\d{2})$/
+    var m = dtValue2.match(pattern);
+    if (!m){
+        swal("", "تاریخ تولد صحیح نمیباشد", "error", {
+			button: "باشه"
+        });
+        event.target.value = '';
+    }
+   
+
+}
 function checknationalcode(meli_code) {
   if(meli_code.length == 0){
       return 

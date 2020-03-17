@@ -35,16 +35,17 @@
                             class="active" @endif href=" {{route('Pannel.Services.Personels')}} "><i
                                 class="icon ti-hummer"></i> <span> خدمت رسان ها </span> </a></li>
                     @endif
-                    <li><a href="#"><i class="icon ti-shopping-cart"></i> <span> فروشگاه ها</span> </a>
-                        <ul>
-                            <li><a @if (Illuminate\Support\Facades\Route::currentRouteName()=='Pannel.Services.Stores' )
-                                    class="active" @endif href=" {{route('Pannel.Services.Stores')}} "><i
-                                        class="icon ti-hummer"></i> <span> لیست </span> </a></li>
-                        </ul>
-                    </li>
+                   
                 </ul>
             </li>
             @endif
+            <li><a href="#"><i class="icon ti-shopping-cart"></i> <span> فروشگاه ها</span> </a>
+                <ul>
+                    <li><a @if (Illuminate\Support\Facades\Route::currentRouteName()=='Pannel.Services.Stores' )
+                            class="active" @endif href=" {{route('Pannel.Services.Stores')}} "><i
+                                class="icon ti-list"></i> <span> لیست </span> </a></li>
+                </ul>
+            </li>
 
 
             @if (auth()->user()->can('customer_menu'))

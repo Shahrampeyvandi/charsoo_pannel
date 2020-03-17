@@ -604,20 +604,7 @@
 <script src="{{route('BaseUrl')}}/Pannel/assets/input-mask/jquery.inputmask.date.extensions.js"></script>
 <script src="{{route('BaseUrl')}}/Pannel/assets/input-mask/jquery.inputmask.extensions.js"></script>
 <script>
-     function isValidDate(dtValue2) {
-    // your desired pattern
-    
-    var pattern = /^(\d{4})\/(\d{2})\/(\d{2})$/
-    var m = dtValue2.match(pattern);
-    if (!m){
-        swal("", "تاریخ تولد صحیح نمیباشد", "error", {
-			button: "باشه"
-        });
-        document.getElementById('birth_year1').value = "";
-    }
-   
-
-}
+ 
 
     $(function () {
         $.ajaxSetup({

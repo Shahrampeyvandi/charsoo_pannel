@@ -630,8 +630,8 @@ class PersonalController extends Controller
                       <div class="chose-img">
                           <input type="file" class="btn-chose-img" name="personal_profile" title="نوع فایل میتواند png , jpg  باشد">
                       </div>
-                      ' . ($personal->personal_profile !== '' ?
-            '<img style="border-radius: 50%;object-fit: contain; background: #fff; max-width: 100%; height: 100%; width: 100%;" src="' . route('BaseUrl') . '/uploads/personals/' . $personal->personal_profile . '" alt="">
+                      ' . ($personal->personal_profile !== '' || $personal->personal_profile !== null ?
+            '<img style="border-radius: 50%;object-fit: contain; background: #fff; max-width: 100%; height: 100%; width: 100%;" src="' . route('BaseUrl') . '/uploads/' . $personal->personal_profile . '" alt="">
                       <p class="text-chose-img" style="position: absolute;top: 82%;left: 14%;font-size: 13px;">تغییر
                           پروفایل</p>
                       ' : '<img style="border-radius: 50%;object-fit: contain; background: #fff; max-width: 100%; height: 100%; width: 100%;" src="' . route('BaseUrl') . '/Pannel/img/temp_logo.jpg" alt="">
@@ -670,7 +670,7 @@ class PersonalController extends Controller
                             <input type="text" name="birth_year"
                              class="date-picker-shamsi-list form-control"
                              value="' . Jalalian::forge($personal->personal_birthday)->format('%Y/%m/%d') . '"
-                             onblur="isValidDate(this.value)"
+                             onblur="isValidDate(event,this.value)"
                              id="birth_year1" 
                              placeholder="">
                             <div class="valid-feedback">

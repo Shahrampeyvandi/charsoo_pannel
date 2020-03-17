@@ -18,10 +18,6 @@
         </div>
     </div>
 </div>
-
-
-
-
 <div class="modal fade" id="locationModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
     aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -153,20 +149,22 @@
                         </section>
                         <h3>اطلاعات تماس</h3>
                         <section>
-                            <div class="row">
+                            <div class="row">   
+                                
+                                <div class="form-group col-md-6">
+                                <label class="form-control-label"><span class="text-danger">*</span> تلفن محل
+                                    کار</label>
+                                <input id="tel_work" class="form-control text-right" name="tel_work"
+                                    onblur="validatePhone(event,this.value)" placeholder="" type="number" dir="ltr">
+
+                            </div><!-- form-group -->
                                 <div class="form-group col-md-6">
                                     <label class="form-control-label"> تلفن منزل: </label>
                                     <input id="tel_home" class="form-control text-right" name="tel_home"
                                         onblur="validatePhone(event,this.value)" placeholder="" type="number" dir="ltr">
 
                                 </div><!-- form-group -->
-                                <div class="form-group col-md-6">
-                                    <label class="form-control-label"><span class="text-danger">*</span> تلفن محل
-                                        کار</label>
-                                    <input id="tel_work" class="form-control text-right" name="tel_work"
-                                        onblur="validatePhone(event,this.value)" placeholder="" type="number" dir="ltr">
-
-                                </div><!-- form-group -->
+                           
                             </div>
 
 
@@ -275,14 +273,14 @@
                                     <input id="product_picture" class="form-control text-right" name="product_picture[]"
                                         type="file" dir="rtl">
                                 </div>
-                                <div class="form-group  col-md-6 pt-4">
+                                {{-- <div class="form-group  col-md-6 pt-4">
                                     <span>وضعیت محصول</span>
                                     <div class="">
-                                        <label class="" for="product_status">فعال</label>
+                                        <label class="" for="">فعال</label>
                                         <input style="display:inline-block;" value="1" type="checkbox" class=""
-                                            name="product_status[]" id="product_status">
+                                            name="product_status[]" id="">
                                     </div>
-                                </div>
+                                </div> --}}
                                 <div class="form-group col-md-12">
                                     <label for="recipient-name" class="col-form-label">توضیح محصول: </label>
                                     <textarea id="product_description" class="form-control text-right"
@@ -429,25 +427,27 @@
                             <th></th>
                             <th>ردیف</th>
                             <th>
-                                <a href="#" data-id="name" class="name_field text-white">
+                                نام فروشگاه
+                                {{-- <a href="#" data-id="name" class="store_field text-white">
                                     نام فروشگاه
                                     <i class="fa fa-angle-down"></i>
-                                </a>
+                                </a> --}}
                             </th>
+                            <th>مالک فروشگاه</th>
+                            <th>شماره تماس فروشنده</th>
                             <th>
-                                <a href="#" data-id="family" class="name_field text-white">
+                                ادرس فروشگاه
+                                {{-- <a href="#" data-id="family" class="store_field text-white">
                                     ادرس فروشگاه
                                     <i class="fa fa-angle-down"></i>
-                                </a>
+                                </a> --}}
                             </th>
                             <th>درباره فروشگاه</th>
-                            <th>نوع فروشگاه</th>
                             <th>
                                 نام شهر
                             </th>
                             <th>تعداد محصولات</th>
                             <th>مناطق تحت پوشش</th>
-                            <th>مالک فروشگاه</th>
                             <th>عکس فروشگاه</th>
 
                         </tr>
@@ -458,13 +458,24 @@
                             <td>
                                 <div class="checkpersonal custom-control custom-checkbox custom-control-inline"
                                     style="margin-left: -1rem;">
-                                    <input data-id="{{$store->id}}" type="checkbox" id="{{ $key}}"
-                                        name="checkbox" class="custom-control-input" value="1">
+                                    <input data-id="{{$store->id}}" type="checkbox" id="{{ $key}}" name="checkbox"
+                                        class="custom-control-input" value="1">
                                     <label class="custom-control-label" for="{{$key}}"></label>
                                 </div>
                             </td>
                             <td> {{$key+1}} </td>
                             <td>{{$store->store_name}}</td>
+                            <td>
+                                @php
+                                $personal = \App\Models\personals\personal::where('id',$store->owner_id)->first();
+                                @endphp
+                                @if (!is_null($personal))
+                                {{$personal->personal_firstname .' '.$personal->personal_lastname}}
+                                @endif
+                            </td>
+                            <td>
+                                {{$personal->personal_mobile}}
+                            </td>
                             <td>{{$store->store_city . ' - '.$store->store_main_street . ' - '.$store->store_secondary_street .' - '.$store->store_pelak}}
                             </td>
                             <td>
@@ -475,13 +486,6 @@
                                 @endif
 
                             </td>
-                            <td>
-                                @if ($store->store_type !== null)
-                                {{$store->store_type}}
-                                @else
-                                ندارد
-                                @endif
-                            </td>
                             <td>{{$store->store_city}}</td>
                             <td>
                                 {{$store->products->count() }}
@@ -491,14 +495,6 @@
                                     data-target="#locationModal">
                                     <i class="fa fa-map-marker fa-2x"></i>
                                 </a>
-                            </td>
-                            <td>
-                                @php
-                                $personal = \App\Models\personals\personal::where('id',$store->owner_id)->first();
-                                @endphp
-                                @if (!is_null($personal))
-                                {{$personal->personal_firstname .' '.$personal->personal_lastname}}
-                                @endif
                             </td>
                             <td>
                                 @if ($store->store_picture !== '' && $store->store_picture !== null)
@@ -556,10 +552,10 @@
         });
 
 
- //Datemask dd/mm/yyyy
- $('#datemask').inputmask('dd/mm/yyyy', { 'placeholder': 'dd/mm/yyyy' })
-    //Datemask2 mm/dd/yyyy
-    $('#datemask2').inputmask('mm/dd/yyyy', { 'placeholder': 'mm/dd/yyyy' })
+//  //Datemask dd/mm/yyyy
+//  $('#datemask').inputmask('dd/mm/yyyy', { 'placeholder': 'dd/mm/yyyy' })
+//     //Datemask2 mm/dd/yyyy
+//     $('#datemask2').inputmask('mm/dd/yyyy', { 'placeholder': 'mm/dd/yyyy' })
     //Money Euro
     $('[data-mask]').inputmask()
        
@@ -595,15 +591,21 @@
             
     })
 
-
 $(document).on('click','.clone-bottom',function(e){
   e.preventDefault()
   let cloned = $(this).siblings('.product-detail').clone()
+  cloned.find('input[type="text"]').val('')
+  cloned.find('input[type="hidden"]').val('')
+  cloned.find('input[type="file"]').val('')
+  cloned.find('input[type="number"]').val('')
+  cloned.find('img').attr('src','')
+  cloned.find('textarea').val('')
+  cloned.find('.delete_status').remove()
+  cloned.find('p.text-chose-img').text('انتخاب تصویر')
   cloned.prepend(`<a class="remove-product" href="#" >
                                     <i class="fa fa-close"></i>
                                 </a>`)
   $(this).prev('.clone').append(cloned)
-
 })
 $(document).on('click','.sundry-clone-bottom',function(e){
   e.preventDefault()
@@ -674,54 +676,60 @@ $('.bd-example-modal-lg-edit').on('shown.bs.modal', function (event) {
         var form = $("#example-advanced-form1").show();
     form.validate({
         rules: {
-          service_percentage: {
-            required: true,
-            range:[0,100]
-          },
-          firstname: {
-            required:true
-        }, 
-        lastname: {
+            firstname:{
+                required:true
+            },
+            lastname:{
+                required:true
+            },
+            tel_work: {
             required:true
         },
-        national_num:{
-            required:true,
-            
-            maxlength:10
+        store_name: {
+            required:true
         },
-        work_experience_month_num: {
-            required:true,
-            range:[0,12]
+        store_city : {
+            required:true
+        },
+        store_main_street:{
+            required:true
+        },
+        store_pluck_num:{
+            required:true
+        },
+        mobile:{
+            required:true
         }
+        
+         
+            
+        
         },
         messages: {
-          title: {
-            //minlength: jQuery.format("Zip must be {0} digits in length"),
-            //maxlength: jQuery.format("Please use a {0} digit zip code"),
-            required: "لطفا عنوان را وارد نمایید"
-          },
-          service_category: {
-            required:'سرگروه خدمت را انتخاب نمایید'
+            firstname: {
+            required:' نام فروشنده را وارد نمایید'
         },
-        service_percentage: {
-            required:'درصد پورسانت را وارد نمایید',
-            range:'پورسانت حداکثر 100% میباشد'
-        },
-        firstname: {
-            required:'لطفا نام خود را وارد نمایید'
-        }, 
         lastname: {
-            required:'لطفا نام خانوادگی خود را وارد نمایید'
+            required:' نام خانوادگی فروشنده را وارد نمایید'
         },
-        national_num:{
-            required: ' کد ملی خود را وارد نمایید',
-            maxlength:'کد ملی بایستی حداکثر 10 رقم باشد'
+            store_name: {
+            required:' نام فروشگاه را وارد نمایید'
         },
-        work_experience_month_num: {
-            required:'فیلد اجباری است',
-            range:'ماه باید در بازه 0 تا12 باشد',
-           
-        }
+        store_city: {
+            required:' نام شهر را وارد نمایید'
+        },
+        store_main_street:{
+            required: 'نام خیابان اصلی را وارد نمایید'
+        },
+        store_pluck_num:{
+            required: 'شماره پلاک را وارد نماید'
+        },
+        mobile:{
+            required: 'شماره موبایل را وارد کنید'
+        },
+        tel_work: {
+            required:'شماره محل کار را وارد نمایید'
+        },
         }
       });
     form.steps({
@@ -791,11 +799,14 @@ $('.bd-example-modal-lg-edit').on('shown.bs.modal', function (event) {
     }
 });
  //Datemask dd/mm/yyyy
- $('#datemask').inputmask('dd/mm/yyyy', { 'placeholder': 'dd/mm/yyyy' })
+ $('#birth_year').inputmask('dd/mm/yyyy', { 'placeholder': 'dd/mm/yyyy' })
     //Datemask2 mm/dd/yyyy
-    $('#datemask2').inputmask('mm/dd/yyyy', { 'placeholder': 'mm/dd/yyyy' })
+$('#birth_year').inputmask('mm/dd/yyyy', { 'placeholder': 'mm/dd/yyyy' })
     //Money Euro
-    $('[data-mask]').inputmask()
+   
+
+        $('[data-mask]').inputmask()
+    
 
          }
     
@@ -892,6 +903,8 @@ success:function(data){
     $('#firstname').val(data.personal_firstname)
     $('#lastname').val(data.personal_lastname)
     $('#user_national_num').val(data.personal_national_code)
+    $('#birth_year').val(data.personal_birthday)
+
 }
 })
 }

@@ -65,6 +65,9 @@ $(document).ready(function () {
         },
         store_pluck_num:{
             required:true
+        },
+        mobile:{
+            required:true
         }
 
         
@@ -115,6 +118,9 @@ $(document).ready(function () {
         },
         store_pluck_num:{
             required: 'شماره پلاک را وارد نماید'
+        },
+        mobile:{
+            required: 'شماره موبایل را وارد کنید'
         }
         }
       });
