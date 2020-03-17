@@ -3,6 +3,29 @@
 @section('content')
 
 
+{{-- modal for delete --}}
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">اخطار</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          موارد علامت زده شده حذف شوند؟
+        </div>
+        <div class="modal-footer">
+          <a type="button" class="delete btn btn-danger text-white">حذف!  </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+{{-- modal for deleet --}}
+
 
 <div class="modal fade bd-example-modal-lg-edit" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
     aria-hidden="true">
@@ -57,7 +80,7 @@
             <div class="form-group col-md-2">
                 <label for="user_name" class="col-form-label"><span class="text-danger">*</span> پیشنهاد ویژه: </label>
                 <div class="custom-control custom-switch">
-                    <input style="display:inline-block;" value="1" type="checkbox" class="custom-control-input" name="sms_status" id="sms_status" >
+                    <input style="display:inline-block;" type="checkbox" class="custom-control-input" name="spechoffer" id="sms_status" >
                     <label class="custom-control-label" for="sms_status"></label>
                 </div>
                         
@@ -67,28 +90,44 @@
             
           </div>
           <div class="row">
-            <div class="form-group col-md-6" id="categoryservice">
+            <div class="form-group col-md-12" id="categoryservice"  style="display:none;">
               <label for="user_family" class="col-form-label"><span class="text-danger">*</span>دسته بندی:</label>
-              <select name="cateory" id="cateory"  class="js-example-basic-single" dir="rtl" >
-                <option value="all" >همه</option>
-
-
-    
-            </select>
+              <select @if ($count> 1)
+                size=" {{$count}} " @elseif($count > 10) size="10" @else size="2"
+                @endif class="form-control" name="category" id="category">
+                {!! $list !!}
+              </select>
+            
                     </div>
-            <div class="form-group col-md-6" style="display:none;" id="storeorservice">
+            <div class="form-group col-md-12" style="display:none;" id="service">
               <label for="user_desc" class="col-form-label"><span class="text-danger">*</span> 
-                فروشگاه یا خدمت:</label>
-                <select name="personals[]" id="personals_type"  class="js-example-basic-single" dir="rtl" multiple>
-                    <option value="all" >همه</option>
+                خدمت :</label>
+                <select name="service[]" id="servicelist"  class="js-example-basic-single" dir="rtl" multiple>
+                  @foreach ($services as $service)
+                <option value="{{$service->id}}" >{{$service->service_title}}</option>
+                  @endforeach
                   
-                    <option value="all1" >1همه</option>
-                    <option value="all2" >هم2ه</option>
-                    <option value="all3" >3همه</option>
-        
+                   
                    
                 </select>
             </div>
+          </div>
+          <div class="form-group col-md-12" style="display:none;" id="store">
+              <label for="user_desc" class="col-form-label"><span class="text-danger">*</span> 
+                  فروشگاه:</label>
+                <select name="store[]" id="storelist"  class="js-example-basic-single" dir="rtl" multiple>
+                    <option value="all" >همه</option>
+                  
+                    @foreach ($stores as $store)
+                        
+                <option value="{{$store->id}}" >{{$store->store_name}}</option>
+
+
+
+                    @endforeach
+        
+                   
+                </select>
           </div>
           <div class="row">
             <div class="form-group col-md-12">
@@ -175,18 +214,60 @@
                         </tr>
                     </thead>
                     <tbody class="tbody">
+                        @foreach ($appmenus as $appmenu)
+                            <tr>
                         <td>
                             <div class="custom-control custom-checkbox custom-control-inline"
                                 style="margin-left: -1rem;">
-                                <input data-id="1" type="checkbox" id="1"
-                                    name="customCheckboxInline1" class="custom-control-input" value="1">
-                                <label class="custom-control-label" for="1"></label>
+                        <input data-id="{{$appmenu->id}}" type="checkbox" id="{{$appmenu->id}}"
+                                    name="customCheckboxInline1" class="custom-control-input" value="{{$appmenu->id}}">
+                                <label class="custom-control-label" for="{{$appmenu->id}}"></label>
             
                             </div>
                         </td>
  
+                        <td>
+                            {{$appmenu->priority}}
+                        </td>
+
+                        <td>
+                            {{$appmenu->title}}
+                        </td>
+                        <td>
+                            {{$appmenu->type}}
+                        </td>
+                        <td>
+                            @foreach ($appmenu->item as $ite)
+                                
+                            {{$ite}}
 
 
+                            @endforeach
+                        </td>
+                     
+                    
+                        @if ($appmenu->special_offer == 1)
+                             <td class="text-success">
+                                 <i class="fa fa-check"></i>
+                             </td>
+                             @else
+                             <td class="text-danger">
+                                 <i class="fa fa-close"></i>
+                             </td>
+                             @endif
+
+                        <td>
+                            {{\Morilog\Jalali\Jalalian::forge($appmenu->created_at)->format('%Y-%m-%d H:i:s')}}
+                        </td>
+                        <td>
+                            {{$appmenu->description}}
+                        </td>
+
+                    </tr>
+
+                        @endforeach
+
+                      
 
                     </tbody>
 
@@ -195,6 +276,7 @@
         </div>
     </div>
 </div>
+
 @endsection
 
 
@@ -264,7 +346,8 @@
 
         if(data === 'دسته بندی'){
             $('#categoryservice').show()
-            $('#storeorservice').hide()
+            $('#store').hide()
+            $('#service').hide()
 
 
             $.ajax({
@@ -282,11 +365,13 @@ success:function(data){
 
         }else if(data === 'خدمت'){
             $('#categoryservice').hide()
-            $('#storeorservice').show()
-       }else if(data === 'فروشگاه'){
+            $('#store').hide()
+            $('#service').show()
+               }else if(data === 'فروشگاه'){
         $('#categoryservice').hide()
-            $('#storeorservice').show()
-                }
+        $('#store').show()
+            $('#service').hide()
+                        }
     
 
 
@@ -295,8 +380,40 @@ success:function(data){
 })
 
 
+$('.delete').click(function(e){
+                e.preventDefault()
+                console.log(array)
+
+                // ajax request
+ $.ajax({
+
+                type:'post',
+                url:'{{route("Pannel.AppManage.Menu.Delete")}}',
+                headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                 data:{array:array},
+                // ,success:function(data){
+                //   swal("پرداخت با موفقیت انجام شد", {
+                //     icon: "success",
+				// 	          button: "تایید"
+                //        });
+
+                      
+                 
+                 success:function(data){
+                //   swal("پرداخت تکراری نکن ملعون", {
+                //     icon: "success",
+				// 	          button: "باشه"
+                //        });
+                //console.log(data)
 
 
+                       setTimeout(()=>{
+                        location.reload()
+                       },1000)
+               
+                }
+        })
+    })
 
 
     })

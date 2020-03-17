@@ -156,6 +156,7 @@ Route::group(['middleware' => ['checkAuth']], function () {
 
     Route::get('App/Appmenu', 'App\AppMenuController@index')->name('Pannel.AppManage.Menu');
     Route::post('App/Appmenu/Submit', 'App\AppMenuController@submit')->name('Pannel.AppManage.Menu.Submit');
+    Route::post('App/Appmenu/Delete', 'App\AppMenuController@delete')->name('Pannel.AppManage.Menu.Delete');
 
 
     Route::get('/Acounting/CheckoutPersonals/Export','Acounting\CheckoutPersonalsController@export')->name('Pannel.Acounting.CheckoutPersonals.Export');

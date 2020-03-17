@@ -176,7 +176,7 @@ var number = 1;
 $kes=$key-1;
      @endphp
 
-@if($kes>0)
+@if($kes>=0)
  var hour ={{\Morilog\Jalali\Jalalian::forge($position->created_at)->format('H')}}-{{\Morilog\Jalali\Jalalian::forge($khedmatResan[$kes]->created_at)->format('H')}};
          var min ={{\Morilog\Jalali\Jalalian::forge($position->created_at)->format('i')}}-{{\Morilog\Jalali\Jalalian::forge($khedmatResan[$kes]->created_at)->format('i')}};
 
