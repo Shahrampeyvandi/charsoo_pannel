@@ -586,6 +586,57 @@ class RoleController extends Controller
 
                     </div>
                     <hr>
+                    <p>فروشگاه</p>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group wd-xs-300">
+                                <div class=""
+                                    style="margin-left: -1rem;">
+                                    <input type="checkbox" id="stores_menu" name="stores_menu"
+                                        class="" value="1"
+                                         '.(in_array('stores_menu',$permissions) ? 'checked=""' : '').'
+                                        >
+                                    <label class="" for="stores_menu">منوی فروشگاه</label>
+                                </div>
+
+                            </div>
+                            <div class="form-group wd-xs-300">
+                                <div class=""
+                                    style="margin-left: -1rem;">
+                                    <input type="checkbox" id="stores_create" name="stores_create"
+                                        class="" value="1"
+                                         '.(in_array('stores_create',$permissions) ? 'checked=""' : '').'
+                                        >
+                                    <label class="" for="stores_create">افزودن فروشگاه</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group wd-xs-300">
+                                <div class=""
+                                    style="margin-left: -1rem;">
+                                    <input type="checkbox" id="stores_delete" name="stores_delete"
+                                        class="" value="1"
+                                         '.(in_array('stores_delete',$permissions) ? 'checked=""' : '').'
+                                        >
+                                    <label class="" for="stores_delete">حذف فروشگاه</label>
+                                </div>
+                            </div>
+                            <div class="form-group wd-xs-300">
+                                <div class=""
+                                    style="margin-left: -1rem;">
+                                    <input type="checkbox" id="stores_edit" name="stores_edit"
+                                        class="" value="1"
+                                         '.(in_array('stores_edit',$permissions) ? 'checked=""' : '').'
+                                        >
+                                    <label class="" for="stores_edit">ویرایش فروشگاه</label>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                    <hr>
                     <p>حسابداری</p>
                     <div class="row">
                         <div class="col-md-12">
@@ -711,6 +762,10 @@ class RoleController extends Controller
             'orders_refferto',
             'orders_detail',
             'orders_transactions',
+            'stores_menu',
+            'stores_create',
+            'store_edit',
+            'store_delete',
             'user_accounts',
             'user_transactions',
             'checkout_personals',

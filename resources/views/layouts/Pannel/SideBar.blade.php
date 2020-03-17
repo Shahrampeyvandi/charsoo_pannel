@@ -39,6 +39,7 @@
                 </ul>
             </li>
             @endif
+            @if (auth()->user()->can('stores_menu'))
             <li><a href="#"><i class="icon ti-shopping-cart"></i> <span> فروشگاه ها</span> </a>
                 <ul>
                     <li><a @if (Illuminate\Support\Facades\Route::currentRouteName()=='Pannel.Services.Stores' )
@@ -46,6 +47,7 @@
                                 class="icon ti-list"></i> <span> لیست </span> </a></li>
                 </ul>
             </li>
+            @endif
 
 
             @if (auth()->user()->can('customer_menu'))

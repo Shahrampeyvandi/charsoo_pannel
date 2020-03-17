@@ -91,7 +91,7 @@
                                     <label class="form-control-label"> <span class="text-danger">*</span> تلفن همراه
                                     </label>
                                     <input class="form-control text-right" id="p_mobile" name="mobile" placeholder=""
-                                        type="number" dir="ltr">
+                                        type="number" dir="ltr" onblur="validateMobile(event,this.value)">
 
                                 </div><!-- form-group -->
                                 <div class="form-group col-md-6">
@@ -341,9 +341,9 @@
                     </span>
                 </a>
                 @endif
-                @if (auth()->user()->can('personal_edit'))
+                @if (auth()->user()->can('stores_edit'))
 
-                <a href="#" title="تازه سازی" data-toggle="modal" data-target=".bd-example-modal-lg-edit" class="mx-2">
+                <a href="#" title="ویرایش فروشگاه" data-toggle="modal" data-target=".bd-example-modal-lg-edit" class="mx-2">
                     <span class="edit-personal __icon bg-info">
                         <i class="fa fa-edit"></i>
                     </span>
@@ -351,13 +351,13 @@
                 @endif
             </div>
             <div>
-                <a href="#" class="mx-2 btn--filter" title="فیلتر اطلاعات">
+                {{-- <a href="#" class="mx-2 btn--filter" title="فیلتر اطلاعات">
                     <span class="__icon bg-info">
                         <i class="fa fa-search"></i>
                     </span>
-                </a>
-                @if (auth()->user()->can('personal_insert'))
-                <a href="#" data-toggle="modal" data-target=".bd-example-modal-lg" title="افزودن کاربر">
+                </a> --}}
+                @if (auth()->user()->can('stores_create'))
+                <a href="#" data-toggle="modal" data-target=".bd-example-modal-lg" title="افزودن فروشگاه">
                     <span class="__icon bg-success">
                         <i class="fa fa-plus"></i>
                     </span>
@@ -600,7 +600,7 @@ $(document).on('click','.clone-bottom',function(e){
   cloned.find('input[type="number"]').val('')
   cloned.find('img').attr('src','')
   cloned.find('textarea').val('')
-  cloned.find('.delete_status').remove()
+  cloned.find('.statuses').remove()
   cloned.find('p.text-chose-img').text('انتخاب تصویر')
   cloned.prepend(`<a class="remove-product" href="#" >
                                     <i class="fa fa-close"></i>

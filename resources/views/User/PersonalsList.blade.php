@@ -141,7 +141,8 @@
                                     <label class="form-control-label"> <span class="text-danger">*</span> تلفن همراه
                                     </label>
                                     <input class="form-control text-right" id="p_mobile" name="mobile" placeholder=""
-                                        type="text" dir="ltr">
+                                    onblur="validateMobile(event,this.value)"
+                                    type="text" dir="ltr">
                                     <div class="valid-feedback">
                                         صحیح است!
                                     </div>

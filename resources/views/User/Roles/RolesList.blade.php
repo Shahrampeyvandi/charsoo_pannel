@@ -474,6 +474,48 @@
 
                             </div>
                             <hr>
+                            <p>فروشگاه</p>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group wd-xs-300">
+                                        <div class="custom-control custom-checkbox custom-control-inline"
+                                            style="margin-left: -1rem;">
+                                            <input type="checkbox" id="stores_menu" name="stores_menu"
+                                                class="custom-control-input" value="1">
+                                            <label class="custom-control-label" for="stores_menu">منوی فروشگاه</label>
+                                        </div>
+
+                                    </div>
+                                    <div class="form-group wd-xs-300">
+                                        <div class="custom-control custom-checkbox custom-control-inline"
+                                            style="margin-left: -1rem;">
+                                            <input type="checkbox" id="stores_create" name="stores_create"
+                                                class="custom-control-input" value="1">
+                                            <label class="custom-control-label" for="stores_create">افزودن فروشگاه</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group wd-xs-300">
+                                        <div class="custom-control custom-checkbox custom-control-inline"
+                                            style="margin-left: -1rem;">
+                                            <input type="checkbox" id="stores_delete" name="stores_delete"
+                                                class="custom-control-input" value="1">
+                                            <label class="custom-control-label" for="stores_delete">حذف فروشگاه</label>
+                                        </div>
+                                    </div>
+                                     <div class="form-group wd-xs-300">
+                                        <div class="custom-control custom-checkbox custom-control-inline"
+                                            style="margin-left: -1rem;">
+                                            <input type="checkbox" id="stores_edit" name="stores_edit"
+                                                class="custom-control-input" value="1">
+                                            <label class="custom-control-label" for="stores_edit">ویرایش فروشگاه</label>
+                                        </div>
+                                    </div> 
+                                </div>
+
+                            </div>
+                            <hr>
                             <p>حسابداری</p>
                             <div class="row">
                                 <div class="col-md-12">
@@ -781,6 +823,18 @@
                                 @break
                                 @case('accounting')
                                 <span> حسابداری</span>
+                                @break
+                                @case('stores_menu')
+                                <span> منوی فروشگاه</span>
+                                @break
+                                @case('stores_delete')
+                                <span> حذف فروشگاه</span>
+                                @break
+                                @case('stores_create')
+                                <span> افزودن فروشگاه</span>
+                                @break
+                                @case('stores_edit')
+                                <span> ویرایش فروشگاه</span>
                                 @break
                                 @default
                                 @endswitch

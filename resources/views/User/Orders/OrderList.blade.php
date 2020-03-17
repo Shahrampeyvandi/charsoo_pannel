@@ -43,7 +43,7 @@
           <div class="row">
             <div class="form-group col-md-6">
               <label for="user_mobile" class="col-form-label"><span class="text-danger">*</span> شماره همراه:</label>
-              <input type="number" class="form-control" name="user_mobile" id="user_mobile">
+              <input type="number" class="form-control" name="user_mobile" onblur="validateMobile(event,this.value)" id="user_mobile">
             </div>
             <div class="form-group col-md-6">
               <label for="user_name" class="col-form-label"><span class="text-danger">*</span> نام: </label>

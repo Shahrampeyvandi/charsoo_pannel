@@ -83,7 +83,7 @@
           <div class="row">
             <div class="form-group col-md-6">
               <label for="user_mobile" class="col-form-label"><span class="text-danger">*</span> موبایل:</label>
-              <input type="text" class="form-control" name="user_mobile" id="user_mobile">
+              <input type="text" class="form-control" name="user_mobile" onblur="validateMobile(event,this.value)" id="user_mobile">
             </div>
             <div class="form-group col-md-6">
               <label for="user_national_num" class="col-form-label">کد ملی:</label>
