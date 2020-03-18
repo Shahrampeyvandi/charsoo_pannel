@@ -17,7 +17,8 @@ class PersonalController extends Controller
 {
     public function PersonalsList()
     {
-      
+        
+        
         $personal_array = [];
         $personals = '';
         if (auth()->user()->hasRole('admin_panel')) {
