@@ -17,12 +17,13 @@ class PersonalController extends Controller
 {
     public function PersonalsList()
     {
-
+      
         $personal_array = [];
         $personals = '';
         if (auth()->user()->hasRole('admin_panel')) {
             $personal_get = Personal::latest()->get();
             foreach ($personal_get as $key => $personal) {
+               
                 $personals .= ' 
             <tr>
                 <td>

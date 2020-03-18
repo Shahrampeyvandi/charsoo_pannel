@@ -23,7 +23,8 @@ class MainController extends Controller
     }
     if (auth()->user()->hasRole('admin_panel')) {
 
-      $broker_name = 'ادمین سایت';
+     
+      $header = 'مدیر';
       $broker_lists = '';
       $count = 1;
 
@@ -111,42 +112,86 @@ class MainController extends Controller
       $service_chart_json = '';
       $service_chart_ordercount_json = '';
       $max_Y = '';
-      $service_array = auth()->user()->services->pluck('id')->toArray();
-      if (count(auth()->user()->services)) {
-        if (Cache::has('pending_orders')) {
-
-          $pending_orders = Cache::get('pending_orders');
-        } else {
-          $pending_orders = Cache::remember('pending_orders', 60, function () use ($service_array) {
-            return Order::whereIn('service_id', $service_array)->where('order_type', 'معلق')->count();
-          });
-        }
-
-
-        if (Cache::has('doing_orders')) {
-          $doing_orders = Cache::get('doing_orders');
-        } else {
-          $doing_orders = Cache::remember('doing_orders', 60, function () use ($service_array) {
-            return Order::whereIn('service_id', $service_array)->where('order_type', 'در حال انجام')->count();
-          });
-        }
-
-
-        $broker_name = auth()->user()->roles->first()->name;
-      } else {
-        $pending_orders = 0;
-        $doing_orders = 0;
-        $broker_name = auth()->user()->roles->first()->name;
-      }
-
-
-
       $service_chart_array = [];
       $service_chart_ordercount = [];
-      foreach (auth()->user()->services as $key => $service) {
-        array_push($service_chart_array, $service->service_title);
-        $orders_service_count = Order::where('service_id', $service->id)->count();
-        array_push($service_chart_ordercount, $orders_service_count);
+      if(auth()->user()->roles->first()->broker == 1){
+        $service_array = Service::where('service_role',auth()->user()->roles->first()->name)->pluck('id')->toArray();
+        
+        if (Cache::has('all_services')) {
+          $all_services = Cache::get('all_services');
+        } else {
+          $all_services = Cache::remember('all_services', 60, function () use ($service_array) {
+            return Service::where('service_role',auth()->user()->roles->first()->name)->get();
+          });
+        }
+        foreach ($all_services as $key => $service) {
+          array_push($service_chart_array, $service->service_title);
+          $orders_service_count = Order::where('service_id', $service->id)->count();
+          array_push($service_chart_ordercount, $orders_service_count);
+        }
+
+        if (count($all_services)) {
+          if (Cache::has('pending_orders')) {
+  
+            $pending_orders = Cache::get('pending_orders');
+          } else {
+            $pending_orders = Cache::remember('pending_orders', 60, function () use ($service_array) {
+              return Order::whereIn('service_id', $service_array)->where('order_type', 'معلق')->count();
+            });
+          }
+  
+  
+          if (Cache::has('doing_orders')) {
+            $doing_orders = Cache::get('doing_orders');
+          } else {
+            $doing_orders = Cache::remember('doing_orders', 60, function () use ($service_array) {
+              return Order::whereIn('service_id', $service_array)->where('order_type', 'در حال انجام')->count();
+            });
+          }
+  
+  
+        } else {
+          $pending_orders = 0;
+          $doing_orders = 0;
+      
+        }
+
+
+      }else{
+        $role_name = Role::where('id',auth()->user()->roles->first()->sub_broker)->name;
+        $service_array = Service::where('service_role',$role_name)->pluck('id')->toArray();
+        foreach (Service::where('service_role',$role_name)->get() as $key => $service) {
+          array_push($service_chart_array, $service->service_title);
+          $orders_service_count = Order::where('service_id', $service->id)->count();
+          array_push($service_chart_ordercount, $orders_service_count);
+        }
+
+        if (count(Service::where('service_role',$role_name)->get())) {
+          if (Cache::has('pending_orders')) {
+  
+            $pending_orders = Cache::get('pending_orders');
+          } else {
+            $pending_orders = Cache::remember('pending_orders', 60, function () use ($service_array) {
+              return Order::whereIn('service_id', $service_array)->where('order_type', 'معلق')->count();
+            });
+          }
+  
+  
+          if (Cache::has('doing_orders')) {
+            $doing_orders = Cache::get('doing_orders');
+          } else {
+            $doing_orders = Cache::remember('doing_orders', 60, function () use ($service_array) {
+              return Order::whereIn('service_id', $service_array)->where('order_type', 'در حال انجام')->count();
+            });
+          }
+  
+  
+         
+        } else {
+          $pending_orders = 0;
+          $doing_orders = 0;
+         
+        }
       }
 
       $service_chart_json = json_encode($service_chart_array);
@@ -164,7 +209,7 @@ class MainController extends Controller
     return view('User.Dashboard', compact([
       'pending_orders',
       'doing_orders',
-      'broker_name',
+     
       'broker_lists',
       'service_chart_json',
       'service_chart_ordercount_json',

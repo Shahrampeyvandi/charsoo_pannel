@@ -9,6 +9,7 @@ use Morilog\Jalali\Jalalian;
 use App\Models\Services\Service;
 use App\Models\Personals\Personal;
 use App\Http\Controllers\Controller;
+use App\Models\Neighborhood;
 use App\Models\Store\Product;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\File;
@@ -22,18 +23,18 @@ class StoreController extends Controller
         $stores = Cache::get('stores');
       } else {
         $stores = Cache::remember('stores', 60, function () {
-          return Store::latest()->get();
+          return Store::where('store_status',1)->latest()->get();
         });
       }
     } else {
       if (auth()->user()->roles->first()->broker == 1) {
         $role_name = auth()->user()->roles->first()->name;
-        $stores = Store::where('service_role', $role_name)->latest()->get();
+        $stores = Store::where('store_status',1)->where('store_role', $role_name)->latest()->get();
       }
 
       if (auth()->user()->roles->first()->sub_broker !== null) {
         $role_name = Role::where('id', auth()->user()->roles->first()->sub_broker)->first()->name;
-        $stores = Store::where('service_role', $role_name)->latest()->get();
+        $stores = Store::where('store_status',1)->where('store_role', $role_name)->latest()->get();
       }
     }
 
@@ -42,7 +43,7 @@ class StoreController extends Controller
 
   public function submitStore(Request $request)
   {
-
+    
 
     if ($request->has('owner_profile')) {
       $file = 'photo' . '.' . $request->owner_profile->getClientOriginalExtension();
@@ -83,13 +84,15 @@ class StoreController extends Controller
       'store_city' => $request->store_city,
       'store_main_street' => $request->store_main_street,
       'store_secondary_street' => $request->store_secondary_street,
-      'store_neighborhoods' => $request->neighborhood_id,
+      'store_status' => 1,
       'store_pelak' => $request->store_pluck_num,
       'store_picture' => $store_picture,
     ]);
 
+    $store->neighborhoods()->attach($request->neighborhood_id);
+
     if (strlen(implode($request->product_name)) == 0) {
-      alert()->success('فروشگاه ثبت شد اما محصولی وارد نشده است', 'خطا')->persistent('بستن');
+      alert()->success('فروشگاه ثبت شد اما محصولی وارد نشده است', 'موفق')->persistent('بستن');
       return back();
     } else {
       $count = 0;
@@ -337,12 +340,12 @@ class StoreController extends Controller
             <div class="form-group col-md-12">
                 <label for="recipient-name" class="col-form-label">نام شهر: </label>
                 <select name="store_city" class="form-control" data-id=' . $store->id . ' id="store_city_edit">
-                    <option value="">باز کردن فهرست انتخاب</option>
-                    <option value="مشهد">مشهد</option>
-                    <option value="نیشابور">نیشابور</option>
-                    <option value="فریمان">فریمان</option>
-                    <option value="سبزوار">سبزوار</option>
-                </select>
+                    <option value="">باز کردن فهرست انتخاب</option>';
+                    $city = $store->store_city;
+                    foreach (\App\Models\City\City::all() as $key => $item) {
+                      $list .= '<option   value="' . $item->id . '">' . $item->city_name . '</option>';
+                    }
+               $list .= '</select>
             </div>
         </div>
         <div class="row">
@@ -497,950 +500,113 @@ class StoreController extends Controller
   public function getCityRegions(Request $request)
   {
     // $regions =  City::where('name', $request->city_name)->first()->regions;
-    if ($request->city_name == 'مشهد') {
-      $list = '';
-      $list .= '<div style="padding: 10px;
+     $city_id= $request->city_name; 
+     $city_name = City::where('id',$city_id)->first()->city_name;
+     $list = '';
+    if ($city_name == 'مشهد') {
+      $regions = [1,2,3,4,5,6,7,8,9,10,11,12];
+        foreach ($regions as $key => $region) {
+          if(count(Neighborhood::where('city_id',$request->city_name)->where('region_id',$region)->get())){
+            $list .= '<div style="padding: 10px;
             background: #efefef;margin-bottom:4px;
-            border-radius: 4px;"><h6 class="mb-3">ناحیه یک </h6><div class="row">';
-      $list .= '<div class="col-md-3">
-          <div class="" style="margin-left: -1rem;">
-          <input data-id="1" type="checkbox" id=""
-          name="neighborhood_id[]" class="" value="بهشت">
-            <label class="mx-2" for="">بهشت</label>
-           </div>
-          </div>
-        
-          <div class="col-md-3">
-          <div class="" style="margin-left: -1rem;">
-          <input data-id="1" type="checkbox" id=""
-          name="neighborhood_id[]" class="" value="راهنمایی">
-            <label class="mx-2" for="">راهنمایی</label>
-           </div>
-          </div>
-
-          <div class="col-md-3">
-          <div class="" style="margin-left: -1rem;">
-          <input data-id="1" type="checkbox" id=""
-          name="neighborhood_id[]" class="" value="احمد اباد">
-            <label class="mx-2" for="">احمد اباد</label>
-           </div>
-          </div>
-
-          <div class="col-md-3">
-          <div class="" style="margin-left: -1rem;">
-          <input data-id="1" type="checkbox" id=""
-          name="neighborhood_id[]" class="" value="سعد اباد">
-            <label class="mx-2" for="">سعد اباد</label>
-           </div>
-          </div>
-
-          <div class="col-md-3">
-          <div class="" style="margin-left: -1rem;">
-          <input data-id="1" type="checkbox" id=""
-          name="neighborhood_id[]" class="" value="سناباد">
-            <label class="mx-2" for="">سناباد</label>
-           </div>
-          </div>
-
-          <div class="col-md-3">
-          <div class="" style="margin-left: -1rem;">
-          <input data-id="1" type="checkbox" id=""
-          name="neighborhood_id[]" class="" value="گوهرشاد">
-            <label class="mx-2" for="">گوهرشاد</label>
-           </div>
-          </div>
-
-          <div class="col-md-3">
-          <div class="" style="margin-left: -1rem;">
-          <input data-id="1" type="checkbox" id=""
-          name="neighborhood_id[]" class="" value="ارشاد">
-            <label class="mx-2" for="">ارشاد</label>
-           </div>
-          </div>
-
-          <div class="col-md-3">
-          <div class="" style="margin-left: -1rem;">
-          <input data-id="1" type="checkbox" id=""
-          name="neighborhood_id[]" class="" value="سجاد">
-            <label class="mx-2" for="">سجاد</label>
-           </div>
-          </div>
-          ';
+            border-radius: 4px;"><h6 class="mb-3">ناحیه '.$region.' </h6><div class="row">';
+          foreach (Neighborhood::where('city_id',$request->city_name)->where('region_id',$region)->get() as $key => $neighborhood) {
+            $list .= '<div class="col-md-3">
+            <div class="" style="margin-left: -1rem;">
+            <input data-id="1" type="checkbox" id=""
+            name="neighborhood_id[]" class="" value="'.$neighborhood->id.'">
+              <label class="mx-2" for="">'.$neighborhood->name.'</label>
+             </div>
+            </div>';
+          }
+        }
+        }
+   
       $list .= '</div></div>';
-
-      // منطقه 2
-      $list .= '<div style="padding: 10px;
-            background: #efefef;margin-bottom:4px;
-            border-radius: 4px;"><h6 class="mb-3">ناحیه 2 </h6><div class="row">';
-      $list .= '<div class="col-md-3">
-          <div class="" style="margin-left: -1rem;">
-          <input data-id="1" type="checkbox" id=""
-          name="neighborhood_id[]" class="" value="شفا">
-            <label class="mx-2" for="">شفا</label>
-           </div>
-          </div>
-        
-          <div class="col-md-3">
-          <div class="" style="margin-left: -1rem;">
-          <input data-id="1" type="checkbox" id=""
-          name="neighborhood_id[]" class="" value="سمزقند">
-            <label class="mx-2" for="">سمزقند</label>
-           </div>
-          </div>
-
-          <div class="col-md-3">
-          <div class="" style="margin-left: -1rem;">
-          <input data-id="1" type="checkbox" id=""
-          name="neighborhood_id[]" class="" value="ایت ا.. عبادی">
-            <label class="mx-2" for="">ایت ا.. عبادی</label>
-           </div>
-          </div>
-
-          <div class="col-md-3">
-          <div class="" style="margin-left: -1rem;">
-          <input data-id="1" type="checkbox" id=""
-          name="neighborhood_id[]" class="" value="عامل">
-            <label class="mx-2" for="">عامل</label>
-           </div>
-          </div>
-
-          <div class="col-md-3">
-          <div class="" style="margin-left: -1rem;">
-          <input data-id="1" type="checkbox" id=""
-          name="neighborhood_id[]" class="" value="شهید مطهری">
-            <label class="mx-2" for="">شهید مطهری</label>
-           </div>
-          </div>
-
-          <div class="col-md-3">
-          <div class="" style="margin-left: -1rem;">
-          <input data-id="1" type="checkbox" id=""
-          name="neighborhood_id[]" class="" value="شهید هنرور">
-            <label class="mx-2" for="">شهید هنرور</label>
-           </div>
-          </div>
-
-          <div class="col-md-3">
-          <div class="" style="margin-left: -1rem;">
-          <input data-id="1" type="checkbox" id=""
-          name="neighborhood_id[]" class="" value="ایثارگران">
-            <label class="mx-2" for="">ایثارگران</label>
-           </div>
-          </div>
-
-          <div class="col-md-3">
-          <div class="" style="margin-left: -1rem;">
-          <input data-id="1" type="checkbox" id=""
-          name="neighborhood_id[]" class="" value="نان رضوی">
-            <label class="mx-2" for="">نان رضوی</label>
-           </div>
-          </div>
-
-          <div class="col-md-3">
-          <div class="" style="margin-left: -1rem;">
-          <input data-id="1" type="checkbox" id=""
-          name="neighborhood_id[]" class="" value="پردیس">
-            <label class="mx-2" for="">پردیس</label>
-           </div>
-          </div>
-          <div class="col-md-3">
-          <div class="" style="margin-left: -1rem;">
-          <input data-id="1" type="checkbox" id=""
-          name="neighborhood_id[]" class="" value="گلبرگ ( حضرت ابوطالب )">
-            <label class="mx-2" for="">گلبرگ ( حضرت ابوطالب ) </label>
-           </div>
-          </div>
-          <div class="col-md-3">
-          <div class="" style="margin-left: -1rem;">
-          <input data-id="1" type="checkbox" id=""
-          name="neighborhood_id[]" class="" value="موسوی قوچانی">
-            <label class="mx-2" for="">موسوی قوچانی</label>
-           </div>
-          </div>
-          <div class="col-md-3">
-          <div class="" style="margin-left: -1rem;">
-          <input data-id="1" type="checkbox" id=""
-          name="neighborhood_id[]" class="" value="قائم (حضرت عبدالمطلب )">
-            <label class="mx-2" for=""> قائم (حضرت عبدالمطلب ) </label>
-           </div>
-          </div>
-          <div class="col-md-3">
-          <div class="" style="margin-left: -1rem;">
-          <input data-id="1" type="checkbox" id=""
-          name="neighborhood_id[]" class="" value="سپاد (شهرک امام حسین)">
-            <label class="mx-2" for="">سپاد (شهرک امام حسین)</label>
-           </div>
-          </div>
-          <div class="col-md-3">
-          <div class="" style="margin-left: -1rem;">
-          <input data-id="1" type="checkbox" id=""
-          name="neighborhood_id[]" class="" value="نوید">
-            <label class="mx-2" for="">نوید</label>
-           </div>
-          </div>
-          <div class="col-md-3">
-          <div class="" style="margin-left: -1rem;">
-          <input data-id="1" type="checkbox" id=""
-          name="neighborhood_id[]" class="" value="نان رضوی">
-            <label class="mx-2" for="">نان رضوی</label>
-           </div>
-          </div>
-          <div class="col-md-3">
-          <div class="" style="margin-left: -1rem;">
-          <input data-id="1" type="checkbox" id=""
-          name="neighborhood_id[]" class="" value="بهاران (پارک پردیس )">
-            <label class="mx-2" for="">بهاران (پارک پردیس ) </label>
-           </div>
-          </div>
-
-          <div class="col-md-3">
-          <div class="" style="margin-left: -1rem;">
-          <input data-id="1" type="checkbox" id=""
-          name="neighborhood_id[]" class="" value="حجت">
-            <label class="mx-2" for="">حجت</label>
-           </div>
-          </div>
-
-          <div class="col-md-3">
-          <div class="" style="margin-left: -1rem;">
-          <input data-id="1" type="checkbox" id=""
-          name="neighborhood_id[]" class="" value="مهدی اباد">
-            <label class="mx-2" for="">مهدی اباد</label>
-           </div>
-          </div>
-
-          <div class="col-md-3">
-          <div class="" style="margin-left: -1rem;">
-          <input data-id="1" type="checkbox" id=""
-          name="neighborhood_id[]" class="" value="نوده">
-            <label class="mx-2" for="">نوده</label>
-           </div>
-          </div>
-
-          <div class="col-md-3">
-          <div class="" style="margin-left: -1rem;">
-          <input data-id="1" type="checkbox" id=""
-          name="neighborhood_id[]" class="" value="قائم">
-            <label class="mx-2" for="">قائم</label>
-           </div>
-          </div>
-
-          <div class="col-md-3">
-          <div class="" style="margin-left: -1rem;">
-          <input data-id="1" type="checkbox" id=""
-          name="neighborhood_id[]" class="" value="مشهدقلی">
-            <label class="mx-2" for="">مشهدقلی</label>
-           </div>
-          </div>
-
-          <div class="col-md-3">
-          <div class="" style="margin-left: -1rem;">
-          <input data-id="1" type="checkbox" id=""
-          name="neighborhood_id[]" class="" value="زرکش">
-            <label class="mx-2" for="">زرکش</label>
-           </div>
-          </div>
-
-          <div class="col-md-3">
-          <div class="" style="margin-left: -1rem;">
-          <input data-id="1" type="checkbox" id=""
-          name="neighborhood_id[]" class="" value="کوی امیرالمومنین">
-            <label class="mx-2" for="">کوی امیرالمومنین</label>
-           </div>
-          </div>
-
-          <div class="col-md-3">
-          <div class="" style="margin-left: -1rem;">
-          <input data-id="1" type="checkbox" id=""
-          name="neighborhood_id[]" class="" value="کارخانه قند (جانبازان)">
-            <label class="mx-2" for="">کارخانه قند (جانبازان) </label>
-           </div>
-          </div>
-
-          <div class="col-md-3">
-          <div class="" style="margin-left: -1rem;">
-          <input data-id="1" type="checkbox" id=""
-          name="neighborhood_id[]" class="" value="فرامرز عباسی ">
-            <label class="mx-2" for="">فرامرز عباسی </label>
-           </div>
-          </div>
-
-          <div class="col-md-3">
-          <div class="" style="margin-left: -1rem;">
-          <input data-id="1" type="checkbox" id=""
-          name="neighborhood_id[]" class="" value="بلوار شاهنامه">
-            <label class="mx-2" for="">بلوار شاهنامه</label>
-           </div>
-          </div>';
-      $list .= '</div></div>';
-
-      // ناحیه سه
-      $list .= '<div style="padding: 10px;
-        background: #efefef;margin-bottom:4px;
-        border-radius: 4px;"><h6 class="mb-3">ناحیه 3 </h6><div class="row">';
-      $list .= '<div class="col-md-3">
+    }else{
+      $list .='<div style="padding: 10px;
+      background: #efefef;margin-bottom:4px;
+      border-radius: 4px;"><div class="row">';
+      foreach (Neighborhood::where('city_id',$request->city_name)->get() as $key => $neighborhood) {
+        $list .= '<div class="col-md-3">
         <div class="" style="margin-left: -1rem;">
         <input data-id="1" type="checkbox" id=""
-        name="neighborhood_id[]" class="" value="گاز">
-        <label class="mx-2" for="">گاز</label>
-        </div>
-        </div>
-
-        <div class="col-md-3">
-        <div class="" style="margin-left: -1rem;">
-        <input data-id="1" type="checkbox" id=""
-        name="neighborhood_id[]" class="" value="راه اهن">
-        <label class="mx-2" for="">راه اهن</label>
-        </div>
-        </div>
-
-        <div class="col-md-3">
-        <div class="" style="margin-left: -1rem;">
-        <input data-id="1" type="checkbox" id=""
-        name="neighborhood_id[]" class="" value="فاطمیه">
-        <label class="mx-2" for="">فاطمیه</label>
-        </div>
-        </div>
-
-        <div class="col-md-3">
-        <div class="" style="margin-left: -1rem;">
-        <input data-id="1" type="checkbox" id=""
-        name="neighborhood_id[]" class="" value="هاشمی نژاد">
-        <label class="mx-2" for="">هاشمی نژاد</label>
-        </div>
-        </div>
-
-        <div class="col-md-3">
-        <div class="" style="margin-left: -1rem;">
-        <input data-id="1" type="checkbox" id=""
-        name="neighborhood_id[]" class="" value="رسالت">
-        <label class="mx-2" for="">رسالت</label>
-        </div>
-        </div>
-
-        <div class="col-md-3">
-        <div class="" style="margin-left: -1rem;">
-        <input data-id="1" type="checkbox" id=""
-        name="neighborhood_id[]" class="" value="دروی">
-        <label class="mx-2" for="">دروی</label>
-        </div>
-        </div>
-
-        <div class="col-md-3">
-        <div class="" style="margin-left: -1rem;">
-        <input data-id="1" type="checkbox" id=""
-        name="neighborhood_id[]" class="" value="طبرسی شمالی">
-        <label class="mx-2" for="">طبرسی شمالی</label>
-        </div>
-        </div>
-
-        <div class="col-md-3">
-        <div class="" style="margin-left: -1rem;">
-        <input data-id="1" type="checkbox" id=""
-        name="neighborhood_id[]" class="" value="سیس اباد">
-        <label class="mx-2" for="">سیس اباد</label>
-        </div>
-        </div>
-
-        <div class="col-md-3">
-        <div class="" style="margin-left: -1rem;">
-        <input data-id="1" type="checkbox" id=""
-        name="neighborhood_id[]" class="" value="بلال">
-        <label class="mx-2" for="">بلال</label>
-        </div>
-        </div>
-        <div class="col-md-3">
-        <div class="" style="margin-left: -1rem;">
-        <input data-id="1" type="checkbox" id=""
-        name="neighborhood_id[]" class="" value="خواجه ربیع">
-        <label class="mx-2" for="">خواجه ربیع</label>
-        </div>
-        </div>
-        <div class="col-md-3">
-        <div class="" style="margin-left: -1rem;">
-        <input data-id="1" type="checkbox" id=""
-        name="neighborhood_id[]" class="" value="بهمن">
-        <label class="mx-2" for="">بهمن</label>
-        </div>
-        </div>
-        <div class="col-md-3">
-        <div class="" style="margin-left: -1rem;">
-        <input data-id="1" type="checkbox" id=""
-        name="neighborhood_id[]" class="" value="قرقی">
-        <label class="mx-2" for=""> قرقی </label>
-        </div>
+        name="neighborhood_id[]" class="" value="'.$neighborhood->id.'">
+          <label class="mx-2" for="">'.$neighborhood->name.'</label>
+         </div>
         </div>';
-      $list .= '</div></div>';
-
-      // ناحیه چهار
-
-      $list .= '<div style="padding: 10px;
-        background: #efefef;margin-bottom:4px;
-        border-radius: 4px;"><h6 class="mb-3">ناحیه 4 </h6><div class="row">';
-      $list .= '<div class="col-md-3">
-        <div class="" style="margin-left: -1rem;">
-        <input data-id="1" type="checkbox" id=""
-        name="neighborhood_id[]" class="" value="طلاب">
-        <label class="mx-2" for="">طلاب</label>
-        </div>
-        </div>
-
-        <div class="col-md-3">
-        <div class="" style="margin-left: -1rem;">
-        <input data-id="1" type="checkbox" id=""
-        name="neighborhood_id[]" class="" value="گلشور (بهشت )">
-        <label class="mx-2" for="">گلشور (بهشت )</label>
-        </div>
-        </div>
-
-        <div class="col-md-3">
-        <div class="" style="margin-left: -1rem;">
-        <input data-id="1" type="checkbox" id=""
-        name="neighborhood_id[]" class="" value="ایثار">
-        <label class="mx-2" for="">ایثار</label>
-        </div>
-        </div>
-
-        <div class="col-md-3">
-        <div class="" style="margin-left: -1rem;">
-        <input data-id="1" type="checkbox" id=""
-        name="neighborhood_id[]" class="" value="تلگرد">
-        <label class="mx-2" for="">تلگرد</label>
-        </div>
-        </div>
-
-        <div class="col-md-3">
-        <div class="" style="margin-left: -1rem;">
-        <input data-id="1" type="checkbox" id=""
-        name="neighborhood_id[]" class="" value="وحید">
-        <label class="mx-2" for="">وحید</label>
-        </div>
-        </div>
-
-        <div class="col-md-3">
-        <div class="" style="margin-left: -1rem;">
-        <input data-id="1" type="checkbox" id=""
-        name="neighborhood_id[]" class="" value="ابوذر">
-        <label class="mx-2" for="">ابوذر</label>
-        </div>
-        </div>
-
-        <div class="col-md-3">
-        <div class="" style="margin-left: -1rem;">
-        <input data-id="1" type="checkbox" id=""
-        name="neighborhood_id[]" class="" value="پنجتن">
-        <label class="mx-2" for="">پنجتن</label>
-        </div>
-        </div>
-
-        <div class="col-md-3">
-        <div class="" style="margin-left: -1rem;">
-        <input data-id="1" type="checkbox" id=""
-        name="neighborhood_id[]" class="" value="رده">
-        <label class="mx-2" for="">رده</label>
-        </div>
-        </div>
-
-        <div class="col-md-3">
-        <div class="" style="margin-left: -1rem;">
-        <input data-id="1" type="checkbox" id=""
-        name="neighborhood_id[]" class="" value="شهید قربانی">
-        <label class="mx-2" for="">شهید قربانی</label>
-        </div>
-        </div>
-        <div class="col-md-3">
-        <div class="" style="margin-left: -1rem;">
-        <input data-id="1" type="checkbox" id=""
-        name="neighborhood_id[]" class="" value="پنحتن ال عبا">
-        <label class="mx-2" for="">پنحتن ال عبا</label>
-        </div>
-        </div>';
+      }
+        
       $list .= '</div></div>';
     }
 
-    if ($request->city_name == 'نیشابور') {
-      $list = '';
-    }
+   
     return $list;
   }
 
   public function getEditCityRegions(Request $request)
   {
-    $store = Store::where('id', $request->store_id)->first();
-    if ($request->city_name == 'مشهد') {
+   
+     $store = Store::where('id', $request->store_id)->first();
+     $store_neighborhoods = $store->neighborhoods->pluck('id')->toArray();
+     $city_id= $request->city_name; 
+     $city_name = City::where('id',$city_id)->first()->city_name;
+    if ($city_name == 'مشهد') { 
       $list = '';
-      $list .= '<div style="padding: 10px;
-            background: #efefef;margin-bottom:4px;
-            border-radius: 4px;"><h6 class="mb-3">ناحیه یک </h6><div class="row">';
-      $list .= '<div class="col-md-3">
-          <div class="" style="margin-left: -1rem;">
-          <input data-id="1" type="checkbox" id=""
-          name="neighborhood_id[]" class="" value="بهشت">
-            <label class="mx-2" for="">بهشت</label>
-           </div>
+     if ($city_name == 'مشهد') {
+       $regions = [1,2,3,4,5,6,7,8,9,10,11,12];
+         foreach ($regions as $key => $region) {
+           if(count(Neighborhood::where('city_id',$request->city_name)->where('region_id',$region)->get())){
+             $list .= '<div style="padding: 10px;
+             background: #efefef;margin-bottom:4px;
+             border-radius: 4px;"><h6 class="mb-3">ناحیه '.$region.' </h6><div class="row">';
+           foreach (Neighborhood::where('city_id',$request->city_name)->where('region_id',$region)->get() as $key => $neighborhood) {
+             $list .= '<div class="col-md-3">
+             <div class="" style="margin-left: -1rem;">
+             <input data-id="1" type="checkbox" id=""
+             name="neighborhood_id[]" class="" value="'.$neighborhood->id.'"
+             '.(in_array($neighborhood->id,$store_neighborhoods) ? 'checked=""' : '').'
+             >
+               <label class="mx-2" for="">'.$neighborhood->name.'</label>
+              </div>
+             </div>';
+           }
+         }
+         }
+    
+       $list .= '</div></div>';
+     }else{
+       $list .='<div style="padding: 10px;
+       background: #efefef;margin-bottom:4px;
+       border-radius: 4px;"><div class="row">';
+       foreach (Neighborhood::where('city_id',$request->city_name)->get() as $key => $neighborhood) {
+         $list .= '<div class="col-md-3">
+         <div class="" style="margin-left: -1rem;">
+         <input data-id="1" type="checkbox" id=""
+         name="neighborhood_id[]" class="" value="'.$neighborhood->id.'"
+         '.(in_array($neighborhood->id,$store_neighborhoods) ? 'checked=""' : '').'
+         >
+           <label class="mx-2" for="">'.$neighborhood->name.'</label>
           </div>
-        
-          <div class="col-md-3">
-          <div class="" style="margin-left: -1rem;">
-          <input data-id="1" type="checkbox" id=""
-          name="neighborhood_id[]" class="" value="راهنمایی">
-            <label class="mx-2" for="">راهنمایی</label>
-           </div>
-          </div>
+         </div>';
+       }
+         
+       $list .= '</div></div>';
+     }
+ 
+    
+     return $list;
 
-          <div class="col-md-3">
-          <div class="" style="margin-left: -1rem;">
-          <input data-id="1" type="checkbox" id=""
-          name="neighborhood_id[]" class="" value="احمد اباد">
-            <label class="mx-2" for="">احمد اباد</label>
-           </div>
-          </div>
-
-          <div class="col-md-3">
-          <div class="" style="margin-left: -1rem;">
-          <input data-id="1" type="checkbox" id=""
-          name="neighborhood_id[]" class="" value="سعد اباد">
-            <label class="mx-2" for="">سعد اباد</label>
-           </div>
-          </div>
-
-          <div class="col-md-3">
-          <div class="" style="margin-left: -1rem;">
-          <input data-id="1" type="checkbox" id=""
-          name="neighborhood_id[]" class="" value="سناباد">
-            <label class="mx-2" for="">سناباد</label>
-           </div>
-          </div>
-
-          <div class="col-md-3">
-          <div class="" style="margin-left: -1rem;">
-          <input data-id="1" type="checkbox" id=""
-          name="neighborhood_id[]" class="" value="گوهرشاد">
-            <label class="mx-2" for="">گوهرشاد</label>
-           </div>
-          </div>
-
-          <div class="col-md-3">
-          <div class="" style="margin-left: -1rem;">
-          <input data-id="1" type="checkbox" id=""
-          name="neighborhood_id[]" class="" value="ارشاد">
-            <label class="mx-2" for="">ارشاد</label>
-           </div>
-          </div>
-
-          <div class="col-md-3">
-          <div class="" style="margin-left: -1rem;">
-          <input data-id="1" type="checkbox" id=""
-          name="neighborhood_id[]" class="" value="سجاد">
-            <label class="mx-2" for="">سجاد</label>
-           </div>
-          </div>
-          ';
-      $list .= '</div></div>';
-
-      // منطقه 2
-      $list .= '<div style="padding: 10px;
-            background: #efefef;margin-bottom:4px;
-            border-radius: 4px;"><h6 class="mb-3">ناحیه 2 </h6><div class="row">';
-      $list .= '<div class="col-md-3">
-          <div class="" style="margin-left: -1rem;">
-          <input data-id="1" type="checkbox" id=""
-          name="neighborhood_id[]" class="" value="شفا">
-            <label class="mx-2" for="">شفا</label>
-           </div>
-          </div>
-        
-          <div class="col-md-3">
-          <div class="" style="margin-left: -1rem;">
-          <input data-id="1" type="checkbox" id=""
-          name="neighborhood_id[]" class="" value="سمزقند">
-            <label class="mx-2" for="">سمزقند</label>
-           </div>
-          </div>
-
-          <div class="col-md-3">
-          <div class="" style="margin-left: -1rem;">
-          <input data-id="1" type="checkbox" id=""
-          name="neighborhood_id[]" class="" value="ایت ا.. عبادی">
-            <label class="mx-2" for="">ایت ا.. عبادی</label>
-           </div>
-          </div>
-
-          <div class="col-md-3">
-          <div class="" style="margin-left: -1rem;">
-          <input data-id="1" type="checkbox" id=""
-          name="neighborhood_id[]" class="" value="عامل">
-            <label class="mx-2" for="">عامل</label>
-           </div>
-          </div>
-
-          <div class="col-md-3">
-          <div class="" style="margin-left: -1rem;">
-          <input data-id="1" type="checkbox" id=""
-          name="neighborhood_id[]" class="" value="شهید مطهری">
-            <label class="mx-2" for="">شهید مطهری</label>
-           </div>
-          </div>
-
-          <div class="col-md-3">
-          <div class="" style="margin-left: -1rem;">
-          <input data-id="1" type="checkbox" id=""
-          name="neighborhood_id[]" class="" value="شهید هنرور">
-            <label class="mx-2" for="">شهید هنرور</label>
-           </div>
-          </div>
-
-          <div class="col-md-3">
-          <div class="" style="margin-left: -1rem;">
-          <input data-id="1" type="checkbox" id=""
-          name="neighborhood_id[]" class="" value="ایثارگران">
-            <label class="mx-2" for="">ایثارگران</label>
-           </div>
-          </div>
-
-          <div class="col-md-3">
-          <div class="" style="margin-left: -1rem;">
-          <input data-id="1" type="checkbox" id=""
-          name="neighborhood_id[]" class="" value="نان رضوی">
-            <label class="mx-2" for="">نان رضوی</label>
-           </div>
-          </div>
-
-          <div class="col-md-3">
-          <div class="" style="margin-left: -1rem;">
-          <input data-id="1" type="checkbox" id=""
-          name="neighborhood_id[]" class="" value="پردیس">
-            <label class="mx-2" for="">پردیس</label>
-           </div>
-          </div>
-          <div class="col-md-3">
-          <div class="" style="margin-left: -1rem;">
-          <input data-id="1" type="checkbox" id=""
-          name="neighborhood_id[]" class="" value="گلبرگ ( حضرت ابوطالب )">
-            <label class="mx-2" for="">گلبرگ ( حضرت ابوطالب ) </label>
-           </div>
-          </div>
-          <div class="col-md-3">
-          <div class="" style="margin-left: -1rem;">
-          <input data-id="1" type="checkbox" id=""
-          name="neighborhood_id[]" class="" value="موسوی قوچانی">
-            <label class="mx-2" for="">موسوی قوچانی</label>
-           </div>
-          </div>
-          <div class="col-md-3">
-          <div class="" style="margin-left: -1rem;">
-          <input data-id="1" type="checkbox" id=""
-          name="neighborhood_id[]" class="" value="قائم (حضرت عبدالمطلب )">
-            <label class="mx-2" for=""> قائم (حضرت عبدالمطلب ) </label>
-           </div>
-          </div>
-          <div class="col-md-3">
-          <div class="" style="margin-left: -1rem;">
-          <input data-id="1" type="checkbox" id=""
-          name="neighborhood_id[]" class="" value="سپاد (شهرک امام حسین)">
-            <label class="mx-2" for="">سپاد (شهرک امام حسین)</label>
-           </div>
-          </div>
-          <div class="col-md-3">
-          <div class="" style="margin-left: -1rem;">
-          <input data-id="1" type="checkbox" id=""
-          name="neighborhood_id[]" class="" value="نوید">
-            <label class="mx-2" for="">نوید</label>
-           </div>
-          </div>
-          <div class="col-md-3">
-          <div class="" style="margin-left: -1rem;">
-          <input data-id="1" type="checkbox" id=""
-          name="neighborhood_id[]" class="" value="نان رضوی">
-            <label class="mx-2" for="">نان رضوی</label>
-           </div>
-          </div>
-          <div class="col-md-3">
-          <div class="" style="margin-left: -1rem;">
-          <input data-id="1" type="checkbox" id=""
-          name="neighborhood_id[]" class="" value="بهاران (پارک پردیس )">
-            <label class="mx-2" for="">بهاران (پارک پردیس ) </label>
-           </div>
-          </div>
-
-          <div class="col-md-3">
-          <div class="" style="margin-left: -1rem;">
-          <input data-id="1" type="checkbox" id=""
-          name="neighborhood_id[]" class="" value="حجت">
-            <label class="mx-2" for="">حجت</label>
-           </div>
-          </div>
-
-          <div class="col-md-3">
-          <div class="" style="margin-left: -1rem;">
-          <input data-id="1" type="checkbox" id=""
-          name="neighborhood_id[]" class="" value="مهدی اباد">
-            <label class="mx-2" for="">مهدی اباد</label>
-           </div>
-          </div>
-
-          <div class="col-md-3">
-          <div class="" style="margin-left: -1rem;">
-          <input data-id="1" type="checkbox" id=""
-          name="neighborhood_id[]" class="" value="نوده">
-            <label class="mx-2" for="">نوده</label>
-           </div>
-          </div>
-
-          <div class="col-md-3">
-          <div class="" style="margin-left: -1rem;">
-          <input data-id="1" type="checkbox" id=""
-          name="neighborhood_id[]" class="" value="قائم">
-            <label class="mx-2" for="">قائم</label>
-           </div>
-          </div>
-
-          <div class="col-md-3">
-          <div class="" style="margin-left: -1rem;">
-          <input data-id="1" type="checkbox" id=""
-          name="neighborhood_id[]" class="" value="مشهدقلی">
-            <label class="mx-2" for="">مشهدقلی</label>
-           </div>
-          </div>
-
-          <div class="col-md-3">
-          <div class="" style="margin-left: -1rem;">
-          <input data-id="1" type="checkbox" id=""
-          name="neighborhood_id[]" class="" value="زرکش">
-            <label class="mx-2" for="">زرکش</label>
-           </div>
-          </div>
-
-          <div class="col-md-3">
-          <div class="" style="margin-left: -1rem;">
-          <input data-id="1" type="checkbox" id=""
-          name="neighborhood_id[]" class="" value="کوی امیرالمومنین">
-            <label class="mx-2" for="">کوی امیرالمومنین</label>
-           </div>
-          </div>
-
-          <div class="col-md-3">
-          <div class="" style="margin-left: -1rem;">
-          <input data-id="1" type="checkbox" id=""
-          name="neighborhood_id[]" class="" value="کارخانه قند (جانبازان)">
-            <label class="mx-2" for="">کارخانه قند (جانبازان) </label>
-           </div>
-          </div>
-
-          <div class="col-md-3">
-          <div class="" style="margin-left: -1rem;">
-          <input data-id="1" type="checkbox" id=""
-          name="neighborhood_id[]" class="" value="فرامرز عباسی ">
-            <label class="mx-2" for="">فرامرز عباسی </label>
-           </div>
-          </div>
-
-          <div class="col-md-3">
-          <div class="" style="margin-left: -1rem;">
-          <input data-id="1" type="checkbox" id=""
-          name="neighborhood_id[]" class="" value="بلوار شاهنامه">
-            <label class="mx-2" for="">بلوار شاهنامه</label>
-           </div>
-          </div>';
-      $list .= '</div></div>';
-
-      // ناحیه سه
-      $list .= '<div style="padding: 10px;
-        background: #efefef;margin-bottom:4px;
-        border-radius: 4px;"><h6 class="mb-3">ناحیه 3 </h6><div class="row">';
-      $list .= '<div class="col-md-3">
-        <div class="" style="margin-left: -1rem;">
-        <input data-id="1" type="checkbox" id=""
-        name="neighborhood_id[]" class="" value="گاز">
-        <label class="mx-2" for="">گاز</label>
-        </div>
-        </div>
-
-        <div class="col-md-3">
-        <div class="" style="margin-left: -1rem;">
-        <input data-id="1" type="checkbox" id=""
-        name="neighborhood_id[]" class="" value="راه اهن">
-        <label class="mx-2" for="">راه اهن</label>
-        </div>
-        </div>
-
-        <div class="col-md-3">
-        <div class="" style="margin-left: -1rem;">
-        <input data-id="1" type="checkbox" id=""
-        name="neighborhood_id[]" class="" value="فاطمیه">
-        <label class="mx-2" for="">فاطمیه</label>
-        </div>
-        </div>
-
-        <div class="col-md-3">
-        <div class="" style="margin-left: -1rem;">
-        <input data-id="1" type="checkbox" id=""
-        name="neighborhood_id[]" class="" value="هاشمی نژاد">
-        <label class="mx-2" for="">هاشمی نژاد</label>
-        </div>
-        </div>
-
-        <div class="col-md-3">
-        <div class="" style="margin-left: -1rem;">
-        <input data-id="1" type="checkbox" id=""
-        name="neighborhood_id[]" class="" value="رسالت">
-        <label class="mx-2" for="">رسالت</label>
-        </div>
-        </div>
-
-        <div class="col-md-3">
-        <div class="" style="margin-left: -1rem;">
-        <input data-id="1" type="checkbox" id=""
-        name="neighborhood_id[]" class="" value="دروی">
-        <label class="mx-2" for="">دروی</label>
-        </div>
-        </div>
-
-        <div class="col-md-3">
-        <div class="" style="margin-left: -1rem;">
-        <input data-id="1" type="checkbox" id=""
-        name="neighborhood_id[]" class="" value="طبرسی شمالی">
-        <label class="mx-2" for="">طبرسی شمالی</label>
-        </div>
-        </div>
-
-        <div class="col-md-3">
-        <div class="" style="margin-left: -1rem;">
-        <input data-id="1" type="checkbox" id=""
-        name="neighborhood_id[]" class="" value="سیس اباد">
-        <label class="mx-2" for="">سیس اباد</label>
-        </div>
-        </div>
-
-        <div class="col-md-3">
-        <div class="" style="margin-left: -1rem;">
-        <input data-id="1" type="checkbox" id=""
-        name="neighborhood_id[]" class="" value="بلال">
-        <label class="mx-2" for="">بلال</label>
-        </div>
-        </div>
-        <div class="col-md-3">
-        <div class="" style="margin-left: -1rem;">
-        <input data-id="1" type="checkbox" id=""
-        name="neighborhood_id[]" class="" value="خواجه ربیع">
-        <label class="mx-2" for="">خواجه ربیع</label>
-        </div>
-        </div>
-        <div class="col-md-3">
-        <div class="" style="margin-left: -1rem;">
-        <input data-id="1" type="checkbox" id=""
-        name="neighborhood_id[]" class="" value="بهمن">
-        <label class="mx-2" for="">بهمن</label>
-        </div>
-        </div>
-        <div class="col-md-3">
-        <div class="" style="margin-left: -1rem;">
-        <input data-id="1" type="checkbox" id=""
-        name="neighborhood_id[]" class="" value="قرقی">
-        <label class="mx-2" for=""> قرقی </label>
-        </div>
-        </div>';
-      $list .= '</div></div>';
-
-      // ناحیه چهار
-
-      $list .= '<div style="padding: 10px;
-        background: #efefef;margin-bottom:4px;
-        border-radius: 4px;"><h6 class="mb-3">ناحیه 4 </h6><div class="row">';
-      $list .= '<div class="col-md-3">
-        <div class="" style="margin-left: -1rem;">
-        <input data-id="1" type="checkbox" id=""
-        name="neighborhood_id[]" class="" value="طلاب">
-        <label class="mx-2" for="">طلاب</label>
-        </div>
-        </div>
-
-        <div class="col-md-3">
-        <div class="" style="margin-left: -1rem;">
-        <input data-id="1" type="checkbox" id=""
-        name="neighborhood_id[]" class="" value="گلشور (بهشت )">
-        <label class="mx-2" for="">گلشور (بهشت )</label>
-        </div>
-        </div>
-
-        <div class="col-md-3">
-        <div class="" style="margin-left: -1rem;">
-        <input data-id="1" type="checkbox" id=""
-        name="neighborhood_id[]" class="" value="ایثار">
-        <label class="mx-2" for="">ایثار</label>
-        </div>
-        </div>
-
-        <div class="col-md-3">
-        <div class="" style="margin-left: -1rem;">
-        <input data-id="1" type="checkbox" id=""
-        name="neighborhood_id[]" class="" value="تلگرد">
-        <label class="mx-2" for="">تلگرد</label>
-        </div>
-        </div>
-
-        <div class="col-md-3">
-        <div class="" style="margin-left: -1rem;">
-        <input data-id="1" type="checkbox" id=""
-        name="neighborhood_id[]" class="" value="وحید">
-        <label class="mx-2" for="">وحید</label>
-        </div>
-        </div>
-
-        <div class="col-md-3">
-        <div class="" style="margin-left: -1rem;">
-        <input data-id="1" type="checkbox" id=""
-        name="neighborhood_id[]" class="" value="ابوذر">
-        <label class="mx-2" for="">ابوذر</label>
-        </div>
-        </div>
-
-        <div class="col-md-3">
-        <div class="" style="margin-left: -1rem;">
-        <input data-id="1" type="checkbox" id=""
-        name="neighborhood_id[]" class="" value="پنجتن">
-        <label class="mx-2" for="">پنجتن</label>
-        </div>
-        </div>
-
-        <div class="col-md-3">
-        <div class="" style="margin-left: -1rem;">
-        <input data-id="1" type="checkbox" id=""
-        name="neighborhood_id[]" class="" value="رده">
-        <label class="mx-2" for="">رده</label>
-        </div>
-        </div>
-
-        <div class="col-md-3">
-        <div class="" style="margin-left: -1rem;">
-        <input data-id="1" type="checkbox" id=""
-        name="neighborhood_id[]" class="" value="شهید قربانی">
-        <label class="mx-2" for="">شهید قربانی</label>
-        </div>
-        </div>
-        <div class="col-md-3">
-        <div class="" style="margin-left: -1rem;">
-        <input data-id="1" type="checkbox" id=""
-        name="neighborhood_id[]" class="" value="پنحتن ال عبا">
-        <label class="mx-2" for="">پنحتن ال عبا</label>
-        </div>
-        </div>';
-      $list .= '</div></div>';
     }
-
-    if ($request->city_name == 'نیشابور') {
-      $list = '';
-    }
-    return $list;
   }
 
   public function getLocations(Request $request)
   {
     $store = Store::where('id', $request->store_id)->first();
     $list = '';
-    foreach ($store->store_neighborhoods as $key => $item) {
+    foreach ($store->neighborhoods as $key => $item) {
       $list .= '<i class="fa fa-check"></i><span>
-        ' . $item . '
+        ' . $item->name . '
         </span>';
     }
 
@@ -1499,6 +665,9 @@ class StoreController extends Controller
       'store_pelak' => $request->store_pluck_num,
       'store_picture' => $store_picture,
     ]);
+
+    $store->neighborhoods()->detach();
+    $store->neighborhoods()->attach($request->neighborhood_id);
 
     if (strlen(implode($request->product_name)) == 0) {
       alert()->error('فروشگاه ثبت شد اما محصولی وارد نشده است', 'خطا')->autoclose(3000);
@@ -1565,5 +734,17 @@ class StoreController extends Controller
       alert()->success('فروشگاه با موفقیت افزوده شد و تعداد ' . $create . ' محصول اضافه و ' . $update . ' محصول ویرایش شد', 'عملیات موفق')->persistent('بستن');
       return back();
     }
+  }
+
+  public function deleteStore(Request $request)
+  {
+     
+      foreach ($request->array as $key => $item) {
+        Store::where('id',$item)->update([
+          'store_status' => 0
+        ]);
+      }
+      alert()->success('فروشکاه با موفقیت حذف شد')->persistent('بستن');
+      return back();
   }
 }

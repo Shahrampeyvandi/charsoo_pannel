@@ -95,6 +95,16 @@
     
 //     }
 // }
+function validateMobile(event,input){
+  var phoneno = /^09[0-9]{9}$/;
+  if(phoneno.test(input)) {
+}else{
+  swal("", "شماره همراه وارد شده معتبر نمیباشد", "error", {
+		button: "باشه"
+     });
+    event.target.value = ''
+}
+}
 
 function isValidDate(event,dtValue2) {
     // your desired pattern

@@ -96,6 +96,8 @@ Route::group(['middleware' => ['checkAuth']], function () {
     Route::get('/Cities/List', 'User\CityController@CityList')->name('Pannel.City.List');
 
     Route::post('Cities/List', 'User\CityController@SubmitCity')->name('Pannel.City.Insert');
+    
+    Route::post('Cities/Neighborhood', 'User\CityController@addNeighborhood')->name('Pannel.Neighborhood.Insert');
 
     Route::post('Cities/Delete', 'User\CityController@DeleteCity')->name('City.Delete');
 
@@ -163,6 +165,7 @@ Route::group(['middleware' => ['checkAuth']], function () {
 
     Route::get('/Services/Stores', 'User\StoreController@index')->name('Pannel.Services.Stores');
     Route::post('/Services/Stores/Insert', 'User\StoreController@submitStore')->name('Pannel.Services.submitStore');
+    Route::post('/Services/Stores/delete', 'User\StoreController@deleteStore')->name('Stores.Delete');
     Route::put('/Services/Stores/Insert', 'User\StoreController@submitEditStore')->name('Pannel.Services.submitStore');
     Route::post('/getRegions', 'User\StoreController@getCityRegions')->name('Store.getCityRegions');
     Route::post('/getEditRegions', 'User\StoreController@getEditCityRegions')->name('Store.Edit.getCityRegions');
