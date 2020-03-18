@@ -87,7 +87,7 @@ class StoreController extends Controller
       }
     }
 
-    return view('User.Stores.StoresList', compact('stores'));
+    return view('User.Stores.StoresList', compact(['stores','list','count']));
   }
 
   public function submitStore(Request $request)
@@ -95,7 +95,7 @@ class StoreController extends Controller
     
 
     if ($request->has('owner_profile')) {
-      $file = 'photo' . '.' . $request->owner_profile->getClientOriginalExtension();
+      $file = 'photo-' .time() .'.' . $request->owner_profile->getClientOriginalExtension();
       $request->owner_profile->move(public_path('uploads/personals/' . $request->mobile), $file);
       $owner_profile = 'personals/' . $request->mobile . '/' . $file;
     } else {
@@ -103,11 +103,19 @@ class StoreController extends Controller
     }
 
     if ($request->has('store_picture')) {
-      $file = 'photo' . '.' . $request->store_picture->getClientOriginalExtension();
+      $file = 'photo-' .time() .'.' . $request->store_picture->getClientOriginalExtension();
       $request->store_picture->move(public_path('uploads/stores/' . $request->store_name), $file);
       $store_picture =  $request->store_name . '/' . $file;
     } else {
       $store_picture = '';
+    }
+
+    if ($request->has('store_icon')) {
+      $file = 'icon-' .time() .'.' . $request->store_icon->getClientOriginalExtension();
+      $request->store_icon->move(public_path('uploads/stores/' . $request->store_name), $file);
+      $store_icon =  $request->store_name . '/' . $file;
+    } else {
+      $store_icon = '';
     }
     $personal = Personal::create([
       'personal_status' => 1,
@@ -136,6 +144,7 @@ class StoreController extends Controller
       'store_status' => 1,
       'store_pelak' => $request->store_pluck_num,
       'store_picture' => $store_picture,
+      'store_icon' =>$store_icon
     ]);
 
     $store->neighborhoods()->attach($request->neighborhood_id);
@@ -684,12 +693,21 @@ class StoreController extends Controller
     }
 
     if ($request->has('store_picture')) {
-      File::deleteDirectory(public_path('uploads/stores/' . $request->store_name));
+      File::delete(public_path().'/uploads/stores/' . $request->store_name . '/' .$store->store_picture);
       $file = 'photo-' . time() . '.' . $request->store_picture->getClientOriginalExtension();
       $request->store_picture->move(public_path('uploads/stores/' . $request->store_name), $file);
       $store_picture =  $request->store_name . '/' . $file;
     } else {
       $store_picture = $store->store_picture;
+    }
+
+    if ($request->has('store_icon')) {
+      File::delete(public_path().'/uploads/stores/' . $request->store_name . '/' .$store->store_icon);
+      $file = 'icon-' . time() . '.' . $request->store_icon->getClientOriginalExtension();
+      $request->store_icon->move(public_path('uploads/stores/' . $request->store_name), $file);
+      $store_icon =  $request->store_name . '/' . $file;
+    } else {
+      $store_icon = $store->store_icon;
     }
     Personal::where('personal_mobile', $request->mobile)->update([
       'personal_firstname' => $request->firstname,
@@ -712,7 +730,7 @@ class StoreController extends Controller
       'store_main_street' => $request->store_main_street,
       'store_secondary_street' => $request->store_secondary_street,
       'store_pelak' => $request->store_pluck_num,
-      'store_picture' => $store_picture,
+    
     ]);
 
     $store->neighborhoods()->detach();

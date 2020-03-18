@@ -142,6 +142,10 @@ class CreatePermissionTables extends Migration
                 'name' => 'orders_transactions'],[
                 'name' => 'orders_detail'],[
                 'name' => 'user_accounts'],[
+                'name' => 'stores_menu'],[
+                'name' => 'stores_delete'],[
+                'name' => 'stores_edit'],[
+                'name' => 'stores_create'],[
                 'name' => 'user_transactions'],[
                 'name' => 'checkout_personals'],[
                 'name' => 'setting'],[
