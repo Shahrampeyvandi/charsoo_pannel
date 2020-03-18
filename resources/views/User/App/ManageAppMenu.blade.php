@@ -68,9 +68,11 @@
               <label for="user_name" class="col-form-label"><span class="text-danger">*</span> نوع اطلاعات: </label>
               <select required name="type"  class="form-control" id="type">
                 <option value="">انتخاب کنید</option>
-                <option value="دسته بندی">دسته بندی</option>
-                  <option value="خدمت">خدمت</option>  
-                  <option value="فروشگاه">فروشگاه</option>  
+                <option value="دسته بندی">لیستی از زیر دسته های یک دسته بندی</option>
+                <option value="خدمت های دسته">لیستی از خدمت های یک دسته بندی</option>  
+                <option value="فروشگاه های دسته">لیستی از فروشگاه های یک دسته بندی</option>  
+                  <option value="خدمت">لیستی از خدمت های انتخابی</option>  
+                  <option value="فروشگاه">لیستی از فروشگاه های انتخابی</option>  
 
               </select>
 
@@ -116,7 +118,6 @@
               <label for="user_desc" class="col-form-label"><span class="text-danger">*</span> 
                   فروشگاه:</label>
                 <select name="store[]" id="storelist"  class="js-example-basic-single" dir="rtl" multiple>
-                    <option value="all" >همه</option>
                   
                     @foreach ($stores as $store)
                         
@@ -344,32 +345,17 @@
     $(document).on('change','#type',function(){
         var data = $(this).val();
 
-        if(data === 'دسته بندی'){
-            $('#categoryservice').show()
-            $('#store').hide()
-            $('#service').hide()
-
-
-            $.ajax({
-type:'get',
-url:'{{route("Pannel.Services.Category")}}',
-success:function(data){ 
-    
-    $('#cateory').html(data)
-   }
- })
-// debugger;
-
-
-
-
-        }else if(data === 'خدمت'){
+     if(data === 'خدمت'){
             $('#categoryservice').hide()
             $('#store').hide()
             $('#service').show()
                }else if(data === 'فروشگاه'){
         $('#categoryservice').hide()
         $('#store').show()
+            $('#service').hide()
+                        }else {
+                          $('#categoryservice').show()
+            $('#store').hide()
             $('#service').hide()
                         }
     

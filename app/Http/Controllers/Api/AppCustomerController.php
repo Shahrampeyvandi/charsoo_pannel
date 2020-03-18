@@ -23,7 +23,7 @@ class AppCustomerController extends Controller
 
      
 
-        $appmenus = AppMenu::orderBy('priority', 'DESC')->get();
+        $appmenus = AppMenu::orderBy('priority', 'ASC')->get();
 
        
         foreach($appmenus as $keym=>$appmenu){
@@ -36,18 +36,93 @@ class AppCustomerController extends Controller
     
                 foreach($array as $keyn=>$arr){
         
-                    $category = ServiceCategory::where('id', $arr)->first();
+                    
+                    $category = ServiceCategory::where('category_parent', $arr)->get();
         
-                   // $cat=array();
+                    foreach($category as $key=>$categ){
 
-                    $services = Service::where('service_category_id', $arr)->first();
-
-                    $cat['title']=$services->service_title;
-                    $cat['icon']='icon';
+                        $cat['title']=$categ->category_title;
+                    $cat['icon']=$categ->category_icon;
 
         
                     //$array[$keyn]=$category['category_title'];
                     $array[$keyn]=$cat;
+
+
+
+                    }
+                   // $cat=array();
+
+                    //$services = Service::where('service_category_id', $arr)->first();
+
+                    
+    
+        
+                    
+        
+                }
+        
+                $appmenus[$keym]->item=$array;
+    
+    
+            }else if($appmenu->type == 'خدمت های دسته'){
+    
+    
+                foreach($array as $keyn=>$arr){
+        
+                    //$category = ServiceCategory::where('id', $arr)->first();
+        
+                   // $cat=array();
+
+                    $services = Service::where('service_category_id', $arr)->get();
+
+                    foreach($services as $key=>$servic){
+
+                        $cat['title']=$servic->service_title;
+                        $cat['icon']='mapmarker/marker-icon.png';
+
+
+                        $array[$keyn]=$cat;
+
+                    }
+
+                   
+
+        
+                    //$array[$keyn]=$category['category_title'];
+
+    
+        
+                    
+        
+                }
+        
+                $appmenus[$keym]->item=$array;
+    
+    
+            }else if($appmenu->type == 'فروشگاه های دسته'){
+    
+    
+                foreach($array as $keyn=>$arr){
+        
+        
+
+
+                    $store = Store::where('id', $arr)->get();
+
+                    foreach($store as $key=>$stor){
+
+                        $cat['title']=$stor->store_name;
+                        $cat['icon']=$stor->store_picture;
+
+                        $array[$keyn]=$cat;
+
+                    }
+
+                   
+
+        
+                    //$array[$keyn]=$category['category_title'];
 
     
         
@@ -68,8 +143,8 @@ class AppCustomerController extends Controller
                     $service = Service::where('id', $arr)->first();
 
         
-                    $ser['title']=$services->service_title;
-                    $ser['icon']='icon';
+                    $ser['title']=$service->service_title;
+                    $ser['icon']='mapmarker/marker-icon.png';
         
 
                     //$array[$keyn]=$service['service_title'];
@@ -96,7 +171,7 @@ class AppCustomerController extends Controller
 
 
                     $ser['title']=$store->store_name;
-                    $ser['icon']='icon';
+                    $ser['icon']='mapmarker/marker-icon.png';
         
         
                     //$array[$keyn]=$store['store_name'];
