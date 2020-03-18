@@ -116,16 +116,7 @@ class PersonalController extends Controller
         $mobile = $payload->get('mobile');
         $personal = Personal::where('personal_mobile', $mobile)->first();
         if(!is_null($personal->services->first())){
-            $service_role = $personal->services->first()->service_role; 
-                $user = User::whereHas('roles',function($q)use($service_role){
-                     $q->where('name',$service_role);
-                   })->first();
-                if (!is_null($user)) {
-     
-                    $broker_name = $user->user_username;
-                }else{
-                    $broker_name = null;
-                }
+                $broker_name = $personal->services->first()->service_role; 
                 $personal->services =implode('-', Personal::where('id',1)->first()->services->pluck('service_title')->toArray()); 
                 $personal->broker_name = $broker_name;
         }else{

@@ -225,7 +225,7 @@ class PersonalController extends Controller
         if ($request->has('first_page_certificate')) {
             $first_page = 'first_page' . '.' . $request->first_page_certificate->getClientOriginalExtension();
             $request->first_page_certificate->move(public_path('uploads/personals/' . $request->mobile), $first_page);
-            $first_page_certificate = $request->mobile . '/' . $first_page;
+            $first_page_certificate = 'personals/' . $request->mobile . '/' . $first_page;
         } else {
             $first_page_certificate = '';
         }
@@ -233,49 +233,49 @@ class PersonalController extends Controller
         if ($request->has('card_Service')) {
             $card = 'duty_status' . '.' . $request->card_Service->getClientOriginalExtension();
             $request->card_Service->move(public_path('uploads/personals/' . $request->mobile), $card);
-            $card_Service = $request->mobile . '/' . $card;
+            $card_Service = 'personals/' . $request->mobile . '/' . $card;
         } else {
             $card_Service = '';
         }
         if ($request->has('backgrounds_status')) {
             $antecedent = 'antecedent_report_card' . '.' . $request->antecedent_report_card->getClientOriginalExtension();
             $request->antecedent_report_card->move(public_path('uploads/personals/' . $request->mobile), $antecedent);
-            $antecedent_report_card = $request->mobile . '/' . $antecedent;
+            $antecedent_report_card = 'personals/' . $request->mobile . '/' . $antecedent;
         } else {
             $antecedent_report_card = '';
         }
         if ($request->has('second_page_certificate')) {
             $second_page = 'second_page' . '.' . $request->second_page_certificate->getClientOriginalExtension();
             $request->second_page_certificate->move(public_path('uploads/personals/' . $request->mobile), $second_page);
-            $second_page_certificate = $request->mobile . '/' . $second_page;
+            $second_page_certificate = 'personals/' . $request->mobile . '/' . $second_page;
         } else {
             $second_page_certificate = '';
         }
         if ($request->has('national_card_front_pic')) {
             $national_front_pic = 'national_card_front_pic' . '.' . $request->national_card_front_pic->getClientOriginalExtension();
             $request->national_card_front_pic->move(public_path('uploads/personals/' . $request->mobile), $national_front_pic);
-            $national_card_front_pic = $request->mobile . '/' . $national_front_pic;
+            $national_card_front_pic = 'personals/' . $request->mobile . '/' . $national_front_pic;
         } else {
             $national_card_front_pic = '';
         }
         if ($request->has('national_card_back_pic')) {
             $national_back_pic = 'first_page' . '.' . $request->national_card_back_pic->getClientOriginalExtension();
             $request->national_card_back_pic->move(public_path('uploads/personals/' . $request->mobile), $national_back_pic);
-            $national_card_back_pic = $request->mobile . '/' . $national_back_pic;
+            $national_card_back_pic = 'personals/' . $request->mobile . '/' . $national_back_pic;
         } else {
             $national_card_back_pic = '';
         }
         if ($request->has('technical_credential')) {
             $technical = 'technical_credential' . '.' . $request->technical_credential->getClientOriginalExtension();
             $request->technical_credential->move(public_path('uploads/personals/' . $request->mobile), $technical);
-            $technical_credential = $request->mobile . '/' . $technical;
+            $technical_credential = 'personals/' . $request->mobile . '/' . $technical;
         } else {
             $technical_credential = '';
         }
         if ($request->has('expert_credential')) {
             $expert = 'expert_credential' . '.' . $request->expert_credential->getClientOriginalExtension();
             $request->expert_credential->move(public_path('uploads/personals/' . $request->mobile), $expert);
-            $expert_credential = $request->mobile . '/' . $expert;
+            $expert_credential = 'personals/' . $request->mobile . '/' . $expert;
         } else {
             $expert_credential = '';
         }
@@ -1153,10 +1153,6 @@ class PersonalController extends Controller
     public function SubmitPersonalEdit(Request $request)
     {
 
-
-
-
-
         $personal = Personal::where('id', $request->personal_id)->first();
         if ($request->has('first_page_certificate')) {
             File::delete(public_path() . '/uploads/personals/' . $request->mobile . '/' . $personal->personal_identity_card_first_pic);
@@ -1179,7 +1175,7 @@ class PersonalController extends Controller
             File::delete(public_path() . '/uploads/personals/' . $request->mobile . '/' . $personal->personal_status_duty);
             $card_Service_img = 'duty_status' . '.' . $request->card_Service->getClientOriginalExtension();
             $request->card_Service->move(public_path('uploads/personals/' . $request->mobile), $card_Service_img);
-            $card_Service =  $request->mobile . '/' . $card_Service_img;
+            $card_Service = 'personals/' . $request->mobile . '/' . $card_Service_img;
         } else {
             $card_Service = $personal->personal_status_duty;
         }
@@ -1187,7 +1183,7 @@ class PersonalController extends Controller
             File::delete(public_path() . '/uploads/personals/' . $request->mobile . '/' . $personal->personal_backgrounds_status);
             $antecedent_report_card_img = 'antecedent_report_card' . '.' . $request->antecedent_report_card->getClientOriginalExtension();
             $request->antecedent_report_card->move(public_path('uploads/personals/' . $request->mobile), $antecedent_report_card_img);
-            $antecedent_report_card = $request->mobile . '/' . $antecedent_report_card_img;
+            $antecedent_report_card = 'personals/' . $request->mobile . '/' . $antecedent_report_card_img;
         } else {
             $antecedent_report_card = $personal->personal_backgrounds_status;
         }
@@ -1196,7 +1192,7 @@ class PersonalController extends Controller
             File::delete(public_path() . '/uploads/personals/' . $request->mobile . '/' . $personal->personal_identity_card_second_pic);
             $second_page_certificate_img = 'second_page' . '.' . $request->second_page_certificate->getClientOriginalExtension();
             $request->second_page_certificate->move(public_path('uploads/personals/' . $request->mobile), $second_page_certificate_img);
-            $second_page_certificate = $request->mobile . '/' . $second_page_certificate_img;
+            $second_page_certificate = 'personals/' . $request->mobile . '/' . $second_page_certificate_img;
         } else {
             $second_page_certificate = $personal->personal_identity_card_second_pic;
         }
@@ -1204,7 +1200,7 @@ class PersonalController extends Controller
             File::delete(public_path() . '/uploads/personals/' . $request->mobile . '/' . $personal->personal_national_card_front_pic);
             $national_card_front_pic_img = 'national_card_front_pic' . '.' . $request->national_card_front_pic->getClientOriginalExtension();
             $request->national_card_front_pic->move(public_path('uploads/personals/' . $request->mobile), $national_card_front_pic_img);
-            $national_card_front_pic = $request->mobile . '/' . $national_card_front_pic_img;
+            $national_card_front_pic ='personals/' .  $request->mobile . '/' . $national_card_front_pic_img;
         } else {
             $national_card_front_pic = $personal->personal_national_card_front_pic;
         }
@@ -1212,7 +1208,7 @@ class PersonalController extends Controller
             File::delete(public_path() . '/uploads/personals/' . $request->mobile . '/' . $personal->personal_national_card_back_pic);
             $national_card_back_pic_img = 'first_page' . '.' . $request->national_card_back_pic->getClientOriginalExtension();
             $request->national_card_back_pic->move(public_path('uploads/personals/' . $request->mobile), $national_card_back_pic_img);
-            $national_card_back_pic = $request->mobile . '/' . $national_card_back_pic_img;
+            $national_card_back_pic = 'personals/' . $request->mobile . '/' . $national_card_back_pic_img;
         } else {
             $national_card_back_pic = $personal->personal_national_card_back_pic;
         }
@@ -1220,7 +1216,7 @@ class PersonalController extends Controller
             File::delete(public_path() . '/uploads/personals/' . $request->mobile . '/' . $personal->technical_credential);
             $technical_credential_img = 'technical_credential' . '.' . $request->technical_credential->getClientOriginalExtension();
             $request->technical_credential->move(public_path('uploads/personals/' . $request->mobile), $technical_credential_img);
-            $technical_credential = $request->mobile . '/' . $technical_credential_img;
+            $technical_credential ='personals/' .  $request->mobile . '/' . $technical_credential_img;
         } else {
             $technical_credential = $personal->technical_credential;
         }
@@ -1228,7 +1224,7 @@ class PersonalController extends Controller
             File::delete(public_path() . '/uploads/personals/' . $request->mobile . '/' . $personal->expert_credential);
             $expert_credential_img = 'expert_credential' . '.' . $request->expert_credential->getClientOriginalExtension();
             $request->expert_credential->move(public_path('uploads/personals/' . $request->mobile), $expert_credential_img);
-            $expert_credential = $request->mobile . '/' . $expert_credential_img;
+            $expert_credential ='personals/' . $request->mobile . '/' . $expert_credential_img;
         } else {
             $expert_credential = $personal->expert_credential;
         }

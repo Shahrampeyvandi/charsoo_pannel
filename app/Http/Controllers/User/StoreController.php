@@ -331,17 +331,66 @@ class StoreController extends Controller
                     placeholder="" type="text" dir="ltr">
             </div><!-- form-group -->
             <div class="form-group col-md-12">
-                <label class="form-control-label">حوزه فعالیت</label>
-                <input id="store_type" class="form-control text-right" name="store_type"
-                    placeholder="" type="text" dir="ltr">
-            </div><!-- form-group -->
+                                   
+            <label for="store_type" class="col-form-label">حوزه فعالیت</label>
+            <select  size="5"
+               class="form-control" name="store_type" id="store_type">';
+               $category_parent_list = ServiceCategory::where('category_parent',0)->get();
+               $count = ServiceCategory::where('category_parent',0)->count();
+                $list .='<option data-parent="0" value="0" >بدون دسته بندی</option>';
+               foreach ($category_parent_list as $key => $item) {
+                   $list .= '<option data-id="'.$item->id.'" value="'.$item->id.'" class="level-1">'.$item->category_title.' 
+                    '.(count(ServiceCategory::where('category_parent',$item->id)->get()) ? '&#xf104;  ' : '' ).'
+                   </option>';
+                 if (ServiceCategory::where('category_parent',$item->id)->count()) {
+                     $count += ServiceCategory::where('category_parent',$item->id)->count();
+                    foreach (ServiceCategory::where('category_parent',$item->id)->get() as $key1 => $itemlevel1) {
+                        $list .= '<option data-parent="'.$item->id.'" value="'.$itemlevel1->id.'" class="level-2">'.$itemlevel1->category_title.'
+                        '.(count(ServiceCategory::where('category_parent',$itemlevel1->id)->get()) ? '&#xf104;  ' : '' ).'
+                        </option>';
+                        
+                        
+                     if (ServiceCategory::where('category_parent',$itemlevel1->id)->count()) {
+                        $count += ServiceCategory::where('category_parent',$itemlevel1->id)->count();
+                        foreach (ServiceCategory::where('category_parent',$itemlevel1->id)->get() as $key2 => $itemlevel2) {
+                            $list .= '<option data-parent="'.$itemlevel1->id.'" value="'.$itemlevel2->id.'" class="level-3">'.$itemlevel2->category_title.'
+                            '.(count(ServiceCategory::where('category_parent',$itemlevel2->id)->get()) ? '&#xf104;  ' : '' ).'
+                            </option>';
+                           
+                           
+                           if (ServiceCategory::where('category_parent',$itemlevel2->id)->count()) {
+                            $count += ServiceCategory::where('category_parent',$itemlevel2->id)->count();
+                            foreach (ServiceCategory::where('category_parent',$itemlevel2->id)->get() as $key3 => $itemlevel3) {
+                                $list .= '<option data-parent="'.$itemlevel2->id.'" value="'.$itemlevel3->id.'" class="level-4">'.$itemlevel3->category_title.'
+                                '.(count(ServiceCategory::where('category_parent',$itemlevel3->id)->get()) ? '&#xf104;  ' : '' ).'
+                                </option>';
+                            
+                                if (ServiceCategory::where('category_parent',$itemlevel3->id)->count()) {
+                                    $count += ServiceCategory::where('category_parent',$itemlevel3->id)->count();
+                                    foreach (ServiceCategory::where('category_parent',$itemlevel3->id)->get() as $key4 => $itemlevel4) {
+                                        $list .= '<option data-parent="'.$itemlevel3->id.'" value="'.$itemlevel4->id.'" class="level-4">'.$itemlevel4->category_title.'
+                                        
+                                        </option>';
+                                    }
+                                } 
+                             }
+                           }
+                        }
+                      }
+                    }
+                 }
+               }
+          $list .='  </select>
+  
+        </div><!-- form-group -->
 
             <div class="form-group col-md-12">
                 <label for="recipient-name" class="col-form-label">توضیحات تکمیلی: </label>
                 <textarea id="store_descripton" class="form-control text-right"
                     name="store_descripton" type="text" dir="rtl">' . $store->store_description . '</textarea>
             </div>
-            <div class="form-group col-md-6">
+            <div class="form-group col-md-9">
+            
             <div class="product-img">
                 <div class="chose-img">
                   <input type="file" class="btn-chose-img" id="store_picture" name="store_picture" title="نوع فایل میتواند png , jpg  باشد">
@@ -354,6 +403,21 @@ class StoreController extends Controller
                   src="' . route('BaseUrl') . '/uploads/stores/' . $store->store_picture . '" alt="">
                 <p class="text-chose-img" style="position: absolute;top: 44%;left: 40%;font-size: 13px;">تغییر 
                   تصویر</p>
+              </div>
+        </div><!-- form-group --> 
+        <div class="form-group col-md-3">
+            <div class="product-img" style="height:auto;">
+                <div class="chose-img">
+                  <input type="file" class="btn-chose-img" id="store_picture" name="store_picture" title="نوع فایل میتواند png , jpg  باشد">
+                </div>
+                <img
+                  style="background: #fff;
+        max-width: 100%;
+        height: 200px;
+        width: 100%;"
+                  src="' . route('BaseUrl') . '/uploads/stores/' . $store->store_icon . '" alt="" >
+                <p class="text-chose-img" style="position: absolute;top: 44%;left: 40%;font-size: 13px;">تغییر 
+                  آیکون</p>
               </div>
         </div><!-- form-group --> 
            
