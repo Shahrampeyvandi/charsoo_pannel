@@ -25,9 +25,12 @@ class CreateStoresTable extends Migration
             $table->string('store_main_street')->nullable();
             $table->string('store_secondary_street')->nullable();
             $table->integer('store_pelak')->nullable();
-            $table->text('store_neighborhoods')->nullable();
             $table->integer('products_quantity')->nullable();
             $table->integer('owner_id');
+            $table->integer('store_status')->default(1);
+            $table->string('store_category');
+            $table->string('store_icon')->nullable();
+            $table->integer('store_role');
             $table->timestamps();
         });
     }

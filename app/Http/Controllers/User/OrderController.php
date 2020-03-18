@@ -86,18 +86,15 @@ class OrderController extends Controller
                     $list .= '<option data-parent="' . $item->id . '" value="' . $subitem->id . '" class="level-2">' . $subitem->category_title . '</option>';
                 }
             }
-            if (auth()->user()->roles->first()->broker !== null) {
-                $services = auth()->user()->services;
-                $service_array = auth()->user()->services->pluck('id')->toArray();
+            if (auth()->user()->roles->first()->broker == 1) {
+                $services = Service::where('service_role', auth()->user()->roles->first()->name)->get();
+                $service_array =   Service::where('service_role', auth()->user()->roles->first()->name)->pluck('id')->toArray();
                 $orders = Order::whereIn('service_id', $service_array)->get();
             }
             if (auth()->user()->roles->first()->sub_broker !== null) {
-                $role_id = auth()->user()->roles->first()->sub_broker;
-                $user =  User::whereHas('roles', function ($q) use ($role_id) {
-                    $q->where('id', $role_id);
-                })->first();
-                $services = $user->services;
-                $service_array = $user->services->pluck('id')->toArray();
+                $role_name = Role::where('id', auth()->user()->roles->first()->sub_broker)->name;
+                $services = Service::where('service_role', $role_name)->get();
+                $service_array = Service::where('service_role', $role_name)->pluck('id')->toArray();
                 $orders = Order::whereIn('service_id', $service_array)->get();
             }
         }
@@ -145,7 +142,7 @@ class OrderController extends Controller
                     'order_date_second' => $request->time_two[$key] !== null && $request->date_two[$key] !== null ?  $this->convertDate($request->date_two[$key]) : '',
                     'order_address' => $address
                 ]);
-                
+
                 $date = Carbon::parse($order->order_date_first)->timestamp;
                 $Code = $this->generateRandomString($order->order_username_customer, $date, $order->id);
 
@@ -360,16 +357,16 @@ class OrderController extends Controller
         if (Cache::has('order')) {
 
             $order = Cache::get('order');
-          } else {
-            $order = Cache::remember('order', 60, function () use($request) {
-              return  Order::where('id', $request->order_id)->first();
+        } else {
+            $order = Cache::remember('order', 60, function () use ($request) {
+                return  Order::where('id', $request->order_id)->first();
             });
-          }
-   
+        }
+
 
         $list = '
         
-        <h6>وضعیت سفارش: '.$order->order_type.'</h6>
+        <h6>وضعیت سفارش: ' . $order->order_type . '</h6>
         <span>نام مشتری:  </span>
         <span>' . $order->order_firstname_customer . '</span>
         <br><span>نام خانوادگی مشتری: </span>
@@ -391,38 +388,40 @@ class OrderController extends Controller
             $list .= '<br><br><span>جزئیات انجام: </span>
             ';
 
-              if($detail->order_reffer_time){
-                $list .=' <br><span>زمان ارجاع:  </span>
-                <span>' .\Morilog\Jalali\Jalalian::forge($detail->order_reffer_time)->format('%d %B %Y'). '</span>';
-              }
-               if($detail->order_start_time){
-                $list .=' <br><span>زمان شروع:  </span>
-                <span>' .\Morilog\Jalali\Jalalian::forge($detail->order_start_time)->format('%d %B %Y') . '</span>';
-               }
-                if($detail->order_start_description){
-                    $list .=' <br><span>توضیحات شروع کار: </span>
-                <span>' .$detail->order_start_description. '</span>';
-                }
-
-               if($detail->order_end_time){
-                $list .=' <br><span>زمان پایان کار:  </span>
-                <span>' .\Morilog\Jalali\Jalalian::forge($detail->order_end_time)->format('%d %B %Y') . '</span>';
-               }
-
-                if($detail->order_recived_price){
-                    $list .=' <br><span>هزینه دریافتی:  </span>
-                    <span>' .$detail->order_recived_price. '</span>';
-                }
-
-               if($detail->order_pieces_cast){
-                $list .=' <br><span>هزینه قطعات مصرفی:  </span>
-                <span>' .$detail->order_pieces_cast. '</span>';
-               }
-
-            
-           
-        
+            if ($detail->order_reffer_time) {
+                $list .= ' <br><span>زمان ارجاع:  </span>
+                <span>' . \Morilog\Jalali\Jalalian::forge($detail->order_reffer_time)->format('%d %B %Y') . '
+                ساعت  '.\Morilog\Jalali\Jalalian::forge($detail->order_reffer_time)->format('%H:i').'
+                </span>';
             }
+            if ($detail->order_start_time) {
+                $list .= ' <br><span>زمان شروع:  </span>
+                <span>' . \Morilog\Jalali\Jalalian::forge($detail->order_start_time)->format('%d %B %Y') . '
+                ساعت  '.\Morilog\Jalali\Jalalian::forge($detail->order_start_time)->format('%H:i').'
+                </span>';
+            }
+            if ($detail->order_start_description) {
+                $list .= ' <br><span>توضیحات شروع کار: </span>
+                <span>' . $detail->order_start_description . '</span>';
+            }
+
+            if ($detail->order_end_time) {
+                $list .= ' <br><span>زمان پایان کار:  </span>
+                <span>' . \Morilog\Jalali\Jalalian::forge($detail->order_end_time)->format('%d %B %Y') . '
+                ساعت  '.\Morilog\Jalali\Jalalian::forge($detail->order_end_time)->format('%H:i').'
+                </span>';
+            }
+
+            if ($detail->order_recived_price) {
+                $list .= ' <br><span>هزینه دریافتی:  </span>
+                    <span>' . $detail->order_recived_price . '</span>';
+            }
+
+            if ($detail->order_pieces_cast) {
+                $list .= ' <br><span>هزینه قطعات مصرفی:  </span>
+                <span>' . $detail->order_pieces_cast . '</span>';
+            }
+        }
         if (count($order->orderImages)) {
             $list .= '<br><br><span>تصاویر: </span>
             <div class="row">';

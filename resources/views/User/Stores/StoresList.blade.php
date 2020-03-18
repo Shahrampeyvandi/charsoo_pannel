@@ -199,11 +199,9 @@
                                 <div class="form-group col-md-6">
                                     <label for="recipient-name" class="col-form-label">نام شهر: </label>
                                     <select name="city" class="form-control" id="exampleFormControlSelect2">
-
-                                        <option value="مشهد">مشهد</option>
-                                        <option value="نیشابور">نیشابور</option>
-                                        <option value="فریمان">فریمان</option>
-                                        <option value="سبزوار">سبزوار</option>
+                                        @foreach (\App\Models\City\City::all() as $city)
+                                         <option value="{{$city->id}}">{{$city->city_name}}</option>
+                                        @endforeach
                                     </select>
                                 </div>
 
@@ -239,10 +237,9 @@
                                     <label for="recipient-name" class="col-form-label">نام شهر: </label>
                                     <select name="store_city" class="form-control" id="store_city">
                                         <option value="">باز کردن فهرست انتخاب</option>
-                                        <option value="مشهد">مشهد</option>
-                                        <option value="نیشابور">نیشابور</option>
-                                        <option value="فریمان">فریمان</option>
-                                        <option value="سبزوار">سبزوار</option>
+                                        @foreach (\App\Models\City\City::all() as $city)
+                                         <option value="{{$city->id}}">{{$city->city_name}}</option>
+                                        @endforeach
                                     </select>
                                 </div>
                             </div>
@@ -456,7 +453,7 @@
                         @foreach ($stores as $key=>$store)
                         <tr>
                             <td>
-                                <div class="checkpersonal custom-control custom-checkbox custom-control-inline"
+                                <div class="checkstores custom-control custom-checkbox custom-control-inline"
                                     style="margin-left: -1rem;">
                                     <input data-id="{{$store->id}}" type="checkbox" id="{{ $key}}" name="checkbox"
                                         class="custom-control-input" value="1">
@@ -474,7 +471,9 @@
                                 @endif
                             </td>
                             <td>
+                                @if (!is_null($personal))
                                 {{$personal->personal_mobile}}
+                                @endif
                             </td>
                             <td>{{$store->store_city . ' - '.$store->store_main_street . ' - '.$store->store_secondary_street .' - '.$store->store_pelak}}
                             </td>
@@ -563,9 +562,9 @@
           $('.filtering').toggle(200)
         })
 
-           $('.checkpersonal input[type="checkbox"]').change(function(){
+           $('.checkstores input[type="checkbox"]').change(function(){
             array=[]
-            $('.checkpersonal input[type="checkbox"]').each(function(){
+            $('.checkstores input[type="checkbox"]').each(function(){
                 if($(this).is(':checked')){
                   array.push($(this).attr('data-id'))
                }
@@ -827,12 +826,12 @@ $('#birth_year').inputmask('mm/dd/yyyy', { 'placeholder': 'mm/dd/yyyy' })
 
     $('.delete').click(function(e){
                 e.preventDefault()
-                console.log(array)
+               
 
                 // ajax request
       $.ajax({
                 type:'post',
-                url:'{{route("Personal.Delete")}}',
+                url:'{{route("Stores.Delete")}}',
                 data:{array:array},
                 success:function(data){
                   swal("حذف با موفقیت انجام شد", {

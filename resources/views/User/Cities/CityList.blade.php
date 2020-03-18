@@ -52,6 +52,54 @@
   </div>
 
 
+  {{-- add regions --}}
+  <div class="modal fade" id="addRegions" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">ثبت محدوده</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+        <form id="create--city" action=" {{route('Pannel.Neighborhood.Insert')}} " method="post">
+            @csrf
+          <div class="modal-body">
+            <div class="form-group col-md-12">
+              <label for="recipient-name" class="col-form-label">نام شهر </label>
+              <select required name="city_name" class="form-control" id="exampleFormControlSelect2">
+                <option value="">باز کردن فهرست انتخاب</option>
+                @foreach (\App\Models\City\City::all(); as $city)
+                 <option value="{{$city->id}}">{{$city->city_name}}</option>
+                @endforeach
+  
+              </select>
+            </div>
+            <div class="col-md-12 form-group" >
+              <label  class="col-form-label">نام ناحیه</label>
+                <input type="number" class="form-control" name="region" id="">
+            </div>
+            <div class="col-md-12 form-group add-neighborhood" >
+              <label  class="col-form-label">نام محله </label>
+              <input type="text" class="form-control" name="neighborhood[]" id="">
+            </div>
+            <div class="clone-neighborhood">
+
+            </div>
+            <div>
+              <hr>
+              <a href="#" class="clone-neighborhood-bottom">جدید</a>
+            </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">بستن</button>
+              <button type="submit" class="btn btn-primary">ذخیره </button>
+            </div>
+        </form>
+        </div>
+      </div>
+    </div>
+
 {{-- modal for edit --}}
 
 
@@ -74,7 +122,7 @@
                 <i class="fa fa-search"></i>
             </span>
         </a>
-            <a href="#" data-toggle="modal" data-target="#exampleModal1" title="افزودن کاربر">
+            <a href="#" data-toggle="modal" data-target="#exampleModal1" title="افزودن شهر">
                 <span class="__icon bg-success">
                     <i class="fa fa-plus"></i>
                 </span>
@@ -84,6 +132,11 @@
                     <i class="fa fa-refresh"></i>
                 </span>
             </a>
+            <a href="#" data-toggle="modal" data-target="#addRegions" title="افزودن محدوده">
+              <span class="__icon bg-secondary" style="width:110px !important;font-size: 13px !important;">
+                  افزودن محدوده
+              </span>
+          </a>
            </div>
         </div>
   </div>
@@ -250,6 +303,16 @@
             }
         })
             
+    })
+
+
+    $('.clone-neighborhood-bottom').click(function(e){
+        e.preventDefault();
+       let cloned =  $('.add-neighborhood').first().clone()
+       cloned.find('input[type="text"]').val('')
+       $('.clone-neighborhood').append(cloned)
+
+
     })
 
 

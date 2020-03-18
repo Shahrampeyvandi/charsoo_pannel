@@ -6,6 +6,11 @@
                 <span class="logo-text d-none d-lg-block">چهارسو - مدیریت خدمات</span>
             </a>
         </div>
+        <div>
+            
+        <h5 style="margin: 0;
+        padding-right: 20px;"> {{$broker_name}}</h5>
+        </div>
 
         <div class="header-body">
             <ul class="navbar-nav">
