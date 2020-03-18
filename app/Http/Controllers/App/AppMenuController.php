@@ -95,6 +95,44 @@ class AppMenuController extends Controller
             $appmenus[$keym]->item=$array;
 
 
+        }else if($appmenu->type == 'خدمت های دسته'){
+
+
+            foreach($array as $keyn=>$arr){
+    
+                $category = ServiceCategory::where('id', $arr)->first();
+    
+    
+                $array[$keyn]=$category['category_title'];
+    
+
+    
+                
+    
+            }
+    
+            $appmenus[$keym]->item=$array;
+
+
+        }else if($appmenu->type == 'فروشگاه های دسته'){
+
+
+            foreach($array as $keyn=>$arr){
+    
+                $category = ServiceCategory::where('id', $arr)->first();
+    
+    
+                $array[$keyn]=$category['category_title'];
+    
+
+    
+                
+    
+            }
+    
+            $appmenus[$keym]->item=$array;
+
+
         }else if($appmenu->type == 'خدمت'){
 
 
@@ -191,6 +229,50 @@ class AppMenuController extends Controller
         }
 
         if($request->type == 'دسته بندی'){
+
+
+            
+
+            $arra=array();
+
+            array_push($arra, $request->category );
+
+            $string = serialize( $arra );
+
+
+
+
+            $service = AppMenu::create([
+                'priority' => $request->priority,
+                'title' => $request->title,
+                'type' => $request->type,
+                'item' => $string,
+                'special_offer' => $spechoffer,
+                'description' => $request->description,
+            ]);
+        }else if($request->type == 'خدمت های دسته'){
+
+
+            
+
+            $arra=array();
+
+            array_push($arra, $request->category );
+
+            $string = serialize( $arra );
+
+
+
+
+            $service = AppMenu::create([
+                'priority' => $request->priority,
+                'title' => $request->title,
+                'type' => $request->type,
+                'item' => $string,
+                'special_offer' => $spechoffer,
+                'description' => $request->description,
+            ]);
+        }else if($request->type == 'فروشگاه های دسته'){
 
 
             

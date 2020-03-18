@@ -17,7 +17,7 @@ class CreateAppMenuTable extends Migration
             $table->bigIncrements('id');
             $table->integer('priority')->default(10);
             $table->string('title')->nullable();
-            $table->enum('type',['فروشگاه','خدمت','دسته بندی']);
+            $table->enum('type',['فروشگاه','خدمت','دسته بندی','خدمت های دسته','فروشگاه های دسته']);
             $table->text('item');
             $table->boolean('special_offer')->default(0);
             $table->text('description')->nullable();
