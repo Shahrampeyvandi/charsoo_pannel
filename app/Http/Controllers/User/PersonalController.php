@@ -1167,11 +1167,11 @@ class PersonalController extends Controller
             $first_page_certificate = $personal->personal_identity_card_first_pic;
         }
         if ($request->has('personal_profile')) {
-            File::delete(public_path() . '/uploads/personals/' . $personal->personal_profile);
+            File::delete(public_path() . '/uploads/' . $personal->personal_profile);
 
             $personal_img = 'photo' . '.' . $request->personal_profile->getClientOriginalExtension();
             $request->personal_profile->move(public_path('uploads/personals/' . $request->mobile), $personal_img);
-            $personal_profile = $request->mobile . '/' . $personal_img;
+            $personal_profile ='personals/' . $request->mobile . '/' . $personal_img;
         } else {
             $personal_profile = $personal->personal_profile;
         }
