@@ -11,6 +11,7 @@ Route::get('getCities','Api\PersonalController@getCities');
 Route::post('personal/referredOrders','Api\OrdersController@referredOrders');
 Route::post('personal/offeringOrders','Api\OrdersController@offeringOrders');
 Route::post('personal/allRelatedOrders','Api\OrdersController@allRelatedOrders');
+Route::post('personal/finishedOrders','Api\OrdersController@finishedOrders');
 Route::get('personal/getData','Api\PersonalController@getPersonal');
 Route::post('personal/updatedata','Api\PersonalController@updatePersonalData');
 Route::post('personal/updateprofile','Api\PersonalController@updateProfile');

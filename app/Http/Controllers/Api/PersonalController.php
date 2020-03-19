@@ -117,7 +117,8 @@ class PersonalController extends Controller
         $personal = Personal::where('personal_mobile', $mobile)->first();
         if(!is_null($personal->services->first())){
                 $broker_name = $personal->services->first()->service_role; 
-                $personal->services =implode('-', Personal::where('id',1)->first()->services->pluck('service_title')->toArray()); 
+                $personal->servicess =implode('-', Personal::where('id',1)->first()->services->pluck('service_title')->toArray()); 
+                
                 $personal->broker_name = $broker_name;
         }else{
             $personal->services =null;

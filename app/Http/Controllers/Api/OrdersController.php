@@ -103,6 +103,29 @@ class OrdersController extends Controller
     ], 200);
   }
 
+  public function finishedOrders(Request $request)
+  {
+
+    $payload = JWTAuth::parseToken($request->header('Authorization'))->getPayload();
+    $mobile = $payload->get('mobile');
+    $personal = Personal::where('personal_mobile', $mobile)->first();
+    //$orders = $personal->order->where('order_type','ارجاع داده شده');
+    $orders = $personal->order->where('order_type', 'تسویه شده');
+
+    foreach ($orders as $key => $order) {
+      $service = Service::where('id', $order->service_id)->first()->service_title;
+      $order['service_name'] = $service;
+    }
+
+    $ords = [];
+    foreach ($orders as $key => $or) {
+      $ords[] = $or;
+    }
+    return response()->json([
+      'data' => $ords,
+    ], 200);
+  }
+
   public function getOrder(Request $request)
   {
     $Code = $request->order_code;
