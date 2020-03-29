@@ -39,6 +39,8 @@ class AppCustomerController extends Controller
                     
                     $category = ServiceCategory::where('category_parent', $arr)->get();
         
+                  
+
                     foreach($category as $key=>$categ){
 
                         $cat['title']=$categ->category_title;
@@ -46,7 +48,7 @@ class AppCustomerController extends Controller
 
         
                     //$array[$keyn]=$category['category_title'];
-                    $array[$keyn]=$cat;
+                    $array[$key]=$cat;
 
 
 
@@ -79,10 +81,10 @@ class AppCustomerController extends Controller
                     foreach($services as $key=>$servic){
 
                         $cat['title']=$servic->service_title;
-                        $cat['icon']='mapmarker/marker-icon.png';
+                        $cat['icon']='personals/09156833780/photo-1584535352.jpg';
 
 
-                        $array[$keyn]=$cat;
+                        $array[$key]=$cat;
 
                     }
 
@@ -144,7 +146,7 @@ class AppCustomerController extends Controller
 
         
                     $ser['title']=$service->service_title;
-                    $ser['icon']='mapmarker/marker-icon.png';
+                    $ser['icon']='personals/09156833780/photo-1584535352.jpg';
         
 
                     //$array[$keyn]=$service['service_title'];
@@ -171,7 +173,7 @@ class AppCustomerController extends Controller
 
 
                     $ser['title']=$store->store_name;
-                    $ser['icon']='mapmarker/marker-icon.png';
+                    $ser['icon']='personals/09156833780/photo-1584535352.jpg';
         
         
                     //$array[$keyn]=$store['store_name'];
