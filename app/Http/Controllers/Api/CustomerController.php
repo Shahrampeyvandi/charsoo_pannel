@@ -77,8 +77,8 @@ class CustomerController extends Controller
 
         $response['pic']=$customer->customer_profile;
         $response['name']=$customer->customer_firstname;
-        $response['lname']=$customer->customer_lasttname;
-        $response['phone']=$customer->customer_national_code;
+        $response['lname']=$customer->customer_lastname;
+        $response['phone']=$customer->customer_mobile;
         $response['codemelli']=$customer->customer_national_code;
 
         $response['charge']=$customer->useracounts[0]->cash;
@@ -105,7 +105,7 @@ class CustomerController extends Controller
         $customer_img = 'photo' . time() . '.' . $request->customer_profile->getClientOriginalExtension();
         $destinationPath = public_path('/uploads/customers/' . $customer->customer_mobile);
         $request->customer_profile->move($destinationPath, $customer_img);
-        $customer_profile = $customer->customer_mobile . '/' . $customer_img;
+        $customer_profile = 'customers/'.$customer->customer_mobile . '/' . $customer_img;
 
         Cunsomer::where('customer_mobile', $mobile)
             ->update([
@@ -126,10 +126,9 @@ class CustomerController extends Controller
 
         Cunsomer::where('customer_mobile', $mobile)
             ->update([
-                'customer_firstname' => $request->c_firstname,
-                'customer_lastname' => $request->c_lastname,
-                'customer_city' => $request->c_city,
-                'customer_national_code' => $request->c_national_code,
+                'customer_firstname' => $request->name,
+                'customer_lastname' => $request->lname,
+                'customer_national_code' => $request->codemelli,
             ]);
         $customer = Cunsomer::where('customer_mobile', $mobile)->first();
         return response()->json([
