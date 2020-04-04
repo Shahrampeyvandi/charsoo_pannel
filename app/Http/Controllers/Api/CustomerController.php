@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\App\Models\Customers\CustomerAddress;
 use App\Models\User;
 use App\Models\City\City;
 use Illuminate\Http\Request;
@@ -286,6 +287,40 @@ class CustomerController extends Controller
         $array
         , 200);
 
+
+    }
+
+    public function submitAddress(Request $request)
+    {
+        $payload = JWTAuth::parseToken($request->header('Authorization'))->getPayload();
+        $mobile = $payload->get('mobile');
+        $customer = Cunsomer::where('customer_mobile', $mobile)->first();
+        if (is_null($customer)) {
+            return response(
+                ['error' => 'خطای احراز هویت'],404
+            );
+        }
+       $customer_broker = $customer->brokers;
+// شاید این مشتری متعلق به چند کارگزاری باشد
+if(is_array($customer_broker) && count($customer_broker) !== 0){
+    foreach ($customer_broker as $key => $broker) {
+        CustomerAddress::create([
+            'address' => $request->address,
+            'broker_id' => $broker,
+            'customer_id' => $customer->id
+        ]);
+    }
+}else{
+    CustomerAddress::create([
+        'address' => $request->address,
+        'broker_id' => null,
+        'customer_id' => $customer->id
+    ]);
+}
+
+    return response()->json(
+        ['data' => 'ادرس با موفقیت ثبت شد']
+        , 200);
 
     }
 }

@@ -40,7 +40,7 @@ Route::post('customer/orders','Api\CustomerController@getAllOrders');
 Route::post('customer/order','Api\CustomerController@getOrder');
 Route::post('customer/addresses','Api\CustomerController@getCustomerAddresses');
 Route::get('customer/categories','Api\CustomerController@getCategories');
-
+Route::post('customer/saveaddress','Api\CustomerController@submitAddress');
 
 
 Route::get('customer/gethomep','Api\AppCustomerController@index');
