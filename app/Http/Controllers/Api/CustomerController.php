@@ -175,7 +175,7 @@ class CustomerController extends Controller
         $orders =  $customer_model->getOrders($customer->id);
 
         return response()->json([
-            'customer_orders' => $orders,
+            'data' => $orders,
             200
         ]);
 
@@ -220,32 +220,32 @@ class CustomerController extends Controller
         
         }
 
-        
-    public function getCAllOrder(Request $request)
-    {
-    $payload = JWTAuth::parseToken($request->header('Authorization'))->getPayload();
-    $mobile = $payload->get('mobile');
-     $customer = Cunsomer::where('customer_mobile', $mobile)->first();
 
-     $orders = $customer->order->where('order_type', 'پیشنهاد داده شده')->get();
+        public function getCategories(Request $request)
+        {
+            $payload = JWTAuth::parseToken($request->header('Authorization'))->getPayload();
+            $mobile = $payload->get('mobile');
+            $customer = Cunsomer::where('customer_mobile', $mobile)->first();
+            $id=$request->id;
+            $category = ServiceCategory::where('category_parent', $id)->get();
 
-     
-      return response()->json([
-        'data' => $orders,
-      ], 200);
-    }
-  
-    public function getCOrder(Request $request)
-    {
-     $payload = JWTAuth::parseToken($request->header('Authorization'))->getPayload();
-     $mobile = $payload->get('mobile');
-     $customer = Cunsomer::where('customer_mobile', $mobile)->first();
+            foreach($category as $key=>$categ){
 
-     $order = $personal->order->where('order_type', 'پیشنهاد داده شده');
+                $cat['iditem']=$categ->id;
+                $cat['title']=$categ->category_title;
+            $cat['icon']=$categ->category_icon;
 
-     
-      return response()->json(
-         $order
-      , 200);
-    }
+
+            $orders[$key]=$cat;
+            }
+
+    
+            return response()->json([
+                'data' => $orders,
+                200
+            ]);
+    
+    
+        }
+    
 }
