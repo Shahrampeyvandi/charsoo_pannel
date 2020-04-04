@@ -2,16 +2,17 @@
 
 namespace App\Http\Controllers\Api;
 
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use App\Models\Acounting\UserAcounts;
-use App\Models\City\City;
-use App\Models\Personals\Personal;
-use App\Models\Cunsomers\Cunsomer;
 use App\Models\User;
+use App\Models\City\City;
+use Illuminate\Http\Request;
+use App\Models\Cunsomers\Cunsomer;
+use App\Models\Personals\Personal;
 use Illuminate\Support\Facades\DB;
 use Tymon\JWTAuth\Facades\JWTAuth;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\File;
+use App\Models\Acounting\UserAcounts;
+use App\Models\Services\ServiceCategory;
 
 class CustomerController extends Controller
 {
@@ -175,7 +176,7 @@ class CustomerController extends Controller
         $orders =  $customer_model->getOrders($customer->id);
 
         return response()->json([
-            'customer_orders' => $orders,
+            'data' => $orders,
             200
         ]);
 
@@ -244,34 +245,27 @@ class CustomerController extends Controller
         
         }
 
-        
-    public function getCAllOrder(Request $request)
-    {
-     $payload = JWTAuth::parseToken($request->header('Authorization'))->getPayload();
-     $mobile = $payload->get('mobile');
-     $customer = Cunsomer::where('customer_mobile', $mobile)->first();
 
-     $orders = $customer->order->where('order_type', 'پیشنهاد داده شده')->get();
+        public function getCategories(Request $request)
+        {
+            $payload = JWTAuth::parseToken($request->header('Authorization'))->getPayload();
+            $mobile = $payload->get('mobile');
+            $customer = Cunsomer::where('customer_mobile', $mobile)->first();
+            $id=$request->id;
+            $category = ServiceCategory::where('category_parent', $id)->get();
 
-     
-      return response()->json([
-        'data' => $orders,
-      ], 200);
-    }
-  
-    public function getCOrder(Request $request)
-    {
-     $payload = JWTAuth::parseToken($request->header('Authorization'))->getPayload();
-     $mobile = $payload->get('mobile');
-     $customer = Cunsomer::where('customer_mobile', $mobile)->first();
+            foreach($category as $key=>$categ){
 
-     $order = $personal->order->where('order_type', 'پیشنهاد داده شده');
+                $cat['iditem']=$categ->id;
+                $cat['title']=$categ->category_title;
+            $cat['icon']=$categ->category_icon;
 
      
       return response()->json(
-         $order
+         $cat
       , 200);
     }
+}
 
 
     public function getCustomerAddresses(Request $request)
