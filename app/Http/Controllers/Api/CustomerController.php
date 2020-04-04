@@ -2,15 +2,15 @@
 
 namespace App\Http\Controllers\Api;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Acounting\UserAcounts;
 use App\Models\Services\ServiceCategory;
 use App\Models\Services\Service;
-use App\Models\City\City;
-use App\Models\Personals\Personal;
-use App\Models\Cunsomers\Cunsomer;
 use App\Models\User;
+use App\Models\City\City;
+use Illuminate\Http\Request;
+use App\Models\Cunsomers\Cunsomer;
+use App\Models\Personals\Personal;
 use Illuminate\Support\Facades\DB;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use Illuminate\Support\Facades\File;
@@ -241,8 +241,6 @@ class CustomerController extends Controller
             
         ];
 
-        
-
         return response()->json(array_merge($array,$personal_array,$details_array),200);
         
         }
@@ -255,7 +253,7 @@ class CustomerController extends Controller
             $customer = Cunsomer::where('customer_mobile', $mobile)->first();
             $id=$request->id;
             $category = ServiceCategory::where('category_parent', $id)->get();
-
+            
             foreach($category as $key=>$categ){
 
                 $cat['iditem']=$categ->id;
@@ -270,16 +268,39 @@ class CustomerController extends Controller
                 $cat['type']='3';
             }
 
-            $orders[$key]=$cat;
-            }
+
+            $cate[$key]=$cat;
+        }
+
+        return response()->json([
+            'data' => $cate,
+        ],200);
+
+     
+        }
+
 
     
-            return response()->json([
-                'data' => $orders,
-                
-            ],200);
+           
     
-    
+    public function getCustomerAddresses(Request $request)
+    {
+        $payload = JWTAuth::parseToken($request->header('Authorization'))->getPayload();
+        $mobile = $payload->get('mobile');
+        $customer = Cunsomer::where('customer_mobile', $mobile)->first();
+        $customer_model = new Cunsomer();
+        $addresses = $customer_model->getAddresses($customer->id);
+        $array =[];
+        $count =1 ;
+        foreach ($addresses as $key => $address) {
+            $array[$count] = $address->address; 
+            $count++;
         }
-    
+        
+      return response()->json(
+        $array
+        , 200);
+
+
+    }
 }

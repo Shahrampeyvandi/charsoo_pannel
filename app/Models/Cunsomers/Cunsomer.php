@@ -2,6 +2,7 @@
 
 namespace App\Models\Cunsomers;
 
+use App\App\Models\Customers\CustomerAddress;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Models\Acounting\UserAcounts;
@@ -54,6 +55,10 @@ class Cunsomer extends  Authenticatable  implements JWTSubject
        return $service= Service::where('id',$order->service_id)->first();
        
         
+    }
+    public function getAddresses($customer_id)
+    {
+        return CustomerAddress::where('customer_id',$customer_id)->get();
     }
 
 }
