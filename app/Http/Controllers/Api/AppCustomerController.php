@@ -43,6 +43,7 @@ class AppCustomerController extends Controller
 
                     foreach($category as $key=>$categ){
 
+                        $cat['iditem']=$categ->id;
                         $cat['title']=$categ->category_title;
                     $cat['icon']=$categ->category_icon;
 
@@ -52,16 +53,18 @@ class AppCustomerController extends Controller
 
 
 
+
                     }
                    // $cat=array();
 
                     //$services = Service::where('service_category_id', $arr)->first();
 
-                    
+                    $appmenus[$keym]->iditem=$arr;
+
     
         
                     
-        
+
                 }
         
                 $appmenus[$keym]->item=$array;
@@ -80,11 +83,13 @@ class AppCustomerController extends Controller
 
                     foreach($services as $key=>$servic){
 
+                        $cat['iditem']=$servic->id;
                         $cat['title']=$servic->service_title;
                         $cat['icon']='personals/09156833780/photo-1584535352.jpg';
 
 
                         $array[$key]=$cat;
+
 
                     }
 
@@ -93,7 +98,8 @@ class AppCustomerController extends Controller
         
                     //$array[$keyn]=$category['category_title'];
 
-    
+                    $appmenus[$keym]->iditem=$arr;
+
         
                     
         
@@ -114,6 +120,7 @@ class AppCustomerController extends Controller
 
                     foreach($store as $key=>$stor){
 
+                        $cat['iditem']=$stor->id;
                         $cat['title']=$stor->store_name;
                         $cat['icon']=$stor->store_picture;
 
@@ -128,9 +135,12 @@ class AppCustomerController extends Controller
 
     
         
+                    $appmenus[$keym]->iditem=$arr;
+
                     
         
                 }
+
         
                 $appmenus[$keym]->item=$array;
     
@@ -145,6 +155,7 @@ class AppCustomerController extends Controller
                     $service = Service::where('id', $arr)->first();
 
         
+                    $ser['iditem']=$service->id;
                     $ser['title']=$service->service_title;
                     $ser['icon']='personals/09156833780/photo-1584535352.jpg';
         
@@ -171,7 +182,7 @@ class AppCustomerController extends Controller
                     $store = Store::where('id', $arr)->first();
         
 
-
+                    $ser['iditem']=$store->id;
                     $ser['title']=$store->store_name;
                     $ser['icon']='personals/09156833780/photo-1584535352.jpg';
         

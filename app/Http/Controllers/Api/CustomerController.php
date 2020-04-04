@@ -165,4 +165,32 @@ class CustomerController extends Controller
             200
         );
     }
+
+    public function getCAllOrder(Request $request)
+    {
+    $payload = JWTAuth::parseToken($request->header('Authorization'))->getPayload();
+    $mobile = $payload->get('mobile');
+     $customer = Cunsomer::where('customer_mobile', $mobile)->first();
+
+     $orders = $customer->order->where('order_type', 'پیشنهاد داده شده')->get();
+
+     
+      return response()->json([
+        'data' => $orders,
+      ], 200);
+    }
+  
+    public function getCOrder(Request $request)
+    {
+     $payload = JWTAuth::parseToken($request->header('Authorization'))->getPayload();
+     $mobile = $payload->get('mobile');
+     $customer = Cunsomer::where('customer_mobile', $mobile)->first();
+
+     $order = $personal->order->where('order_type', 'پیشنهاد داده شده');
+
+     
+      return response()->json(
+         $order
+      , 200);
+    }
 }

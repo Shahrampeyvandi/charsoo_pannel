@@ -35,5 +35,8 @@ Route::get('customer/getData','Api\CustomerController@getCustomer');
 Route::post('customer/updatedata','Api\CustomerController@updateCustomerData');
 Route::post('customer/updateprofile','Api\CustomerController@updateProfile');
 Route::get('customer/homedetail','Api\CustomerController@getHomePageDetail');
+Route::get('customer/getAllOrder','Api\CustomerController@getCAllOrder');
+Route::get('customer/getOrder','Api\CustomerController@getCOrder');
+
 
 Route::get('customer/gethomep','Api\AppCustomerController@index');
