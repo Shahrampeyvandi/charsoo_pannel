@@ -15,17 +15,6 @@ use Illuminate\Support\Facades\File;
 
 class CustomerController extends Controller
 {
-    public function getCustomer(Request $request)
-    {
-        $payload = JWTAuth::parseToken($request->header('Authorization'))->getPayload();
-        $mobile = $payload->get('mobile');
-        $customer = Cunsomer::where('customer_mobile', $mobile)->first();
-        return response()->json(
-            $customer,
-            200
-        );
-    }
-
 
     public function verify(Request $request)
     {
@@ -80,6 +69,27 @@ class CustomerController extends Controller
         ], 200);
     }
 
+      public function getCustomer(Request $request)
+    {
+        $payload = JWTAuth::parseToken($request->header('Authorization'))->getPayload();
+        $mobile = $payload->get('mobile');
+        $customer = Cunsomer::where('customer_mobile', $mobile)->first();
+
+        $response['pic']=$customer->customer_profile;
+        $response['name']=$customer->customer_firstname;
+        $response['lname']=$customer->customer_lastname;
+        $response['phone']=$customer->customer_mobile;
+        $response['codemelli']=$customer->customer_national_code;
+
+        $response['charge']=$customer->useracounts[0]->cash;
+        $response['hafte']='1';
+        $response['orders']='2';
+
+        return response()->json(
+            $response,
+            200
+        );
+    }
 
     public function updateProfile(Request $request)
     {
@@ -95,7 +105,7 @@ class CustomerController extends Controller
         $customer_img = 'photo' . time() . '.' . $request->customer_profile->getClientOriginalExtension();
         $destinationPath = public_path('/uploads/customers/' . $customer->customer_mobile);
         $request->customer_profile->move($destinationPath, $customer_img);
-        $customer_profile = $customer->customer_mobile . '/' . $customer_img;
+        $customer_profile = 'customers/'.$customer->customer_mobile . '/' . $customer_img;
 
         Cunsomer::where('customer_mobile', $mobile)
             ->update([
@@ -116,10 +126,9 @@ class CustomerController extends Controller
 
         Cunsomer::where('customer_mobile', $mobile)
             ->update([
-                'customer_firstname' => $request->c_firstname,
-                'customer_lastname' => $request->c_lastname,
-                'customer_city' => $request->c_city,
-                'customer_national_code' => $request->c_national_code,
+                'customer_firstname' => $request->name,
+                'customer_lastname' => $request->lname,
+                'customer_national_code' => $request->codemelli,
             ]);
         $customer = Cunsomer::where('customer_mobile', $mobile)->first();
         return response()->json([
@@ -127,5 +136,33 @@ class CustomerController extends Controller
                 'customer' => $customer,
             ],
         ], 200);
+    }
+
+
+    public function getHomePageDetail(Request $request)
+    {
+        $payload = JWTAuth::parseToken($request->header('Authorization'))->getPayload();
+        $mobile = $payload->get('mobile');
+        $customer = Cunsomer::where('customer_mobile', $mobile)->first();
+
+        $settings = DB::table('setting')->get();
+        $setting=$settings[0];
+
+
+
+        return response()->json([
+        'name'=>$customer->customer_firstname.' '.$customer->customer_lastname,
+        'mobile'=>$customer->customer_mobile,
+        'charge'=>$customer->useracounts[0]->cash,
+        'city'=>$customer->customer_city,
+        'profilepic'=>$customer->customer_profile,
+        'shomareposhtibani'=>$setting->shomareposhtibani,
+        'telegramposhtibani'=>$setting->telegramposhtibani,
+        'linkappworker'=>$setting->linkappservicer,
+        'linklaw'=>$setting->linklaw,
+        'linkfaq'=>$setting->linkfaq,
+        ],
+            200
+        );
     }
 }

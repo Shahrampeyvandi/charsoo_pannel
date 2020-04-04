@@ -168,15 +168,20 @@
 
 var number = 1;
      @foreach($khedmatResan as $key=>$position)
-          L.marker([{{$position->tool}}, {{$position->arz}}],{icon: greenIcon}).addTo(map)
-        .bindPopup('<style>table, th, td {border: 1px solid black;  padding: 8px;}</style><table><tr><td>شمارش</td><td>{{$key+1}}</td></tr><tr><td>ساعت</td><td>{{\Morilog\Jalali\Jalalian::forge($position->created_at)->format('H:i:s')}}</td></tr><tr><td>تاریخ</td><td>{{\Morilog\Jalali\Jalalian::forge($position->created_at)->format('%Y-%m-%d')}}</td></tr></table>')
-        .openPopup();
 
      @php
 $kes=$key-1;
      @endphp
 
 @if($kes>=0)
+
+@if($position->tool != $khedmatResan[$key-1]->tool && $position->arz != $khedmatResan[$key-1]->arz)
+          L.marker([{{$position->tool}}, {{$position->arz}}],{icon: greenIcon}).addTo(map)
+        .bindPopup('<style>table, th, td {border: 1px solid black;  padding: 8px;}</style><table><tr><td>شمارش</td><td>{{$key+1}}</td></tr><tr><td>ساعت</td><td>{{\Morilog\Jalali\Jalalian::forge($position->created_at)->format('H:i:s')}}</td></tr><tr><td>تاریخ</td><td>{{\Morilog\Jalali\Jalalian::forge($position->created_at)->format('%Y-%m-%d')}}</td></tr></table>')
+        .openPopup();
+        @endif
+
+
  var hour ={{\Morilog\Jalali\Jalalian::forge($position->created_at)->format('H')}}-{{\Morilog\Jalali\Jalalian::forge($khedmatResan[$kes]->created_at)->format('H')}};
          var min ={{\Morilog\Jalali\Jalalian::forge($position->created_at)->format('i')}}-{{\Morilog\Jalali\Jalalian::forge($khedmatResan[$kes]->created_at)->format('i')}};
 

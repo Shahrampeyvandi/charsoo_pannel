@@ -17,8 +17,12 @@ class Cunsomer extends  Authenticatable  implements JWTSubject
     }
     public function getJWTCustomClaims()
     {
-        return [];
-    }
+        return [
+            'first_name'      => $this->customer_firstname,
+            'last_name'       => $this->customer_lastname,
+            'mobile'           => $this->customer_mobile,
+        ];
+        }
 
     public function useracounts()
     {
