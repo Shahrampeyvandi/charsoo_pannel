@@ -3,6 +3,10 @@
 namespace App\Http\Controllers\Api;
 
 use App\App\Models\Customers\CustomerAddress;
+use App\Http\Controllers\Controller;
+use App\Models\Acounting\UserAcounts;
+use App\Models\Services\ServiceCategory;
+use App\Models\Services\Service;
 use App\Models\User;
 use App\Models\City\City;
 use Illuminate\Http\Request;
@@ -10,10 +14,7 @@ use App\Models\Cunsomers\Cunsomer;
 use App\Models\Personals\Personal;
 use Illuminate\Support\Facades\DB;
 use Tymon\JWTAuth\Facades\JWTAuth;
-use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\File;
-use App\Models\Acounting\UserAcounts;
-use App\Models\Services\ServiceCategory;
 
 class CustomerController extends Controller
 {
@@ -178,8 +179,7 @@ class CustomerController extends Controller
 
         return response()->json([
             'data' => $orders,
-            200
-        ]);
+        ],200);
 
 
     }
@@ -254,21 +254,36 @@ class CustomerController extends Controller
             $customer = Cunsomer::where('customer_mobile', $mobile)->first();
             $id=$request->id;
             $category = ServiceCategory::where('category_parent', $id)->get();
-
+            
             foreach($category as $key=>$categ){
 
                 $cat['iditem']=$categ->id;
                 $cat['title']=$categ->category_title;
             $cat['icon']=$categ->category_icon;
 
+            $catego = ServiceCategory::where('category_parent', $categ->id)->get();
+
+            if($catego){
+                $cat['type']='2';
+            }else{
+                $cat['type']='3';
+            }
+
+
+            $cate[$key]=$cat;
+        }
+
+        return response()->json([
+            'data' => $cate,
+        ],200);
+
      
-      return response()->json(
-         $cat
-      , 200);
-    }
-}
+        }
 
 
+    
+           
+    
     public function getCustomerAddresses(Request $request)
     {
         $payload = JWTAuth::parseToken($request->header('Authorization'))->getPayload();
