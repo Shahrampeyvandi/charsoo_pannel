@@ -181,10 +181,15 @@
                                         placeholder="" type="text" dir="ltr">
                                 </div><!-- form-group -->
                                 <div class="form-group col-md-12">
-                                    <label class="form-control-label">حوزه فعالیت</label>
-                                    <input id="store_type" class="form-control text-right" name="store_type"
-                                        placeholder="" type="text" dir="ltr">
-                                </div><!-- form-group -->
+                                   
+                                        <label for="store_type" class="col-form-label">حوزه فعالیت</label>
+                                        <select @if ($count> 1)
+                                          size=" {{$count}} " @elseif($count > 10) size="10" @else size="4"
+                                          @endif class="form-control" name="store_type" id="store_type">
+                                          {!! $list !!}
+                                        </select>
+                              
+                                    </div><!-- form-group -->
 
                                 <div class="form-group col-md-12">
                                     <label for="recipient-name" class="col-form-label">توضیحات تکمیلی: </label>
@@ -194,6 +199,11 @@
                                 <div class="form-group col-md-12">
                                     <label class="form-control-label">تصویر فروشگاه:</label>
                                     <input id="store_picture" class="form-control text-right" name="store_picture"
+                                        placeholder="" type="file" dir="rtl">
+                                </div><!-- form-group -->
+                                <div class="form-group col-md-12">
+                                    <label class="form-control-label">آیکون فروشگاه:</label>
+                                    <input id="store_icon" class="form-control text-right" name="store_icon"
                                         placeholder="" type="file" dir="rtl">
                                 </div><!-- form-group -->
                                 <div class="form-group col-md-6">
@@ -499,7 +509,7 @@
                                 @if ($store->store_picture !== '' && $store->store_picture !== null)
                                 <a href="#" title="مشاهده تصویر" data-toggle="modal" data-target="#showStore">
                                     <img width="75px" class="img-fluid "
-                                        src="{{asset("uploads/stores/$store->store_picture")}} " />
+                                        src="{{asset("uploads/$store->store_picture")}} " />
                                 </a>
                                 @else
                                 --
@@ -698,6 +708,8 @@ $('.bd-example-modal-lg-edit').on('shown.bs.modal', function (event) {
         },
         mobile:{
             required:true
+        },store_type:{
+            required:true
         }
         
          
@@ -729,6 +741,9 @@ $('.bd-example-modal-lg-edit').on('shown.bs.modal', function (event) {
         tel_work: {
             required:'شماره محل کار را وارد نمایید'
         },
+        store_type:{
+            required:'دسته بندی فروشگاه را وارد نمایید'
+        }
         }
       });
     form.steps({

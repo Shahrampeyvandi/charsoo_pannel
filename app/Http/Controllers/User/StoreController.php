@@ -92,7 +92,8 @@ class StoreController extends Controller
 
   public function submitStore(Request $request)
   {
-    
+
+   
 
     if ($request->has('owner_profile')) {
       $file = 'photo-' .time() .'.' . $request->owner_profile->getClientOriginalExtension();
@@ -105,7 +106,7 @@ class StoreController extends Controller
     if ($request->has('store_picture')) {
       $file = 'photo-' .time() .'.' . $request->store_picture->getClientOriginalExtension();
       $request->store_picture->move(public_path('uploads/stores/' . $request->store_name), $file);
-      $store_picture =  $request->store_name . '/' . $file;
+      $store_picture = 'stores/' . $request->store_name . '/' . $file;
     } else {
       $store_picture = '';
     }
@@ -113,7 +114,7 @@ class StoreController extends Controller
     if ($request->has('store_icon')) {
       $file = 'icon-' .time() .'.' . $request->store_icon->getClientOriginalExtension();
       $request->store_icon->move(public_path('uploads/stores/' . $request->store_name), $file);
-      $store_icon =  $request->store_name . '/' . $file;
+      $store_icon ='stores/' . $request->store_name . '/' . $file;
     } else {
       $store_icon = '';
     }
@@ -227,10 +228,12 @@ class StoreController extends Controller
             <div class="form-group col-md-6" style="padding-top: 11px;">
                 <label class="form-control-label"> <span class="text-danger">*</span> تلفن همراه
                 </label>
-                <input class="form-control text-right" id="p_mobile" name="mobile" placeholder=""
+                <input disabled="" class="form-control text-right" id="p_mobile" name="" placeholder=""
                 value="' . $personal->personal_mobile . '"
                     type="number" dir="ltr">
-
+                    <input  class="form-control text-right" id="" name="mobile" placeholder=""
+                    value="' . $personal->personal_mobile . '"
+                        type="hidden" dir="ltr">
             </div><!-- form-group -->
             <div class="form-group col-md-6">
                 <label>نام </label>
@@ -400,7 +403,7 @@ class StoreController extends Controller
         max-width: 100%;
         height: 100%;
         width: 100%;"
-                  src="' . route('BaseUrl') . '/uploads/stores/' . $store->store_picture . '" alt="">
+                  src="' . route('BaseUrl') . '/uploads/' . $store->store_picture . '" alt="">
                 <p class="text-chose-img" style="position: absolute;top: 44%;left: 40%;font-size: 13px;">تغییر 
                   تصویر</p>
               </div>
@@ -415,7 +418,7 @@ class StoreController extends Controller
         max-width: 100%;
         height: 200px;
         width: 100%;"
-                  src="' . route('BaseUrl') . '/uploads/stores/' . $store->store_icon . '" alt="" >
+                  src="' . route('BaseUrl') . '/uploads/' . $store->store_icon . '" alt="" >
                 <p class="text-chose-img" style="position: absolute;top: 44%;left: 40%;font-size: 13px;">تغییر 
                   آیکون</p>
               </div>
@@ -748,7 +751,7 @@ class StoreController extends Controller
     }
 
     if ($request->has('owner_profile')) {
-      File::deleteDirectory(public_path('uploads/personals/' . $request->mobile));
+      File::delete(public_path().'/uploads/' . $personal->personal_profile);
       $file = 'photo-' . time() . '.' . $request->owner_profile->getClientOriginalExtension();
       $request->owner_profile->move(public_path('uploads/personals/' . $request->mobile), $file);
       $owner_profile = 'personals/' . $request->mobile . '/' . $file;
@@ -757,19 +760,19 @@ class StoreController extends Controller
     }
 
     if ($request->has('store_picture')) {
-      File::delete(public_path().'/uploads/stores/' . $request->store_name . '/' .$store->store_picture);
+      File::delete(public_path().'/uploads/' .$store->store_picture);
       $file = 'photo-' . time() . '.' . $request->store_picture->getClientOriginalExtension();
       $request->store_picture->move(public_path('uploads/stores/' . $request->store_name), $file);
-      $store_picture =  $request->store_name . '/' . $file;
+      $store_picture = 'stores/' . $request->store_name . '/' . $file;
     } else {
       $store_picture = $store->store_picture;
     }
 
     if ($request->has('store_icon')) {
-      File::delete(public_path().'/uploads/stores/' . $request->store_name . '/' .$store->store_icon);
+      File::delete(public_path().'/uploads/'.$store->store_icon);
       $file = 'icon-' . time() . '.' . $request->store_icon->getClientOriginalExtension();
       $request->store_icon->move(public_path('uploads/stores/' . $request->store_name), $file);
-      $store_icon =  $request->store_name . '/' . $file;
+      $store_icon = 'stores/' . $request->store_name . '/' . $file;
     } else {
       $store_icon = $store->store_icon;
     }

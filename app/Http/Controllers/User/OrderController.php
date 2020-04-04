@@ -90,6 +90,7 @@ class OrderController extends Controller
                 $services = Service::where('service_role', auth()->user()->roles->first()->name)->get();
                 $service_array =   Service::where('service_role', auth()->user()->roles->first()->name)->pluck('id')->toArray();
                 $orders = Order::whereIn('service_id', $service_array)->get();
+              
             }
             if (auth()->user()->roles->first()->sub_broker !== null) {
                 $role_name = Role::where('id', auth()->user()->roles->first()->sub_broker)->name;
@@ -103,7 +104,7 @@ class OrderController extends Controller
 
     public function SubmitOrder(Request $request)
     {
-
+        
 
         if ($request->new_address == null and $request->user_address == null) {
             alert()->error('ادرس وارد نشده است', 'خطا')->autoclose(2000);

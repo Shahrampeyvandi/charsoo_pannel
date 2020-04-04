@@ -414,13 +414,13 @@
               <th></th>
               <th>ردیف</th>
               <th>
-                <a href="#" data-id="title" class="name_field text-white">
+                <a href="#" data-id="title" class=" text-white">
                   کد سفارس
                   <i class="fa fa-angle-down"></i>
                 </a>
               </th>
               <th>
-                <a href="#" data-id="broker_name" class="name_field text-white">
+                <a href="#" data-id="broker_name" class=" text-white">
                   نوع
                   <i class="fa fa-angle-down"></i>
                 </a>
@@ -430,7 +430,7 @@
               <th> نام خانوادگی مشتری</th>
               <th>نام کاربری مشتری</th>
               <th>
-                <a href="#" data-id="persent" class="name_field text-white">
+                <a href="#" data-id="persent" class=" text-white">
                   نام خدمت
                   <i class="fa fa-angle-down"></i>
                 </a>
