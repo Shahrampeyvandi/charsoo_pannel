@@ -192,7 +192,36 @@ class CustomerController extends Controller
         $order =  $customer_model->getOrder($customer->id,$code);
         $service = $customer_model->getOrderService($customer->id,$code);
         $order_personal = $order->personals->first();
+        if (!is_null($order_personal)) {
+            $personal_array = [
+            'personal_firstname' =>  $order_personal->personal_firstname,
+            'personal_lastname' => $order_personal->personal_lastname,
+            'personal_last_diploma' => $order_personal->personal_last_diploma,
+            'personal_mobile' => $order_personal->personal_mobile,
+            ];
+        }
+        else{
+            $personal_array = [
+            'personal_firstname' => '',
+            'personal_lastname' => '',
+            'personal_last_diploma' => '',
+            'personal_mobile' => '',
+            ];
+        }
+
         $order_detail = $order->orderDetail;
+        if (!is_null($order_personal)) {
+            $details_array = [
+                'order_recived_price' => $order_detail->order_recived_price,
+                'order_pieces_cast' => $order_detail->order_pieces_cast
+            ];
+        }
+        else{
+            $details_array = [
+                'order_recived_price' =>'',
+                'order_pieces_cast' => ''
+            ];
+        }
         if(!is_null($service)){
             $service_name = $service->service_title; 
         }else{
@@ -208,15 +237,12 @@ class CustomerController extends Controller
             'order_date_first' => $order->order_date_first,
             'order_date_second' => $order->order_date_second,
             'order_type' => $order->order_type,
-            'personal_firstname' => $order_personal !== null && $order_personal !== '' ? $order_personal->personal_firstname : '',
-            'personal_lastname' =>$order_personal !== null && $order_personal !== '' ? $order_personal->personal_lastname : '',
-            'personal_last_diploma' =>$order_personal !== null && $order_personal !== '' ? $order_personal->personal_last_diploma : '',
-            'personal_mobile' =>$order_personal !== null && $order_personal !== '' ? $order_personal->personal_mobile : '',
-            'order_recived_price' =>$order_detail !== null && $order_detail !== '' ? $order_detail->order_recived_price : '',
-            'order_pieces_cast' =>$order_detail !== null && $order_detail !== '' ? $order_detail->order_pieces_cast : ''
+            
         ];
 
-        return response()->json($array,200);
+        
+
+        return response()->json(array_merge($array,$personal_array,$details_array),200);
         
         }
 
