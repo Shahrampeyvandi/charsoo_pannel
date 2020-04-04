@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Api;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Acounting\UserAcounts;
+use App\Models\Services\ServiceCategory;
+use App\Models\Services\Service;
 use App\Models\City\City;
 use App\Models\Personals\Personal;
 use App\Models\Cunsomers\Cunsomer;
@@ -176,8 +178,7 @@ class CustomerController extends Controller
 
         return response()->json([
             'data' => $orders,
-            200
-        ]);
+        ],200);
 
 
     }
@@ -261,6 +262,13 @@ class CustomerController extends Controller
                 $cat['title']=$categ->category_title;
             $cat['icon']=$categ->category_icon;
 
+            $catego = ServiceCategory::where('category_parent', $categ->id)->get();
+
+            if($catego){
+                $cat['type']='2';
+            }else{
+                $cat['type']='3';
+            }
 
             $orders[$key]=$cat;
             }
@@ -268,8 +276,8 @@ class CustomerController extends Controller
     
             return response()->json([
                 'data' => $orders,
-                200
-            ]);
+                
+            ],200);
     
     
         }
