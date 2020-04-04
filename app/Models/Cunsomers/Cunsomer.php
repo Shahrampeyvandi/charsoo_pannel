@@ -2,11 +2,14 @@
 
 namespace App\Models\Cunsomers;
 
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Foundation\Auth\User as Authenticatable;
-use Tymon\JWTAuth\Contracts\JWTSubject;
-use App\Models\Acounting\UserAcounts;
 use App\Models\User;
+use Illuminate\Http\Request;
+use App\Models\Acounting\UserAcounts;
+use App\Models\Orders\Order;
+use App\Models\Services\Service;
+use Illuminate\Database\Eloquent\Model;
+use Tymon\JWTAuth\Contracts\JWTSubject;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class Cunsomer extends  Authenticatable  implements JWTSubject
 {
@@ -33,4 +36,24 @@ class Cunsomer extends  Authenticatable  implements JWTSubject
     {
         return $this->belongsToMany(User::class);
     }
+
+    public function getOrders($customer_id)
+    {
+       return Order::where('customer_id',$customer_id)->latest()->get();
+
+    }
+    public function getOrder($customer_id,$code)
+    {
+        return Order::where('customer_id',$customer_id)->where('order_unique_code',$code)->first();
+
+    }
+
+    public function getOrderService($customer_id,$code)
+    {
+        $order = $this->getOrder($customer_id,$code);
+       return $service= Service::where('id',$order->service_id)->first();
+       
+        
+    }
+
 }

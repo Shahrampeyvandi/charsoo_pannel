@@ -165,4 +165,57 @@ class CustomerController extends Controller
             200
         );
     }
+
+    public function getAllOrders(Request $request)
+    {
+        $payload = JWTAuth::parseToken($request->header('Authorization'))->getPayload();
+        $mobile = $payload->get('mobile');
+        $customer = Cunsomer::where('customer_mobile', $mobile)->first();
+        $customer_model = new Cunsomer();
+        $orders =  $customer_model->getOrders($customer->id);
+
+        return response()->json([
+            'customer_orders' => $orders,
+            200
+        ]);
+
+
+    }
+
+    public function getOrder(Request $request)
+    {
+        $payload = JWTAuth::parseToken($request->header('Authorization'))->getPayload();
+        $mobile = $payload->get('mobile');
+        $customer = Cunsomer::where('customer_mobile', $mobile)->first();
+        $code = $request->code;
+        $customer_model = new Cunsomer();
+        $order =  $customer_model->getOrder($customer->id,$code);
+        $service = $customer_model->getOrderService($customer->id,$code);
+        $order_personal = $order->personals->first();
+        $order_detail = $order->orderDetail;
+        if(!is_null($service)){
+            $service_name = $service->service_title; 
+        }else{
+            $service_name = 'ندارد';
+        }
+
+        $array = [
+            'service_name' => $service_name,
+            'unique_code' => $order->order_unique_code,
+            'order_desc' => $order->order_desc,
+            'order_time_first' => $order->order_time_first,
+            'order_time_second' => $order->order_time_second,
+            'order_date_first' => $order->order_date_first,
+            'order_date_second' => $order->order_date_second,
+            'order_type' => $order->order_type,
+            'personal_firstname' => $order_personal !== null && $order_personal !== '' ? $order_personal->personal_firstname : '',
+            'personal_lastname' =>$order_personal !== null && $order_personal !== '' ? $order_personal->personal_lastname : '',
+            'personal_last_diploma' =>$order_personal !== null && $order_personal !== '' ? $order_personal->personal_last_diploma : '',
+            'personal_mobile' =>$order_personal !== null && $order_personal !== '' ? $order_personal->personal_mobile : '',
+            'order_recived_price' =>$order_detail !== null && $order_detail !== '' ? $order_detail->order_recived_price : '',
+            'order_pieces_cast' =>$order_detail !== null && $order_detail !== '' ? $order_detail->order_pieces_cast : ''
+        ];
+
+        return response()->json($array,200);
+    }
 }

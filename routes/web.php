@@ -4,10 +4,7 @@ use Illuminate\Support\Facades\Auth;
 
 Route::get('/', 'Auth\LoginController@index')->name('BaseUrl');
 Route::post('/Dashboard', 'Auth\LoginController@Login')->name('Pannel.Login');
-Route::get('/Logout', function () {
-    Auth::logout();
-    return redirect()->route('BaseUrl');
-})->name('User.Logout');
+Route::get('/Logout', 'Auth\LoginController@LogOut')->name('User.Logout');
 
 
 Route::group(['middleware' => ['checkAuth']], function () {

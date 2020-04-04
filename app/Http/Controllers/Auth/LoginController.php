@@ -44,4 +44,12 @@ class LoginController extends Controller
             return back();
         }
     }
+
+    public function FunctionName()
+    {
+        
+            Auth::logout();
+            return redirect()->route('BaseUrl');
+        
+    }
 }

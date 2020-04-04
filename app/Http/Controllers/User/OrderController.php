@@ -129,6 +129,7 @@ class OrderController extends Controller
                 $count += 1;
                 $order = Order::create([
                     'service_id' => $request->service_name[$key],
+                    'customer_id' => 0,
                     'order_type' => 'معلق',
                     'order_desc' => $request->user_desc,
                     'order_show_mobile' => $request->user_mobile,
@@ -174,6 +175,10 @@ class OrderController extends Controller
                 'customer_status' => 1
             ]);
 
+            $order->update([
+                'customer_id' => $customer->id
+            ]);
+
             $acountcharge = new UserAcounts();
             $acountcharge->user = 'مشتری';
             $acountcharge->type = 'شارژ';
@@ -188,7 +193,9 @@ class OrderController extends Controller
                 ]);
             }
         } else {
-
+            $order->update([
+                'customer_id' => $check_in_customers[0]->id
+            ]);
 
             if ($request->new_address !== null) {
                 $address = CustomerAddress::create([
@@ -198,6 +205,7 @@ class OrderController extends Controller
                 ]);
             }
         }
+        
 
         alert()->success($count . ' سفارش با موفقیت ثبت شد ', 'عملیات موفق')->autoclose(3000);
         return back();
