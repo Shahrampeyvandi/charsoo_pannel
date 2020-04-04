@@ -240,8 +240,6 @@ class CustomerController extends Controller
             
         ];
 
-        
-
         return response()->json(array_merge($array,$personal_array,$details_array),200);
         
         }
@@ -249,8 +247,8 @@ class CustomerController extends Controller
         
     public function getCAllOrder(Request $request)
     {
-    $payload = JWTAuth::parseToken($request->header('Authorization'))->getPayload();
-    $mobile = $payload->get('mobile');
+     $payload = JWTAuth::parseToken($request->header('Authorization'))->getPayload();
+     $mobile = $payload->get('mobile');
      $customer = Cunsomer::where('customer_mobile', $mobile)->first();
 
      $orders = $customer->order->where('order_type', 'پیشنهاد داده شده')->get();
@@ -273,5 +271,27 @@ class CustomerController extends Controller
       return response()->json(
          $order
       , 200);
+    }
+
+
+    public function getCustomerAddresses(Request $request)
+    {
+        $payload = JWTAuth::parseToken($request->header('Authorization'))->getPayload();
+        $mobile = $payload->get('mobile');
+        $customer = Cunsomer::where('customer_mobile', $mobile)->first();
+        $customer_model = new Cunsomer();
+        $addresses = $customer_model->getAddresses($customer->id);
+        $array =[];
+        $count =1 ;
+        foreach ($addresses as $key => $address) {
+            $array[$count] = $address->address; 
+            $count++;
+        }
+        
+      return response()->json(
+        $array
+        , 200);
+
+
     }
 }
