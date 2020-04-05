@@ -292,12 +292,13 @@ class CustomerController extends Controller
         $customer_model = new Cunsomer();
         $addresses = $customer_model->getAddresses($customer->id);
         $array =[];
-        $count =1 ;
+       
         foreach ($addresses as $key => $address) {
-            $array[$count] = $address->address; 
-            $count++;
+            $array['addresses'][$key+1]['title'] = $address->title; 
+            $array['addresses'][$key+1]['address'] = $address->address; 
         }
         
+       
       return response()->json(
         $array
         , 200);

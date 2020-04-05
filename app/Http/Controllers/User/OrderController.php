@@ -199,6 +199,7 @@ class OrderController extends Controller
 
             if ($request->new_address !== null) {
                 $address = CustomerAddress::create([
+                    'title'=> 'ادرس',
                     'address' => $request->new_address,
                     'customer_id' => $check_in_customers[0]->id,
                     'broker_id' => $broker_id

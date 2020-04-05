@@ -44,3 +44,7 @@ Route::post('customer/saveaddress','Api\CustomerController@submitAddress');
 
 
 Route::get('customer/gethomep','Api\AppCustomerController@index');
+
+Route::post('getstore','Api\StoreController@getStore');
+
+
