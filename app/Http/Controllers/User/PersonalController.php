@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\Acounting\UserAcounts;
+use App\Models\Services\Service;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Validator;
 use Morilog\Jalali\Jalalian;
@@ -89,7 +90,7 @@ class PersonalController extends Controller
         } else {
             foreach (auth()->user()->roles as $key => $role) {
                 if ($role->broker == 1) {
-                    foreach (auth()->user()->services as $key => $service) {
+                    foreach (Service::where('service_role',$role->name)->get() as $key => $service) {
                         foreach ($service->personal as $key => $personal) {
                             $personals .= ' 
                         <tr>
@@ -136,6 +137,8 @@ class PersonalController extends Controller
 
                                     'وارد نشده') .
                                 '</td>
+                                <td>' . Jalalian::forge($personal->created_at)->format('%Y/%m/%d') . '</td>
+
                             <td>'
                                 . ($personal->personal_profile !== '' ?
                                 '<a href="#" data-toggle="modal" data-target="#showProfile" class="show-profile-btn"><img style="width:80px;" src="' . route('BaseUrl') . '/uploads/' . $personal->personal_profile . '"  /></a>'
@@ -151,7 +154,7 @@ class PersonalController extends Controller
                         $q->where('name', $role_name);
                     })->first();
 
-                    foreach ($user->services as $key => $service) {
+                    foreach (Service::where('service_role',$role_name)->get() as $key => $service) {
                         foreach ($service->personal as $key => $personal) {
                             $personals .= ' 
                 <tr>
@@ -196,6 +199,8 @@ class PersonalController extends Controller
 
                                     'وارد نشده') .
                                 '</td>
+                                <td>' . Jalalian::forge($personal->created_at)->format('%Y/%m/%d') . '</td>
+
                     <td>'
                                 . ($personal->personal_profile !== '' ?
                                 '<a href="#" data-toggle="modal" data-target="#showProfile" class="show-profile-btn"><img style="width:80px;" src="' . route('BaseUrl') . '/uploads/' . $personal->personal_profile . '"  /></a>'
