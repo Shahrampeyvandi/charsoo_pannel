@@ -38,7 +38,7 @@ Route::get('customer/homedetail','Api\CustomerController@getHomePageDetail');
 
 Route::get('customer/orders','Api\CustomerController@getAllOrders');
 Route::get('customer/order','Api\CustomerController@getOrder');
-Route::post('customer/addresses','Api\CustomerController@getCustomerAddresses');
+Route::get('customer/addresses','Api\CustomerController@getCustomerAddresses');
 Route::get('customer/categories','Api\CustomerController@getCategories');
 Route::post('customer/saveaddress','Api\CustomerController@submitAddress');
 Route::get('customer/services','Api\CustomerController@getServices');

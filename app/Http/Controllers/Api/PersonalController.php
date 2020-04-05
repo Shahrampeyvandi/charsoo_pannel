@@ -10,6 +10,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Tymon\JWTAuth\Facades\JWTAuth;
+use Morilog\Jalali\Jalalian;
 use Illuminate\Support\Facades\File;
 
 class PersonalController extends Controller
@@ -132,6 +133,8 @@ class PersonalController extends Controller
         $personal->shomareposhtibani=$setting->shomareposhtibani;
         $personal->aboutlink=$setting->linkfaq;
 
+        $personal['personal_birthday']= Jalalian::forge($personal->personal_birthday)->format('%Y/%m/%d');
+
 
         return response()->json(
             $personal,
@@ -147,7 +150,7 @@ class PersonalController extends Controller
             ->update([
                 'personal_firstname' => $request->personal_firstname,
                 'personal_lastname' => $request->personal_lastname,
-                'personal_birthday' => $request->personal_birthday,
+                'personal_birthday' => $this->convertDate($request->personal_birthday)->toDateString(),
                 'personal_national_code' => $request->personal_national_code,
                 'personal_marriage' => $request->personal_marriage,
                 'personal_last_diploma' => $request->personal_last_diploma,
