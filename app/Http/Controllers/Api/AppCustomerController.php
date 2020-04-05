@@ -45,10 +45,31 @@ class AppCustomerController extends Controller
 
                         $cat['iditem']=$categ->id;
                         $cat['title']=$categ->category_title;
-                    $cat['icon']=$categ->category_icon;
+                    //$cat['icon']=$categ->category_icon;
+                    $cat['icon']='personals/09156833780/photo-1584535352.jpg';
 
-        
                     //$array[$keyn]=$category['category_title'];
+
+                    $categoryzirdaste = ServiceCategory::where('category_parent', $categ->id)->first();
+         
+
+                    //$chil['rtue']=$categoryzirdaste;
+        
+                    if($categoryzirdaste){
+                        $categoryzirdastes = ServiceCategory::where('category_parent', $categoryzirdaste->id)->first();
+
+                if($categoryzirdastes){
+                    $cat['type']='2';
+                }else{
+                    $cat['type']='3';
+                }
+
+
+                    }else{
+                        $cat['type']='3';
+                    }
+
+
                     $array[$key]=$cat;
 
 
@@ -66,8 +87,15 @@ class AppCustomerController extends Controller
                     
 
                 }
-        
+
+                $categoryname = ServiceCategory::where('id', $arr)->first();
+
+                $appmenus[$keym]->titlecat=$categoryname->category_title;
+
+
                 $appmenus[$keym]->item=$array;
+
+
     
     
             }else if($appmenu->type == 'خدمت های دسته'){
@@ -103,6 +131,15 @@ class AppCustomerController extends Controller
         
                     
         
+                }
+
+                $categoryname = ServiceCategory::where('id', $arr)->first();
+                $parent = ServiceCategory::where('id', $categoryname->category_parent)->get();
+
+                foreach($parent as $kkk=>$valuesh){
+
+                        $appmenus[$keym]->titlecat=$valuesh->category_title;
+                    
                 }
         
                 $appmenus[$keym]->item=$array;
