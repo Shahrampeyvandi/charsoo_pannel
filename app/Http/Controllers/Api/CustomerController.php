@@ -177,6 +177,14 @@ class CustomerController extends Controller
         $customer_model = new Cunsomer();
         $orders =  $customer_model->getOrders($customer->id);
 
+        foreach($orders as $key=>$order){
+
+            $service = Service::where('id', $order->service_id)->first()->service_title;
+            $order['service_name'] = $service;
+
+        }
+        
+
         return response()->json([
             'data' => $orders,
         ],200);
@@ -232,16 +240,19 @@ class CustomerController extends Controller
 
         $array = [
             'service_name' => $service_name,
-            'unique_code' => $order->order_unique_code,
+            'order_unique_code' => $order->order_unique_code,
             'order_desc' => $order->order_desc,
             'order_time_first' => $order->order_time_first,
             'order_time_second' => $order->order_time_second,
             'order_date_first' => $order->order_date_first,
             'order_date_second' => $order->order_date_second,
             'order_type' => $order->order_type,
+            'order_address'=>$order->order_address,
+
             
         ];
 
+        
         return response()->json(array_merge($array,$personal_array,$details_array),200);
         
         }
@@ -259,15 +270,57 @@ class CustomerController extends Controller
 
                 $cat['iditem']=$categ->id;
                 $cat['title']=$categ->category_title;
-            $cat['icon']=$categ->category_icon;
+            //$cat['icon']=$categ->category_icon;
+            $cat['icon']='personals/09156833780/photo-1584535352.jpg';
+
 
             $catego = ServiceCategory::where('category_parent', $categ->id)->get();
 
-            if($catego){
-                $cat['type']='2';
+
+            $chilist=[];
+
+
+            foreach($catego as $kes=>$categor){
+
+                $chil['iditem']=$categor->id;
+                $chil['title']=$categor->category_title;
+            //$cat['icon']=$categor->category_icon;
+            $chil['icon']='personals/09156833780/photo-1584535352.jpg';
+
+
+            $categoryzirdaste = ServiceCategory::where('category_parent', $categor->id)->first();
+         
+
+            //$chil['rtue']=$categoryzirdaste;
+
+            if($categoryzirdaste){
+
+                $categoryzirdastes = ServiceCategory::where('category_parent', $categoryzirdaste->id)->first();
+
+                if($categoryzirdastes){
+                    $chil['type']='2';
+                }else{
+                    $chil['type']='3';
+                }
+
+
+
+
             }else{
-                $cat['type']='3';
+                $chil['type']='3';
             }
+
+
+            $chilist[$kes]=$chil;
+        
+
+
+            }
+
+            
+
+            $cat['items']=$chilist;
+
 
 
             $cate[$key]=$cat;
@@ -281,6 +334,144 @@ class CustomerController extends Controller
         }
 
 
+        public function getServices(Request $request)
+        {
+            $payload = JWTAuth::parseToken($request->header('Authorization'))->getPayload();
+            $mobile = $payload->get('mobile');
+            $customer = Cunsomer::where('customer_mobile', $mobile)->first();
+            $id=$request->id;
+            $categorymainchildsnum =  ServiceCategory::where('category_parent', $id)->count();
+            if($categorymainchildsnum){
+
+                $categorymainchilds =  ServiceCategory::where('category_parent', $id)->get();
+
+                foreach($categorymainchilds as $keys=>$categorymainchild){
+
+                    $catres['iditem']=$categorymainchild->id;
+                    $catres['title']=$categorymainchild->category_title;
+                    $catres['icon']='personals/09156833780/photo-1584535352.jpg';
+
+
+                    $services = Service::where('service_category_id', $categorymainchild->id)->get();
+
+                    $items=[];
+                    foreach($services as $keyss=>$service){
+
+                        $serv['iditem']=$service->id;
+                        $serv['title']=$service->service_title;
+                        $serv['icon']='personals/09156833780/photo-1584535352.jpg';
+                        //$cat['icon']=$servic->service_icon;
+                        $serv['type']=4;
+    
+
+                        $items[$keyss]=$serv;
+                    }
+
+
+                    $catres['items']=$items;
+                    $result[$keys]=$catres;
+
+
+                }
+
+
+        return response()->json([
+            'data' => $result,
+            'error'=>[
+                'message'=>'1',
+            ],
+        ],200);
+
+            }else{
+
+            
+
+            $categoryselected = ServiceCategory::where('id', $id)->first();
+            $categoryparents = ServiceCategory::where('id', $categoryselected->category_parent)->first();
+            if($categoryparents){
+            $categorychilds = ServiceCategory::where('category_parent', $categoryparents->id)->get();
+
+
+            foreach($categorychilds as $kef=>$categorychild){
+
+                $services = Service::where('service_category_id', $categorychild->id)->get();
+
+                $catres['iditem']=$categorychild->id;
+                $catres['title']=$categorychild->category_title;
+                $catres['icon']='personals/09156833780/photo-1584535352.jpg';
+
+                $servres=[];
+
+                foreach($services as $key=>$service){
+
+                    $serv['iditem']=$service->id;
+                    $serv['title']=$service->service_title;
+                    $serv['icon']='personals/09156833780/photo-1584535352.jpg';
+                    //$cat['icon']=$servic->service_icon;
+                    $serv['type']=4;
+
+    
+
+                    $servres[$key]= $serv;
+    
+
+                }
+
+                $catres['items']=$servres;
+                $result[$kef]=$catres;
+
+
+            }
+
+
+
+
+
+            
+
+
+
+        return response()->json([
+            'data' => $result,
+        ],200);
+    
+    }else{
+
+
+        $services = Service::where('service_category_id', $categoryselected->id)->get();
+
+        $catres['iditem']=$categoryselected->id;
+        $catres['title']=$categoryselected->category_title;
+        $catres['icon']='personals/09156833780/photo-1584535352.jpg';
+
+
+        foreach($services as $key=>$service){
+
+            $serv['iditem']=$service->id;
+            $serv['title']=$service->service_title;
+            $serv['icon']='personals/09156833780/photo-1584535352.jpg';
+            //$cat['icon']=$servic->service_icon;
+            $serv['type']=4;
+
+
+
+            $servres[$key]= $serv;
+
+
+        }
+
+        $catres['items']=$servres;
+        $servres=[];
+        $result[0]=$catres;
+
+        return response()->json([
+            'data' => $result,
+        ],200);
+
+    }
+}
+       
+}
     
            
     
