@@ -145,7 +145,8 @@ class StoreController extends Controller
       'store_status' => 1,
       'store_pelak' => $request->store_pluck_num,
       'store_picture' => $store_picture,
-      'store_icon' =>$store_icon
+      'store_icon' =>$store_icon,
+      'store_role' => $personal->id
     ]);
 
     $store->neighborhoods()->attach($request->neighborhood_id);
