@@ -52,7 +52,10 @@ class Cunsomer extends  Authenticatable  implements JWTSubject
     public function getOrderService($customer_id,$code)
     {
         $order = $this->getOrder($customer_id,$code);
-       return $service= Service::where('id',$order->service_id)->first();
+        if ($order) {
+           
+            return $service= Service::where('id',$order->service_id)->first();
+        }
        
         
     }

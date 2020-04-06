@@ -222,20 +222,35 @@ class CustomerController extends Controller
         $order_detail = $order->orderDetail;
         if (!is_null($order_personal)) {
             $details_array = [
-                'order_recived_price' => $order_detail->order_recived_price,
-                'order_pieces_cast' => $order_detail->order_pieces_cast
+            'order_reffer_time' => $order_detail->order_reffer_time,
+            'order_start_time' => $order_detail->order_start_time,
+            'order_start_description' => $order_detail->order_start_description,
+            'order_start_time_positions' => $order_detail->order_start_time_positions,
+            'order_end_time' => $order_detail->order_end_time,
+            'order_end_time_positions' => $order_detail->order_end_time_positions,
+            'order_end_time_description' => $order_detail->order_end_time_description,
+            'order_recived_price' => $order_detail->order_recived_price,
+            'order_pieces_cast' => $order_detail->order_pieces_cast,
             ];
         }
         else{
             $details_array = [
                 'order_recived_price' =>'',
                 'order_pieces_cast' => ''
+
             ];
         }
         if(!is_null($service)){
             $service_name = $service->service_title; 
         }else{
             $service_name = 'ندارد';
+        }
+
+        $images = [];
+        foreach ($order->orderImages as $key => $image) {
+            $images['images'][$key+1]['imgUrl'] = $image->image_url; 
+            $images['images'][$key+1]['imgType'] = $image->image_type; 
+
         }
 
         $array = [
@@ -253,7 +268,7 @@ class CustomerController extends Controller
         ];
 
         
-        return response()->json(array_merge($array,$personal_array,$details_array),200);
+        return response()->json(array_merge($array,$personal_array,$details_array,$images),200);
         
         }
 
