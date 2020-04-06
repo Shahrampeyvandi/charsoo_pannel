@@ -17,9 +17,10 @@ class CreateCustomerAddressesTable extends Migration
             $table->bigIncrements('id');
             $table->string('title')->default('آدرس');
             $table->text('address');
-            $table->text('latitude')->nullable();
-            $table->text('longitude')->nullable();
-            $table->text('neighborhoods_id')->nullable();
+            $table->string('city')->nullable();
+            $table->string('latitude')->nullable();
+            $table->string('longitude')->nullable();
+            $table->string('neighbourhood')->nullable();
             $table->integer('broker_id')->nullable();
             $table->integer('customer_id');
             $table->timestamps();

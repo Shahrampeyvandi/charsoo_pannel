@@ -528,6 +528,11 @@ class CustomerController extends Controller
 if(is_array($customer_broker) && count($customer_broker) !== 0){
     foreach ($customer_broker as $key => $broker) {
         CustomerAddress::create([
+            'title' => $request->title,
+            'city' => $request->city,
+            'latitude' => $request->latitude,
+            'longitude' => $request->longitude,
+            'neighbourhood' => $request->neighbourhood,
             'address' => $request->address,
             'broker_id' => $broker,
             'customer_id' => $customer->id
@@ -535,6 +540,11 @@ if(is_array($customer_broker) && count($customer_broker) !== 0){
     }
 }else{
     CustomerAddress::create([
+        'title' => $request->title,
+        'city' => $request->city,
+        'latitude' => $request->latitude,
+        'longitude' => $request->longitude,
+        'neighbourhood' => $request->neighbourhood,
         'address' => $request->address,
         'broker_id' => null,
         'customer_id' => $customer->id
