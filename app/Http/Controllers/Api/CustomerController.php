@@ -487,12 +487,13 @@ class CustomerController extends Controller
         foreach ($addresses as $key => $address) {
             $array['addresses'][$key+1]['title'] = $address->title; 
             $array['addresses'][$key+1]['address'] = $address->address; 
+
         }
         
        
-      return response()->json(
-        $array
-        , 200);
+      return response()->json([
+       'data'=> $addresses
+      ], 200);
 
 
     }

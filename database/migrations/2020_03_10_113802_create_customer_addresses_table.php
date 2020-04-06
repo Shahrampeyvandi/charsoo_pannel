@@ -15,8 +15,11 @@ class CreateCustomerAddressesTable extends Migration
     {
         Schema::create('customer_addresses', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('title')->nullable();
+            $table->string('title')->default('آدرس');
             $table->text('address');
+            $table->text('latitude')->nullable();
+            $table->text('longitude')->nullable();
+            $table->text('neighborhoods_id')->nullable();
             $table->integer('broker_id')->nullable();
             $table->integer('customer_id');
             $table->timestamps();
