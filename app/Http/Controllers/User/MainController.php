@@ -45,7 +45,7 @@ class MainController extends Controller
         });
       }
 
-      if (Cache::has('doing_orders')) {
+      if (Cache::has('users')) {
         $users = User::all();
       } else {
         $users = Cache::remember('users', 60, function () {
@@ -53,24 +53,31 @@ class MainController extends Controller
         });
       }
 
-      if (Cache::has('doing_orders')) {
+      if (Cache::has('roles')) {
+        $roles = Role::where('broker',1)->get();
+      } else {
+        $roles = Cache::remember('roles', 60, function () {
+          return Role::where('broker',1)->get();
+        });
+      }
+
+      if (Cache::has('services')) {
         $services = Service::all();
       } else {
         $services = Cache::remember('services', 60, function () {
           return Service::all();
         });
       }
-      foreach ($users as $key => $broker) {
-        if (count($broker->roles->where('broker', 1))) {
+      foreach ($roles as $role) {
 
-          $broker_services_array = $broker->services->pluck('id')->toArray();
+          $broker_services_array = Service::where('service_role',$role->name)->pluck('id')->toArray();
           $broker_pending_orders = Order::whereIn('service_id', $broker_services_array)->where('order_type', 'معلق')->count();
           $broker_doing_orders = Order::whereIn('service_id', $broker_services_array)->where('order_type', 'در حال انجام')->count();
           $broker_reffered_orders = Order::whereIn('service_id', $broker_services_array)->where('order_type', 'انجام نشده')->count();
           $broker_performed_orders = Order::whereIn('service_id', $broker_services_array)->where('order_type', 'انجام شده')->count();
           $broker_lists .= ' <tr>
               <td>' . $count . '</td>
-              <td>' . ($broker->roles->first()->name == 'admin_panel' ? 'ادمین' : $broker->roles->first()->name ). '</td>
+              <td>' . $role->name.'</td>
               <td>' . $broker_pending_orders . '</td>
               <td>' . $broker_doing_orders . '</td>
               <td>' . $broker_reffered_orders . '</td>
@@ -78,7 +85,7 @@ class MainController extends Controller
           </tr>';
           $count++;
         }
-      }
+      
 
 
 
@@ -87,8 +94,8 @@ class MainController extends Controller
 
       foreach ($services as $key => $service) {
 
-        if ($service->user->first() !== null) {
-          $broker =  $service->user->first()->user_username;
+        if ($service->service_role !== null) {
+          $broker =  $service->service_role;
         } else {
           $broker = '--';
         }
