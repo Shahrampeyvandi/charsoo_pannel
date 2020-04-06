@@ -13,6 +13,7 @@ use Illuminate\Http\Request;
 use App\Models\Cunsomers\Cunsomer;
 use App\Models\Personals\Personal;
 use Illuminate\Support\Facades\DB;
+use App\Models\Store\Store;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use Illuminate\Support\Facades\File;
 
@@ -279,8 +280,19 @@ class CustomerController extends Controller
             $mobile = $payload->get('mobile');
             $customer = Cunsomer::where('customer_mobile', $mobile)->first();
             $id=$request->id;
-            $category = ServiceCategory::where('category_parent', $id)->get();
+            $category = ServiceCategory::where('category_parent', $id)->count();
+            if($category){
+                $category = ServiceCategory::where('category_parent', $id)->get();
+            }else{
+                $category1 = ServiceCategory::where('id', $id)->first();
+                $category2 = ServiceCategory::where('id', $category1->category_parent)->first();
+                $category = ServiceCategory::where('category_parent', $category2->id)->get();
+        
             
+        
+        
+                
+            }
             foreach($category as $key=>$categ){
 
                 $cat['iditem']=$categ->id;
@@ -340,6 +352,7 @@ class CustomerController extends Controller
 
             $cate[$key]=$cat;
         }
+   
 
         return response()->json([
             'data' => $cate,
@@ -369,6 +382,8 @@ class CustomerController extends Controller
 
                     $services = Service::where('service_category_id', $categorymainchild->id)->get();
 
+                    
+
                     $items=[];
                     foreach($services as $keyss=>$service){
 
@@ -382,7 +397,23 @@ class CustomerController extends Controller
                         $items[$keyss]=$serv;
                     }
 
+                    $stores = Store::where('store_type', $categorymainchild->id)->get();
 
+                    foreach($stores as $keyss=>$store){
+    
+                        $serv['iditem']=$store->id;
+                        $serv['title']=$store->store_name;
+                        $serv['icon']=$store->store_icon;
+                        $serv['type']=5;
+    
+    
+                        $items[$keyss]=$serv;
+    
+                }
+
+
+    
+            
                     $catres['items']=$items;
                     $result[$keys]=$catres;
 
@@ -432,6 +463,20 @@ class CustomerController extends Controller
 
                 }
 
+                $stores = Store::where('store_type', $categorychild->id)->get();
+
+                foreach($stores as $keyss=>$store){
+
+                    $serv['iditem']=$store->id;
+                    $serv['title']=$store->store_name;
+                    $serv['icon']=$store->store_icon;
+                    $serv['type']=5;
+
+
+                    $servres[$keyss]=$serv;
+
+            }
+
                 $catres['items']=$servres;
                 $result[$kef]=$catres;
 
@@ -474,6 +519,21 @@ class CustomerController extends Controller
 
 
         }
+
+        $stores = Store::where('store_type', $categoryselected->id)->get();
+
+        foreach($stores as $keyss=>$store){
+
+            $serv['iditem']=$store->id;
+            $serv['title']=$store->store_name;
+            $serv['icon']=$store->store_icon;
+            $serv['type']=5;
+
+
+            $servres[$keyss]=$serv;
+
+    }
+
 
         $catres['items']=$servres;
         $servres=[];

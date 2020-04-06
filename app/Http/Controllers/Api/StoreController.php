@@ -13,6 +13,10 @@ class StoreController extends Controller
         $store_id = $request->store_id;
         
         $store = Store::where('id', $store_id)->first();
+
+
+        $store['store_address']=$store->store_main_street.' '.$store->store_secondary_street.' پلاک '.$store->store_pelak;
+
         $storeArray = [];
         $storeArray['store_name'] = $store->store_name;
         $storeArray['store_description'] = $store->store_description;
@@ -40,7 +44,7 @@ class StoreController extends Controller
             }
         }
         return response()->json(
-            $storeArray,
+            $store,
             200
           );
 

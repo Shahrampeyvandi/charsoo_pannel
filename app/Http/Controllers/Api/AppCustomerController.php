@@ -45,8 +45,8 @@ class AppCustomerController extends Controller
 
                         $cat['iditem']=$categ->id;
                         $cat['title']=$categ->category_title;
-                    //$cat['icon']=$categ->category_icon;
-                    $cat['icon']='personals/09156833780/photo-1584535352.jpg';
+                    $cat['icon']=$categ->category_icon;
+                    //$cat['icon']='personals/09156833780/photo-1584535352.jpg';
 
                     //$array[$keyn]=$category['category_title'];
 
@@ -153,7 +153,7 @@ class AppCustomerController extends Controller
         
 
 
-                    $store = Store::where('id', $arr)->get();
+                    $store = Store::where('store_type', $arr)->get();
 
                     foreach($store as $key=>$stor){
 
@@ -165,7 +165,7 @@ class AppCustomerController extends Controller
 
                     }
 
-                   
+                    
 
         
                     //$array[$keyn]=$category['category_title'];
