@@ -173,12 +173,12 @@ class ServiceCategoryController extends Controller
             <label for="recipient-name" class="col-form-label">نوع:</label>
             <select name="category_type" id="category_type"  class="js-example-basic-single" dir="rtl">
             <option></option>
-                <option '.($category->category_type == 'خدمات شرکتی' ? 'selected=""' : '').' value="France">خدمات شرکتی</option>
-                <option '.($category->category_type == 'فروشگاه' ? 'selected=""' : '').' value="Brazil">فروشگاه</option>
-                <option '.($category->category_type == 'خدمات پس از فروش' ? 'selected=""' : '').'  value="Yemen">خدمات پس از فروش</option>
-                <option '.($category->category_type == 'خدمات اصلی' ? 'selected=""' : '').'  value="United States">خدمات اصلی</option>
-                <option '.($category->category_type == 'پیشنهاد ویژه' ? 'selected=""' : '').'  value="China">پیشنهاد ویژه</option>
-                <option '.($category->category_type == 'خدمات فرعی' ? 'selected=""' : '').'  value="Argentina">خدمات فرعی</option>
+                <option '.($category->category_type == 'خدمات شرکتی' ? 'selected=""' : '').' value="خدمات شرکتی">خدمات شرکتی</option>
+                <option '.($category->category_type == 'فروشگاه' ? 'selected=""' : '').' value="فروشگاه">فروشگاه</option>
+                <option '.($category->category_type == 'خدمات پس از فروش' ? 'selected=""' : '').'  value="خدمات پس از فروش">خدمات پس از فروش</option>
+                <option '.($category->category_type == 'خدمات اصلی' ? 'selected=""' : '').'  value="خدمات اصلی">خدمات اصلی</option>
+                <option '.($category->category_type == 'پیشنهاد ویژه' ? 'selected=""' : '').'  value="پیشنهاد ویژه">پیشنهاد ویژه</option>
+                <option '.($category->category_type == 'خدمات فرعی' ? 'selected=""' : '').'  value="خدمات فرعی">خدمات فرعی</option>
             </select>  
         </div>
         <div class="form-group col-md-6">
