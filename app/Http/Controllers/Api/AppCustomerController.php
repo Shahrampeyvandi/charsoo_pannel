@@ -55,19 +55,8 @@ class AppCustomerController extends Controller
 
                     //$chil['rtue']=$categoryzirdaste;
         
-                    if($categoryzirdaste){
-                        $categoryzirdastes = ServiceCategory::where('category_parent', $categoryzirdaste->id)->first();
-
-                if($categoryzirdastes){
                     $cat['type']='2';
-                }else{
-                    $cat['type']='3';
-                }
 
-
-                    }else{
-                        $cat['type']='3';
-                    }
 
 
                     $array[$key]=$cat;
@@ -89,8 +78,17 @@ class AppCustomerController extends Controller
                 }
 
                 $categoryname = ServiceCategory::where('id', $arr)->first();
-
+                $catpar=ServiceCategory::where('id', $categoryname->category_parent)->first();
+               do{
+                   
                 $appmenus[$keym]->titlecat=$categoryname->category_title;
+
+                $categoryname = ServiceCategory::where('id', $categoryname->category_parent)->first();
+
+
+               }while($categoryname);
+   
+               
 
 
                 $appmenus[$keym]->item=$array;
@@ -134,13 +132,16 @@ class AppCustomerController extends Controller
                 }
 
                 $categoryname = ServiceCategory::where('id', $arr)->first();
-                $parent = ServiceCategory::where('id', $categoryname->category_parent)->get();
+                $catpar=ServiceCategory::where('id', $categoryname->category_parent)->first();
+               do{
+                   
+                $appmenus[$keym]->titlecat=$categoryname->category_title;
 
-                foreach($parent as $kkk=>$valuesh){
+                $categoryname = ServiceCategory::where('id', $categoryname->category_parent)->first();
 
-                        $appmenus[$keym]->titlecat=$valuesh->category_title;
-                    
-                }
+
+               }while($categoryname);
+               
         
                 $appmenus[$keym]->item=$array;
     
@@ -152,14 +153,14 @@ class AppCustomerController extends Controller
         
         
 
-
+                    $categoryname = ServiceCategory::where('id', $arr)->first();
                     $store = Store::where('store_type', $arr)->get();
 
                     foreach($store as $key=>$stor){
 
                         $cat['iditem']=$stor->id;
                         $cat['title']=$stor->store_name;
-                        $cat['icon']=$stor->store_picture;
+                        $cat['icon']=$stor->store_icon;
 
                         $array[$keyn]=$cat;
 
@@ -178,7 +179,15 @@ class AppCustomerController extends Controller
         
                 }
 
-        
+                do{
+                   
+                    $appmenus[$keym]->titlecat=$categoryname->category_title;
+    
+                    $categoryname = ServiceCategory::where('id', $categoryname->category_parent)->first();
+    
+    
+                   }while($categoryname);
+               
                 $appmenus[$keym]->item=$array;
     
     
@@ -206,6 +215,7 @@ class AppCustomerController extends Controller
         
                 }
         
+               
                 $appmenus[$keym]->item=$array;
     
     
@@ -221,7 +231,7 @@ class AppCustomerController extends Controller
 
                     $ser['iditem']=$store->id;
                     $ser['title']=$store->store_name;
-                    $ser['icon']='personals/09156833780/photo-1584535352.jpg';
+                    $ser['icon']=$store->store_icon;
         
         
                     //$array[$keyn]=$store['store_name'];
