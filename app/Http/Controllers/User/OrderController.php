@@ -364,14 +364,11 @@ class OrderController extends Controller
     {
 
 
-        if (Cache::has('order')) {
+       
 
-            $order = Cache::get('order');
-        } else {
-            $order = Cache::remember('order', 60, function () use ($request) {
-                return  Order::where('id', $request->order_id)->first();
-            });
-        }
+      
+          $order =  Order::where('id', $request->order_id)->first();
+ 
 
 
         $list = '

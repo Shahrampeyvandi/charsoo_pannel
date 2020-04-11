@@ -368,6 +368,7 @@ class MainController extends Controller
   public function getUserData(Request $request)
   {
     
+    
     if (request()->method() == "POST") {
       $user = User::where('id', $request->user_id)->first();
 
@@ -387,7 +388,7 @@ class MainController extends Controller
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <form id="edit--form" method="post" action="' . route('User.Edit.Submit') . '" enctype="multipart/form-data">
+      <form id="edit-user-form" method="post" action="' . route('User.Edit.Submit') . '" enctype="multipart/form-data">
       
       <input type="hidden" name="_token" value="' . $csrf . '">
      
@@ -462,12 +463,13 @@ class MainController extends Controller
          
           <p>انتخاب نقش: </p>
           <div class="row">';
+          $user_role = $user->roles->first();
     foreach (Role::all() as $key => $role) {
       $list .= '<div class="mx-2">
             <input type="radio" 
             
             id="customRadioInline4" name="user_responsibility" class=""
-              value="' . $role->name . '">
+              value="' . $role->name . '" '.($user_role->name == $role->name ? 'checked' : '' ).'> 
             <label class="" for="customRadioInline4">' . $role->name . '</label>
           </div>';
     }

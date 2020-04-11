@@ -43,6 +43,7 @@ Route::get('customer/categories','Api\CustomerController@getCategories');
 Route::post('customer/saveaddress','Api\CustomerController@submitAddress');
 Route::get('customer/services','Api\CustomerController@getServices');
 
+Route::post('getService','Api\ServiceController@getService');
 
 Route::get('customer/gethomep','Api\AppCustomerController@index');
 
