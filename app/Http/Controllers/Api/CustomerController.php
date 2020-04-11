@@ -8,11 +8,13 @@ use App\Models\Acounting\UserAcounts;
 use App\Models\Services\ServiceCategory;
 use App\Models\Services\Service;
 use App\Models\User;
+use App\Models\Acounting\Transations;
 use App\Models\City\City;
 use Illuminate\Http\Request;
 use App\Models\Cunsomers\Cunsomer;
 use App\Models\Personals\Personal;
 use Illuminate\Support\Facades\DB;
+use App\Models\Store\Store;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use Illuminate\Support\Facades\File;
 
@@ -279,8 +281,24 @@ class CustomerController extends Controller
             $mobile = $payload->get('mobile');
             $customer = Cunsomer::where('customer_mobile', $mobile)->first();
             $id=$request->id;
-            $category = ServiceCategory::where('category_parent', $id)->get();
+            $pos='0';
+            $category = ServiceCategory::where('category_parent', $id)->count();
+            // if($category){
+            //     $category = ServiceCategory::where('category_parent', $id)->get();
+            // }else{
+                $category1 = ServiceCategory::where('id', $id)->first();
+                $category2 = ServiceCategory::where('id', $category1->category_parent)->first();
+                if($category2){
+                    $category = ServiceCategory::where('category_parent', $category2->id)->get();
+                }else{
+                    $category = ServiceCategory::where('category_parent', $category1->category_parent)->get();
+                }
+        
             
+        
+        
+                
+           // }
             foreach($category as $key=>$categ){
 
                 $cat['iditem']=$categ->id;
@@ -290,9 +308,19 @@ class CustomerController extends Controller
 
 
             $catego = ServiceCategory::where('category_parent', $categ->id)->get();
+            $services = Service::where('service_category_id', $categ->id)->get();
+            $stores = Store::where('store_type', $categ->id)->get();
 
+
+            if($categ->id==$id){
+                $pos=(string)$key;
+            }
 
             $chilist=[];
+
+            $catchitems=[];
+            $servchitems=[];
+            $srorchitems=[];
 
 
             foreach($catego as $kes=>$categor){
@@ -301,51 +329,72 @@ class CustomerController extends Controller
                 $chil['title']=$categor->category_title;
             //$cat['icon']=$categor->category_icon;
             $chil['icon']='personals/09156833780/photo-1584535352.jpg';
+            $chil['type']='2';
 
-
-            $categoryzirdaste = ServiceCategory::where('category_parent', $categor->id)->first();
+        
          
 
-            //$chil['rtue']=$categoryzirdaste;
 
-            if($categoryzirdaste){
+            $catchitems[$kes]=$chil;
+            }
+            foreach($services as $kes=>$service){
 
-                $categoryzirdastes = ServiceCategory::where('category_parent', $categoryzirdaste->id)->first();
+                $chil['iditem']=$service->id;
+                $chil['title']=$service->service_title;
+            $chil['icon']=$service->service_icon;
+            //$chil['icon']='personals/09156833780/photo-1584535352.jpg';
 
-                if($categoryzirdastes){
-                    $chil['type']='2';
-                }else{
-                    $chil['type']='3';
-                }
-
-
+            $chil['type']='4';
+         
 
 
-            }else{
-                $chil['type']='3';
+            $servchitems[$kes]=$chil;
+            }
+            foreach($stores as $kes=>$store){
+
+                $chil['iditem']=$store->id;
+                $chil['title']=$store->store_name;
+            $chil['icon']=$store->store_icon;
+            //$chil['icon']='personals/09156833780/photo-1584535352.jpg';
+
+            $chil['type']='5';
+         
+
+
+            $srorchitems[$kes]=$chil;
             }
 
-
-            $chilist[$kes]=$chil;
-        
-
-
-            }
-
-            
-
-            $cat['items']=$chilist;
-
-
-
+            $cat['items']=array_merge($catchitems,$servchitems,$srorchitems);
             $cate[$key]=$cat;
         }
+   
 
         return response()->json([
             'data' => $cate,
+            'error'=>[
+                'message'=>$pos,
+            ],
+
         ],200);
 
      
+        
+        // if($categoryzirdaste){
+
+        //     $categoryzirdastes = ServiceCategory::where('category_parent', $categoryzirdaste->id)->first();
+
+        //     if($categoryzirdastes){
+        //         $chil['type']='2';
+        //     }else{
+        //         $chil['type']='3';
+        //     }
+
+
+
+
+        // }else{
+        //     $chil['type']='3';
+        // }
         }
 
 
@@ -369,6 +418,8 @@ class CustomerController extends Controller
 
                     $services = Service::where('service_category_id', $categorymainchild->id)->get();
 
+                    
+
                     $items=[];
                     foreach($services as $keyss=>$service){
 
@@ -382,7 +433,23 @@ class CustomerController extends Controller
                         $items[$keyss]=$serv;
                     }
 
+                    $stores = Store::where('store_type', $categorymainchild->id)->get();
 
+                    foreach($stores as $keyss=>$store){
+    
+                        $serv['iditem']=$store->id;
+                        $serv['title']=$store->store_name;
+                        $serv['icon']=$store->store_icon;
+                        $serv['type']=5;
+    
+    
+                        $items[$keyss]=$serv;
+    
+                }
+
+
+    
+            
                     $catres['items']=$items;
                     $result[$keys]=$catres;
 
@@ -432,6 +499,20 @@ class CustomerController extends Controller
 
                 }
 
+                $stores = Store::where('store_type', $categorychild->id)->get();
+
+                foreach($stores as $keyss=>$store){
+
+                    $serv['iditem']=$store->id;
+                    $serv['title']=$store->store_name;
+                    $serv['icon']=$store->store_icon;
+                    $serv['type']=5;
+
+
+                    $servres[$keyss]=$serv;
+
+            }
+
                 $catres['items']=$servres;
                 $result[$kef]=$catres;
 
@@ -475,6 +556,21 @@ class CustomerController extends Controller
 
         }
 
+        $stores = Store::where('store_type', $categoryselected->id)->get();
+
+        foreach($stores as $keyss=>$store){
+
+            $serv['iditem']=$store->id;
+            $serv['title']=$store->store_name;
+            $serv['icon']=$store->store_icon;
+            $serv['type']=5;
+
+
+            $servres[$keyss]=$serv;
+
+    }
+
+
         $catres['items']=$servres;
         $servres=[];
         $result[0]=$catres;
@@ -488,6 +584,46 @@ class CustomerController extends Controller
        
 }
     
+
+public function getCategoryArrange(Request $request)
+{
+    $payload = JWTAuth::parseToken($request->header('Authorization'))->getPayload();
+    $mobile = $payload->get('mobile');
+    $customer = Cunsomer::where('customer_mobile', $mobile)->first();
+    $id=$request->id;
+    $category = ServiceCategory::where('id', $id)->first();
+
+    $idcatparnt=$category->category_parent;
+    $result=[];
+
+
+    for($i=0; $idcatparnt ; $i++){
+
+        $categoryparent=ServiceCategory::where('id', $idcatparnt)->first();
+        if($categoryparent){
+        $cat['iditem']=$categoryparent->id;
+        $cat['title']=$categoryparent->category_title;
+        //$cat['icon']=$categoryparent->category_icon;
+    $cat['icon']='personals/09156833780/photo-1584535352.jpg';
+
+    $idcatparnt=$categoryparent->category_parent;
+
+
+    $result[$i]=$cat;
+        }else{
+        break;
+        }
+}    
+unset($result[$i-1]);
+
+return response()->json([
+    'data' => $result
+    ,
+],200);
+
+
+
+}
            
     
     public function getCustomerAddresses(Request $request)
@@ -554,6 +690,22 @@ if(is_array($customer_broker) && count($customer_broker) !== 0){
     return response()->json(
         ['data' => 'ادرس با موفقیت ثبت شد']
         , 200);
+
+    }
+
+    public function getTransactions(Request $request)
+    {
+        $payload = JWTAuth::parseToken($request->header('Authorization'))->getPayload();
+        $mobile = $payload->get('mobile');
+        $customer = Cunsomer::where('customer_mobile', $mobile)->first();
+       
+        $useracounts=$customer->useracounts[0];
+        $transactions=Transations::where('user_acounts_id',$useracounts->id)->orderBy('id','desc')->get();
+
+
+    return response()->json([
+      'data'=>$transactions
+    ], 200);
 
     }
 }

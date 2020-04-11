@@ -42,11 +42,13 @@ Route::get('customer/addresses','Api\CustomerController@getCustomerAddresses');
 Route::get('customer/categories','Api\CustomerController@getCategories');
 Route::post('customer/saveaddress','Api\CustomerController@submitAddress');
 Route::get('customer/services','Api\CustomerController@getServices');
+Route::get('customer/categoryarrange','Api\CustomerController@getCategoryArrange');
+Route::get('customer/transactions','Api\CustomerController@getTransactions');
 
 Route::post('getService','Api\ServiceController@getService');
 
 Route::get('customer/gethomep','Api\AppCustomerController@index');
 
-Route::post('getstore','Api\StoreController@getStore');
+Route::get('customer/getstore','Api\StoreController@getStore');
 
 
