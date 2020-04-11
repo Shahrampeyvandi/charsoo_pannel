@@ -45,7 +45,7 @@ Route::get('customer/services','Api\CustomerController@getServices');
 Route::get('customer/categoryarrange','Api\CustomerController@getCategoryArrange');
 Route::get('customer/transactions','Api\CustomerController@getTransactions');
 
-Route::post('getService','Api\ServiceController@getService');
+Route::get('customer/getService','Api\ServiceController@getService');
 
 Route::get('customer/gethomep','Api\AppCustomerController@index');
 
