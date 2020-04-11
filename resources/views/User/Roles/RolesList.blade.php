@@ -565,6 +565,31 @@
 
                             </div>
                             <hr>
+                            <p>مدیریت اپلیکیشن</p>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group wd-xs-300">
+                                        <div class="custom-control custom-checkbox custom-control-inline"
+                                            style="margin-left: -1rem;">
+                                            <input type="checkbox" id="appmanage" name="appmanage"
+                                                class="custom-control-input" value="1">
+                                            <label class="custom-control-label" for="appmanage">منوی مدیریت اپلیکیشن</label>
+                                        </div>
+
+                                    </div>
+                                    <div class="form-group wd-xs-300">
+                                        <div class="custom-control custom-checkbox custom-control-inline"
+                                            style="margin-left: -1rem;">
+                                            <input type="checkbox" id="appmenu" name="appmenu"
+                                                class="custom-control-input" value="1">
+                                            <label class="custom-control-label" for="appmenu">منوی مدیریت منوی اپلیکیشن</label>
+                                        </div>
+
+                                    </div>
+                                  
+                                </div>
+                            </div>
+                            <hr>
                             <p>تنظیمات</p>
                             <div class="row">
                                 <div class="col-md-12">
@@ -580,7 +605,6 @@
                                   
                                 </div>
                             </div>
-
 
                         </section>
 
@@ -835,6 +859,12 @@
                                 @break
                                 @case('stores_edit')
                                 <span> ویرایش فروشگاه</span>
+                                @break
+                                @case('appmanage')
+                                <span> مدیریت اپلیکیشن</span>
+                                @break
+                                @case('appmenu')
+                                <span> مدیریت منوی اپلیکیشن</span>
                                 @break
                                 @default
                                 @endswitch

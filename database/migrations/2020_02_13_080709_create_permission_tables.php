@@ -149,7 +149,9 @@ class CreatePermissionTables extends Migration
                 'name' => 'user_transactions'],[
                 'name' => 'checkout_personals'],[
                 'name' => 'setting'],[
-                'name' => 'accounting']
+                'name' => 'accounting'],[
+                'name' => 'appmanage'],[
+                 'name' => 'appmenu']
         ]);
         $all_permissions = [
             'user_transaction',
@@ -196,7 +198,9 @@ class CreatePermissionTables extends Migration
             'user_transactions',
             'checkout_personals',
             'setting',
-            'accounting'
+            'accounting',
+            'appmanage',
+            'appmenu'
         ];
         $role->givePermissionTo($all_permissions);
         $user->assignRole('admin_panel');
