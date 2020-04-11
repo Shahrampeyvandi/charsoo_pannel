@@ -139,7 +139,7 @@
 <div class="modal fade bd-example-modal-lg-edit" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
   aria-hidden="true">
   <div class="modal-dialog modal-lg">
-    <div class="modal-content edit__modal">
+    <div class="modal-content edit-modal-user">
 
     </div>
   </div>
@@ -448,7 +448,112 @@ $("#user_profile").on("change", function () {
       // edit 
 
 
+      $('.bd-example-modal-lg-edit').on('shown.bs.modal', function (event) {
+   user_id =  $('.tbody input[type="checkbox"]:checked').attr('data-id')
+    $.ajax({
+    type:'post',
+    url:'{{route("User.Edit.getData")}}',
+    cache: false,
+    async: true,
+    data:{user_id:user_id},
+    success:function(data){
+       $('.edit-modal-user').html(data)
+    
+        editform= $('#edit-user-form')
+        var form = $("#example-advanced-form1").show();
+        form.validate({
+        rules: {
+          user_name: {
+            required: true,
+            // digits: true,
+            // minlength: 5,
+            maxlength: 20
+          },
+          user_family:{
+            required:true,
+            maxlength: 20
+          },
+          user_pass:{
+            required:true,
+            regex: "^[^;,&]*$"
+          },
+        confirm_user_pass:{
+                    required:true,
+                    equalTo : "#user_pass"
+                  },
+        username:{
+                    required:true
+                  },
+        user_mobile:{
+                    required:true,
+                    digits: true,
+                    minlength: 11,
+                    maxlength:11
+          },
+          user_email:{
+            email: true
 
+          }
+        },
+        messages: {
+          user_name: {
+            //minlength: jQuery.format("Zip must be {0} digits in length"),
+            maxlength:'نام حداکثر 20 کاراکتر میتواند داشته باشد',
+            required: "لطفا نام را وارد نمایید"
+          },
+          user_family: {
+            //minlength: jQuery.format("Zip must be {0} digits in length"),
+            //maxlength: jQuery.format("Please use a {0} digit zip code"),
+            required: "لطفا نام خانوادگی را وارد نمایید",
+            maxlength:'نام خانوادگی حداکثر 20 کاراکتر میتواند داشته باشد',
+
+          },
+          user_pass: {
+            //minlength: jQuery.format("Zip must be {0} digits in length"),
+            //maxlength: jQuery.format("Please use a {0} digit zip code"),
+            required: "لطفا پسورد را وارد نمایید",
+            regex: 'dssdsds'
+          },
+          username: {
+            //minlength: jQuery.format("Zip must be {0} digits in length"),
+            //maxlength: jQuery.format("Please use a {0} digit zip code"),
+            required: "لطفا نام کاربری را وارد نمایید"
+          },
+          confirm_user_pass: {
+            //minlength: jQuery.format("Zip must be {0} digits in length"),
+            //maxlength: jQuery.format("Please use a {0} digit zip code"),
+            required: "رمز عبور را تکرار کنید",
+            equalTo : "تکرار رمز عبور صحیح نمیباشد"
+          },
+          user_email:{
+            email: 'فرمت ایمیل را به صورت صحیح وارد نمایید'
+
+          },
+          user_mobile: {
+            //minlength: jQuery.format("Zip must be {0} digits in length"),
+            //maxlength: jQuery.format("Please use a {0} digit zip code"),
+            required: "لطفا شماره موبایل را وارد نمایید",
+            digits: 'شماره موبایل بایستی به صورت عددی وارد شود',
+            minlength: 'شماره موبایل بایستی 11 رقم باشد',
+            maxlength: 'شماره موبایل بایستی 11 رقم باشد',
+     
+
+          },
+        }
+      });
+  
+ //Datemask dd/mm/yyyy
+ $('#datemask').inputmask('dd/mm/yyyy', { 'placeholder': 'dd/mm/yyyy' })
+    //Datemask2 mm/dd/yyyy
+    $('#datemask2').inputmask('mm/dd/yyyy', { 'placeholder': 'mm/dd/yyyy' })
+    //Money Euro
+    $('[data-mask]').inputmask()
+
+         }
+    
+      });
+    
+    }); 
         
         $('.btn--filter').click(function(){
           $('.filtering').toggle(200)
