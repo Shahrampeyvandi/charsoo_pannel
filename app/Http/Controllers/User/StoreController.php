@@ -19,50 +19,50 @@ class StoreController extends Controller
 {
   public function index()
   {
-    $category_parent_list = ServiceCategory::where('category_parent',0)->get();
-    $count = ServiceCategory::where('category_parent',0)->count();
-     $list ='<option data-parent="0" value="0" >بدون دسته بندی</option>';
+    $category_parent_list = ServiceCategory::where('category_parent', 0)->get();
+    $count = ServiceCategory::where('category_parent', 0)->count();
+    $list = '<option data-parent="0" value="0" >بدون دسته بندی</option>';
     foreach ($category_parent_list as $key => $item) {
-        
-        $list .= '<option data-id="'.$item->id.'" value="'.$item->id.'" class="level-1">'.$item->category_title.' 
-         '.(count(ServiceCategory::where('category_parent',$item->id)->get()) ? '&#xf104;  ' : '' ).'
+
+      $list .= '<option data-id="' . $item->id . '" value="' . $item->id . '" class="level-1">' . $item->category_title . ' 
+         ' . (count(ServiceCategory::where('category_parent', $item->id)->get()) ? '&#xf104;  ' : '') . '
         </option>';
-      if (ServiceCategory::where('category_parent',$item->id)->count()) {
-          $count += ServiceCategory::where('category_parent',$item->id)->count();
-         foreach (ServiceCategory::where('category_parent',$item->id)->get() as $key1 => $itemlevel1) {
-             $list .= '<option data-parent="'.$item->id.'" value="'.$itemlevel1->id.'" class="level-2">'.$itemlevel1->category_title.'
-             '.(count(ServiceCategory::where('category_parent',$itemlevel1->id)->get()) ? '&#xf104;  ' : '' ).'
+      if (ServiceCategory::where('category_parent', $item->id)->count()) {
+        $count += ServiceCategory::where('category_parent', $item->id)->count();
+        foreach (ServiceCategory::where('category_parent', $item->id)->get() as $key1 => $itemlevel1) {
+          $list .= '<option data-parent="' . $item->id . '" value="' . $itemlevel1->id . '" class="level-2">' . $itemlevel1->category_title . '
+             ' . (count(ServiceCategory::where('category_parent', $itemlevel1->id)->get()) ? '&#xf104;  ' : '') . '
              </option>';
-             
-             
-          if (ServiceCategory::where('category_parent',$itemlevel1->id)->count()) {
-             $count += ServiceCategory::where('category_parent',$itemlevel1->id)->count();
-             foreach (ServiceCategory::where('category_parent',$itemlevel1->id)->get() as $key2 => $itemlevel2) {
-                 $list .= '<option data-parent="'.$itemlevel1->id.'" value="'.$itemlevel2->id.'" class="level-3">'.$itemlevel2->category_title.'
-                 '.(count(ServiceCategory::where('category_parent',$itemlevel2->id)->get()) ? '&#xf104;  ' : '' ).'
+
+
+          if (ServiceCategory::where('category_parent', $itemlevel1->id)->count()) {
+            $count += ServiceCategory::where('category_parent', $itemlevel1->id)->count();
+            foreach (ServiceCategory::where('category_parent', $itemlevel1->id)->get() as $key2 => $itemlevel2) {
+              $list .= '<option data-parent="' . $itemlevel1->id . '" value="' . $itemlevel2->id . '" class="level-3">' . $itemlevel2->category_title . '
+                 ' . (count(ServiceCategory::where('category_parent', $itemlevel2->id)->get()) ? '&#xf104;  ' : '') . '
                  </option>';
-                
-                
-                if (ServiceCategory::where('category_parent',$itemlevel2->id)->count()) {
-                 $count += ServiceCategory::where('category_parent',$itemlevel2->id)->count();
-                 foreach (ServiceCategory::where('category_parent',$itemlevel2->id)->get() as $key3 => $itemlevel3) {
-                     $list .= '<option data-parent="'.$itemlevel2->id.'" value="'.$itemlevel3->id.'" class="level-4">'.$itemlevel3->category_title.'
-                     '.(count(ServiceCategory::where('category_parent',$itemlevel3->id)->get()) ? '&#xf104;  ' : '' ).'
+
+
+              if (ServiceCategory::where('category_parent', $itemlevel2->id)->count()) {
+                $count += ServiceCategory::where('category_parent', $itemlevel2->id)->count();
+                foreach (ServiceCategory::where('category_parent', $itemlevel2->id)->get() as $key3 => $itemlevel3) {
+                  $list .= '<option data-parent="' . $itemlevel2->id . '" value="' . $itemlevel3->id . '" class="level-4">' . $itemlevel3->category_title . '
+                     ' . (count(ServiceCategory::where('category_parent', $itemlevel3->id)->get()) ? '&#xf104;  ' : '') . '
                      </option>';
-                 
-                     if (ServiceCategory::where('category_parent',$itemlevel3->id)->count()) {
-                         $count += ServiceCategory::where('category_parent',$itemlevel3->id)->count();
-                         foreach (ServiceCategory::where('category_parent',$itemlevel3->id)->get() as $key4 => $itemlevel4) {
-                             $list .= '<option data-parent="'.$itemlevel3->id.'" value="'.$itemlevel4->id.'" class="level-4">'.$itemlevel4->category_title.'
+
+                  if (ServiceCategory::where('category_parent', $itemlevel3->id)->count()) {
+                    $count += ServiceCategory::where('category_parent', $itemlevel3->id)->count();
+                    foreach (ServiceCategory::where('category_parent', $itemlevel3->id)->get() as $key4 => $itemlevel4) {
+                      $list .= '<option data-parent="' . $itemlevel3->id . '" value="' . $itemlevel4->id . '" class="level-4">' . $itemlevel4->category_title . '
                              
                              </option>';
-                         }
-                     } 
+                    }
                   }
                 }
-             }
-           }
-         }
+              }
+            }
+          }
+        }
       }
     }
 
@@ -72,31 +72,31 @@ class StoreController extends Controller
         $stores = Cache::get('stores');
       } else {
         $stores = Cache::remember('stores', 60, function () {
-          return Store::where('store_status',1)->latest()->get();
+          return Store::where('store_status', 1)->latest()->get();
         });
       }
     } else {
       if (auth()->user()->roles->first()->broker == 1) {
         $role_name = auth()->user()->roles->first()->name;
-        $stores = Store::where('store_status',1)->where('store_role', $role_name)->latest()->get();
+        $stores = Store::where('store_status', 1)->where('store_role', $role_name)->latest()->get();
       }
 
       if (auth()->user()->roles->first()->sub_broker !== null) {
         $role_name = Role::where('id', auth()->user()->roles->first()->sub_broker)->first()->name;
-        $stores = Store::where('store_status',1)->where('store_role', $role_name)->latest()->get();
+        $stores = Store::where('store_status', 1)->where('store_role', $role_name)->latest()->get();
       }
     }
 
-    return view('User.Stores.StoresList', compact(['stores','list','count']));
+    return view('User.Stores.StoresList', compact(['stores', 'list', 'count']));
   }
 
   public function submitStore(Request $request)
   {
-      
-   
+
+
 
     if ($request->has('owner_profile')) {
-      $file = 'photo-' .time() .'.' . $request->owner_profile->getClientOriginalExtension();
+      $file = 'photo-' . time() . '.' . $request->owner_profile->getClientOriginalExtension();
       $request->owner_profile->move(public_path('uploads/personals/' . $request->mobile), $file);
       $owner_profile = 'personals/' . $request->mobile . '/' . $file;
     } else {
@@ -104,7 +104,7 @@ class StoreController extends Controller
     }
 
     if ($request->has('store_picture')) {
-      $file = 'photo-' .time() .'.' . $request->store_picture->getClientOriginalExtension();
+      $file = 'photo-' . time() . '.' . $request->store_picture->getClientOriginalExtension();
       $request->store_picture->move(public_path('uploads/stores/' . $request->store_name), $file);
       $store_picture = 'stores/' . $request->store_name . '/' . $file;
     } else {
@@ -112,9 +112,9 @@ class StoreController extends Controller
     }
 
     if ($request->has('store_icon')) {
-      $file = 'icon-' .time() .'.' . $request->store_icon->getClientOriginalExtension();
+      $file = 'icon-' . time() . '.' . $request->store_icon->getClientOriginalExtension();
       $request->store_icon->move(public_path('uploads/stores/' . $request->store_name), $file);
-      $store_icon ='stores/' . $request->store_name . '/' . $file;
+      $store_icon = 'stores/' . $request->store_name . '/' . $file;
     } else {
       $store_icon = '';
     }
@@ -147,22 +147,21 @@ class StoreController extends Controller
       'store_picture' => $store_picture,
       'packing_price' => 50000,
       'sending_price' => 100000,
-      'store_icon' =>$store_icon,
+      'store_icon' => $store_icon,
       'owner_id' => $personal->id
     ]);
 
     $store->neighborhoods()->attach($request->neighborhood_id);
 
     if (strlen(implode($request->product_name)) == 0) {
-     
     } else {
       $count = 0;
       foreach ($request->product_name as $key => $item) {
         if (!is_null($item)) {
           if (array_key_exists($key, $request->product_picture)) {
-            $file = 'photo' .time(). '.'. $request->product_picture[$key]->getClientOriginalExtension();
-            $request->product_picture[$key]->move(public_path('uploads/stores/'.$store->store_name.'/products'), $file);
-            $product_picture =  'stores/'.$store->store_name.'/products/' . $file;
+            $file = 'photo' . time() . '.' . $request->product_picture[$key]->getClientOriginalExtension();
+            $request->product_picture[$key]->move(public_path('uploads/stores/' . $store->store_name . '/products'), $file);
+            $product_picture =  'stores/' . $store->store_name . '/products/' . $file;
           } else {
             $product_picture = '';
           }
@@ -181,15 +180,14 @@ class StoreController extends Controller
 
     // sundary products
     if (strlen(implode($request->sundry_product_name)) == 0) {
-     
     } else {
-   
+
       foreach ($request->sundry_product_name as $key => $sproduct) {
         if (!is_null($sproduct)) {
           if (array_key_exists($key, $request->sundry_product_picture)) {
-            $file = 'photo' .time(). '.' . $request->sundry_product_picture[$key]->getClientOriginalExtension();
-            $request->sundry_product_picture[$key]->move(public_path('uploads/stores/'.$store->store_name.'/products'), $file);
-            $sundry_product_picture = 'stores/'.$store->store_name.'/products/' . $file;
+            $file = 'photo' . time() . '.' . $request->sundry_product_picture[$key]->getClientOriginalExtension();
+            $request->sundry_product_picture[$key]->move(public_path('uploads/stores/' . $store->store_name . '/products'), $file);
+            $sundry_product_picture = 'stores/' . $store->store_name . '/products/' . $file;
           } else {
             $sundry_product_picture = '';
           }
@@ -206,10 +204,10 @@ class StoreController extends Controller
     }
 
 
-if($count == 0){
-  alert()->success('فروشگاه ثبت شد اما محصولی وارد نشده است', 'موفق')->persistent('بستن');
-  return back();
-}
+    if ($count == 0) {
+      alert()->success('فروشگاه ثبت شد اما محصولی وارد نشده است', 'موفق')->persistent('بستن');
+      return back();
+    }
 
 
     alert()->success('فروشگاه با موفقیت افزوده شد و ' . $count . ' محصول هم ثبت شد ', 'عملیات موفق')->persistent('بستن');
@@ -370,52 +368,52 @@ if($count == 0){
             <label for="store_type" class="col-form-label">حوزه فعالیت</label>
             <select  size="5"
                class="form-control" name="store_type" id="store_type">';
-               $category_parent_list = ServiceCategory::where('category_parent',0)->get();
-               $count = ServiceCategory::where('category_parent',0)->count();
-                $list .='<option data-parent="0" value="0" >بدون دسته بندی</option>';
-               foreach ($category_parent_list as $key => $item) {
-                   $list .= '<option data-id="'.$item->id.'" value="'.$item->id.'" class="level-1">'.$item->category_title.' 
-                    '.(count(ServiceCategory::where('category_parent',$item->id)->get()) ? '&#xf104;  ' : '' ).'
+    $category_parent_list = ServiceCategory::where('category_parent', 0)->get();
+    $count = ServiceCategory::where('category_parent', 0)->count();
+    $list .= '<option data-parent="0" value="0" >بدون دسته بندی</option>';
+    foreach ($category_parent_list as $key => $item) {
+      $list .= '<option data-id="' . $item->id . '" value="' . $item->id . '" class="level-1">' . $item->category_title . ' 
+                    ' . (count(ServiceCategory::where('category_parent', $item->id)->get()) ? '&#xf104;  ' : '') . '
                    </option>';
-                 if (ServiceCategory::where('category_parent',$item->id)->count()) {
-                     $count += ServiceCategory::where('category_parent',$item->id)->count();
-                    foreach (ServiceCategory::where('category_parent',$item->id)->get() as $key1 => $itemlevel1) {
-                        $list .= '<option data-parent="'.$item->id.'" value="'.$itemlevel1->id.'" class="level-2">'.$itemlevel1->category_title.'
-                        '.(count(ServiceCategory::where('category_parent',$itemlevel1->id)->get()) ? '&#xf104;  ' : '' ).'
+      if (ServiceCategory::where('category_parent', $item->id)->count()) {
+        $count += ServiceCategory::where('category_parent', $item->id)->count();
+        foreach (ServiceCategory::where('category_parent', $item->id)->get() as $key1 => $itemlevel1) {
+          $list .= '<option data-parent="' . $item->id . '" value="' . $itemlevel1->id . '" class="level-2">' . $itemlevel1->category_title . '
+                        ' . (count(ServiceCategory::where('category_parent', $itemlevel1->id)->get()) ? '&#xf104;  ' : '') . '
                         </option>';
-                        
-                        
-                     if (ServiceCategory::where('category_parent',$itemlevel1->id)->count()) {
-                        $count += ServiceCategory::where('category_parent',$itemlevel1->id)->count();
-                        foreach (ServiceCategory::where('category_parent',$itemlevel1->id)->get() as $key2 => $itemlevel2) {
-                            $list .= '<option data-parent="'.$itemlevel1->id.'" value="'.$itemlevel2->id.'" class="level-3">'.$itemlevel2->category_title.'
-                            '.(count(ServiceCategory::where('category_parent',$itemlevel2->id)->get()) ? '&#xf104;  ' : '' ).'
+
+
+          if (ServiceCategory::where('category_parent', $itemlevel1->id)->count()) {
+            $count += ServiceCategory::where('category_parent', $itemlevel1->id)->count();
+            foreach (ServiceCategory::where('category_parent', $itemlevel1->id)->get() as $key2 => $itemlevel2) {
+              $list .= '<option data-parent="' . $itemlevel1->id . '" value="' . $itemlevel2->id . '" class="level-3">' . $itemlevel2->category_title . '
+                            ' . (count(ServiceCategory::where('category_parent', $itemlevel2->id)->get()) ? '&#xf104;  ' : '') . '
                             </option>';
-                           
-                           
-                           if (ServiceCategory::where('category_parent',$itemlevel2->id)->count()) {
-                            $count += ServiceCategory::where('category_parent',$itemlevel2->id)->count();
-                            foreach (ServiceCategory::where('category_parent',$itemlevel2->id)->get() as $key3 => $itemlevel3) {
-                                $list .= '<option data-parent="'.$itemlevel2->id.'" value="'.$itemlevel3->id.'" class="level-4">'.$itemlevel3->category_title.'
-                                '.(count(ServiceCategory::where('category_parent',$itemlevel3->id)->get()) ? '&#xf104;  ' : '' ).'
+
+
+              if (ServiceCategory::where('category_parent', $itemlevel2->id)->count()) {
+                $count += ServiceCategory::where('category_parent', $itemlevel2->id)->count();
+                foreach (ServiceCategory::where('category_parent', $itemlevel2->id)->get() as $key3 => $itemlevel3) {
+                  $list .= '<option data-parent="' . $itemlevel2->id . '" value="' . $itemlevel3->id . '" class="level-4">' . $itemlevel3->category_title . '
+                                ' . (count(ServiceCategory::where('category_parent', $itemlevel3->id)->get()) ? '&#xf104;  ' : '') . '
                                 </option>';
-                            
-                                if (ServiceCategory::where('category_parent',$itemlevel3->id)->count()) {
-                                    $count += ServiceCategory::where('category_parent',$itemlevel3->id)->count();
-                                    foreach (ServiceCategory::where('category_parent',$itemlevel3->id)->get() as $key4 => $itemlevel4) {
-                                        $list .= '<option data-parent="'.$itemlevel3->id.'" value="'.$itemlevel4->id.'" class="level-4">'.$itemlevel4->category_title.'
+
+                  if (ServiceCategory::where('category_parent', $itemlevel3->id)->count()) {
+                    $count += ServiceCategory::where('category_parent', $itemlevel3->id)->count();
+                    foreach (ServiceCategory::where('category_parent', $itemlevel3->id)->get() as $key4 => $itemlevel4) {
+                      $list .= '<option data-parent="' . $itemlevel3->id . '" value="' . $itemlevel4->id . '" class="level-4">' . $itemlevel4->category_title . '
                                         
                                         </option>';
-                                    }
-                                } 
-                             }
-                           }
-                        }
-                      }
                     }
-                 }
-               }
-          $list .='  </select>
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+    $list .= '  </select>
   
         </div><!-- form-group -->
 
@@ -498,11 +496,11 @@ if($count == 0){
                 <label for="recipient-name" class="col-form-label">نام شهر: </label>
                 <select name="store_city" class="form-control" data-id=' . $store->id . ' id="store_city_edit">
                     <option value="">باز کردن فهرست انتخاب</option>';
-                    $city = $store->store_city;
-                    foreach (\App\Models\City\City::all() as $key => $item) {
-                      $list .= '<option   value="' . $item->id . '">' . $item->city_name . '</option>';
-                    }
-               $list .= '</select>
+    $city = $store->store_city;
+    foreach (\App\Models\City\City::all() as $key => $item) {
+      $list .= '<option   value="' . $item->id . '">' . $item->city_name . '</option>';
+    }
+    $list .= '</select>
             </div>
         </div>
         <div class="row">
@@ -657,103 +655,102 @@ if($count == 0){
   public function getCityRegions(Request $request)
   {
     // $regions =  City::where('name', $request->city_name)->first()->regions;
-     $city_id= $request->city_name; 
-     $city_name = City::where('id',$city_id)->first()->city_name;
-     $list = '';
+    $city_id = $request->city_name;
+    $city_name = City::where('id', $city_id)->first()->city_name;
+    $list = '';
     if ($city_name == 'مشهد') {
-      $regions = [1,2,3,4,5,6,7,8,9,10,11,12];
-        foreach ($regions as $key => $region) {
-          if(count(Neighborhood::where('city_id',$request->city_name)->where('region_id',$region)->get())){
-            $list .= '<div style="padding: 10px;
+      $regions = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+      foreach ($regions as $key => $region) {
+        if (count(Neighborhood::where('city_id', $request->city_name)->where('region_id', $region)->get())) {
+          $list .= '<div style="padding: 10px;
             background: #efefef;margin-bottom:4px;
-            border-radius: 4px;"><h6 class="mb-3">ناحیه '.$region.' </h6><div class="row">';
-          foreach (Neighborhood::where('city_id',$request->city_name)->where('region_id',$region)->get() as $key => $neighborhood) {
+            border-radius: 4px;"><h6 class="mb-3">ناحیه ' . $region . ' </h6><div class="row">';
+          foreach (Neighborhood::where('city_id', $request->city_name)->where('region_id', $region)->get() as $key => $neighborhood) {
             $list .= '<div class="col-md-3">
             <div class="" style="margin-left: -1rem;">
             <input data-id="1" type="checkbox" id=""
-            name="neighborhood_id[]" class="" value="'.$neighborhood->id.'">
-              <label class="mx-2" for="">'.$neighborhood->name.'</label>
+            name="neighborhood_id[]" class="" value="' . $neighborhood->id . '">
+              <label class="mx-2" for="">' . $neighborhood->name . '</label>
              </div>
             </div>';
           }
         }
-        }
-   
+      }
+
       $list .= '</div></div>';
-    }else{
-      $list .='<div style="padding: 10px;
+    } else {
+      $list .= '<div style="padding: 10px;
       background: #efefef;margin-bottom:4px;
       border-radius: 4px;"><div class="row">';
-      foreach (Neighborhood::where('city_id',$request->city_name)->get() as $key => $neighborhood) {
+      foreach (Neighborhood::where('city_id', $request->city_name)->get() as $key => $neighborhood) {
         $list .= '<div class="col-md-3">
         <div class="" style="margin-left: -1rem;">
         <input data-id="1" type="checkbox" id=""
-        name="neighborhood_id[]" class="" value="'.$neighborhood->id.'">
-          <label class="mx-2" for="">'.$neighborhood->name.'</label>
+        name="neighborhood_id[]" class="" value="' . $neighborhood->id . '">
+          <label class="mx-2" for="">' . $neighborhood->name . '</label>
          </div>
         </div>';
       }
-        
+
       $list .= '</div></div>';
     }
 
-   
+
     return $list;
   }
 
   public function getEditCityRegions(Request $request)
   {
-   
-     $store = Store::where('id', $request->store_id)->first();
-     $store_neighborhoods = $store->neighborhoods->pluck('id')->toArray();
-     $city_id= $request->city_name; 
-     $city_name = City::where('id',$city_id)->first()->city_name;
-    if ($city_name == 'مشهد') { 
+
+    $store = Store::where('id', $request->store_id)->first();
+    $store_neighborhoods = $store->neighborhoods->pluck('id')->toArray();
+    $city_id = $request->city_name;
+    $city_name = City::where('id', $city_id)->first()->city_name;
+    if ($city_name == 'مشهد') {
       $list = '';
-     if ($city_name == 'مشهد') {
-       $regions = [1,2,3,4,5,6,7,8,9,10,11,12];
-         foreach ($regions as $key => $region) {
-           if(count(Neighborhood::where('city_id',$request->city_name)->where('region_id',$region)->get())){
-             $list .= '<div style="padding: 10px;
+      if ($city_name == 'مشهد') {
+        $regions = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+        foreach ($regions as $key => $region) {
+          if (count(Neighborhood::where('city_id', $request->city_name)->where('region_id', $region)->get())) {
+            $list .= '<div style="padding: 10px;
              background: #efefef;margin-bottom:4px;
-             border-radius: 4px;"><h6 class="mb-3">ناحیه '.$region.' </h6><div class="row">';
-           foreach (Neighborhood::where('city_id',$request->city_name)->where('region_id',$region)->get() as $key => $neighborhood) {
-             $list .= '<div class="col-md-3">
+             border-radius: 4px;"><h6 class="mb-3">ناحیه ' . $region . ' </h6><div class="row">';
+            foreach (Neighborhood::where('city_id', $request->city_name)->where('region_id', $region)->get() as $key => $neighborhood) {
+              $list .= '<div class="col-md-3">
              <div class="" style="margin-left: -1rem;">
              <input data-id="1" type="checkbox" id=""
-             name="neighborhood_id[]" class="" value="'.$neighborhood->id.'"
-             '.(in_array($neighborhood->id,$store_neighborhoods) ? 'checked=""' : '').'
+             name="neighborhood_id[]" class="" value="' . $neighborhood->id . '"
+             ' . (in_array($neighborhood->id, $store_neighborhoods) ? 'checked=""' : '') . '
              >
-               <label class="mx-2" for="">'.$neighborhood->name.'</label>
+               <label class="mx-2" for="">' . $neighborhood->name . '</label>
               </div>
              </div>';
-           }
-         }
-         }
-    
-       $list .= '</div></div>';
-     }else{
-       $list .='<div style="padding: 10px;
+            }
+          }
+        }
+
+        $list .= '</div></div>';
+      } else {
+        $list .= '<div style="padding: 10px;
        background: #efefef;margin-bottom:4px;
        border-radius: 4px;"><div class="row">';
-       foreach (Neighborhood::where('city_id',$request->city_name)->get() as $key => $neighborhood) {
-         $list .= '<div class="col-md-3">
+        foreach (Neighborhood::where('city_id', $request->city_name)->get() as $key => $neighborhood) {
+          $list .= '<div class="col-md-3">
          <div class="" style="margin-left: -1rem;">
          <input data-id="1" type="checkbox" id=""
-         name="neighborhood_id[]" class="" value="'.$neighborhood->id.'"
-         '.(in_array($neighborhood->id,$store_neighborhoods) ? 'checked=""' : '').'
+         name="neighborhood_id[]" class="" value="' . $neighborhood->id . '"
+         ' . (in_array($neighborhood->id, $store_neighborhoods) ? 'checked=""' : '') . '
          >
-           <label class="mx-2" for="">'.$neighborhood->name.'</label>
+           <label class="mx-2" for="">' . $neighborhood->name . '</label>
           </div>
          </div>';
-       }
-         
-       $list .= '</div></div>';
-     }
- 
-    
-     return $list;
+        }
 
+        $list .= '</div></div>';
+      }
+
+
+      return $list;
     }
   }
 
@@ -774,7 +771,7 @@ if($count == 0){
   public function submitEditStore(Request $request)
   {
 
-    
+
     $store = store::where('id', $request->store_id)->first();
     $personal = Personal::where('personal_mobile', $request->mobile)->first();
     if (is_null($personal)) {
@@ -783,7 +780,7 @@ if($count == 0){
     }
 
     if ($request->has('owner_profile')) {
-      File::delete(public_path().'/uploads/' . $personal->personal_profile);
+      File::delete(public_path() . '/uploads/' . $personal->personal_profile);
       $file = 'photo-' . time() . '.' . $request->owner_profile->getClientOriginalExtension();
       $request->owner_profile->move(public_path('uploads/personals/' . $request->mobile), $file);
       $owner_profile = 'personals/' . $request->mobile . '/' . $file;
@@ -792,7 +789,7 @@ if($count == 0){
     }
 
     if ($request->has('store_picture')) {
-      File::delete(public_path().'/uploads/' .$store->store_picture);
+      File::delete(public_path() . '/uploads/' . $store->store_picture);
       $file = 'photo-' . time() . '.' . $request->store_picture->getClientOriginalExtension();
       $request->store_picture->move(public_path('uploads/stores/' . $request->store_name), $file);
       $store_picture = 'stores/' . $request->store_name . '/' . $file;
@@ -801,7 +798,7 @@ if($count == 0){
     }
 
     if ($request->has('store_icon')) {
-      File::delete(public_path().'/uploads/'.$store->store_icon);
+      File::delete(public_path() . '/uploads/' . $store->store_icon);
       $file = 'icon-' . time() . '.' . $request->store_icon->getClientOriginalExtension();
       $request->store_icon->move(public_path('uploads/stores/' . $request->store_name), $file);
       $store_icon = 'stores/' . $request->store_name . '/' . $file;
@@ -829,7 +826,7 @@ if($count == 0){
       'store_main_street' => $request->store_main_street,
       'store_secondary_street' => $request->store_secondary_street,
       'store_pelak' => $request->store_pluck_num,
-    
+
     ]);
 
     $store->neighborhoods()->detach();
@@ -904,13 +901,13 @@ if($count == 0){
 
   public function deleteStore(Request $request)
   {
-     
-      foreach ($request->array as $key => $item) {
-        Store::where('id',$item)->update([
-          'store_status' => 0
-        ]);
-      }
-      alert()->success('فروشکاه با موفقیت حذف شد')->persistent('بستن');
-      return back();
+
+    foreach ($request->array as $key => $item) {
+      Store::where('id', $item)->update([
+        'store_status' => 0
+      ]);
+    }
+    alert()->success('فروشکاه با موفقیت حذف شد')->persistent('بستن');
+    return back();
   }
 }
