@@ -145,6 +145,8 @@ class StoreController extends Controller
       'store_status' => 1,
       'store_pelak' => $request->store_pluck_num,
       'store_picture' => $store_picture,
+      'packing_price' => 50000,
+      'sending_price' => 100000,
       'store_icon' =>$store_icon,
       'owner_id' => $personal->id
     ]);

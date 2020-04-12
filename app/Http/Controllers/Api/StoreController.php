@@ -27,7 +27,9 @@ class StoreController extends Controller
         $storeArray['store_main_street'] = $store->store_main_street;
         $storeArray['store_secondary_street'] = $store->store_secondary_street;
         $storeArray['store_pelak'] = $store->store_pelak;
-        
+        $storeArray['store_packing_price'] = $store->packing_price;
+        $storeArray['store_sending_price'] = $store->sending_price;   
+        $storeArray['store_pelak'] = $store->store_pelak;
         foreach ($store->neighborhoods as $key => $neighborhood) {
             $storeArray['neighborhoods'][$key+1]['name'] = $neighborhood->name;
             $storeArray['neighborhoods'][$key+1]['city'] = $neighborhood->city_id;
