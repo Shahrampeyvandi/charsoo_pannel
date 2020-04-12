@@ -22,7 +22,6 @@ class CreateProductsTable extends Migration
             $table->string('product_description')->nullable();
             $table->integer('product_status')->nullable();
             $table->enum('type',['primary_product','secondary_product']);
-
             $table->timestamps();
         });
     }

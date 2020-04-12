@@ -49,7 +49,7 @@ Route::get('customer/getService','Api\ServiceController@getService');
 
 Route::get('customer/gethomep','Api\AppCustomerController@index');
 
-Route::post('getstore','Api\StoreController@getStore');
-Route::post('getpersonalstore','Api\StoreController@getPersonalStore');
+Route::get('customer/getstore','Api\StoreController@getStore');
+Route::get('personal/getpersonalstore','Api\PersonalController@getPersonalStore');
 
 

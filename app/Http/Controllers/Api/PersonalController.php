@@ -202,6 +202,8 @@ class PersonalController extends Controller
 
         $store =  Store::where('owner_id',$personal->id)->first();
         if(!is_null($store)){
+            $store['store_address']=$store->store_main_street.' '.$store->store_secondary_street.' پلاک '.$store->store_pelak;
+
             $storeArray = [];
             $storeArray['store_name'] = $store->store_name;
             $storeArray['store_address']=$store->store_main_street.' '.$store->store_secondary_street.' پلاک '.$store->store_pelak;
@@ -240,7 +242,7 @@ class PersonalController extends Controller
                 }
             
             return response()->json(
-                $storeArray,
+                $store,
                 200
               );
         }else{
