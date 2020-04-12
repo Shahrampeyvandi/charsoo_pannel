@@ -32,7 +32,7 @@ class ServiceController extends Controller
         $serviceArray['service_category'] =  ServiceCategory::where('id',$service->service_category_id)->first()->category_title;
 
         return response()->json(
-          $serviceArray,
+          $service,
           200
         );
       } else {

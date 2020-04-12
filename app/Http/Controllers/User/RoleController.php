@@ -18,6 +18,7 @@ class RoleController extends Controller
     {
        $roles = Role::orderBy('name')->get();
        $brokers = Role::where('broker',1)->get();
+
        return view('User.Roles.RolesList',compact(['roles','brokers']));
     }
 
@@ -694,6 +695,35 @@ class RoleController extends Controller
 
                     </div>
                     <hr>
+                    <p>مدیریت اپلیکیشن</p>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group wd-xs-300">
+                                <div 
+                                    style="margin-left: -1rem;">
+                                    <input type="checkbox" id="appmanage" name="appmanage"
+                                         value="1"
+                                        '.(in_array('appmanage',$permissions) ? 'checked=""' : '').'
+                                        >
+                                    <label  for="setting">منوی مدیریت اپلیکیشن</label>
+                                </div>
+
+                            </div>
+                            <div class="form-group wd-xs-300">
+                                <div 
+                                    style="margin-left: -1rem;">
+                                    <input type="checkbox" id="appmenu" name="appmenu"
+                                         value="1"
+                                        '.(in_array('appmenu',$permissions) ? 'checked=""' : '').'
+                                        >
+                                    <label  for="setting">منوی مدیریت منوی اپلیکیشن</label>
+                                </div>
+
+                            </div>
+                          
+                        </div>
+                    </div>
+                    <hr>
                     <p>تنظیمات</p>
                     <div class="row">
                         <div class="col-md-12">
@@ -770,7 +800,10 @@ class RoleController extends Controller
             'user_transactions',
             'checkout_personals',
             'setting',
-            'accounting'
+            'accounting',
+            'appmanage',
+            'appmenu'
+
         ];
 
     $role = Role::where('id',$request->role_id)->update([

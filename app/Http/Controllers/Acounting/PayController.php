@@ -20,7 +20,7 @@ class PayController extends Controller
         $payload = JWTAuth::parseToken($request->header('Authorization'))->getPayload();
         $mobile = $payload->get('mobile');
        
-       
+
 
         $type=$request->header('type');
 
