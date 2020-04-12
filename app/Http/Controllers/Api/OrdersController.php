@@ -133,8 +133,10 @@ class OrdersController extends Controller
     if ($order !== null) {
      
 
-      $service = Service::where('id', $order->service_id)->first()->service_title;
-      $order['service_name'] = $service;
+      $service = Service::where('id', $order->service_id)->first();
+      $order['service_name'] = $service->service_title;
+      $order['service_price'] = $service->service_price;
+
     if (count($order->orderImages)) {
       foreach ($order->orderImages as $key => $image) {
         if($image->image_type == 'faktor') $order['faktor'] = $image->image_url;
