@@ -50,5 +50,6 @@ Route::get('customer/getService','Api\ServiceController@getService');
 Route::get('customer/gethomep','Api\AppCustomerController@index');
 
 Route::post('getstore','Api\StoreController@getStore');
+Route::post('getpersonalstore','Api\StoreController@getPersonalStore');
 
 
