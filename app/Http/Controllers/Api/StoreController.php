@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Models\Store\Store;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Store\Product;
 
 class StoreController extends Controller
 {
@@ -57,5 +58,22 @@ class StoreController extends Controller
             200
           );
 
+}
+
+public function getProduct(Request $request)
+{
+    $product_id = $request->product_id;
+    $product = Product::where('id',$product_id)->first();
+    if(!is_null($product)){
+        return response()->json(
+            ['status' =>'exist'],
+            200
+          );
+    }else{
+        return response()->json(
+            ['status' =>'not exist'],
+            404
+          );
+    }
 }
 }
