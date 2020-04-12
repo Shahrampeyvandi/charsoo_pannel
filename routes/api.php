@@ -49,6 +49,6 @@ Route::get('customer/getService','Api\ServiceController@getService');
 
 Route::get('customer/gethomep','Api\AppCustomerController@index');
 
-Route::get('customer/getstore','Api\StoreController@getStore');
+Route::post('getstore','Api\StoreController@getStore');
 
 
