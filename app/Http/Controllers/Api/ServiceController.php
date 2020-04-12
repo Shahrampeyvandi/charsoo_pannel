@@ -12,7 +12,8 @@ class ServiceController extends Controller
     public function getService(Request $request)
     {
       $service_id = $request->service_id;
-      
+
+
       $service = Service::where('id', $service_id)->first();
       if ($service !== null) {
         $serviceArray = [];

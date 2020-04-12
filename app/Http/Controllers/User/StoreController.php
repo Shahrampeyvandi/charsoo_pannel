@@ -92,7 +92,7 @@ class StoreController extends Controller
 
   public function submitStore(Request $request)
   {
-
+      
    
 
     if ($request->has('owner_profile')) {
@@ -146,22 +146,21 @@ class StoreController extends Controller
       'store_pelak' => $request->store_pluck_num,
       'store_picture' => $store_picture,
       'store_icon' =>$store_icon,
-      'store_role' => $personal->id
+      'owner_id' => $personal->id
     ]);
 
     $store->neighborhoods()->attach($request->neighborhood_id);
 
     if (strlen(implode($request->product_name)) == 0) {
-      alert()->success('فروشگاه ثبت شد اما محصولی وارد نشده است', 'موفق')->persistent('بستن');
-      return back();
+     
     } else {
       $count = 0;
       foreach ($request->product_name as $key => $item) {
         if (!is_null($item)) {
           if (array_key_exists($key, $request->product_picture)) {
-            $file = 'photo' . '.' . $request->product_picture[$key]->getClientOriginalExtension();
-            $request->product_picture[$key]->move(public_path('uploads/products/' . $item), $file);
-            $product_picture = 'products/' . $item . '/' . $file;
+            $file = 'photo' .time(). '.'. $request->product_picture[$key]->getClientOriginalExtension();
+            $request->product_picture[$key]->move(public_path('uploads/stores/'.$store->store_name.'/products'), $file);
+            $product_picture =  'stores/'.$store->store_name.'/products/' . $file;
           } else {
             $product_picture = '';
           }
@@ -170,6 +169,33 @@ class StoreController extends Controller
             'product_price' => $request->product_price[$key],
             'product_picture' => $product_picture,
             'product_description' => $request->product_description[$key],
+            'type' => 'primary_product',
+            'product_status' => 1,
+          ]);
+          $count++;
+        }
+      }
+    }
+
+    // sundary products
+    if (strlen(implode($request->sundry_product_name)) == 0) {
+     
+    } else {
+   
+      foreach ($request->sundry_product_name as $key => $sproduct) {
+        if (!is_null($sproduct)) {
+          if (array_key_exists($key, $request->sundry_product_picture)) {
+            $file = 'photo' .time(). '.' . $request->sundry_product_picture[$key]->getClientOriginalExtension();
+            $request->sundry_product_picture[$key]->move(public_path('uploads/stores/'.$store->store_name.'/products'), $file);
+            $sundry_product_picture = 'stores/'.$store->store_name.'/products/' . $file;
+          } else {
+            $sundry_product_picture = '';
+          }
+          $store->products()->create([
+            'product_name' => $sproduct,
+            'product_price' => $request->product_price[$key],
+            'product_picture' => $sundry_product_picture,
+            'type' => 'secondary_product',
             'product_status' => 1,
           ]);
           $count++;
@@ -178,7 +204,10 @@ class StoreController extends Controller
     }
 
 
-
+if($count == 0){
+  alert()->success('فروشگاه ثبت شد اما محصولی وارد نشده است', 'موفق')->persistent('بستن');
+  return back();
+}
 
 
     alert()->success('فروشگاه با موفقیت افزوده شد و ' . $count . ' محصول هم ثبت شد ', 'عملیات موفق')->persistent('بستن');

@@ -13,12 +13,12 @@ class StoreController extends Controller
         $store_id = $request->store_id;
         
         $store = Store::where('id', $store_id)->first();
-
-
-        $store['store_address']=$store->store_main_street.' '.$store->store_secondary_street.' پلاک '.$store->store_pelak;
-
+     
+     
         $storeArray = [];
         $storeArray['store_name'] = $store->store_name;
+        $storeArray['store_address']=$store->store_main_street.' '.$store->store_secondary_street.' پلاک '.$store->store_pelak;
+
         $storeArray['store_description'] = $store->store_description;
         $storeArray['store_type'] = $store->store_type;
         $storeArray['store_picture'] = $store->store_picture;
@@ -33,18 +33,26 @@ class StoreController extends Controller
             $storeArray['neighborhoods'][$key+1]['city'] = $neighborhood->city_id;
            
         }
-        $storeProducts = [];
+       
         if(!is_null($store)){
             foreach ($store->products as $key => $product) {
-                $storeArray['products'][$key+1]['product_name']= $product->product_name;
-                $storeArray['products'][$key+1]['product_price'] = $product->product_price;
-                $storeArray['products'][$key+1]['product_picture'] = $product->product_picture;
-                $storeArray['products'][$key+1]['product_description'] = $product->product_description;
-                $storeArray['products'][$key+1]['product_status'] = $product->product_status;
+               if($product->type == 'primary_product'){
+                $storeArray['general_products'][$key+1]['product_name']= $product->product_name;
+                $storeArray['general_products'][$key+1]['product_price'] = $product->product_price;
+                $storeArray['general_products'][$key+1]['product_picture'] = $product->product_picture;
+                $storeArray['general_products'][$key+1]['product_description'] = $product->product_description;
+                $storeArray['general_products'][$key+1]['product_status'] = $product->product_status;
+               }
+               if($product->type == 'secondary_product'){
+                $storeArray['sundry_products'][$key+1]['product_name']= $product->product_name;
+                $storeArray['sundry_products'][$key+1]['product_price'] = $product->product_price;
+                $storeArray['sundry_products'][$key+1]['product_picture'] = $product->product_picture;
+                $storeArray['sundry_products'][$key+1]['product_status'] = $product->product_status;
+               }
             }
         }
         return response()->json(
-            $store,
+            $storeArray,
             200
           );
 
