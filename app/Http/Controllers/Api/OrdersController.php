@@ -448,6 +448,7 @@ class OrdersController extends Controller
 
         $transactionbardashtnaghd->user_acounts_id=$useracount_Customer->id;     
         $transactionbardashtnaghd->type='برداشت';
+        $transactionbardashtnaghd->method='نقدی';
         $transactionbardashtnaghd->for='هزینه سفارش';
         $transactionbardashtnaghd->order_unique_code=$orderdata->order_unique_code;
         $transactionbardashtnaghd->amount=$naghd;
@@ -457,6 +458,7 @@ class OrdersController extends Controller
         
         $transactionvariznaghd->user_acounts_id=$useracount_Worker->id;     
         $transactionvariznaghd->type='واریز';
+        $transactionvariznaghd->method='نقدی';
         $transactionvariznaghd->for='انجام سفارش';
         $transactionvariznaghd->order_unique_code=$orderdata->order_unique_code;
         $transactionvariznaghd->amount=$naghd;
@@ -494,6 +496,7 @@ class OrdersController extends Controller
 
          $transactionbardashtnaghd->user_acounts_id=$useracount_Customer->id;     
          $transactionbardashtnaghd->type='برداشت';
+         $transactionbardashtnaghd->method='نقدی';
          $transactionbardashtnaghd->for='هزینه سفارش';
          $transactionbardashtnaghd->order_unique_code=$orderdata->order_unique_code;
          $transactionbardashtnaghd->amount=$cost;
@@ -503,6 +506,7 @@ class OrdersController extends Controller
          
          $transactionvariznaghd->user_acounts_id=$useracount_Worker->id;     
          $transactionvariznaghd->type='واریز';
+         $transactionvariznaghd->method='نقدی';
          $transactionvariznaghd->for='انجام سفارش';
          $transactionvariznaghd->order_unique_code=$orderdata->order_unique_code;
          $transactionvariznaghd->amount=$cost;

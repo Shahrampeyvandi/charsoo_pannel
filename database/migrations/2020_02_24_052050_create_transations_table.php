@@ -17,6 +17,7 @@ class CreateTransationsTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('user_acounts_id');
             $table->enum('type',['واریز','برداشت']);
+            $table->enum('method',['اعتباری','نقدی'])->default('اعتباری');
             $table->enum('for',['انجام سفارش','شارژ','تسویه','هزینه سفارش','ارسال پیشنهاد','انتقال به شارژ','شارژ هدیه','بازگشت وجه','پورسانت خدمت']);
             $table->string('order_unique_code')->nullable();
             $table->integer('amount');

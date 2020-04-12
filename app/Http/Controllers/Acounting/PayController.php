@@ -17,6 +17,8 @@ class PayController extends Controller
     public function pay(Request $request)
     {
 
+        //dd([$request->header('Authorization'),$request->header('type'),$request->header('amount')]);
+
         $payload = JWTAuth::parseToken($request->header('Authorization'))->getPayload();
         $mobile = $payload->get('mobile');
        

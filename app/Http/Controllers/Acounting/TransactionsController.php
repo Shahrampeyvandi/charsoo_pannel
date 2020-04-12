@@ -19,7 +19,6 @@ class TransactionsController extends Controller
 
         $cansomers = Cunsomer::all();
 
-    
 
         return view('User.Acounting.Transactions', compact(['personals','cansomers']));
     }

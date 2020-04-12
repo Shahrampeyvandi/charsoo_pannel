@@ -209,6 +209,7 @@
 
                             <th>نوع تراکنش</th>
                             <th>از/به</th>
+                            <th>به صورت</th>
 
                             <th>مبلغ</th>
                             <th>تاریخ</th>
@@ -251,6 +252,8 @@
                              <td>{{$transaction->type}}</td>
 
                              <td>{{$useracount->type}}</td>
+                             <td>{{$transaction->method}}</td>
+
 
                              {{-- <td>{{$transaction->amount}}</td> --}}
                              <td>
@@ -305,6 +308,7 @@
 
                              <td>{{$transaction->type}}</td>
                              <td>{{$useracount->type}}</td>
+                             <td>{{$transaction->method}}</td>
 
                              {{-- <td>{{$transaction->amount}}</td> --}}
 
