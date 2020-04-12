@@ -18,7 +18,6 @@ class StoreController extends Controller
         $storeArray = [];
         $storeArray['store_name'] = $store->store_name;
         $storeArray['store_address']=$store->store_main_street.' '.$store->store_secondary_street.' پلاک '.$store->store_pelak;
-
         $storeArray['store_description'] = $store->store_description;
         $storeArray['store_type'] = $store->store_type;
         $storeArray['store_picture'] = $store->store_picture;
