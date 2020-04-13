@@ -53,6 +53,9 @@ Route::get('customer/getstore','Api\StoreController@getStore');
 Route::get('personal/getpersonalstore','Api\PersonalController@getPersonalStore');
 Route::post('getstore','Api\StoreController@getStore');
 Route::post('getpersonalstore','Api\StoreController@getPersonalStore');
+Route::post('personalstore/status','Api\PersonalController@changeStoreStatus');
 Route::post('getproduct','Api\StoreController@getProduct');
 Route::post('personal/setproductstatus','Api\StoreController@productStatus');
+
+
 

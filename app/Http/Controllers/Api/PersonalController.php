@@ -248,7 +248,30 @@ class PersonalController extends Controller
         }else{
             return response()->json(
                 'error',
-                404
+                400
+              );
+        }
+    }
+
+    public function changeStoreStatus(Request $request)
+    {
+        $payload = JWTAuth::parseToken($request->header('Authorization'))->getPayload();
+        $mobile = $payload->get('mobile');
+        $personal = Personal::where('personal_mobile',$mobile)->first();
+        $status = $request->status;
+
+        $store =  Store::where('owner_id',$personal->id)->first();
+
+        if(!is_null($store)){
+            Store::where('owner_id',$personal->id)->update(['store_status',$status]);
+            return response()->json(
+                $store,
+                200
+              );
+         }else{
+            return response()->json(
+                'error',
+                400
               );
         }
     }
