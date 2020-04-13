@@ -53,4 +53,6 @@ Route::post('getstore','Api\StoreController@getStore');
 Route::post('getpersonalstore','Api\StoreController@getPersonalStore');
 Route::post('getproduct','Api\StoreController@getProduct');
 
+Route::post('personalstore/status','Api\StoreController@changeStoreStatus');
+
 

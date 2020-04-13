@@ -60,20 +60,18 @@ class StoreController extends Controller
 
 }
 
-public function getProduct(Request $request)
+
+public function productStatus(Request $request)
 {
     $product_id = $request->product_id;
-    $product = Product::where('id',$product_id)->first();
-    if(!is_null($product)){
+    $status = $request->status;
+    $product = Product::where('id',$product_id)->update([
+        'product_status' => $status
+    ]);
+    
         return response()->json(
-            ['status' =>'exist'],
+            'done',
             200
           );
-    }else{
-        return response()->json(
-            ['status' =>'not exist'],
-            404
-          );
-    }
 }
 }
