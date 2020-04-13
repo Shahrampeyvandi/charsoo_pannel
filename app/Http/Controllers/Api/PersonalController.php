@@ -258,12 +258,17 @@ class PersonalController extends Controller
         $payload = JWTAuth::parseToken($request->header('Authorization'))->getPayload();
         $mobile = $payload->get('mobile');
         $personal = Personal::where('personal_mobile',$mobile)->first();
-        $status = $request->status;
+        $statusstore = $request->status;
 
         $store =  Store::where('owner_id',$personal->id)->first();
 
+       
         if(!is_null($store)){
-            Store::where('owner_id',$personal->id)->update(['store_status',$status]);
+
+            $store->store_status=$statusstore;
+
+            $store->update();
+           // Store::where('owner_id',$personal->id)->update(['store_status',$status]);
             return response()->json(
                 $store,
                 200

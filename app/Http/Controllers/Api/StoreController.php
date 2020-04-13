@@ -75,18 +75,6 @@ public function productStatus(Request $request)
           );
 }
 
-public function productStatus(Request $request)
-{
-    $product_id = $request->product_id;
-    $status = $request->status;
-    $product = Product::where('id',$product_id)->update([
-        'product_status' => $status
-    ]);
-    
-        return response()->json(
-            'done',
-            200
-          );
-}
+
 
 }
