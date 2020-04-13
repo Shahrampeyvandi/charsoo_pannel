@@ -22,7 +22,7 @@ class OrdersController extends Controller
     $mobile = $payload->get('mobile');
     $personal = Personal::where('personal_mobile', $mobile)->first();
     //$orders = $personal->order->where('order_type','ارجاع داده شده');
-    $orders = $personal->order->where('order_type', 'شروع نشده');
+    $orders = $personal->order->where('order_type', 'معلق');
 
     foreach ($orders as $key => $order) {
       $service = Service::where('id', $order->service_id)->first()->service_title;
@@ -136,6 +136,7 @@ class OrdersController extends Controller
       $service = Service::where('id', $order->service_id)->first();
       $order['service_name'] = $service->service_title;
       $order['service_price'] = $service->service_price;
+      $order['service_desc'] = $service->service_desc;
 
     if (count($order->orderImages)) {
       foreach ($order->orderImages as $key => $image) {
