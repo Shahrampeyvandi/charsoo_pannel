@@ -35,13 +35,7 @@
                       <option value="">حساب اعتبار را انتخاب کنید</option>
                     
                   
-                      @foreach($personals as $personal)
-                      @foreach($personal->useracounts as $useracount)
-               
-                      <option value="{{$useracount->id}}">{{$useracount->user}} - {{$useracount->type}} - {{$personal->personal_firstname}} {{$personal->personal_lastname}} {{$personal->personal_mobile}}-({{$useracount->cash}}تومان)</option>
-                 
-                      @endforeach
-                      @endforeach
+                      
                       
                       @foreach($cansomers as $cunsomer)
                       @foreach($cunsomer->useracounts as $useracount)
@@ -229,62 +223,7 @@
                         </tr>
                     </thead>
                     <tbody class="tbody">
-                        @foreach ($personals as $personal)
-                        @foreach ($personal->useracounts as $useracount)
-                        @foreach ($useracount->transactions as $transaction)
-
-                        <tr>
-                            <td>
-                                <div class="custom-control custom-checkbox custom-control-inline"
-                                    style="margin-left: -1rem;">
-                                    <input data-id=" {{$transaction->id}} " type="checkbox" id="{{ $transaction->id}}"
-                                        name="customCheckboxInline1" class="custom-control-input" value="1">
-                                    <label class="custom-control-label" for="{{$transaction->id}}"></label>
-                
-                                </div>
-                            </td>
-                             <td>{{$transaction->id}}</td>
-                             <td>{{$personal->personal_mobile}}</td>
-                             <td>{{$useracount->user}}</td>
-                             <td>{{$personal->personal_lastname}}</td>
-                             <td>{{$personal->personal_firstname}}</td>
-
-                             <td>{{$transaction->type}}</td>
-
-                             <td>{{$useracount->type}}</td>
-                             <td>{{$transaction->method}}</td>
-
-
-                             {{-- <td>{{$transaction->amount}}</td> --}}
-                             <td>
-                             <?php
-
-                             echo number_format($transaction->amount);
-
-                             ?>
-                             </td>
-                             {{-- <td>{{$transaction->created_at}}</td> --}}
-                             <td> {{\Morilog\Jalali\Jalalian::forge($transaction->created_at)->format('%Y-%m-%d H:i:s')}}
-
-                            <td>{{$transaction->for}}</td>
-
-
-                            <td>{{$transaction->order_unique_code}}</td>
-
-                            <td>{{$transaction->from_to}}</td>
-
-
-
-
-                            <td>{{$transaction->description}}</td>
-
-
-
-                        </tr>
-                        @endforeach
-                        @endforeach
-                        @endforeach
-
+                    
                         @foreach ($cansomers as $cansomer)
                         @foreach ($cansomer->useracounts as $useracount)
                         @foreach ($useracount->transactions as $transaction)

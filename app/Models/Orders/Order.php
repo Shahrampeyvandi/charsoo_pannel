@@ -30,4 +30,9 @@ class Order extends Model
     {
         return $this->hasOne(OrderStatusDetail::class);
     }
+
+    public function transactions()
+    {
+        return $this->belongsTo('App\Models\Acounting\Transations');
+    }
 }

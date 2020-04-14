@@ -536,23 +536,42 @@
                                     <div class="form-group wd-xs-300">
                                         <div class="custom-control custom-checkbox custom-control-inline"
                                             style="margin-left: -1rem;">
-                                            <input type="checkbox" id="user_accounts" name="user_accounts"
+                                            <input type="checkbox" id="user_accounts_personals" name="user_accounts_personals"
                                                 class="custom-control-input" value="1">
-                                            <label class="custom-control-label" for="user_accounts">حساب کاربران</label>
+                                            <label class="custom-control-label" for="user_accounts_personals">حساب خدمت رسان ها</label>
                                         </div>
                                     </div>
 
+                                    <div class="form-group wd-xs-300">
+                                        <div class="custom-control custom-checkbox custom-control-inline"
+                                            style="margin-left: -1rem;">
+                                            <input type="checkbox" id="user_accounts_customers" name="user_accounts_customers"
+                                                class="custom-control-input" value="1">
+                                            <label class="custom-control-label" for="user_accounts_customers">حساب مشتری ها</label>
+                                        </div>
+                                    </div>
                                 </div>   
                                 <div class="col-md-4">
                                     <div class="form-group wd-xs-300">
                                         <div class="custom-control custom-checkbox custom-control-inline"
                                             style="margin-left: -1rem;">
-                                            <input type="checkbox" id="user_transactions" name="user_transactions"
+                                            <input type="checkbox" id="user_transactions_personals" name="user_transactions_personals"
                                                 class="custom-control-input" value="1">
-                                            <label class="custom-control-label" for="user_transactions">تراکنش های کاربران</label>
+                                            <label class="custom-control-label" for="user_transactions_personals">تراکنش های خدمت رسان ها</label>
                                         </div>
                                     </div>
-                                </div>
+
+                                    <div class="form-group wd-xs-300">
+                                        <div class="custom-control custom-checkbox custom-control-inline"
+                                            style="margin-left: -1rem;">
+                                            <input type="checkbox" id="user_transactions_customers" name="user_transactions_customers"
+                                                class="custom-control-input" value="1">
+                                            <label class="custom-control-label" for="user_transactions_customers">تراکنش های مشتری ها</label>
+                                        </div>
+                                    </div>
+                                </div>   
+
+                                <div class="col-md-4">
                                     <div class="form-group wd-xs-300">
                                         <div class="custom-control custom-checkbox custom-control-inline"
                                             style="margin-left: -1rem;">
@@ -561,9 +580,49 @@
                                             <label class="custom-control-label" for="checkout_personals">تسویه حساب خدمت رسان ها</label>
                                         </div>
                                     </div>
-                                
+                                </div>
+
 
                             </div>
+                            <hr>
+                            <p>نوتیفیکیشن ها</p>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group wd-xs-300">
+                                        <div class="custom-control custom-checkbox custom-control-inline"
+                                            style="margin-left: -1rem;">
+                                            <input type="checkbox" id="notifications" name="notifications"
+                                                class="custom-control-input" value="1">
+                                            <label class="custom-control-label" for="notifications">منوی نوتیفیکشن ها</label>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>  
+                            <div class="row notifications--section" style="display:none;">
+                                    <div class="col-md-4">
+                                        <div class="form-group wd-xs-300">
+                                            <div class="custom-control custom-checkbox custom-control-inline"
+                                                style="margin-left: -1rem;">
+                                                <input type="checkbox" id="notifications_add" name="notifications_add"
+                                                    class="custom-control-input" value="1">
+                                                <label class="custom-control-label" for="notifications_add">افزودن نوتیفیکشن</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group wd-xs-300">
+                                            <div class="custom-control custom-checkbox custom-control-inline"
+                                                style="margin-left: -1rem;">
+                                                <input type="checkbox" id="notifications_send" name="notifications_send"
+                                                    class="custom-control-input" value="1">
+                                                <label class="custom-control-label" for="notifications_send">ارسال نوتیفیکشن</label>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                              
                             <hr>
                             <p>مدیریت اپلیکیشن</p>
                             <div class="row">
@@ -833,11 +892,14 @@
                                 @case('orders_detail')
                                 <span> جزئیات سفارش</span>
                                 @break
-                                @case('user_accounts')
-                                <span> حساب کاربران</span>
+                                @case('user_accounts_personals')
+                                <span> حساب های خدمت رسان ها</span>
                                 @break
-                                @case('user_transactions')
-                                <span> تراکنش های کاربران</span>
+                                @case('user_transactions_personals')
+                                <span> تراکنش های خدمت رسان ها</span>
+                                @break
+                                @case('user_transactions_customers')
+                                <span> تراکنش های مشتری ها</span>
                                 @break
                                 @case('checkout_personals')
                                 <span> تسویه حساب خدمت رسان ها</span>
@@ -865,6 +927,18 @@
                                 @break
                                 @case('appmenu')
                                 <span> مدیریت منوی اپلیکیشن</span>
+                                @break
+                                @case('user_accounts_customers')
+                                <span> حساب های مشتری ها</span>
+                                @break
+                                @case('notifications')
+                                <span>نوتیفیکیشن ها</span>
+                                @break
+                                @case('notifications_add')
+                                <span> افزودن نوتیفیکیشن </span>
+                                @break
+                                @case('notifications_send')
+                                <span>ارسال نوتیفیکیشن </span>
                                 @break
                                 @default
                                 @endswitch
@@ -1169,8 +1243,16 @@ $('.bd-example-modal-lg-edit').on('shown.bs.modal', function (event) {
          }
      })
      
+     $('#notifications').click(function(){
+         if ($(this).is(':checked')) {
+             $('.notifications--section').slideDown()
+         }else{
+            $('.notifications--section').slideUp()      
+         }
+     })
+     
 
-   
+     
      
 })
 </script>

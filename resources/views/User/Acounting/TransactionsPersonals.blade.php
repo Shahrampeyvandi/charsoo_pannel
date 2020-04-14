@@ -14,6 +14,114 @@
     </div>
 </div>
 
+{{--model for add transaction--}}
+<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">ثبت تراکنش</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form id="tranaction--form" method="post" action=" {{route('Pannel.Acounting.Transactions.Submit')}} ">
+        @csrf
+        <div class="modal-body">
+            <div class="row">
+                <div class="form-group col-md-12">
+                  <label for="recipient-name" class="col-form-label"><span class="text-danger">*</span>حساب اعتبار:</label>
+                  <select name="useracountid" id="service_name"  class="js-example-basic-single" dir="rtl">
+                      <option value="">حساب اعتبار را انتخاب کنید</option>
+                    
+                  
+                      @foreach($personals as $personal)
+                      @foreach($personal->useracounts as $useracount)
+               
+                      <option value="{{$useracount->id}}">{{$useracount->user}} - {{$useracount->type}} - {{$personal->personal_firstname}} {{$personal->personal_lastname}} {{$personal->personal_mobile}}-({{$useracount->cash}}تومان)</option>
+                 
+                      @endforeach
+                      @endforeach
+                      
+                     
+                  </select>  
+              </div>
+              </div>
+          <div class="row">
+            <div class="form-group col-md-6">
+              <label for="user_mobile" class="col-form-label"><span class="text-danger">*</span> نوع تراکنش:</label>
+              <select required name="type"   class="form-control" id="exampleFormControlSelect2">
+                <option value="واریز">واریز</option>
+                  <option value="برداشت">برداشت</option>  
+              </select>
+       
+            </div>
+            <div class="form-group col-md-6">
+              <label for="user_name" class="col-form-label"><span class="text-danger">*</span> بابت: </label>
+              <select required name="for"   class="form-control" id="for">
+
+                <option value="پورسانت خدمت">پورسانت خدمت</option>
+                  <option value="بازگشت وجه">بازگشت وجه</option>  
+                  <option value="شارژ هدیه">شارژ هدیه</option>  
+                  <option value="انتقال به شارژ">انتقال به شارژ</option>  
+                  <option value="ارسال پیشنهاد">ارسال پیشنهاد</option>  
+                  <option value="هزینه سفارش">هزینه سفارش</option>  
+                  <option value="تسویه">تسویه</option>  
+                  <option value="شارژ">شارژ</option>  
+                  <option value="انجام سفارش">انجام سفارش</option>  
+
+              </select>
+
+                      
+            </div>
+            
+          </div>
+          <div class="row">
+            <div class="form-group col-md-6">
+              <label for="user_family" class="col-form-label"> شناسه سفارش:</label>
+              <input type="text" class="form-control" name="order_unique_code" id="user_family">
+            </div>
+            <div class="form-group col-md-6">
+              <label for="user_desc" class="col-form-label"><span class="text-danger">*</span> 
+                مبلغ:</label>
+                <input type="number" class="form-control" name="amount" id="user_family">
+
+              </textarea>
+            </div>
+          </div>
+          <div class="row">
+            <div class="form-group col-md-6">
+              <label for="recipient-name" class="col-form-label">منتهی به: </label>
+              <input type="text" class="form-control" name="from_to">
+
+          </div>
+            <div class="form-group col-md-6">
+              <label for="user_address" class="col-form-label"> توضیحات: </label>
+              <textarea type="text" class="form-control" name="description">
+              </textarea>
+            </div>
+          </div>
+
+  
+          
+      <!-- form-group -->
+
+        </div>
+        
+        
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">بستن</button>
+          <button type="submit" class="btn btn-primary">ثبت تراکنش</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+{{-- modal for edit --}}
+
 <div class="container-fluid">
     <div class="card">
         <div class="container_icon card-body d-flex justify-content-end">
@@ -27,11 +135,11 @@
                     </span>
                 </a>
 
-                {{-- <a href="#" data-toggle="modal" data-target=".bd-example-modal-lg" title="افزودن کاربر">
+                <a href="#" data-toggle="modal" data-target=".bd-example-modal-lg" title="افزودن کاربر">
                     <span class="__icon bg-success">
                         <i class="fa fa-plus"></i>
                     </span>
-                </a> --}}
+                </a>
                 <a href="#" title="تازه سازی" class="mx-2" onclick="location.reload()">
                     <span class="__icon bg-primary">
                         <i class="fa fa-refresh"></i>
@@ -77,7 +185,7 @@
     <div class="card">
         <div class="card-body">
             <div class="card-title">
-                <h5 class="text-center">حساب های اعتبار</h5>
+                <h5 class="text-center">تراکنش ها</h5>
                 <hr>
             </div>
             <div style="overflow-x: auto;">
@@ -85,130 +193,92 @@
                     <thead>
                         <tr>
                             <th></th>
-                            <th>شناسه حساب</th>
-
+                            <th>شناسه تراکنش</th>
                             <th>شماره همراه</th>
+                            <th>نقش</th>
 
-                            <th>
-                                نوع حساب
-                            
-                        </th>
-
-                        <th>موجودی</th>
-
-
-                            
-                            <th>
-                                    نام خانوادگی
-                                </a>
-                            </th>
+                            <th>نام خانوادگی</th>
                             <th>نام</th>
 
-                            <th>کاربری</th>
 
+                            <th>نوع تراکنش</th>
+                            <th>از/به</th>
+                            <th>به صورت</th>
+
+                            <th>مبلغ</th>
+                            <th>تاریخ</th>
+
+                            <th>  بابت </th>
+                            <th> 
+                                    کد سفارش
+                            </th>
+                            <th>
+                                منتهی به
+                            </th>
+
+
+                            <th>توضیحات</th>
                      
                          
                         </tr>
                     </thead>
                     <tbody class="tbody">
-                        @foreach ($personals as $key=>$personal)
+                        @foreach ($personals as $personal)
                         @foreach ($personal->useracounts as $useracount)
+                        @foreach ($useracount->transactions as $transaction)
 
                         <tr>
                             <td>
                                 <div class="custom-control custom-checkbox custom-control-inline"
                                     style="margin-left: -1rem;">
-                                    <input data-id=" {{$useracount->id}} " type="checkbox" id="{{ $useracount->id}}"
+                                    <input data-id=" {{$transaction->id}} " type="checkbox" id="{{ $transaction->id}}"
                                         name="customCheckboxInline1" class="custom-control-input" value="1">
-                                    <label class="custom-control-label" for="{{$useracount->id}}"></label>
+                                    <label class="custom-control-label" for="{{$transaction->id}}"></label>
                 
                                 </div>
                             </td>
-                            <td>{{$useracount->id}}</td>
-                            <td>{{$personal->personal_mobile}}</td>
-                            <td>{{$useracount->type}}</td>
+                             <td>{{$transaction->id}}</td>
+                             <td>{{$personal->personal_mobile}}</td>
+                             <td>{{$useracount->user}}</td>
+                             <td>{{$personal->personal_lastname}}</td>
+                             <td>{{$personal->personal_firstname}}</td>
+
+                             <td>{{$transaction->type}}</td>
+
+                             <td>{{$useracount->type}}</td>
+                             <td>{{$transaction->method}}</td>
 
 
-                            @if ($useracount->cash > 0)
-                            {{-- <i class="fa fa-check"></i> --}}
-                           <td  class="text-success">
-                                {{--  {{$useracount->cash}} --}}
-                                <?php
-   
-                                echo number_format($useracount->cash);
-   
-                                ?>
-                                </td>
-                            </td>
+                             {{-- <td>{{$transaction->amount}}</td> --}}
+                             <td>
+                             <?php
 
-                            @else
-                            <td class="text-danger">
-                                {{-- {{$useracount->cash}} --}}
-                                <?php
-   
-                                echo number_format($useracount->cash);
-   
-                                ?>
-                            </td>
+                             echo number_format($transaction->amount);
 
-                            @endif
+                             ?>
+                             </td>
+                             {{-- <td>{{$transaction->created_at}}</td> --}}
+                             <td> {{\Morilog\Jalali\Jalalian::forge($transaction->created_at)->format('%Y-%m-%d H:i:s')}}
 
-                    
-
-                  
+                            <td>{{$transaction->for}}</td>
 
 
-                            <td>{{$personal->personal_lastname}}</td>
-                            <td>{{$personal->personal_firstname}}</td>
+                            <td>{{$transaction->order_unique_code}}</td>
 
-                            <td>{{$useracount->user}}</td>
+                            <td>{{$transaction->from_to}}</td>
 
 
 
 
+                            <td>{{$transaction->description}}</td>
 
 
 
                         </tr>
                         @endforeach
                         @endforeach
-                        @foreach ($cansomers as $cansomer)
-                        @foreach ($cansomer->useracounts as $useracount)
-
-                        <tr>
-                            <td>
-                                <div class="custom-control custom-checkbox custom-control-inline"
-                                    style="margin-left: -1rem;">
-                                    <input data-id=" {{$useracount->id}} " type="checkbox" id="{{ $useracount->id}}"
-                                        name="customCheckboxInline1" class="custom-control-input" value="1">
-                                    <label class="custom-control-label" for="{{$useracount->id}}"></label>
-                                </div>
-                            </td>
-                            <td>{{$useracount->id}}</td>
-                            <td>{{$cansomer->customer_mobile}}</td>
-                            <td>{{$useracount->type}}</td>
-                            <td class="text-success">
-                                {{-- {{$useracount->cash}} --}}
-                            
-                                <?php
-   
-                                echo number_format($useracount->cash);
-   
-                                ?>
-                                </td>
-
-
-
-                            <td>{{$cansomer->customer_firstname}}</td>
-
-                            <td>{{$cansomer->customer_lastname}}</td>
-
-                            <td>{{$useracount->user}}</td>
-
-
-                        </tr>
                         @endforeach
-                        @endforeach
+
 
 
 
@@ -234,7 +304,7 @@
 @endsection
 
 @section('js')
-
+\
 <!-- begin::form wizard -->
 <script src="{{route('BaseUrl')}}/Pannel/assets/vendors/form-wizard/jquery.steps.min.js"></script>
 <script src="{{route('BaseUrl')}}/Pannel/assets/js/examples/form-wizard.js"></script>
@@ -246,12 +316,43 @@
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
-       
+        $.ajaxSetup({
+            headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+      $('#tranaction--form').validate({
+     
+        rules: {
+         useracountid: {
+            required: true,
+          },
+          amount:{
+            required: true,
+
+          },
+        },
+        messages: {
+         useracountid: {
+            //minlength: jQuery.format("Zip must be {0} digits in length"),
+            required: "لطفا حساب را انتخاب کنید."
+          },
+          amount: {
+            //minlength: jQuery.format("Zip must be {0} digits in length"),
+            required: "لطفا مبلغ تراکنش را وارد نمایید"
+          },
+        }
+      })
         $('.btn--filter').click(function(){
           $('.filtering').toggle(200)
         })
 
-           $('table input[type="checkbox"]').change(function(){
+        $('input[type="checkbox"]').change(function(){
+           if( $(this).is(':checked')){
+            $(this).parents('tr').css('background-color','#41f5e07d');
+            }else{
+                $(this).parents('tr').css('background-color','');
+            }
             array=[]
             $('table input[type="checkbox"]').each(function(){
 
@@ -323,13 +424,13 @@ $('.bd-example-modal-lg-edit').on('shown.bs.modal', function (event) {
        $('.js-example-basic-single').select2({
          placeholder: 'انتخاب کنید'
         });
-        editform= $('#edit--form')
-        var form = $("#example-advanced-form1").show();
+        editform= $('#user--form')
+        var form = $("#user--form").show();
     form.validate({
         rules: {
          
          
-          service_percentage: {
+          amount: {
             required: true,
             range:[0,100]
           },

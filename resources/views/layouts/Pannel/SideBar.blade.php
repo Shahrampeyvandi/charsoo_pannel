@@ -70,14 +70,24 @@
             @if(auth()->user()->can('accounting'))
             <li><a href=""><i class="icon ti-money"></i><span> حسابداری</span></a>
                 <ul>
-                    @if (auth()->user()->can('user_accounts'))
+                    @if (auth()->user()->can('user_accounts_personals'))
                     <li><a @if (Illuminate\Support\Facades\Route::currentRouteName()=='Pannel.User.List' )
-                            class="active" @endif href="{{route('Pannel.Acounting.PersonalAcounts')}}"> <span> حساب های
-                                کاربران </span> </a> </li>
+                            class="active" @endif href="{{route('Pannel.Acounting.PersonalAcounts')}}"> <span> حساب
+                                خدمت رسان ها </span> </a> </li>
                     @endif
-                    @if (auth()->user()->can('user_transactions'))
+                    @if (auth()->user()->can('user_accounts_customers'))
+                    <li><a @if (Illuminate\Support\Facades\Route::currentRouteName()=='Pannel.User.List' )
+                            class="active" @endif href="{{route('Pannel.Acounting.CustomerAcounts')}}"> <span> حساب
+                                مشتری ها </span> </a> </li>
+                    @endif
+                    @if (auth()->user()->can('user_transactions_personals'))
                     <li><a @if (Illuminate\Support\Facades\Route::currentRouteName()=='Pannel.Roles' ) class="active"
-                            @endif href="{{route('Pannel.Acounting.Transactions')}}"> <span> گزارش تراکنش ها </span>
+                            @endif href="{{route('Pannel.Acounting.Transactions.Personals')}}"> <span> گزارش تراکنش های خدمت رسان ها </span>
+                        </a> </li>
+                    @endif
+                    @if (auth()->user()->can('user_transactions_customers'))
+                    <li><a @if (Illuminate\Support\Facades\Route::currentRouteName()=='Pannel.Roles' ) class="active"
+                            @endif href="{{route('Pannel.Acounting.Transactions.Customers')}}"> <span> گزارش تراکنش های مشتری ها </span>
                         </a> </li>
                     @endif
                     @if (auth()->user()->can('checkout_personals'))
@@ -111,6 +121,11 @@
             --}}
             
             {{-- @if(auth()->user()->can('accounting')) --}}
+            @if(auth()->user()->can('notifications'))
+            <li><a @if (Illuminate\Support\Facades\Route::currentRouteName()=='Pannel.Notifications' ) class="active" @endif
+                    href=" {{route('Pannel.Notifications')}}"><i class="icon ti-layout"></i> <span> نوتیفیکیشن ها </span> </a></li>
+            @endif
+
             @if(auth()->user()->can('appmanage'))
 
             <li><a href=""><i class="icon ti-money"></i><span> مدیریت اپلیکیشن</span></a>

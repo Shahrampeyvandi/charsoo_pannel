@@ -140,8 +140,11 @@ Route::group(['middleware' => ['checkAuth']], function () {
 
     Route::get('/Personals/Track', 'User\TrackPersonalController@TrackPersonals')->name('Pannel.Personals.Track');
 
-    Route::get('/Acounting/UserAcounts', 'Acounting\UserAcountsController@index')->name('Pannel.Acounting.PersonalAcounts');
-    Route::get('/Acounting/Transactions', 'Acounting\TransactionsController@index')->name('Pannel.Acounting.Transactions');
+    Route::get('/Acounting/UserAcounts/Personals', 'Acounting\UserAcountsController@personals')->name('Pannel.Acounting.PersonalAcounts');
+    Route::get('/Acounting/UserAcounts/Customers', 'Acounting\UserAcountsController@customers')->name('Pannel.Acounting.CustomerAcounts');
+
+    Route::get('/Acounting/Transactions/Personals', 'Acounting\TransactionsController@personals')->name('Pannel.Acounting.Transactions.Personals');
+    Route::get('/Acounting/Transactions/Customers', 'Acounting\TransactionsController@customers')->name('Pannel.Acounting.Transactions.Customers');
     Route::POST('/Acounting/Transactions/Submit', 'Acounting\TransactionsController@submit')->name('Pannel.Acounting.Transactions.Submit');
 
     Route::get('/Acounting/CheckoutPersonals', 'Acounting\CheckoutPersonalsController@index')->name('Pannel.Acounting.CheckoutPersonals');
@@ -156,6 +159,11 @@ Route::group(['middleware' => ['checkAuth']], function () {
     Route::get('App/Appmenu', 'App\AppMenuController@index')->name('Pannel.AppManage.Menu');
     Route::post('App/Appmenu/Submit', 'App\AppMenuController@submit')->name('Pannel.AppManage.Menu.Submit');
     Route::post('App/Appmenu/Delete', 'App\AppMenuController@delete')->name('Pannel.AppManage.Menu.Delete');
+
+    Route::get('/Notifications', 'Notifications\NotificationsController@index')->name('Pannel.Notifications');
+    Route::POST('/Notifications/Submit', 'Notifications\NotificationsController@submit')->name('Pannel.Notifications.Submit');
+    Route::POST('/Notifications/Send', 'Notifications\NotificationsController@send')->name('Pannel.Notifications.Send');
+    Route::POST('/Notifications/Delete', 'Notifications\NotificationsController@delete')->name('Pannel.Notifications.Delete');
 
 
     Route::get('/Acounting/CheckoutPersonals/Export','Acounting\CheckoutPersonalsController@export')->name('Pannel.Acounting.CheckoutPersonals.Export');

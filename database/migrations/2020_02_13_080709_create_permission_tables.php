@@ -141,17 +141,23 @@ class CreatePermissionTables extends Migration
                 'name' => 'orders_refferto'],[
                 'name' => 'orders_transactions'],[
                 'name' => 'orders_detail'],[
-                'name' => 'user_accounts'],[
+                'name' => 'user_accounts_personals'],[
                 'name' => 'stores_menu'],[
                 'name' => 'stores_delete'],[
                 'name' => 'stores_edit'],[
                 'name' => 'stores_create'],[
-                'name' => 'user_transactions'],[
+                'name' => 'user_transactions_personals'],[
                 'name' => 'checkout_personals'],[
                 'name' => 'setting'],[
                 'name' => 'accounting'],[
                 'name' => 'appmanage'],[
-                 'name' => 'appmenu']
+                 'name' => 'appmenu'],[
+                 'name' => 'user_accounts_customers'],[
+                 'name' => 'user_transactions_customers'],[
+                 'name' => 'notifications'],[
+                 'name' => 'notifications_add'],[
+                 'name' => 'notifications_send']
+
         ]);
         $all_permissions = [
             'user_transaction',
@@ -194,13 +200,20 @@ class CreatePermissionTables extends Migration
             'stores_create',
             'stores_edit',
             'stores_delete',
-            'user_accounts',
-            'user_transactions',
+            'user_accounts_personals',
+            'user_transactions_personals',
             'checkout_personals',
             'setting',
             'accounting',
             'appmanage',
-            'appmenu'
+            'appmenu',
+            'user_accounts_customers',
+            'user_transactions_customers',
+            'notifications',
+            'notifications_add',
+            'notifications_send'
+
+
         ];
         $role->givePermissionTo($all_permissions);
         $user->assignRole('admin_panel');
