@@ -6,10 +6,13 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Notifications\Notifications;
 use App\Models\Personals\Personal;
+use Morilog\Jalali\Jalalian;
 use App\Models\Cunsomers\Cunsomer;
 
 class NotificationsController extends Controller
 {
+
+   
     public function index(){
 
         $notifications=Notifications::all();
@@ -73,15 +76,35 @@ class NotificationsController extends Controller
     public function submit(Request $request){
 
 
-        $validation = $this->getValidationFactory()->make($request->all(), [
-            'title' => 'required',
-            'text' => 'required',
-            'to' => 'required',
-            'how' => 'required',
+        if($request->to == 'مشتری ها'){
 
+            $validation = $this->getValidationFactory()->make($request->all(), [
+                'title' => 'required',
+                'text' => 'required',
+                'to' => 'required',
+                'how' => 'required',
+                'cunsomers' => 'required'
 
+                
+    
+    
+            ]);
 
-        ]);
+        }else{
+            
+            $validation = $this->getValidationFactory()->make($request->all(), [
+                'title' => 'required',
+                'text' => 'required',
+                'to' => 'required',
+                'how' => 'required',
+                'personals' => 'required'
+
+    
+    
+            ]);
+
+        }
+      
 
         if ($validation->fails()) {
 
@@ -99,8 +122,12 @@ class NotificationsController extends Controller
         $notification->to=$request->to;
         $notification->how=$request->how;
         $notification->smstemplate=$request->smstemplate;
-        $notification->desc=$request->smstemplate;
+        $notification->desc=$request->desc;
+        if($request->datesend){
 
+        $date=substr($this->convertDate($request->datesend),0,10).' '.$request->timesend.':00:00';
+        $notification->send=$date;
+        }
         if($request->to == 'مشتری ها'){
             $list = serialize( $request->cunsomers );
 
@@ -126,9 +153,13 @@ class NotificationsController extends Controller
 
             $notification = Notifications::find($notificationsid);
 
-            if(!is_null($notification->sent)){
+            if($notification->sent==1){
 
-                alert()->error('این نوتیفیکیشن قبلا ارسال شده است', 'امکان ارسال مجدد این نوتیفیکیشن وجود ندارد')->autoclose(2000);
+                alert()->error('این نوتیفیکیشن قبلا ارسال شده است', 'امکان ارسال مجدد این نوتیفیکیشن وجود ندارد')->autoclose(5000);
+                
+                return 'failed';
+            }else if(!is_null($notification->send)){
+                alert()->error('این نوتیفیکیشن برای ارسال زمان بندی شده است', 'امکان ارسال این نوتیفیکیشن وجود ندارد')->autoclose(5000);
                 
                 return 'failed';
             }

@@ -8,6 +8,7 @@ use App\Models\Personals\Personal;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use App\Models\Services\ServiceCategory;
+use App\Models\Orders\Order;
 
 class TrackPersonalController extends Controller
 {
@@ -141,6 +142,7 @@ class TrackPersonalController extends Controller
 
         $id = null;
         $khedmatResan = null;
+        $servicepositions= null;
         //  $khedmatResan = Personal::find($request->personal);
 
         if (!empty($request->date)) {
@@ -152,9 +154,63 @@ class TrackPersonalController extends Controller
                 ->whereDate('created_at', '=', $this->convertDate($request->date), )
                 ->get();
 
+
+                $personal=Personal::find($request->personal);
+                $maindate=substr($this->convertDate($request->date),0,10);
+                $orders=$personal->order;
+
+                $servicepositions=[];
+
+                foreach($orders as $key=>$order){
+
+                    $detail=$order->orderDetail;
+
+                    if($detail){
+
+                        if($detail->order_start_time_positions){
+                            
+                            $date=substr($detail->order_start_time,0,10);
+
+                            if($maindate == $date){
+
+                            $positions=unserialize($detail->order_start_time_positions);
+
+                            $post['lat']=$positions[0];
+                            $post['lon']=$positions[1];
+                            $post['type']='شروع کار';
+                            $post['time']=substr($detail->order_start_time,11);
+                            $post['code']=$order->order_unique_code;
+                            $servicepositions[]=$post;
+                        }
+                    }
+
+
+
+                        if($detail->order_end_time_positions){
+
+                            $date=substr($detail->order_end_time,0,10);
+
+                            if($maindate == $date){
+
+
+                            $positions=unserialize($detail->order_end_time_positions);
+
+                            $post['lat']=$positions[0];
+                            $post['lon']=$positions[1];
+                            $post['type']='پایان کار';
+                            $post['time']=substr($detail->order_end_time,11);
+                            $post['code']=$order->order_unique_code;
+                            $servicepositions[]=$post;
+                        }
+                    }
+                    }
+                }
+
+
+               // dd($servicepositions);
+
         }
 
-        //dd($id);
 
         // $users = DB::table('personals_positions')
         //    ->where('name', '=', 'John')
@@ -165,7 +221,7 @@ class TrackPersonalController extends Controller
         //    })
         //    ->get();
 
-        return view('User.TrackPersonals', compact(['khedmatResans', 'khedmatResan', 'id']));
+        return view('User.TrackPersonals', compact(['khedmatResans', 'khedmatResan', 'id','servicepositions']));
     }
 
 }

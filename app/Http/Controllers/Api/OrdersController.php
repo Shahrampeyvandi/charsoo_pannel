@@ -224,10 +224,13 @@ class OrdersController extends Controller
     ]);
     $order = Order::where('order_unique_code', $Code)->first();
 
+    $positions[]=$request->positionslat;
+    $positions[]=$request->positionslon;
+
     $order->orderDetail()->create([
       'order_start_time' => Carbon::now(),
       'order_start_description' => $request->description,
-      'order_start_time_positions' => $request->positions
+      'order_start_time_positions' => serialize($positions)
     ]);
 
      if ($order->orderDetail) {
@@ -278,10 +281,14 @@ class OrdersController extends Controller
       'order_type' => 'انجام شده'
     ]);
     $order = Order::where('order_unique_code', $Code)->first();
+
+    $positions[]=$request->positionslat;
+    $positions[]=$request->positionslon;
+
     $order->orderDetail()->update([
       'order_end_time' => Carbon::now(),
       'order_end_time_description' => $request->description,
-      'order_end_time_positions' => $request->positions,
+      'order_end_time_positions' => serialize($positions),
       'order_recived_price' => $request->order_cast,
       'order_pieces_cast' => $request->pieces_cast
 

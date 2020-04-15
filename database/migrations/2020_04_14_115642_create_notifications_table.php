@@ -21,7 +21,8 @@ class CreateNotificationsTable extends Migration
             $table->enum('how',['پیامک','نوتیفیکیشن','هردو']);
             $table->text('list');
             $table->string('smstemplate')->nullable();
-            $table->datetime('sent')->nullable();
+            $table->datetime('send')->nullable();
+            $table->boolean('sent')->default(0);
             $table->text('desc')->nullable();
             $table->timestamps();
         });

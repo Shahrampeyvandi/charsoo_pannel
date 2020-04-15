@@ -154,8 +154,20 @@
     popupAnchor:  [0, -20] // point from which the popup should open relative to the iconAnchor
     });
 
+    var blueIcon = L.icon({
+    iconUrl: '{{route('BaseUrl')}}/mapmarker/marker-icon4.png',
+
+    iconSize:     [30, 30], // size of the icon
+    iconAnchor:   [7, 20], // point of the icon which will correspond to marker's location
+    popupAnchor:  [7, -25] // point from which the popup should open relative to the iconAnchor
+    });
 
 
+@foreach($servicepositions as $service)
+L.marker([{{$service['lat']}}, {{$service['lon']}}],{icon: blueIcon}).addTo(map)
+        .bindPopup('<style>table, th, td {border: 1px solid black;  padding: 8px;}</style><table><tr><td>عملیات</td><td>{{$service['type']}}</td></tr><tr><td>ساعت</td><td>{{$service['time']}}</td></tr><tr><td>سفارش</td><td>{{$service['code']}}</td></tr></table>')
+        .openPopup();
+@endforeach
 
     var latlngs1 = [];
     var latlngs2 = [];
@@ -205,6 +217,12 @@ if(min>25){
 }
 
        }
+
+       @else
+
+       L.marker([{{$position->tool}}, {{$position->arz}}],{icon: greenIcon}).addTo(map)
+        .bindPopup('<style>table, th, td {border: 1px solid black;  padding: 8px;}</style><table><tr><td>شمارش</td><td>{{$key+1}}</td></tr><tr><td>ساعت</td><td>{{\Morilog\Jalali\Jalalian::forge($position->created_at)->format('H:i:s')}}</td></tr><tr><td>تاریخ</td><td>{{\Morilog\Jalali\Jalalian::forge($position->created_at)->format('%Y-%m-%d')}}</td></tr></table>')
+        .openPopup();
  
 @endif
 

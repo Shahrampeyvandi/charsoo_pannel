@@ -88,7 +88,29 @@
 
               <div class="row">
 
-              <div class="form-group col-md-5">
+                <div class="form-group col-md-2">
+                  <label for="datesend" class="col-form-label">زمان بندی ارسال : </label>
+                  <input type="text" id="datesend" name="datesend"
+                  autocomplete="off"
+                  class="form-control text-right date-picker-shamsi"
+                   dir="ltr">
+    
+              </div>
+
+              <div class="form-group col-md-2">
+                <label for="timesend" class="col-form-label">ساعت : </label>
+                <select name="timesend"  class="form-control" id="timesend">
+                  @for($x = 8; $x <= 22; $x++)
+                <option value="{{$x}}">{{$x}}</option>
+                  @endfor
+                
+
+
+                </select>
+  
+            </div>
+
+              <div class="form-group col-md-3">
                 <label for="user_name" class="col-form-label"><span class="text-danger">*</span> به : </label>
                 <select required name="to"  class="form-control" id="to">
                   <option value="">انتخاب کنید</option>
@@ -98,7 +120,7 @@
                 </select>
   
             </div>
-            <div class="form-group col-md-5">
+            <div class="form-group col-md-3">
                 <label for="user_name" class="col-form-label"><span class="text-danger">*</span> از طریق : </label>
                 <select required name="how"  class="form-control" id="how">
                   <option value="">انتخاب کنید</option>
@@ -236,6 +258,7 @@
 
                             <th>قالب پیامک</th>
                             <th>تاریخ ارسال</th>
+                            <th>وضعیت ارسال</th>
                             <th>توضیحات</th>
                             <th>تاریخ ثبت</th>
 
@@ -281,14 +304,27 @@
 
                             <td>
 
-                            @if($notification->sent)
-                            {{\Morilog\Jalali\Jalalian::forge($notification->sent)->format('%Y-%m-%d H:i:s')}}
+                            @if($notification->send)
+                            {{\Morilog\Jalali\Jalalian::forge($notification->send)->format('%Y-%m-%d H:i:s')}}
                             @else
 
                             ارسال نشده
 
                             @endif
                             </td>
+                            <td>
+
+                              @if($notification->sent==1)
+
+                              ارسال شده
+
+                              @else
+  
+                              ارسال نشده
+  
+                              @endif
+                              </td>
+
                             <td>
                                 {{$notification->desc}}
                             </td>

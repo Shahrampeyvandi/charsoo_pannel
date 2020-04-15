@@ -4,6 +4,7 @@ namespace App\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use App\Http\Schedules\NotificationScheduler;
 
 class Kernel extends ConsoleKernel
 {
@@ -24,6 +25,12 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
+        $schedule->call(new NotificationScheduler)->hourly();
+
+        // $schedule->call(function() {
+        //     echo date('Y-m-d H:00:00')."this is the output of the cron".PHP_EOL;
+        // })->everyMinute();
+      
         // $schedule->command('inspire')
         //          ->hourly();
     }
