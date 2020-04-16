@@ -8,6 +8,7 @@ use App\Models\City\City;
 use App\Models\Personals\Personal;
 use App\Models\Store\Store;
 use App\Models\User;
+use App\Models\Notifications\WorkerappNotifications;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Tymon\JWTAuth\Facades\JWTAuth;
@@ -95,6 +96,18 @@ class PersonalController extends Controller
         $mobile = $payload->get('mobile');
         $personal = Personal::where('personal_mobile', $mobile)->first();
       
+        if(!is_null($personal->services->first())){
+            $broker_name = $personal->services->first()->service_role; 
+    }else{
+        $broker_name='1';
+    }
+
+        $notifications=WorkerappNotifications::where('group','همه')->orWhere(function ($query) {
+            $query->where('group','کارگذاران')->where('brokers','like','%admin%');
+        })
+        ->orderBy('created_at', 'desc')
+        ->take(10)
+        ->get();
 
         $settings = DB::table('setting')->get();
         $setting=$settings[0];
@@ -107,6 +120,7 @@ class PersonalController extends Controller
             'emtiaz' => '0',
             'shomareposhtibani'=>$setting->shomareposhtibani,
             'telegramposhtibani'=>$setting->telegramposhtibani,
+            'notifications'=>$notifications,
 
         ], 200);
     }

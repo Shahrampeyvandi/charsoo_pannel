@@ -17,13 +17,14 @@ class CreateNotificationsTable extends Migration
             $table->bigIncrements('id');
             $table->string('title');
             $table->text('text');
-            $table->enum('to',['مشتری ها','خدمت رسان ها']);
-            $table->enum('how',['پیامک','نوتیفیکیشن','هردو']);
+            $table->enum('to',['مشتری ها','خدمت رسان ها','کاربران پنل']);
+            $table->enum('how',['پیامک','نوتیفیکیشن','هردو','نوتیفیکیشن پنل']);
             $table->text('list');
             $table->string('smstemplate')->nullable();
             $table->datetime('send')->nullable();
             $table->boolean('sent')->default(0);
             $table->text('desc')->nullable();
+            $table->string('broker')->nullable();
             $table->timestamps();
         });
     }

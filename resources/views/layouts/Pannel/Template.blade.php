@@ -301,7 +301,57 @@ $('.modal-profile').on('shown.bs.modal', function (event) {
 // document.getElementById('ct').innerHTML = x1;
 // display_c();
 //  }
+$(document).ready(function(){
+
+$.ajax({
+
+type:'get',
+url:'{{route("Pannel.Notifications.Pannel")}}',
+headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+ data:{},
+// ,success:function(data){
+//   swal("پرداخت با موفقیت انجام شد", {
+//     icon: "success",
+// 	          button: "تایید"
+//        });
+
+      
  
+ success:function(data){
+//   swal("پرداخت تکراری نکن ملعون", {
+//     icon: "success",
+// 	          button: "باشه"
+//        });
+
+var $table = $('<table></table>');
+
+$('#notiifcationdialog').html('');
+//$('#notificontainer').html('');
+
+if(data.length > 0){
+  $('#notificontainer').append('<a href="#" class="nav-link nav-link-notify" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-bell"></i></a>');
+
+  
+
+
+
+
+}else{
+  $('#notificontainer').append('<a href="#" class="nav-link" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-bell"></i></a>');
+
+}
+
+for(var i=0;i<data.length;i++) {
+                 $table.append('<a href="profile.html" class="dropdown-item" data-toggle="modal" data-target=".modal-profile"><i class="fa fa-envelope ml-2"></i>'+data[i]['title']+'</a>');
+             }
+
+             $('#notiifcationdialog').append($table);
+ 
+
+
+}
+})
+})
     </script>
     
 </body>

@@ -135,6 +135,11 @@
                     <li><a @if (Illuminate\Support\Facades\Route::currentRouteName()=='Pannel.User.List' )
                             class="active" @endif href="{{route('Pannel.AppManage.Menu')}}"> <span> منوی اپ مشتری </span> </a> </li>
                     @endif
+
+                    @if(auth()->user()->can('appmenu'))
+                    <li><a @if (Illuminate\Support\Facades\Route::currentRouteName()=='Pannel.User.List' )
+                            class="active" @endif href="{{route('Pannel.AppManage.WorkerApp.Notifications')}}"> <span> اطلاعیه های اپ خدمت رسان </span> </a> </li>
+                    @endif
                 
                 </ul>
             </li>

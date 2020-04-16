@@ -34,10 +34,18 @@
                         </span>
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a href="#" class="nav-link nav-link-notify " data-sidebar-target="#notifications">
-                        <i class="fa fa-bell"></i>
-                    </a>
+                <li class="nav-item" id="notificontainer">
+                      
+                    <div class="dropdown-menu dropdown-menu-right" id="notiifcationdialog">
+                        <a href="profile.html" class="dropdown-item"
+                        data-toggle="modal" data-target=".modal-profile"
+                        >
+                        <i class="fa fa-envelope ml-2"></i>
+
+                        پروفایل</a>
+                        <div class="dropdown-divider"></div>
+                       
+                      </div>
                 </li>
                 
                 <li class="nav-item dropdown">

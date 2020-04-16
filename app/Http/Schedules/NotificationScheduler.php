@@ -5,6 +5,10 @@ namespace App\Http\Schedules;
 use App\Models\Notifications\Notifications;
 use App\Models\Personals\Personal;
 use App\Models\Cunsomers\Cunsomer;
+use App\Models\Notifications\PannelNotifications;
+use App\Models\User;
+use App\Models\Services\Service;
+use Spatie\Permission\Models\Role;
 
 class NotificationScheduler
 {
@@ -14,8 +18,11 @@ class NotificationScheduler
     {
 
 
-        $notification=Notifications::where('send',date('Y-m-d H:00:00'))->first();
-        if($notification){
+        $notifications=Notifications::where('sent',0)->where('send',date('Y-m-d H:00:00'))->count();
+        if($notifications){
+
+            foreach($notifications as $notification){
+
             if($notification->sent == 0){
             //$notification = Notifications::find($notification->id);
 
@@ -38,6 +45,7 @@ class NotificationScheduler
                         $members[] = Cunsomer::find($fard);
 
                     }
+                }
 
                     foreach($members as $member){
 
@@ -60,20 +68,66 @@ class NotificationScheduler
 
 
                 }
-
             }
-            }else{
+            }else if($notification->to == 'خدمت رسان ها'){
 
 
                 foreach($array as $key=>$fard){
 
                     if($fard == 0){
-                        $members = Personal::all();
+
+                        if($notification->broker){
+
+                            foreach (Service::where('service_role', $role->name)->get() as $key => $service) {
+                                foreach ($service->personal as $key => $personal) {
+                                    $personalslist[] = $personal;
+                                }
+                            }
+                        
+                            $ids=[];
+                            foreach($personalslist as $key=>$personal){
+                    
+                                $id=$personal->id;
+                        
+                                $repe=false;
+                    
+                                for($x = 0; $x < count($ids); $x++){
+                    
+                                    if($ids[$x]==$id){
+                    
+                                    $repe=true;
+                    
+                                    break;
+                                    }
+                    
+                                }
+                    
+                                if($repe){
+                                    $members[]=$personal;
+                    
+                                }
+                    
+                    
+                                $ids[]=$id;
+                            }
+                    
+                    
+
+
+
+                }else{
+
+                    $members = Personal::all();
+
+
+                }
+
 
                     }else{
                         $members[] = Personal::find($fard);
 
                     }
+                }
 
                     foreach($members as $member){
 
@@ -99,15 +153,53 @@ class NotificationScheduler
 
                 }
 
-            }
-
-            }
-
             
+
+            }else{
+
+
+                foreach ($array as $key => $fard) {
+
+                    if ($fard == 0) {
+                        $members = User::all();
+
+                    } else {
+                        $members[] = User::find($fard);
+
+                    }
+                }
+
+                    foreach ($members as $member) {
+
+                        if ($notification->how == 'پیامک') {
+
+                            $this->sendsms($member->user_mobile, $notification->text, $notification->smstemplate);
+
+                        } else {
+
+                            $pannelnotification=new PannelNotifications;
+
+                            $pannelnotification->title=$notification->title;
+                            $pannelnotification->text=$notification->text;
+                            $pannelnotification->users_id=$member->id;
+                            $pannelnotification->notifications_id=$notification->id;
+
+                            $pannelnotification->save();
+
+                        }
+
+                    }
+
+                
+
+
+            }
+
+            $notification->update();
+        }
          }
         
-         $notification->update();
-        }
+        
     }
 
 

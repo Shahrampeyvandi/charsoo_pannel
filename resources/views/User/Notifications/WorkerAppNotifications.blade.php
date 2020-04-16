@@ -58,20 +58,22 @@
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">ایجاد نوتیفیکشن جدید</h5>
+        <h5 class="modal-title" id="exampleModalLabel">ایجاد اطلاعیه جدید</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
 
       
-      <form id="tranaction--form" method="post" action=" {{route('Pannel.Notifications.Submit')}} ">
+
+
+      <form id="tranaction--form" method="post" action=" {{route('Pannel.AppManage.WorkerApp.Notifications.Submit')}} ">
         @csrf
         <div class="modal-body">
             <div class="row">
                 <div class="form-group col-md-12">
                   <label for="recipient-name" class="col-form-label">
-                      عنوان :
+                      تیتر :
                       <span class="text-danger">*</span> 
                   </label>
                   <input type="text" class="form-control" name="title">
@@ -79,7 +81,7 @@
               </div>
               <div class="row">
                 <div class="form-group col-md-12">
-                  <label for="user_address" class="col-form-label"> متن پیام:
+                  <label for="user_address" class="col-form-label"> متن اطلاعیه:
                     <span class="text-danger">*</span>  </label>
                   <textarea type="text" class="form-control" name="text">
                   </textarea>
@@ -87,129 +89,71 @@
               </div>
 
               <div class="row">
-
-                <div class="form-group col-md-2">
-                  <label for="datesend" class="col-form-label">زمان بندی ارسال : </label>
-                  <input type="text" id="datesend" name="datesend"
-                  autocomplete="off"
-                  class="form-control text-right date-picker-shamsi"
-                   dir="ltr">
-    
+                <div class="form-group col-md-12">
+                  <label for="link" class="col-form-label"> لینک:
+                    <span class="text-danger">*</span>  </label>
+                  <input type="text" class="form-control" name="link">
+                </div>
               </div>
 
-              <div class="form-group col-md-2">
-                <label for="timesend" class="col-form-label">ساعت : </label>
-                <select name="timesend"  class="form-control" id="timesend">
-                  @for($x = 8; $x <= 22; $x++)
-                <option value="{{$x}}">{{$x}}</option>
-                  @endfor
-                
-
-
-                </select>
-  
-            </div>
+            
+              <div class="row">
 
               <div class="form-group col-md-3">
-                <label for="user_name" class="col-form-label"><span class="text-danger">*</span> به : </label>
-                <select required name="to"  class="form-control" id="to">
+                <label for="group" class="col-form-label"><span class="text-danger">*</span> نمایش در اپ : </label>
+                <select required name="group"  class="form-control" id="group">
                   <option value="">انتخاب کنید</option>
-                  <option value="مشتری ها">مشتری ها</option>
-                  <option value="خدمت رسان ها">خدمت رسان ها</option>
-                  <option value="کاربران پنل">کاربران پنل</option>
+                  <option value="همه">همه</option>
+                  <option value="کارگذاران">کارگذاران</option>
 
                 </select>
   
             </div>
-            <div class="form-group col-md-3">
-                <label for="user_name" class="col-form-label"><span class="text-danger">*</span> از طریق : </label>
-                <select required name="how"  class="form-control" id="how">
-                  <option value="">انتخاب کنید</option>
-                  <option value="پیامک"> پیامک</option>
-                  <option value="نوتیفیکیشن">نوتیفیکشن</option>
-                  <option value="هردو">هردو</option>
-                  <option value="نوتیفیکیشن پنل">نوتیفیکیشن پنل</option>
 
-
-                </select>
-  
-            </div>
-            <div class="form-group col-md-2" id="smstemplate" style="display:none;">
-                <label for="user_name" class="col-form-label"><span class="text-danger">*</span> کد قالب پیامک  : </label>
-                <input type="text" class="form-control" name="smstemplate">
-
-  
-            </div>
+            <div class="form-group col-md-8" style="display:none;" id="rolesg">
+                <label for="roles" class="col-form-label"><span class="text-danger">*</span> 
+                  خدمت رسان های کارگذاری های :</label>
+                  <select name="roles[]" id="roles"  class="js-example-basic-single" dir="rtl" multiple>
+                    @foreach ($roles as $role)
+                  <option value="{{$role->name}}" >{{$role->name}}</option>
+                    @endforeach
+                    
+                     
+                     
+                  </select>
+              </div>
+          
               </div>
 
                
-          <div class="row">
-            <div class="form-group col-md-12" style="display:none;" id="cunsomers">
-              <label for="user_desc" class="col-form-label"><span class="text-danger">*</span> 
-                مشتری ها :</label>
-                <select name="cunsomers[]" id="consomers"  class="js-example-basic-single" dir="rtl" multiple>
-                    <option value="0" >همه</option>
-                  @foreach ($cunsomers as $cunsomer)
-                <option value="{{$cunsomer->id}}" >{{$cunsomer->customer_firstname}} {{$cunsomer->customer_lastname}} {{$cunsomer->customer_mobile}}</option>
-                  @endforeach
-                  
-                   
-                   
-                </select>
-            </div>
-          <div class="form-group col-md-12" style="display:none;" id="personals">
-              <label for="user_desc" class="col-form-label"><span class="text-danger">*</span> 
-                  خدمت رسان ها:</label>
-                <select name="personals[]" id="personals"  class="js-example-basic-single" dir="rtl" multiple>
-                    <option value="0" >همه</option>
+          
+            <div class="row">
+                <div class="form-group col-md-12">
+                  <label for="user_address" class="col-form-label"> توضیحات: </label>
+                  <textarea type="text" class="form-control" name="desc">
+                  </textarea>
+                </div>
+              </div>
+          
 
-                    @foreach ($personals as $personal)
-                        
-                <option value="{{$personal->id}}" >{{$personal->personal_firstname}} {{$personal->personal_lastname}} {{$personal->personal_mobile}}</option>
+    </div>
 
-
-
-                    @endforeach
-        
-                   
-                </select>
-          </div>
-          <div class="form-group col-md-12" style="display:none;" id="users">
-            <label for="users" class="col-form-label"><span class="text-danger">*</span> 
-              کاربران ها :</label>
-              <select name="users[]" id="users"  class="js-example-basic-single" dir="rtl" multiple>
-                  <option value="0" >همه</option>
-                @foreach ($users as $user)
-              <option value="{{$user->id}}" >{{$user->user_firstname}} {{$user->user_lastname}} {{$user->user_mobile}}</option>
-                @endforeach
-                
-                 
-                 
-              </select>
-          </div>
-        </div>
-          <div class="row">
-            <div class="form-group col-md-12">
-              <label for="user_address" class="col-form-label"> توضیحات: </label>
-              <textarea type="text" class="form-control" name="desc">
-              </textarea>
-            </div>
-          </div>
-
-  
           
       <!-- form-group -->
 
-        </div>
+        
         
         
 
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">بستن</button>
-          <button type="submit" class="btn btn-primary">ایجاد نوتیفیکیشن</button>
+          <button type="submit" class="btn btn-primary">ایجاد اطلاعیه</button>
         </div>
       </form>
 
+
+
+   
      
     </div>
   </div>
@@ -261,21 +205,17 @@
                         <tr>
                             <th></th>
                             <th>ردیف</th>
-                            <th>نام</th>
+                            <th>تیتر</th>
                             <th>متن</th>
+                            <th>لینک</th>
 
                             <th>ارسال به گروه</th>
-                            <th>به صورت</th>
+                            <th>لیست کارگذاران</th>
 
 
-                            <th>لیست</th>
                         
-
-                            <th>قالب پیامک</th>
-                            <th>تاریخ ارسال</th>
-                            <th>وضعیت ارسال</th>
-                            <th>توضیحات</th>
                             <th>تاریخ ثبت</th>
+
 
                          
                         </tr>
@@ -303,49 +243,24 @@
                                 {{$notification->text}}
                             </td>
                             <td>
-                                {{$notification->to}}
+                                {{$notification->link}}
                             </td>
                             <td>
-                                {{$notification->how}}
+                                {{$notification->group}}
                             </td>
                             <td>
-                              @foreach ($notification->list as $item)
-                              {{$item}},
-                              @endforeach
-                            </td>
-                            <td>
-                                {{$notification->smstemplate}}
-                            </td>
-
-                            <td>
-
-                            @if($notification->send)
-                            {{\Morilog\Jalali\Jalalian::forge($notification->send)->format('%Y-%m-%d H:i:s')}}
-                            @else
-
-                            ارسال نشده
-
-                            @endif
-                            </td>
-                            <td>
-
-                              @if($notification->sent==1)
-
-                              ارسال شده
-
-                              @else
-  
-                              ارسال نشده
-  
+                                @if($notification->brokers)
+                              @for ($i = 0; $i < count($notification->brokers); $i++)
+                                  {{$notification->brokers[$i]}} ,
+                              @endfor
                               @endif
-                              </td>
-
-                            <td>
-                                {{$notification->desc}}
                             </td>
                             <td>
                                 {{\Morilog\Jalali\Jalalian::forge($notification->created_at)->format('%Y-%m-%d H:i:s')}}
                             </td>
+
+
+                          
                         </tr>
                         @endforeach
 
@@ -416,42 +331,18 @@
 
     
 
-    $(document).on('change','#to',function(){
+
+
+$(document).on('change','#group',function(){
         var data = $(this).val();
 
-     if(data === 'مشتری ها'){
-            $('#personals').hide()
-            $('#users').hide()
-            $('#cunsomers').show()
-               }else if(data === 'خدمت رسان ها'){
-        $('#cunsomers').hide()
-        $('#users').hide()
-        $('#personals').show()
-                        }else if(data === 'کاربران پنل'){
-           $('#cunsomers').hide()
-        $('#users').show()
-        $('#personals').hide()
-                        }else {
-            $('#cunsomers').hide()
-            $('#personals').hide()
-            $('#users').hide()
+     if(data === 'همه'){
+            $('#rolesg').hide()
+               }else if(data === 'کارگذاران') {
+            $('#rolesg').show()
+                        }else{
+                            $('#roles').hide()
 
-                        }
-    
-
-
- var thiss = $(this)
-
-})
-
-
-$(document).on('change','#how',function(){
-        var data = $(this).val();
-
-     if(data === 'پیامک' || data ==='هردو'){
-            $('#smstemplate').show()
-               }else {
-            $('#smstemplate').hide()
                         }
     
 
@@ -469,7 +360,7 @@ $('.delete').click(function(e){
  $.ajax({
 
                 type:'post',
-                url:'{{route("Pannel.Notifications.Delete")}}',
+                url:'{{route("Pannel.AppManage.WorkerApp.Notifications.Delete")}}',
                 headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
                  data:{array:array},
                 // ,success:function(data){
