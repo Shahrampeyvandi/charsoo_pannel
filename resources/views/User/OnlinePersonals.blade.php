@@ -15,8 +15,10 @@
         @if (auth()->user()->hasRole('admin_panel'))
         <div class="form-group col-md-6">
           <form method="GET">
-            <label for="recipient-name" class="col-form-label">دسته اصلی</label>
-            <select size="5" class="form-control" name="personal" id="personals_type1" dir="rtl">
+            <label for="category" class="col-form-label">دسته اصلی</label>
+            <select @if ($count> 1)
+              size=" {{$count}} " @else size="3"
+              @endif class="form-control category-select" id="category">
               {!! $list !!}
             </select>
         </div>
@@ -26,10 +28,12 @@
 
         <div class="form-group col-md-6">
           <form method="GET">
-            <label for="recipient-name" class="col-form-label">انتخاب خدمت</label>
+            <label for="service_name" class="col-form-label">انتخاب خدمت</label>
 
-            <select class="form-control" name="personal" id="service_name" dir="rtl">
-              {!! $service_options !!}
+            <select class="form-control service_name" name="service" id="service_name" dir="rtl">
+              @if($servicename)
+            <option value="">{{$servicename}}</option>
+              @endif
             </select>
         </div>
 
@@ -86,6 +90,30 @@
   crossorigin=""></script>
 
 <script>
+    $(document).ready(function(){
+      $.ajaxSetup({
+
+headers: {
+'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+}
+});
+
+  $(document).on('change','.category-select',function(){
+ var thiss = $(this)
+var data = $(this).val();
+$.ajax({
+type:'post',
+url:'{{route("Order.Category.getService")}}',
+data:{data:data},
+success:function(data){ 
+thiss.parents('.ii').next().find('.service_name').html(data)
+$('#service_name').html(data)
+
+console.log(data);
+   }
+ })
+})
+
   // Creating map options
         var mapOptions = {
             center: [36.318, 59.576],
@@ -140,6 +168,7 @@
                 }
 
       });
+    })
 </script>
 
 @endsection

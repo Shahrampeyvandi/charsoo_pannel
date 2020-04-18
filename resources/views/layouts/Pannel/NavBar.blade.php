@@ -38,7 +38,7 @@
                       
                     <div class="dropdown-menu dropdown-menu-right" id="notiifcationdialog">
                         <a href="profile.html" class="dropdown-item"
-                        data-toggle="modal" data-target=".modal-profile"
+                        data-toggle="modal" data-target=".modal-profile1"
                         >
                         <i class="fa fa-envelope ml-2"></i>
 
@@ -79,6 +79,69 @@
   <div class="modal-dialog modal-lg">
     <div class="modal-content content-profile">
 
+    </div>
+  </div>
+</div>
+
+<div class="modal fade modal-profile1" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">نمایش اطلاعیه</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+      
+            
+      
+      
+              <div class="modal-body" id="shownotif">
+                  <div class="row">
+                      <div class="form-group col-md-12">
+                        <label for="recipient-name" class="col-form-label">
+                            تیتر :
+                        </label>
+
+                        
+
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="form-group col-md-12">
+                        <label for="user_address" class="col-form-label"> متن اطلاعیه:
+                           
+                            
+                        
+                        
+                        </label>
+                        </textarea>
+                      </div>
+                    </div>
+      
+                    <div class="row">
+                      <div class="form-group col-md-12">
+                        <label for="link" class="col-form-label"> تاریخ:
+
+                    
+                        </label>
+                      </div>
+                    </div>
+      
+    
+                
+      
+          </div>
+      
+                
+            <!-- form-group -->
+      
+              
+              
+              
+      
+            
     </div>
   </div>
 </div>

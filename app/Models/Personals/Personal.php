@@ -6,7 +6,7 @@ use App\Models\User;
 use App\Models\Store\Store;
 use App\Models\Orders\Order;
 use App\Models\Services\Service;
-use App\Models\Personals\Position;
+use App\Models\Personals\PersonalsPosition;
 use App\Models\Acounting\UserAcounts;
 use Illuminate\Database\Eloquent\Model;
 use Tymon\JWTAuth\Contracts\JWTSubject;
@@ -41,7 +41,7 @@ class Personal  extends  Authenticatable  implements JWTSubject
 	
 	  public function positions()
     {
-        return $this->hasMany(Position::class);
+        return $this->hasMany(PersonalsPosition::class);
     }
 
     public function useracounts()

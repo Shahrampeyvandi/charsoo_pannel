@@ -23,4 +23,27 @@ class PannelNotificationsController extends Controller
         ,200);
 
     }
+
+    public function get(Request $request){
+
+        
+
+
+
+        $notification=PannelNotifications::find($request->id);
+
+        $notification->read=1;
+
+        $notification->update();
+        
+        $time=\Morilog\Jalali\Jalalian::forge($notification->created_at)->format('%Y-%m-%d H:i:s');
+
+        $notification['time']=$time;
+
+
+        return response()->json(
+           $notification
+        ,200);
+
+    }
 }

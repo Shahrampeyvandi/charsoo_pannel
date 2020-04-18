@@ -90,7 +90,7 @@
 
               <div class="row">
                 <div class="form-group col-md-12">
-                  <label for="link" class="col-form-label"> لینک:
+                  <label for="link" class="col-form-label">  لینک(حتما به صورت http://google.com باشد):
                     <span class="text-danger">*</span>  </label>
                   <input type="text" class="form-control" name="link">
                 </div>
@@ -100,7 +100,7 @@
               <div class="row">
 
               <div class="form-group col-md-3">
-                <label for="group" class="col-form-label"><span class="text-danger">*</span> نمایش در اپ : </label>
+                <label for="group" class="col-form-label"><span class="text-danger">*</span> نمایش در اپ خدمت رسانان: </label>
                 <select required name="group"  class="form-control" id="group">
                   <option value="">انتخاب کنید</option>
                   <option value="همه">همه</option>

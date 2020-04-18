@@ -96,18 +96,43 @@ class PersonalController extends Controller
         $mobile = $payload->get('mobile');
         $personal = Personal::where('personal_mobile', $mobile)->first();
       
-        if(!is_null($personal->services->first())){
-            $broker_name = $personal->services->first()->service_role; 
-    }else{
-        $broker_name='1';
-    }
+        $broker_name=null;
+        //$notifications=WorkerappNotifications::where('group','همه')->take(5)->get();
+        $services=$personal->services;
 
-        $notifications=WorkerappNotifications::where('group','همه')->orWhere(function ($query) {
-            $query->where('group','کارگذاران')->where('brokers','like','%admin%');
-        })
-        ->orderBy('created_at', 'desc')
-        ->take(10)
-        ->get();
+        if(!is_null($services)){
+            foreach($services as $service){
+                $broker_name[] =$service->service_role; 
+
+                //$notifications[]=$notifications=WorkerappNotifications::where('group','همه')->where('brokers','like','%'.$broker_name.'%')->take(2)->get();
+            }
+    }else{
+        $broker_name[]='qqqqqqqqq';
+    }
+   //return response()->json($broker_name,200);
+
+    $notifications=WorkerappNotifications::where('group','همه')
+    ->orWhere(function ($query) use ($broker_name) {
+        
+        for ($i = 6; $i < count($broker_name); $i++){
+         
+                $query->where('group','کارگذاران')
+                ->orWhere('brokers','like','%'.$broker_name[$i].'%');
+         
+            
+         }    
+    })
+    //->whereIn('brokers',$broker_name)
+    ->latest()
+    ->take(5)
+    ->get();
+
+        // $notifications=WorkerappNotifications::where('group','همه')->orWhere(function ($query) {
+        //     $query->where('group','کارگذاران')->whereIn('brokers',$broker_name);
+        // })
+        // ->orderBy('created_at', 'desc')
+        // ->take(10)
+        // ->get();
 
         $settings = DB::table('setting')->get();
         $setting=$settings[0];

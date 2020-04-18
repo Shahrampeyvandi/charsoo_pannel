@@ -165,6 +165,7 @@ Route::group(['middleware' => ['checkAuth']], function () {
     Route::POST('/Notifications/Send', 'Notifications\NotificationsController@send')->name('Pannel.Notifications.Send');
     Route::POST('/Notifications/Delete', 'Notifications\NotificationsController@delete')->name('Pannel.Notifications.Delete');
     Route::get('/PannelNotifications', 'Notifications\PannelNotificationsController@index')->name('Pannel.Notifications.Pannel');
+    Route::get('/PannelNotifications/Get', 'Notifications\PannelNotificationsController@get')->name('Pannel.Notifications.Pannel.Get');
 
     Route::get('App/WorkerappNotifications', 'Notifications\WorkerappNotificationsController@index')->name('Pannel.AppManage.WorkerApp.Notifications');
     Route::POST('App/WorkerappNotifications/Submit', 'Notifications\WorkerappNotificationsController@submit')->name('Pannel.AppManage.WorkerApp.Notifications.Submit');

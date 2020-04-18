@@ -342,12 +342,53 @@ if(data.length > 0){
 }
 
 for(var i=0;i<data.length;i++) {
-                 $table.append('<a href="profile.html" class="dropdown-item" data-toggle="modal" data-target=".modal-profile"><i class="fa fa-envelope ml-2"></i>'+data[i]['title']+'</a>');
+
+var id=data[i]['id'];
+
+                 $table.append('<a id="'+id+'" href="profile.html" class="dropdown-item noti" data-toggle="modal" data-target=".modal-profile1"><i class="fa fa-envelope ml-2"></i>'+data[i]['title']+'</a>');
+
+
+            
+
+
+
              }
 
              $('#notiifcationdialog').append($table);
  
 
+             $('.noti').click(function() {
+        var $id = $(this).attr('id');
+        
+         //inside the each loop, the 'this' keyword refers to the current <td>
+
+
+         $.ajax({
+
+type:'get',
+url:'{{route("Pannel.Notifications.Pannel.Get")}}',
+headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+ data:{id:$id},
+// ,success:function(data){
+//   swal("پرداخت با موفقیت انجام شد", {
+//     icon: "success",
+// 	          button: "تایید"
+//        });
+
+      
+ 
+ success:function(data){
+
+  var $table = $('<table></table>');
+  $('#shownotif').html('');
+  $table.append('<div class="row"><div class="form-group col-md-12"> <label for="recipient-name" class="col-form-label">تیتر : </label>'+data['title']+'</div></div><div class="row"><div class="form-group col-md-12"><label for="user_address" class="col-form-label"> متن اطلاعیه: </br> '+data['text']+'</label></textarea></div></div><div class="row"><div class="form-group col-md-12"><label for="link" class="col-form-label"> تاریخ: '+data['time']+'</label></div></div>');
+  $('#shownotif').append($table);
+
+
+}
+})
+        
+    });
 
 }
 })
