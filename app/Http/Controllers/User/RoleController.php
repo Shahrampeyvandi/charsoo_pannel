@@ -755,15 +755,14 @@ class RoleController extends Controller
                     <label  for="notifications_send">ارسال نوتیفیکشن </label>
                 </div>
 
-            </div>
+            
                           
-                        </div>
                     </div>
 
                     <hr>
                     <p>مدیریت اپلیکیشن</p>
                     <div class="row">
-                        <div class="col-md-12">
+                        <div class="col-md-4">
                             <div class="form-group wd-xs-300">
                                 <div 
                                     style="margin-left: -1rem;">
@@ -785,6 +784,22 @@ class RoleController extends Controller
                                     <label  for="setting">منوی مدیریت منوی اپلیکیشن</label>
                                 </div>
 
+                            </div>
+                          
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="form-group wd-xs-300">
+
+                            <div 
+                            style="margin-left: -1rem;">
+                            <input type="checkbox" id="appworkerannounc" name="appworkerannounc"
+                                 value="1"
+                                '.(in_array('appworkerannounc',$permissions) ? 'checked=""' : '').'
+                                >
+                            <label  for="setting">منوی مدیریت اطلاعیه های خدمت رسان</label>
+                        </div>
+                            
                             </div>
                           
                         </div>

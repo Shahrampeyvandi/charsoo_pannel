@@ -626,7 +626,7 @@
                             <hr>
                             <p>مدیریت اپلیکیشن</p>
                             <div class="row">
-                                <div class="col-md-12">
+                                <div class="col-md-4">
                                     <div class="form-group wd-xs-300">
                                         <div class="custom-control custom-checkbox custom-control-inline"
                                             style="margin-left: -1rem;">
@@ -645,7 +645,19 @@
                                         </div>
 
                                     </div>
-                                  
+                                </div>
+
+                                    <div class="col-md-4">
+                                        <div class="form-group wd-xs-300">
+                                            <div class="custom-control custom-checkbox custom-control-inline"
+                                            style="margin-left: -1rem;">
+                                            <input type="checkbox" id="appworkerannounc" name="appworkerannounc"
+                                                class="custom-control-input" value="1">
+                                            <label class="custom-control-label" for="appworkerannounc">منوی اطلاعیه های اپلیکیشن خدمت رسان</label>
+                                        
+
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                             <hr>
@@ -939,6 +951,9 @@
                                 @break
                                 @case('notifications_send')
                                 <span>ارسال نوتیفیکیشن </span>
+                                @break
+                                @case('appworkerannounc')
+                                <span>اعلانیه های اپ خدمت رسان </span>
                                 @break
                                 @default
                                 @endswitch

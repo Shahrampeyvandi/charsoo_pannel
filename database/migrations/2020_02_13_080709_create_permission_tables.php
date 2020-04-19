@@ -156,7 +156,8 @@ class CreatePermissionTables extends Migration
                  'name' => 'user_transactions_customers'],[
                  'name' => 'notifications'],[
                  'name' => 'notifications_add'],[
-                 'name' => 'notifications_send']
+                    'name' => 'notifications_send'],[
+                 'name' => 'appworkerannounc']
 
         ]);
         $all_permissions = [
@@ -211,8 +212,8 @@ class CreatePermissionTables extends Migration
             'user_transactions_customers',
             'notifications',
             'notifications_add',
-            'notifications_send'
-
+            'notifications_send',
+           'appworkerannounc'
 
         ];
         $role->givePermissionTo($all_permissions);

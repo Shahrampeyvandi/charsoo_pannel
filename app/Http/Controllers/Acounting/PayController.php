@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Acounting\Transations;
 use App\Models\Acounting\UserAcounts;
-use App\Models\Acounting\PayTransactions;
+use App\Models\Acounting\Paytransactions;
 use App\Models\Personals\Personal;
 use App\Models\Cunsomers\Cunsomer;
 use Illuminate\Support\Facades\DB;
@@ -28,7 +28,7 @@ class PayController extends Controller
 
         $amount=$request->header('amount');
 
-        $paytr = new PayTransactions;
+        $paytr = new Paytransactions;
 
         $paytr->type=$type;
         $paytr->mobile=$mobile;

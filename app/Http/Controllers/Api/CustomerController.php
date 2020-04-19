@@ -250,8 +250,7 @@ class CustomerController extends Controller
 
         $images = [];
         foreach ($order->orderImages as $key => $image) {
-            $images['images'][$key+1]['imgUrl'] = $image->image_url; 
-            $images['images'][$key+1]['imgType'] = $image->image_type; 
+            $images[$image->image_type] = $image->image_url; 
 
         }
 
