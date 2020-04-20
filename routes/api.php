@@ -56,6 +56,7 @@ Route::post('getpersonalstore','Api\StoreController@getPersonalStore');
 Route::post('personalstore/status','Api\PersonalController@changeStoreStatus');
 Route::post('getproduct','Api\StoreController@getProduct');
 Route::post('personal/setproductstatus','Api\StoreController@productStatus');
-
+Route::get('personal/transactions/charge','Api\PersonalController@getTransactionscharge');
+Route::get('personal/transactions/income','Api\PersonalController@getTransactionsincome');
 
 

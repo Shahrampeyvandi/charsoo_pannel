@@ -36,11 +36,11 @@ class SMSCodeController extends Controller
 
             //return response()->json(['message' => 'مشکل پنل پیامکی پیش آمده است =>' . $e->errorMessage()], 400);
             return response()->json(['code'=> $token ,'error' => 'مشکل پنل پیامکی پیش آمده است =>' . $e->errorMessage()
-            ],500);
+            ],200);
 
         } catch (\Kavenegar\Exceptions\HttpException $e) {
 
-            return response()->json(['code'=> $token,'error' => 'مشکل اتصال پیش امده است =>' . $e->errorMessage()],500);
+            return response()->json(['code'=> $token,'error' => 'مشکل اتصال پیش امده است =>' . $e->errorMessage()],200);
 
         }
 

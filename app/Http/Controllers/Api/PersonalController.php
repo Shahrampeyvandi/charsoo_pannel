@@ -8,6 +8,7 @@ use App\Models\City\City;
 use App\Models\Personals\Personal;
 use App\Models\Store\Store;
 use App\Models\User;
+use App\Models\Acounting\Transations;
 use App\Models\Notifications\WorkerappNotifications;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -242,6 +243,7 @@ class PersonalController extends Controller
         $store =  Store::where('owner_id',$personal->id)->first();
         if(!is_null($store)){
             $store['store_address']=$store->store_main_street.' '.$store->store_secondary_street.' پلاک '.$store->store_pelak;
+            $store['mobile']=$personal->personal_mobile;
 
             $storeArray = [];
             $storeArray['store_name'] = $store->store_name;
@@ -338,4 +340,37 @@ class PersonalController extends Controller
 
     //     return response()->json('ok', 200);
     // }
+
+
+    public function getTransactionscharge(Request $request)
+    {
+        $payload = JWTAuth::parseToken($request->header('Authorization'))->getPayload();
+        $mobile = $payload->get('mobile');
+        $personal = Personal::where('personal_mobile',$mobile)->first();
+       
+        $useracounts=$personal->useracounts[0];
+        $transactions=Transations::where('user_acounts_id',$useracounts->id)->orderBy('id','desc')->get();
+
+
+    return response()->json([
+      'data'=>$transactions
+    ], 200);
+
+    }
+
+    public function getTransactionsincome(Request $request)
+    {
+        $payload = JWTAuth::parseToken($request->header('Authorization'))->getPayload();
+        $mobile = $payload->get('mobile');
+        $personal = Personal::where('personal_mobile',$mobile)->first();
+       
+        $useracounts=$personal->useracounts[1];
+        $transactions=Transations::where('user_acounts_id',$useracounts->id)->orderBy('id','desc')->get();
+
+
+    return response()->json([
+      'data'=>$transactions
+    ], 200);
+
+    }
 }

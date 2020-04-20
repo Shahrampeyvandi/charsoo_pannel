@@ -16,10 +16,11 @@ class NotificationScheduler
   
     public function __invoke()
     {
+ echo date('Y-m-d H:00:00')."asdas".PHP_EOL;
 
+        $notifications=Notifications::where('sent',0)->where('send',date('Y-m-d H:00:00'))->get();
+        if(count($notifications)){
 
-        $notifications=Notifications::where('sent',0)->where('send',date('Y-m-d H:00:00'))->count();
-        if($notifications){
 
             foreach($notifications as $notification){
 
@@ -30,6 +31,8 @@ class NotificationScheduler
 
        
             $notification->sent=1;
+            $notification->send = date('Y-m-d H:i:s');
+
 
 
             $array = unserialize( $notification->list );
@@ -68,7 +71,7 @@ class NotificationScheduler
 
 
                 }
-            }
+            
             }else if($notification->to == 'خدمت رسان ها'){
 
 
@@ -177,6 +180,8 @@ class NotificationScheduler
 
                         } else {
 
+                            echo date('Y-m-d H:00:00')."sendnotification".PHP_EOL;
+
                             $pannelnotification=new PannelNotifications;
 
                             $pannelnotification->title=$notification->title;
@@ -197,7 +202,9 @@ class NotificationScheduler
 
             $notification->update();
         }
-         }
+    }
+}
+
         
         
     }
@@ -207,6 +214,7 @@ class NotificationScheduler
 
 
     public function sendsms($phone , $text,$template){
+        echo date('Y-m-d H:00:00')."sms".PHP_EOL;
 
         $apikey = '5079544B44782F41475237506D6A4C46713837717571386D6D784636486C666D';
 
@@ -235,6 +243,7 @@ class NotificationScheduler
     }
 
     public function sendnotification($firebasetoken ,$title, $text){
+        echo date('Y-m-d H:00:00')."sendnotification".PHP_EOL;
 
         $fcmUrl = 'https://fcm.googleapis.com/fcm/send';
 

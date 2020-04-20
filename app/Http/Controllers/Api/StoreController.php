@@ -6,6 +6,7 @@ use App\Models\Store\Store;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Store\Product;
+use App\Models\Personals\Personal;
 
 class StoreController extends Controller
 {
@@ -15,7 +16,9 @@ class StoreController extends Controller
         
         $store = Store::where('id', $store_id)->first();
      
+        $personal=Personal::find($store->owner_id);
         $store['store_address']=$store->store_main_street.' '.$store->store_secondary_street.' پلاک '.$store->store_pelak;
+        $store['mobile']=$personal->personal_mobile;
         $storeArray = [];
         $storeArray['store_name'] = $store->store_name;
         $storeArray['store_address']=$store->store_main_street.' '.$store->store_secondary_street.' پلاک '.$store->store_pelak;

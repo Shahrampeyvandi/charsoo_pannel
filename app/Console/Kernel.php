@@ -25,11 +25,11 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->call(new NotificationScheduler)->hourly();
+        $schedule->call(new NotificationScheduler)->everyMinute();
 
-        // $schedule->call(function() {
-        //     echo date('Y-m-d H:00:00')."this is the output of the cron".PHP_EOL;
-        // })->everyMinute();
+         $schedule->call(function() {
+             echo date('Y-m-d H:00:00')."this is the output of the cron".PHP_EOL;
+         })->everyMinute();
       
         // $schedule->command('inspire')
         //          ->hourly();
