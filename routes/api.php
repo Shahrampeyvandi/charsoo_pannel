@@ -60,3 +60,5 @@ Route::get('personal/transactions/charge','Api\PersonalController@getTransaction
 Route::get('personal/transactions/income','Api\PersonalController@getTransactionsincome');
 
 
+Route::post('pay/token','Api\PayController@gettoken');
+Route::post('pay/intoch','Api\PayController@incometocharge');

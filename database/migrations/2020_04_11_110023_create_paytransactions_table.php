@@ -16,10 +16,16 @@ class CreatePaytransactionsTable extends Migration
         Schema::create('paytransactions', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->enum('type',['customer','worker']);
+            $table->unsignedBigInteger('personal_id')->nullable();
+            $table->foreign('personal_id')->references('id')->on('personals')->onDelete('cascade');
+            $table->unsignedBigInteger('cunsomer_id')->nullable();
+            $table->foreign('cunsomer_id')->references('id')->on('cunsomers')->onDelete('cascade');
             $table->string('mobile');
-            $table->string('amount');
+            $table->integer('amount');
             $table->text('desc')->nullable();
             $table->boolean('successful')->default(0);
+            $table->text('token')->unique();
+            $table->dateTime('expire');
             $table->timestamps();
         });
     }

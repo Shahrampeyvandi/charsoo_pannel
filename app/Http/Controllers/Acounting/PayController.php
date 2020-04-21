@@ -11,29 +11,27 @@ use App\Models\Personals\Personal;
 use App\Models\Cunsomers\Cunsomer;
 use Illuminate\Support\Facades\DB;
 use Tymon\JWTAuth\Facades\JWTAuth;
+use Carbon\Carbon;
 
 class PayController extends Controller
 {
     public function pay(Request $request)
     {
 
-        //dd([$request->header('Authorization'),$request->header('type'),$request->header('amount')]);
 
-        $payload = JWTAuth::parseToken($request->header('Authorization'))->getPayload();
-        $mobile = $payload->get('mobile');
-       
+        $paytr=Paytransactions::where('token',$request->paytoken)
+        ->where('expire', '>', Carbon::now())
+        ->where('successful',0)
+        ->first();
 
+        if(!$paytr){
 
-        $type=$request->header('type');
+            return 'امکان انجام تراکنش وجود ندارد';
 
-        $amount=$request->header('amount');
+        }
 
-        $paytr = new Paytransactions;
+        $amount=$paytr->amount;
 
-        $paytr->type=$type;
-        $paytr->mobile=$mobile;
-        $paytr->amount=$amount;
-        $paytr->save();
 
 
         $data = array('MerchantID' => 'xxxxxdxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx',
@@ -73,6 +71,10 @@ if ($err) {
 
 
         $pay = PayTransactions::find($request->id);
+
+        if($pay->successful==1){
+            return 'تراکنش به دلیل تکراری بودن نا موفق بود';
+        }
 
         if($pay->type=='customer'){
             $member = Cunsomer::where('customer_mobile', $pay->mobile)->first();
