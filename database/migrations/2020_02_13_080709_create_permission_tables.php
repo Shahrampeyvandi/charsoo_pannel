@@ -157,6 +157,7 @@ class CreatePermissionTables extends Migration
                  'name' => 'notifications'],[
                  'name' => 'notifications_add'],[
                     'name' => 'notifications_send'],[
+                        'name' => 'appslideshow'],[
                  'name' => 'appworkerannounc']
 
         ]);
@@ -213,6 +214,7 @@ class CreatePermissionTables extends Migration
             'notifications',
             'notifications_add',
             'notifications_send',
+            'appslideshow',
            'appworkerannounc'
 
         ];

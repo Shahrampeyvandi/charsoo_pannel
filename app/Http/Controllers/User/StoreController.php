@@ -4,6 +4,7 @@ namespace App\Http\Controllers\User;
 
 use App\Models\City\City;
 use App\Models\Store\Store;
+use App\Models\Store\StoreWorkingHours;
 use App\Models\Neighborhood;
 use Illuminate\Http\Request;
 use Morilog\Jalali\Jalalian;
@@ -94,6 +95,7 @@ class StoreController extends Controller
   {
 
 
+    //dd($request);
 
     if ($request->has('owner_profile')) {
       $file = 'photo-' . time() . '.' . $request->owner_profile->getClientOriginalExtension();
@@ -132,6 +134,7 @@ class StoreController extends Controller
     ]);
 
     $store =   $personal->store()->create([
+      'personal_mobile' => $personal->personal_mobile,
       'store_name' => $request->store_name,
       'store_type' => $request->store_type,
       'store_address' => $request->store_address,
@@ -202,6 +205,32 @@ class StoreController extends Controller
         }
       }
     }
+
+    $workinghours=new StoreWorkingHours;
+    $workinghours->stores_id=$store->id;
+    if ($request->saturday) {
+      $workinghours->saturday=implode(' , ',$request->saturday);
+    }
+    if ($request->sunday) {
+      $workinghours->sunday=implode(' , ',$request->sunday);
+    } 
+    if ($request->monday) {
+      $workinghours->monday=implode(' , ',$request->monday);
+    } 
+    if ($request->tuesday) {
+      $workinghours->tuesday=implode(' , ',$request->tuesday);
+    } 
+    if ($request->wednesday) {
+      $workinghours->wednesday=implode(' , ',$request->wednesday);
+    } 
+    if ($request->thursday) {
+      $workinghours->thursday=implode(' , ',$request->thursday);
+    } 
+    if ($request->friday) {
+      $workinghours->friday=implode(' , ',$request->friday);
+    } 
+
+    $workinghours->save();
 
 
     if ($count == 0) {

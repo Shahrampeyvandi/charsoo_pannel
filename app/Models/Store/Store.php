@@ -20,5 +20,14 @@ class Store extends Model
     {
         return $this->belongsToMany(Neighborhood::class);
     }
+
+    public function goodsorders()
+    {
+        return $this->hasMany(GoodsOrders::class);
+    }
    
+    public function workinghours()
+    {
+        return $this->hasOne(StoreWorkingHours::class);
+    }
 }

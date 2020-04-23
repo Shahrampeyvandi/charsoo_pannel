@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Acounting\UserAcounts;
+use App\Models\Acounting\PersonalBank;
 use App\Models\City\City;
 use App\Models\Personals\Personal;
 use App\Models\Store\Store;
@@ -371,6 +372,56 @@ class PersonalController extends Controller
     return response()->json([
       'data'=>$transactions
     ], 200);
+
+    }
+
+    public function getbankinfo(Request $request)
+    {
+        $payload = JWTAuth::parseToken($request->header('Authorization'))->getPayload();
+        $mobile = $payload->get('mobile');
+        $personal = Personal::where('personal_mobile',$mobile)->first();
+         $bankinfo=$personal->bank;
+
+
+
+
+    return response()->json(
+      $bankinfo
+    , 200);
+
+    }
+
+    public function savebankinfo(Request $request)
+    {
+        $payload = JWTAuth::parseToken($request->header('Authorization'))->getPayload();
+        $mobile = $payload->get('mobile');
+        $personal = Personal::where('personal_mobile',$mobile)->first();
+       
+        $bankinfo=$personal->bank;
+        if($bankinfo){
+
+            $bankinfo->shaba=$request->shaba;
+            $bankinfo->name=$request->name;
+            $bankinfo->bankname=$request->bankname;
+
+            $bankinfo->update();
+
+        }else{
+
+            $bankinfo= new PersonalBank;
+            $bankinfo->personal_id=$personal->id;
+            $bankinfo->mobile=$mobile;
+            $bankinfo->shaba=$request->shaba;
+            $bankinfo->name=$request->name;
+            $bankinfo->bankname=$request->bankname;
+
+            $bankinfo->save();
+
+
+        }
+
+
+    return response()->json($bankinfo, 200);
 
     }
 }

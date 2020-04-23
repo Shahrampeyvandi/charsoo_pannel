@@ -770,7 +770,7 @@ class RoleController extends Controller
                                          value="1"
                                         '.(in_array('appmanage',$permissions) ? 'checked=""' : '').'
                                         >
-                                    <label  for="setting">منوی مدیریت اپلیکیشن</label>
+                                    <label  for="appmanage">منوی مدیریت اپلیکیشن</label>
                                 </div>
 
                             </div>
@@ -781,7 +781,7 @@ class RoleController extends Controller
                                          value="1"
                                         '.(in_array('appmenu',$permissions) ? 'checked=""' : '').'
                                         >
-                                    <label  for="setting">منوی مدیریت منوی اپلیکیشن</label>
+                                    <label  for="appmenu">منوی مدیریت منوی اپلیکیشن</label>
                                 </div>
 
                             </div>
@@ -797,11 +797,22 @@ class RoleController extends Controller
                                  value="1"
                                 '.(in_array('appworkerannounc',$permissions) ? 'checked=""' : '').'
                                 >
-                            <label  for="setting">منوی مدیریت اطلاعیه های خدمت رسان</label>
+                            <label  for="appworkerannounc">منوی مدیریت اطلاعیه های خدمت رسان</label>
                         </div>
                             
                             </div>
-                          
+                            <div class="form-group wd-xs-300">
+
+                            <div 
+                            style="margin-left: -1rem;">
+                            <input type="checkbox" id="appslideshow" name="appslideshow"
+                                 value="1"
+                                '.(in_array('appslideshow',$permissions) ? 'checked=""' : '').'
+                                >
+                            <label  for="appslideshow">منوی اسلایدشو اطلاعیه های خدمت رسان</label>
+                        </div>
+                            
+                            </div>
                         </div>
                     </div>
                     <hr>

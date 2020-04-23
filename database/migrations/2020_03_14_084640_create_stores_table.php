@@ -15,6 +15,7 @@ class CreateStoresTable extends Migration
     {
         Schema::create('stores', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->string('personal_mobile');
             $table->string('store_name');
             $table->string('store_location')->nullable();
             $table->string('store_address')->nullable();
@@ -30,9 +31,10 @@ class CreateStoresTable extends Migration
             $table->integer('packing_price')->default(0);
             $table->integer('sending_price')->default(0);
             $table->integer('owner_id');
+            $table->unsignedBigInteger('owner_id');
+            $table->foreign('owner_id')->references('id')->on('personals')->onDelete('cascade');
             $table->integer('store_status')->default(1);
             $table->string('store_category')->nullable();
-        
             $table->timestamps();
         });
     }

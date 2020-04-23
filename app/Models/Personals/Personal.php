@@ -71,4 +71,9 @@ class Personal  extends  Authenticatable  implements JWTSubject
         }
         
     }
+
+    public function bank()
+    {
+        return $this->hasOne('App\Models\Acounting\PersonalBank');
+    }
 }
