@@ -98,7 +98,7 @@ class PersonalController extends Controller
         $mobile = $payload->get('mobile');
         $personal = Personal::where('personal_mobile', $mobile)->first();
       
-        $broker_name=null;
+        $broker_name=[];
         //$notifications=WorkerappNotifications::where('group','همه')->take(5)->get();
         $services=$personal->services;
 

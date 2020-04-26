@@ -190,10 +190,14 @@ Route::group(['middleware' => ['checkAuth']], function () {
     
     
 
+    Route::get('slideshow', 'App\SlideshowController@index')->name('SlideShow');
+    Route::post('slideshow/store', 'App\SlideshowController@store')->name('SlideShow.store');
+    Route::post('slideshow/Delete','App\SlideshowController@DeleteSlideshow')->name('SlideShow.Delete');
+    Route::post('slideshow/getData', 'App\SlideshowController@getData')->name('SlideShow.Edit.getData');
+    Route::post('slideshow/Edit', 'App\SlideshowController@EditSlideshow')->name('SlideShow.Edit.Insert');
 
 
-
-
+    Route::get('goodsorders', 'Store\GoodsOrdersController@index')->name('GoodsOrders');
 
 
 }); /*    E N D - R O U T E - G R O U P    */

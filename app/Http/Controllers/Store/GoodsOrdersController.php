@@ -14,6 +14,7 @@ class GoodsOrdersController extends Controller
         $goodsorders=GoodsOrders::all();
 
 
+        //dd($goodsorders);
 
         return view('User.Stores.GoodsOrders',compact('goodsorders'));
     }

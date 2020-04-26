@@ -62,3 +62,19 @@ Route::get('personal/transactions/income','Api\PersonalController@getTransaction
 
 Route::post('pay/token','Api\PayController@gettoken');
 Route::post('pay/intoch','Api\PayController@incometocharge');
+
+Route::get('personal/bankinfo','Api\PersonalController@getbankinfo');
+Route::post('personal/bankinfosave','Api\PersonalController@savebankinfo');
+
+
+Route::get('store/workinghours','Api\GoodsOrderController@workinghours');
+Route::post('store/order','Api\GoodsOrderController@order');
+Route::post('store/uploadpic','Api\GoodsOrderController@uploadpic');
+Route::get('store/orderc','Api\GoodsOrderController@getgoodsordercustomer');
+Route::get('store/orderp','Api\GoodsOrderController@getgoodsorderpersonal');
+Route::get('store/ordersc','Api\GoodsOrderController@getallorderscustomer');
+Route::get('store/ordersp','Api\GoodsOrderController@getallorderspersonal');
+Route::post('store/orderaccept','Api\GoodsOrderController@acceptorder');
+Route::post('store/orderprepare','Api\GoodsOrderController@prepareorder');
+Route::post('store/ordersend','Api\GoodsOrderController@sendorder');
+Route::post('store/orderdeliver','Api\GoodsOrderController@deliverorder');

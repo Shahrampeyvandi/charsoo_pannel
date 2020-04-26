@@ -658,6 +658,16 @@
 
                                         </div>
                                     </div>
+                                    <div class="form-group wd-xs-300">
+                                        <div class="custom-control custom-checkbox custom-control-inline"
+                                        style="margin-left: -1rem;">
+                                        <input type="checkbox" id="appslideshow" name="appslideshow"
+                                            class="custom-control-input" value="1">
+                                        <label class="custom-control-label" for="appslideshow">منوی اسلایدشو های اپلیکیشن خدمت رسان</label>
+                                    
+
+                                    </div>
+                                </div>
                                 </div>
                             </div>
                             <hr>
@@ -954,6 +964,9 @@
                                 @break
                                 @case('appworkerannounc')
                                 <span>اعلانیه های اپ خدمت رسان </span>
+                                @break
+                                @case('appslideshow')
+                                <span>اسلایدشو های اپ خدمت رسان </span>
                                 @break
                                 @default
                                 @endswitch

@@ -238,6 +238,202 @@
 
                             </div>
                         </section>
+
+
+
+                        <h3>ساعات کاری فروشگاه</h3>
+                        <section>
+                            <div class="row">   
+                                <div class="form-group col-md-12">
+
+   <div style="padding: 10px; background: #efefef;margin-bottom:4px; border-radius: 4px;"><h6 class="mb-3">شنبه</h6>
+                                    <div class="row">
+         
+            <div class="col-md-6">
+            <div class="" style="margin-left: -1rem;">
+            <input data-id="1" type="checkbox" id="" name="saturday[]" class="" value="8تا12">
+              <label class="mx-2" for="">8تا12</label>
+             </div>
+             <div class="" style="margin-left: -1rem;">
+                <input data-id="1" type="checkbox" id="" name="saturday[]" class="" value="16تا20">
+                  <label class="mx-2" for="">16تا20</label>
+                 </div>
+            </div>
+            <div class="col-md-6">
+                <div class="" style="margin-left: -1rem;">
+                <input data-id="1" type="checkbox" id="" name="saturday[]" class="" value="12تا16">
+                  <label class="mx-2" for="">12تا16</label>
+                 </div>
+                 <div class="" style="margin-left: -1rem;">
+                    <input data-id="1" type="checkbox" id="" name="saturday[]" class="" value="20تا24">
+                      <label class="mx-2" for="">20تا24</label>
+                     </div>
+                </div>
+            </div>
+        </div>
+    <div style="padding: 10px; background: #efefef;margin-bottom:4px; border-radius: 4px;"><h6 class="mb-3">یک شنبه</h6>
+  <div class="row">
+<div class="col-md-6">
+<div class="" style="margin-left: -1rem;">
+<input data-id="1" type="checkbox" id="" name="sunday[]" class="" value="8تا12">
+<label class="mx-2" for="">8تا12</label>
+</div>
+<div class="" style="margin-left: -1rem;">
+<input data-id="1" type="checkbox" id="" name="sunday[]" class="" value="16تا20">
+  <label class="mx-2" for="">16تا20</label>
+ </div>
+</div>
+<div class="col-md-6">
+<div class="" style="margin-left: -1rem;">
+<input data-id="1" type="checkbox" id="" name="sunday[]" class="" value="12تا16">
+  <label class="mx-2" for="">12تا16</label>
+ </div>
+ <div class="" style="margin-left: -1rem;">
+    <input data-id="1" type="checkbox" id="" name="sunday[]" class="" value="20تا24">
+      <label class="mx-2" for="">20تا24</label>
+     </div>
+</div>
+</div>
+</div>
+
+<div style="padding: 10px; background: #efefef;margin-bottom:4px; border-radius: 4px;"><h6 class="mb-3">دو شنبه</h6>
+    <div class="row">
+  <div class="col-md-6">
+  <div class="" style="margin-left: -1rem;">
+  <input data-id="1" type="checkbox" id="" name="monday[]" class="" value="8تا12">
+  <label class="mx-2" for="">8تا12</label>
+  </div>
+  <div class="" style="margin-left: -1rem;">
+  <input data-id="1" type="checkbox" id="" name="monday[]" class="" value="16تا20">
+    <label class="mx-2" for="">16تا20</label>
+   </div>
+  </div>
+  <div class="col-md-6">
+  <div class="" style="margin-left: -1rem;">
+  <input data-id="1" type="checkbox" id="" name="monday[]" class="" value="12تا16">
+    <label class="mx-2" for="">12تا16</label>
+   </div>
+   <div class="" style="margin-left: -1rem;">
+      <input data-id="1" type="checkbox" id="" name="monday[]" class="" value="20تا24">
+        <label class="mx-2" for="">20تا24</label>
+       </div>
+  </div>
+  </div>
+  </div>
+
+  <div style="padding: 10px; background: #efefef;margin-bottom:4px; border-radius: 4px;"><h6 class="mb-3">سه شنبه</h6>
+    <div class="row">
+  <div class="col-md-6">
+  <div class="" style="margin-left: -1rem;">
+  <input data-id="1" type="checkbox" id="" name="tuesday[]" class="" value="8تا12">
+  <label class="mx-2" for="">8تا12</label>
+  </div>
+  <div class="" style="margin-left: -1rem;">
+  <input data-id="1" type="checkbox" id="" name="tuesday[]" class="" value="16تا20">
+    <label class="mx-2" for="">16تا20</label>
+   </div>
+  </div>
+  <div class="col-md-6">
+  <div class="" style="margin-left: -1rem;">
+  <input data-id="1" type="checkbox" id="" name="tuesday[]" class="" value="12تا16">
+    <label class="mx-2" for="">12تا16</label>
+   </div>
+   <div class="" style="margin-left: -1rem;">
+      <input data-id="1" type="checkbox" id="" name="tuesday[]" class="" value="20تا24">
+        <label class="mx-2" for="">20تا24</label>
+       </div>
+  </div>
+  </div>
+  </div>
+
+  <div style="padding: 10px; background: #efefef;margin-bottom:4px; border-radius: 4px;"><h6 class="mb-3">چهار شنبه</h6>
+    <div class="row">
+  <div class="col-md-6">
+  <div class="" style="margin-left: -1rem;">
+  <input data-id="1" type="checkbox" id="" name="wednesday[]" class="" value="8تا12">
+  <label class="mx-2" for="">8تا12</label>
+  </div>
+  <div class="" style="margin-left: -1rem;">
+  <input data-id="1" type="checkbox" id="" name="wednesday[]" class="" value="16تا20">
+    <label class="mx-2" for="">16تا20</label>
+   </div>
+  </div>
+  <div class="col-md-6">
+  <div class="" style="margin-left: -1rem;">
+  <input data-id="1" type="checkbox" id="" name="wednesday[]" class="" value="12تا16">
+    <label class="mx-2" for="">12تا16</label>
+   </div>
+   <div class="" style="margin-left: -1rem;">
+      <input data-id="1" type="checkbox" id="" name="wednesday[]" class="" value="20تا24">
+        <label class="mx-2" for="">20تا24</label>
+       </div>
+  </div>
+  </div>
+  </div>
+
+  <div style="padding: 10px; background: #efefef;margin-bottom:4px; border-radius: 4px;"><h6 class="mb-3">پنج شنبه</h6>
+    <div class="row">
+  <div class="col-md-6">
+  <div class="" style="margin-left: -1rem;">
+  <input data-id="1" type="checkbox" id="" name="thursday[]" class="" value="8تا12">
+  <label class="mx-2" for="">8تا12</label>
+  </div>
+  <div class="" style="margin-left: -1rem;">
+  <input data-id="1" type="checkbox" id="" name="thursday[]" class="" value="16تا20">
+    <label class="mx-2" for="">16تا20</label>
+   </div>
+  </div>
+  <div class="col-md-6">
+  <div class="" style="margin-left: -1rem;">
+  <input data-id="1" type="checkbox" id="" name="thursday[]" class="" value="12تا16">
+    <label class="mx-2" for="">12تا16</label>
+   </div>
+   <div class="" style="margin-left: -1rem;">
+      <input data-id="1" type="checkbox" id="" name="thursday[]" class="" value="20تا24">
+        <label class="mx-2" for="">20تا24</label>
+       </div>
+  </div>
+  </div>
+  </div>
+
+  <div style="padding: 10px; background: #efefef;margin-bottom:4px; border-radius: 4px;"><h6 class="mb-3">جمعه</h6>
+    <div class="row">
+  <div class="col-md-6">
+  <div class="" style="margin-left: -1rem;">
+  <input data-id="1" type="checkbox" id="" name="friday[]" class="" value="8تا12">
+  <label class="mx-2" for="">8تا12</label>
+  </div>
+  <div class="" style="margin-left: -1rem;">
+  <input data-id="1" type="checkbox" id="" name="friday[]" class="" value="16تا20">
+    <label class="mx-2" for="">16تا20</label>
+   </div>
+  </div>
+  <div class="col-md-6">
+  <div class="" style="margin-left: -1rem;">
+  <input data-id="1" type="checkbox" id="" name="friday[]" class="" value="12تا16">
+    <label class="mx-2" for="">12تا16</label>
+   </div>
+   <div class="" style="margin-left: -1rem;">
+      <input data-id="1" type="checkbox" id="" name="friday[]" class="" value="20تا24">
+        <label class="mx-2" for="">20تا24</label>
+       </div>
+  </div>
+  </div>
+  </div>
+
+
+
+                           
+                            </div>
+                        </div>
+
+
+
+
+                        </section>
+
+
+
                         <h3>ادرس فروشگاه </h3>
                         <section>
 

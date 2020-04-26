@@ -22,8 +22,8 @@ class GoodsOrders extends Model
         return $this->belongsTo(Store::class);
     }
 
-    public function cunsomer()
+    public function cunsomers()
     {
-        return $this->belongsTo(Cunsomer::class);
+        return $this->belongsTo('App\Models\Cunsomers\Cunsomer');
     }
 }

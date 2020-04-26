@@ -45,6 +45,9 @@
                     <li><a @if (Illuminate\Support\Facades\Route::currentRouteName()=='Pannel.Services.Stores' )
                             class="active" @endif href=" {{route('Pannel.Services.Stores')}} "><i
                                 class="icon ti-list"></i> <span> لیست </span> </a></li>
+                                <li><a @if (Illuminate\Support\Facades\Route::currentRouteName()=='GoodsOrders' )
+                                    class="active" @endif href=" {{route('GoodsOrders')}} "><i
+                                        class="icon ti-list"></i> <span> سفارشات کالا </span> </a></li>
                 </ul>
             </li>
             @endif
@@ -139,6 +142,11 @@
                     @if(auth()->user()->can('appworkerannounc'))
                     <li><a @if (Illuminate\Support\Facades\Route::currentRouteName()=='Pannel.User.List' )
                             class="active" @endif href="{{route('Pannel.AppManage.WorkerApp.Notifications')}}"> <span> اطلاعیه های اپ خدمت رسان </span> </a> </li>
+                    @endif
+
+                      @if(auth()->user()->can('appslideshow'))
+                    <li><a @if (Illuminate\Support\Facades\Route::currentRouteName()=='SlideShow' )
+                            class="active" @endif href="{{route('SlideShow')}}"> <span> اسلایدشو های اپ خدمت رسان </span> </a> </li>
                     @endif
                 
                 </ul>

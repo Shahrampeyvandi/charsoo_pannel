@@ -28,6 +28,7 @@ class CreateGoodsOrdersTable extends Migration
             $table->integer('packingprice')->default(0);
             $table->integer('sendingprice')->default(0);
             $table->integer('payedprice')->nullable();
+            $table->integer('cashamount')->default(0);
             $table->string('address');
             $table->unsignedBigInteger('address_id');
             $table->date('deliverdate');

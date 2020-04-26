@@ -14,7 +14,7 @@ class CreateStoreWorkingHoursTable extends Migration
     public function up()
     {
         Schema::create('store_working_hours', function (Blueprint $table) {
-            $table->unsignedBigInteger('store_id');
+            $table->unsignedBigInteger('store_id')->unique();
             $table->foreign('store_id')->references('id')->on('stores')->onDelete('cascade');
             $table->text('saturday')->nullable();
             $table->text('sunday')->nullable();
