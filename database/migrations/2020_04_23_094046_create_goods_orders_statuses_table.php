@@ -14,13 +14,13 @@ class CreateGoodsOrdersStatusesTable extends Migration
     public function up()
     {
         Schema::create('goods_orders_statuses', function (Blueprint $table) {
-            $table->unsignedBigInteger('goods_orders_id');
+            $table->unsignedBigInteger('id')->unique();
             $table->foreign('goods_orders_id')->references('id')->on('goods_orders')->onDelete('cascade');
-            $table->dateTime('accept_time');
-            $table->dateTime('preparation_time');
-            $table->dateTime('send_time');
-            $table->dateTime('deliver_time');
-            $table->dateTime('cancel_time');
+            $table->dateTime('accept_time')->nullable();
+            $table->dateTime('preparation_time')->nullable();
+            $table->dateTime('send_time')->nullable();
+            $table->dateTime('deliver_time')->nullable();
+            $table->dateTime('cancel_time')->nullable();
             $table->timestamps();
         });
     }

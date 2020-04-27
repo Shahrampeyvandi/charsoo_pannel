@@ -204,6 +204,18 @@ class GoodsOrderController extends Controller
 
 
 
+        $items=explode(',',$order->items);
+
+        $products=[];
+        foreach($items as $item){
+
+            $products[]=Product::find($item);
+
+
+        }
+        $order['products']=$products;
+
+
         return response()->json(
             $order
             ,200);
@@ -217,6 +229,25 @@ class GoodsOrderController extends Controller
         $order['delivercode']=00000;
         $order['images']=$order->images;
 
+        $items=explode(',',$order->items);
+
+        $products=[];
+        foreach($items as $item){
+
+            $products[]=Product::find($item);
+
+
+        }
+
+        $order->items=$items;
+        $order->counts=explode(',',$order->counts);
+         $order->questions=[];
+        $order->answers=[];
+
+        $order['customer_mobile']=$order->cunsomers->customer_mobile;
+        $order['customer_name']=$order->cunsomers->customer_firstname.' '.$order->cunsomers->customer_lastname;
+
+        $order['products']=$products;
 
         return response()->json(
             $order
@@ -258,7 +289,7 @@ class GoodsOrderController extends Controller
 
         $store=Store::where('owner_id',$personal->id)->first();
 
-        $orders=GoodsOrders::where('store_id',$store->id)->get();
+        $orders=GoodsOrders::where('store_id',$store->id)->where('status','!=','تحویل شده')->get();
 
 
 
@@ -292,7 +323,7 @@ class GoodsOrderController extends Controller
 
         $status=new GoodsOrdersStatuses;
 
-        $status->goods_orders_id=$goodsorder->id;
+        $status->id=$goodsorder->id;
         $status->accept_time=Carbon::now();
 
         $status->save();
@@ -309,38 +340,14 @@ class GoodsOrderController extends Controller
         $payload = JWTAuth::parseToken($request->header('Authorization'))->getPayload();
         $mobile = $payload->get('mobile');
         $personal = Personal::where('personal_mobile', $mobile)->first();
-        
-
         $goodsorder=GoodsOrders::where('orderuniquecode',$request->code)->first();
         $goodsorder->status='در حال آماده سازی';
-
-        $status=GoodsOrdersStatuses::where('goods_orders_id',$goodsorder->id)->first();
-
+        $status=GoodsOrdersStatuses::find($goodsorder->id);
         $status->preparation_time=Carbon::now();
-
-        $status->save();
-        $goodsorder->update();
-
-
-       
-
-        return response()->json($status,200);
-
-    }
-
-    public function sendorder(Request $request){
-
-        $payload = JWTAuth::parseToken($request->header('Authorization'))->getPayload();
-        $mobile = $payload->get('mobile');
-        $personal = Personal::where('personal_mobile', $mobile)->first();
-        $goodsorder=GoodsOrders::where('orderuniquecode',$request->code)->first();
-        $goodsorder->status='ارسال شده';
         $customer = Cunsomer::find($goodsorder->cunsomers_id);
-        $status=GoodsOrdersStatuses::where('goods_orders_id',$goodsorder->id)->first();
-        $status->send_time=Carbon::now();
 
 
-    $useracount_Worker=$personal->useracounts[1];
+        $useracount_Worker=$personal->useracounts[1];
     $useracount_Customer=$customer->useracounts[0];
     $cost=$goodsorder->totalamountitems+$goodsorder->packingprice+$goodsorder->sendingprice;
 
@@ -371,10 +378,15 @@ class GoodsOrderController extends Controller
         // $useracount_Worker->update();
   
       }else{
+
+        $naghd=$cost-$useracount_Customer->cash;
+        $goodsorder->cashamount=$naghd;
+
+      //return response()->json($naghd ,200);
+
         if($useracount_Customer->cash>0){
               //تراکنش های نقدی
-          $naghd=$cost-$useracount_Customer->cash;
-          $goodsorder->cashamout=$naghd;
+        
   
           $transactionbardasht = new Transations();
           $transactionbardasht->user_acounts_id=$useracount_Customer->id;     
@@ -454,6 +466,28 @@ class GoodsOrderController extends Controller
 
 
 
+        $status->update();
+        $goodsorder->update();
+        return response()->json($status,200);
+
+    }
+
+    public function sendorder(Request $request){
+
+        $payload = JWTAuth::parseToken($request->header('Authorization'))->getPayload();
+        $mobile = $payload->get('mobile');
+        $personal = Personal::where('personal_mobile', $mobile)->first();
+        $goodsorder=GoodsOrders::where('orderuniquecode',$request->code)->first();
+        $goodsorder->status='ارسال شده';
+        $status=GoodsOrdersStatuses::find($goodsorder->id);
+        $status->send_time=Carbon::now();
+
+
+    
+
+
+
+
 
 
 
@@ -468,10 +502,10 @@ class GoodsOrderController extends Controller
         $payload = JWTAuth::parseToken($request->header('Authorization'))->getPayload();
         $mobile = $payload->get('mobile');
         $personal = Personal::where('personal_mobile', $mobile)->first();
-        $customer = Cunsomer::find($goodsorder->cunsomers_id);
         $goodsorder=GoodsOrders::where('orderuniquecode',$request->code)->first();
+        $customer = Cunsomer::find($goodsorder->cunsomers_id);
         $goodsorder->status='تحویل شده';
-        $status=GoodsOrdersStatuses::where('goods_orders_id',$goodsorder->id)->first();
+        $status=GoodsOrdersStatuses::find($goodsorder->id);
 
          $delivercode=$request->confirmcode;
 
@@ -480,15 +514,18 @@ class GoodsOrderController extends Controller
 
 
             return response()->json(
-                ['data'=>'','message'=>'کد نحویل نا درست می باشد']
-                                                                    ,405);
-         }
+              ['code' => '400','error'=>'کد نحویل نا درست می باشد']
 
+                                                                    ,200);
+         }
+        
+         //return response()->json($goodsorder->cashamount ,200);
          $useracount_Worker=$personal->useracounts[1];
          $useracount_Customer=$customer->useracounts[0];
          $cost=$goodsorder->totalamountitems+$goodsorder->packingprice+$goodsorder->sendingprice;
+         $cashamount=$goodsorder->cashamount;
 
-         if($goodsorder->cashamount=0){
+         if($cashamount==0){
 
             // $transactionbardasht = new Transations();
             // $transactionbardasht->user_acounts_id=$useracount_Customer->id;     
@@ -519,8 +556,8 @@ class GoodsOrderController extends Controller
 
             if($etebarycash>0){
                   //تراکنش های نقدی
-              $naghd=$cost-$useracount_Customer->cash;
-              $goodsorder->cashamout=$naghd;
+              //$naghd=$cost-$useracount_Customer->cash;
+              //$goodsorder->cashamount=$naghd;
     
               $transactionvariz = new Transations();
               $transactionvariz->user_acounts_id=$useracount_Worker->id;     
@@ -560,6 +597,7 @@ class GoodsOrderController extends Controller
                $transactionvariznaghd->from_to='به صورت نقد از حساب مشتری با شناسه'.$useracount_Customer->id;
                $transactionvariznaghd->description='این تراکنش به صورت نقدی و بدون اعمال در حساب مشتری ثبت گردید';
                $transactionvariznaghd->save();
+
     
             }
           }
@@ -573,6 +611,9 @@ class GoodsOrderController extends Controller
         $goodsorder->update();
 
         
-        return response()->json($status,200);
+        return response()->json(
+            ['code' => '200','error'=>'کد نحویل درست می باشد']
+
+            ,200);
     }
 }
