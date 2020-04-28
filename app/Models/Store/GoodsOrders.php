@@ -12,7 +12,7 @@ class GoodsOrders extends Model
         return $this->hasMany(GoodsOrdersImages::class);
     }
 
-    public function statuses()
+    public function goodsordersstatuses()
     {
         return $this->hasOne(GoodsOrdersStatuses::class);
     }

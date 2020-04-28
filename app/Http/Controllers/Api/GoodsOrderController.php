@@ -201,7 +201,7 @@ class GoodsOrderController extends Controller
     public function getgoodsordercustomer(Request $request){
 
         $order=GoodsOrders::where('orderuniquecode',$request->code)->first();
-
+  
 
 
         $items=explode(',',$order->items);
@@ -213,7 +213,24 @@ class GoodsOrderController extends Controller
 
 
         }
+        $order['customer_mobile']=$order->personal_mobile;
+        $order['customer_name']=$order->store->store_name;
+
         $order['products']=$products;
+        $order->items=explode(',',$order->items);
+        $order->counts=explode(',',$order->counts);
+        $order['images']=$order->images;
+        $status=GoodsOrdersStatuses::find($order->id);
+
+        $order['accept_time']=$status->accept_time??'';
+        $order['preparation_time']=$status->preparation_time??'';
+        $order['send_time']=$status->send_time??'';
+        $order['deliver_time']=$status->deliver_time??'';
+        $order['cancel_time']=$status->cancel_time??'';
+
+        $order->questions=[];
+        $order->answers=[];
+
 
 
         return response()->json(
@@ -269,9 +286,13 @@ class GoodsOrderController extends Controller
 
         foreach($orders as $order){
 
-            $order['images']=$order->images;
-            $order['statuseses']=$order->statuses;
+            //$order['images']=$order->images;
+            //$order['statuseses']=$order->goodsordersstatuses;
 
+            $order->items=[];
+            $order->counts=[];
+            $order->questions=[];
+            $order->answers=[];
 
         }
 
@@ -616,4 +637,75 @@ class GoodsOrderController extends Controller
 
             ,200);
     }
+
+    public function cancelorder(Request $request){
+
+        $payload = JWTAuth::parseToken($request->header('Authorization'))->getPayload();
+        $mobile = $payload->get('mobile');
+        $goodsorder=GoodsOrders::where('orderuniquecode',$request->code)->first();
+        $personal = Personal::where('personal_mobile', $mobile)->first();
+        $customer = Cunsomer::where('customer_mobile', $mobile)->first();
+
+
+
+        if($goodsorder->status=='لغو شده' || $goodsorder->status=='تحویل شده' || $goodsorder->status=='ارسال شده' ||$goodsorder->status=='در حال آماده سازی' ){
+            return response()->json('سفارش در وضعیتی نیست که بتوان ان را لغو کرد'
+            ,400);
+        }
+
+        $cancelreason='';
+        if($personal){
+
+            if($goodsorder->status=='تایید شده' ){
+                return response()->json('سفارش در وضعیتی نیست که بتوان ان را لغو کرد'
+                ,400);
+            }
+            //$status->cancelreason='لغو شده توسط خدمت رسان فروشنده در مرحله '.$goodsorder->status;
+            $cancelreason='لغو شده توسط خدمت رسان فروشنده در مرحله '.$goodsorder->status;
+
+
+        }else if($customer){
+
+         
+            //$status->cancelreason='لغو شده توسط مشتری در مرحله '.$goodsorder->status;
+            $cancelreason='لغو شده توسط مشتری در مرحله '.$goodsorder->status;
+
+
+        }else{
+
+            return response()->json('error',400);
+        }
+
+        $status=GoodsOrdersStatuses::find($goodsorder->id);
+
+        if(is_null($status)){
+
+            $status=new GoodsOrdersStatuses;
+            $status->id=$goodsorder->id;
+            $status->cancel_time=Carbon::now();
+            $status->cancelreason=$cancelreason;
+
+            $status->save();
+
+        }else{
+
+            $status->cancel_time=Carbon::now();
+            $status->cancelreason=$cancelreason;
+            $status->update();
+
+
+        }
+
+
+        $goodsorder->status='لغو شده';
+
+
+        $goodsorder->update();
+
+
+
+
+        return response()->json($status,200);
+    }
+
 }

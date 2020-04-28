@@ -35,7 +35,6 @@ class CreateGoodsOrdersTable extends Migration
             $table->string('delivertime');
             $table->string('description')->nullable();
             $table->enum('status',['معلق','تایید فروشنده','در حال آماده سازی','ارسال شده','تحویل شده','لغو شده'])->default('معلق');
-            $table->text('cancelreason')->nullable();
             $table->integer('delivercode')->default(91460);
             $table->text('questions')->nullable();
             $table->text('answers')->nullable();

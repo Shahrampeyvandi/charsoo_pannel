@@ -78,3 +78,4 @@ Route::post('store/orderaccept','Api\GoodsOrderController@acceptorder');
 Route::post('store/orderprepare','Api\GoodsOrderController@prepareorder');
 Route::post('store/ordersend','Api\GoodsOrderController@sendorder');
 Route::post('store/orderdeliver','Api\GoodsOrderController@deliverorder');
+Route::post('store/ordercancel','Api\GoodsOrderController@cancelorder');

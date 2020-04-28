@@ -21,6 +21,7 @@ class CreateGoodsOrdersStatusesTable extends Migration
             $table->dateTime('send_time')->nullable();
             $table->dateTime('deliver_time')->nullable();
             $table->dateTime('cancel_time')->nullable();
+            $table->text('cancelreason')->nullable();
             $table->timestamps();
         });
     }
