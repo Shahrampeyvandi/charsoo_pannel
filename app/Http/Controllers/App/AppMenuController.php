@@ -360,4 +360,15 @@ class AppMenuController extends Controller
         alert()->success('با موفقیت حذف گردید', 'حذف موفق')->autoclose(2000);
         return 'success';
     }
+
+
+    public function applinkshow(Request $request){
+
+
+        $store=Store::find($request->id);
+
+
+
+        return view('User.App.AppLink',compact('store'));
+    }
 }

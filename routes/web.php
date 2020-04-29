@@ -204,3 +204,6 @@ Route::group(['middleware' => ['checkAuth']], function () {
 
 Route::get('/pay', 'Acounting\PayController@pay')->name('Acounting.Pay');
 Route::get('/payconfitm', 'Acounting\PayController@confirm')->name('Acounting.Pay.Confirm');
+
+Route::get('/store', 'App\AppMenuController@applinkshow')->name('App.Link.Store');
+

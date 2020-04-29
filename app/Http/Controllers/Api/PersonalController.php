@@ -15,13 +15,30 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use Morilog\Jalali\Jalalian;
+use App\Models\App\LoginSmsCode;
 use Illuminate\Support\Facades\File;
+use Carbon\Carbon;
 
 class PersonalController extends Controller
 {
     public $loginAfterSignUp = true;
     public function verify(Request $request)
     {
+
+        $code=LoginSmsCode::where('phone',$request->mobile)->latest()->first();
+
+        if($code->code==$request->code){
+        if($code->created_at<Carbon::now()->subMinutes(5)){
+
+
+            return response()->json(['message' => 'متاسفانه کد ارسال اعتبار ندارد'], 400);
+        }
+    }else{
+
+        //return response()->json(['message' => $code], 400);
+
+        return response()->json(['message' => 'کد وارد شده صحیح نمی باشد'], 400);
+    }
 
         $personal = Personal::where('personal_mobile', $request->mobile)->first();
         $check_personal = Personal::where([

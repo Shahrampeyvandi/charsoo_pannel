@@ -15,7 +15,7 @@ Route::post('personal/finishedOrders','Api\OrdersController@finishedOrders');
 Route::get('personal/getData','Api\PersonalController@getPersonal');
 Route::post('personal/updatedata','Api\PersonalController@updatePersonalData');
 Route::post('personal/updateprofile','Api\PersonalController@updateProfile');
-Route::get('sendcode','Api\SMSCodeController@sendcode');
+Route::post('sendcode','Api\SMSCodeController@sendcode');
 Route::get('personal/getorder','Api\OrdersController@getOrder');
 
 

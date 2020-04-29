@@ -30,7 +30,6 @@ class CreateStoresTable extends Migration
             $table->integer('products_quantity')->nullable();
             $table->integer('packing_price')->default(0);
             $table->integer('sending_price')->default(0);
-            $table->integer('owner_id');
             $table->unsignedBigInteger('owner_id');
             $table->foreign('owner_id')->references('id')->on('personals')->onDelete('cascade');
             $table->integer('store_status')->default(1);

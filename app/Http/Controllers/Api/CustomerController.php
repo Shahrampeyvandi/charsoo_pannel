@@ -14,6 +14,8 @@ use Illuminate\Http\Request;
 use App\Models\Cunsomers\Cunsomer;
 use App\Models\Personals\Personal;
 use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
+use App\Models\App\LoginSmsCode;
 use App\Models\Store\Store;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use Illuminate\Support\Facades\File;
@@ -23,6 +25,22 @@ class CustomerController extends Controller
 
     public function verify(Request $request)
     {
+
+        $code=LoginSmsCode::where('phone',$request->mobile)->latest()->first();
+
+        if($code->code==$request->code){
+        if($code->created_at<Carbon::now()->subMinutes(5)){
+
+
+            return response()->json(['message' => 'متاسفانه کد ارسال اعتبار ندارد'], 400);
+        }
+    }else{
+
+        //return response()->json(['message' => $code], 400);
+
+        return response()->json(['message' => 'کد وارد شده صحیح نمی باشد'], 400);
+    }
+
 
         $cunsomer = Cunsomer::where('customer_mobile', $request->mobile)->first();
         $check_cunsomer = Cunsomer::where([

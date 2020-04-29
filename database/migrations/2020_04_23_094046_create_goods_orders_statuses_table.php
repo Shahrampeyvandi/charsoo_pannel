@@ -15,7 +15,7 @@ class CreateGoodsOrdersStatusesTable extends Migration
     {
         Schema::create('goods_orders_statuses', function (Blueprint $table) {
             $table->unsignedBigInteger('id')->unique();
-            $table->foreign('goods_orders_id')->references('id')->on('goods_orders')->onDelete('cascade');
+            $table->foreign('id')->references('id')->on('goods_orders')->onDelete('cascade');
             $table->dateTime('accept_time')->nullable();
             $table->dateTime('preparation_time')->nullable();
             $table->dateTime('send_time')->nullable();
